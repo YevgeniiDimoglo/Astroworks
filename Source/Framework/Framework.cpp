@@ -5,8 +5,8 @@ Framework::Framework()
 	thisApp = Graphics();
 
 	ResourceManager recourceManager = ResourceManager::Instance();
-	recourceManager.loadFile("./Data/Level/Level.toml");
-	//recourceManager.loadFile("./Data/Level/MinigameLevel.toml");
+	//recourceManager.loadFile("./Data/Level/Level.toml");
+	recourceManager.loadFile("./Data/Level/MinigameLevel.toml");
 
 	for (auto it : recourceManager.getActorsOnScreen())
 	{
@@ -40,6 +40,12 @@ Framework::Framework()
 	}
 
 	thisApp.init();
+
+	camera.setPerspectiveFov(
+		glm::radians(60.f),
+		thisApp.getExtent().width, thisApp.getExtent().height,
+		0.1f,
+		1000.0f);
 }
 
 Framework::~Framework()
@@ -50,6 +56,13 @@ Framework::~Framework()
 void Framework::update(HighResolutionTimer timer, float elapsedTime)
 {
 	ActorManager::Instance().update(elapsedTime);
+
+	UI::Instance().update(elapsedTime);
+
+	lockCameraController.Update(thisApp.getWindow(), elapsedTime);
+	lockCameraController.SyncControllerToCamera(camera);
+
+	thisApp.update(timer, elapsedTime, camera);
 
 	if (glfwGetKey(thisApp.getWindow(), GLFW_KEY_F11) == GLFW_PRESS)
 	{

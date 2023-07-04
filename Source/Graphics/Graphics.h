@@ -3,12 +3,17 @@
 // All rendering
 
 #include "../Misc/HighResolutionTimer.h"
+
 #include "../Camera/Camera.h"
 #include "../Camera/FreeCameraController.h"
 #include "../Camera/LockCameraController.h"
+
 #include "../Actor/Unit.h"
 #include "../Actor/Movement.h"
 #include "../Actor//Worker.h"
+
+#include "../UI/UI.h"
+
 #include "../Player/Player.h"
 
 #include "../Player/Minigame.h"
@@ -16,6 +21,7 @@
 #include "Utilities.h"
 
 #include "GLTFStaticModel.h"
+#include "Sprite.h"
 
 enum class Pipelines
 {
@@ -56,9 +62,12 @@ public:
 
 	void draw(HighResolutionTimer timer, float elapsedTime);
 
+	void update(HighResolutionTimer timer, float elapsedTime, Camera camera);
+
 	void finalize();
 
-	GLFWwindow* getWindow() { return window; }
+	GLFWwindow* getWindow() const { return window; }
+	VkExtent2D getExtent() const { return swapChainExtent; }
 
 private:
 	// - Main functions
@@ -66,11 +75,11 @@ private:
 
 	void initModels();
 
+	void initSprites();
+
 	void initVulkan();
 
 	void drawFrame(HighResolutionTimer timer, float elapsedTime);
-
-	void update(HighResolutionTimer timer, float elapsedTime);
 
 	void cleanup();
 
@@ -99,7 +108,7 @@ private:
 	// -- Record & Update Functions
 
 	void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
-	void updateUniformBuffer(HighResolutionTimer timer, float elapsedTime, uint32_t currentImage);
+	void updateUniformBuffer(HighResolutionTimer timer, float elapsedTime, uint32_t currentImage, Camera camera);
 
 	// -- Cleanup Function
 
@@ -205,11 +214,9 @@ private:
 	uint32_t currentFrame = 0;
 	bool framebufferResized = false;
 
-	float					elapsedTime;
+	// Temp Values
 
-	Camera camera;
-	FreeCameraController freeCameraController;
-	LockCameraController lockCameraController;
+	float					elapsedTime;
 
 	Player player;
 	Minigame minigame;

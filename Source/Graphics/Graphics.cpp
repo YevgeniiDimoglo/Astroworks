@@ -7,16 +7,11 @@ void Graphics::init()
 	initVulkan();
 
 	// Only required for minigame
-	//minigame = Minigame();
+	minigame = Minigame();
 
 	initModels();
 
-	// TODO: Move to the camera initialization
-	camera.setPerspectiveFov(
-		glm::radians(60.f),
-		swapChainExtent.width, swapChainExtent.height,
-		0.1f,
-		1000.0f);
+	initSprites();
 }
 
 void Graphics::draw(HighResolutionTimer timer, float elapsedTime)
@@ -52,6 +47,15 @@ void Graphics::initModels()
 {
 	// TODO: Change loading to loading on a fly
 	ActorManager::Instance().loadFiles(physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout);
+}
+
+void Graphics::initSprites()
+{
+	UI::Instance().add("starth", physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout,
+		0.f, 0.5f, 0.001f, 0.1f, 0.1f, 0.f, 1.f, 1.f, 1.f, 1.f);
+
+	UI::Instance().add("titlebg", physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout,
+		0.f, 0.f, 0.002f, 1.f, 1.f, 0.f, 1.f, 1.f, 1.f, 1.f);
 }
 
 void Graphics::initVulkan()
@@ -103,11 +107,11 @@ void Graphics::drawFrame(HighResolutionTimer timer, float elapsedTime)
 	{
 		recreateSwapChain();
 
-		camera.setPerspectiveFov(
-			glm::radians(45.f),
-			swapChainExtent.width, swapChainExtent.height,
-			0.1f,
-			1000.0f);
+		//camera.setPerspectiveFov(
+		//	glm::radians(45.f),
+		//	swapChainExtent.width, swapChainExtent.height,
+		//	0.1f,
+		//	1000.0f);
 
 		return;
 	}
@@ -115,9 +119,6 @@ void Graphics::drawFrame(HighResolutionTimer timer, float elapsedTime)
 	{
 		throw std::runtime_error("Failed to acquire swap chain image");
 	}
-
-	// Update all models values
-	update(timer, elapsedTime);
 
 	vkResetFences(device, 1, &inFlightFences[currentFrame]);
 
@@ -178,20 +179,18 @@ void Graphics::drawFrame(HighResolutionTimer timer, float elapsedTime)
 	currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 }
 
-void Graphics::update(HighResolutionTimer timer, float elapsedTime)
+void Graphics::update(HighResolutionTimer timer, float elapsedTime, Camera camera)
 {
-	// Update camera
-	lockCameraController.Update(window, elapsedTime);
-	lockCameraController.SyncControllerToCamera(camera);
-
 	// Only required for minigame
-	//minigame.update(window, elapsedTime);
+	minigame.update(window, elapsedTime);
 
-	std::string name;
+	ActorManager::Instance().loadFiles(physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout);
+
+	//std::string name;
 
 	// TODO: Create Input class
 	// Selection and command logic
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+	/*if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 	{
 		if (!inputLock)
 		{
@@ -223,13 +222,13 @@ void Graphics::update(HighResolutionTimer timer, float elapsedTime)
 				player.selectedTargetName = name;
 			}
 		}
-	}
+	}*/
 
 	// TODO: Move from graphics to framework
-	player.update();
+	//player.update();
 
 	// Update camera values in shader
-	updateUniformBuffer(timer, elapsedTime, currentFrame);
+	updateUniformBuffer(timer, elapsedTime, currentFrame, camera);
 }
 
 void Graphics::cleanup()
@@ -245,6 +244,8 @@ void Graphics::cleanup()
 	}
 
 	ActorManager::Instance().cleanup(device);
+
+	UI::Instance().cleanup(device);
 
 	vkDestroyDescriptorPool(device, descriptorPool, nullptr);
 	vkDestroyDescriptorSetLayout(device, descriptorSetLayout, nullptr);
@@ -564,8 +565,21 @@ void Graphics::createGraphicsPipelines()
 		pipelineName = static_cast<Pipelines>(static_cast<int>(pipelineName) + 1))
 	{
 		// Read in SPIR-V code of shaders
-		auto vertShaderCode = readFile("Shaders/vert.spv");
-		auto fragShaderCode = readFile("Shaders/frag.spv");
+
+		std::vector<char> vertShaderCode;
+		std::vector<char> fragShaderCode;
+
+		if (pipelineName == Pipelines::ModelPipeline || pipelineName == Pipelines::DebugDrawingPipeline)
+		{
+			vertShaderCode = readFile("Shaders/phongVS.spv");
+			fragShaderCode = readFile("Shaders/phongPS.spv");
+		}
+
+		if (pipelineName == Pipelines::UIPipeline)
+		{
+			vertShaderCode = readFile("Shaders/spriteVS.spv");
+			fragShaderCode = readFile("Shaders/spritePS.spv");
+		}
 
 		// Build shader modules to link to Graphics Pipeline
 		// Create Shader Modules
@@ -664,6 +678,7 @@ void Graphics::createGraphicsPipelines()
 
 		// Blend attachment state (how blending is handle)
 		VkPipelineColorBlendAttachmentState colorBlendAttachment{};
+
 		colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
 			VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 		colorBlendAttachment.blendEnable = VK_TRUE;
@@ -1064,7 +1079,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	renderingInfo.pDepthAttachment = &depthStencilAttachment;
 	renderingInfo.pStencilAttachment = nullptr;
 
-	// Begin rendering
+	// - Begin rendering
 	vkCmdBeginRendering(commandBuffer, &renderingInfo);
 
 	VkViewport viewport{};
@@ -1081,6 +1096,8 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	scissor.extent = swapChainExtent;
 	vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
+	// -- Model Pipeline
+
 	// Bind specific pipeline
 	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::ModelPipeline)]);
 
@@ -1091,7 +1108,18 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	// Model rendering
 	ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)]);
 
-	// End of rendering
+	// --
+
+	// -- UI Pipeline
+
+	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::UIPipeline)]);
+
+	// UI rendering
+	UI::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::UIPipeline)]);
+
+	// --
+
+	// - End of rendering
 	vkCmdEndRendering(commandBuffer);
 
 	// End of synchronisation for images
@@ -1123,7 +1151,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	}
 }
 
-void Graphics::updateUniformBuffer(HighResolutionTimer timer, float elapsedTime, uint32_t currentImage)
+void Graphics::updateUniformBuffer(HighResolutionTimer timer, float elapsedTime, uint32_t currentImage, Camera camera)
 {
 	UniformBufferObject ubo{};
 
@@ -1160,10 +1188,13 @@ void Graphics::checkAvailableExtensions()
 	std::vector<VkExtensionProperties> extensions(extensionsCount);
 	vkEnumerateInstanceExtensionProperties(nullptr, &extensionsCount, extensions.data());
 
-	std::cout << "Available extensions:\n";
-	for (const auto& extension : extensions)
+	if (enableValidationLayers)
 	{
-		std::cout << '\t' << extension.extensionName << '\n';
+		std::cout << "Available extensions:\n";
+		for (const auto& extension : extensions)
+		{
+			std::cout << '\t' << extension.extensionName << '\n';
+		}
 	}
 }
 
@@ -1277,12 +1308,15 @@ bool Graphics::isDeviceSuitable(VkPhysicalDevice device)
 
 	QueueFamilyIndices indices = findQueueFamilies(device);
 
-	std::cout << "API version : " << deviceProperties.apiVersion << '\n'
-		<< "Device ID : " << deviceProperties.deviceID << '\n'
-		<< "Device name : " << deviceProperties.deviceName << '\n'
-		<< "Device Type : " << deviceProperties.deviceType << '\n'
-		<< "Driver Version : " << deviceProperties.driverVersion << '\n'
-		<< "Max PushConstantSize : " << deviceProperties.limits.maxPushConstantsSize << '\n';
+	if (true)
+	{
+		std::cout << "API version : " << deviceProperties.apiVersion << '\n'
+			<< "Device ID : " << deviceProperties.deviceID << '\n'
+			<< "Device name : " << deviceProperties.deviceName << '\n'
+			<< "Device Type : " << deviceProperties.deviceType << '\n'
+			<< "Driver Version : " << deviceProperties.driverVersion << '\n'
+			<< "Max PushConstantSize : " << deviceProperties.limits.maxPushConstantsSize << '\n';
+	}
 
 	bool extensionsSupported = checkDeviceExtensionsSupport(device);
 

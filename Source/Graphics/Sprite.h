@@ -1,0 +1,133 @@
+#pragma once
+
+#include "Utilities.h"
+
+class Sprite
+{
+public:
+
+	std::string filePath;
+	std::string fileName;
+	std::string fileType;
+
+	struct Vertex
+	{
+		glm::vec3 pos;
+		glm::vec3 color;
+		glm::vec2 uv;
+
+		static VkVertexInputBindingDescription getBindingDescription()
+		{
+			VkVertexInputBindingDescription bingingDescription{};
+			bingingDescription.binding = 0;
+			bingingDescription.stride = sizeof(Vertex);
+			bingingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+
+			return bingingDescription;
+		}
+
+		static std::array<VkVertexInputAttributeDescription, 3> getAttributeDescriptions()
+		{
+			std::array<VkVertexInputAttributeDescription, 3> attributeDescriptions{};
+			attributeDescriptions[0].binding = 0;
+			attributeDescriptions[0].location = 0;
+			attributeDescriptions[0].format = VK_FORMAT_R32G32B32_SFLOAT;
+			attributeDescriptions[0].offset = offsetof(Vertex, pos);
+
+			attributeDescriptions[1].binding = 0;
+			attributeDescriptions[1].location = 1;
+			attributeDescriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
+			attributeDescriptions[1].offset = offsetof(Vertex, color);
+
+			attributeDescriptions[2].binding = 0;
+			attributeDescriptions[2].location = 2;
+			attributeDescriptions[2].format = VK_FORMAT_R32G32_SFLOAT;
+			attributeDescriptions[2].offset = offsetof(Vertex, uv);
+
+			return attributeDescriptions;
+		}
+
+		bool operator==(const Vertex& other) const {
+			return pos == other.pos && color == other.color && uv == other.uv;
+		}
+	};
+
+	glm::mat4 spriteValues = glm::mat4(1.0f);
+
+	Sprite() {};
+	Sprite(std::string filePath);
+
+	void setSpriteValues(float positionX, float positionY, float positionZ, float width, float height, float angle, float r, float g, float b, float a)
+	{
+		this->positionX = positionX;
+		this->positionY = positionY;
+		this->positionZ = positionZ;
+		this->width = width;
+		this->height = height;
+		this->angle = angle;
+		this->r = r;
+		this->g = g;
+		this->b = b;
+		this->a = a;
+	}
+
+	void loadFile(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, VkDescriptorPool samplerDescriptorPool, VkDescriptorSetLayout samplerSetLayout);
+	void draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout);
+
+	void updateTransform();
+
+	void cleanupResourses(VkDevice newLogicalDevice);
+
+private:
+
+	struct Image
+	{
+		VkImage					image;
+		VkImageLayout			imageLayout;
+		VkDeviceMemory			deviceMemory;
+		VkImageView				view;
+		uint32_t				width, height;
+		VkDescriptorImageInfo	descriptor;
+		VkSampler				sampler;
+		VkDescriptorSet			descriptorSet;
+	};
+
+	struct
+	{
+		int				count;
+		VkBuffer		buffer;
+		VkDeviceMemory	memory;
+	} vertices;
+
+	struct
+	{
+		int				count;
+		VkBuffer		buffer;
+		VkDeviceMemory	memory;
+	} indices;
+
+private:
+	Image image;
+
+	VkPhysicalDevice newPhysicalDevice;
+	VkDevice newLogicalDevice;
+	VkQueue transferQueue;
+	VkCommandPool commandPool;
+	VkDescriptorPool samplerDescriptorPool;
+	VkDescriptorSetLayout samplerSetLayout;
+
+	float positionX;
+	float positionY;
+	float positionZ;
+	float width;
+	float height;
+	float angle;
+	float r;
+	float g;
+	float b;
+	float a;
+
+	void createVertexBuffer(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, std::vector<Vertex>* vertices);
+	void createIndexBuffer(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, std::vector<uint32_t>* indices);
+	Image createTextureFromBuffer(void* buffer, VkDeviceSize bufferSize, VkFormat format, uint32_t texWidth, uint32_t texHeight, VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkCommandPool transferCommandPool, VkQueue transferQueue);
+};

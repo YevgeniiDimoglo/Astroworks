@@ -27,4 +27,8 @@ private:
 	Graphics thisApp;
 
 	ResourceManager resourceManager;
+
+	Camera camera;
+	FreeCameraController freeCameraController;
+	LockCameraController lockCameraController;
 };
