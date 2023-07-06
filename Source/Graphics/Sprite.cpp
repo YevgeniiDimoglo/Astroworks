@@ -79,7 +79,7 @@ void Sprite::updateTransform()
 	// Transform matrix
 	glm::mat4x4 translate = glm::translate(glm::mat4x4(1.0f), glm::vec3(positionX, positionY, positionZ));
 
-	glm::mat4x4 rotate = glm::mat4_cast(glm::quat(1.f, glm::radians(angle), 0.f, 0.f));
+	glm::mat4x4 rotate = glm::rotate(glm::mat4x4(1.0), glm::radians(angle), glm::vec3(0.0f, 0.f, 1.f));
 
 	glm::mat4x4 scale = glm::scale(glm::mat4x4(1.0f), glm::vec3(width, height, 0.f));
 

@@ -51,11 +51,14 @@ void Graphics::initModels()
 
 void Graphics::initSprites()
 {
-	UI::Instance().add("starth", physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout,
-		0.f, 0.5f, 0.001f, 0.1f, 0.1f, 0.f, 1.f, 1.f, 1.f, 1.f);
-
 	UI::Instance().add("titlebg", physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout,
 		0.f, 0.f, 0.002f, 1.f, 1.f, 0.f, 1.f, 1.f, 1.f, 1.f);
+
+	UI::Instance().add("start", physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout,
+		0.f, 0.5f, 0.001f, 0.1f, 0.1f, 0.f, 1.f, 1.f, 1.f, 1.f);
+
+	//UI::Instance().add("starth", physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout,
+	//	0.f, 0.5f, 0.001f, 0.1f, 0.1f, 0.f, 1.f, 1.f, 1.f, 1.f);
 }
 
 void Graphics::initVulkan()

@@ -71,6 +71,17 @@ public:
 		this->a = a;
 	}
 
+	float getPositionX() const { return positionX; }
+	float getPositionY() const { return positionY; }
+	float getPositionZ() const { return positionZ; }
+	float getWidth() const { return width; }
+	float getHeight() const { return height; }
+	float getAngle() const { return angle; }
+	float getRColor() const { return r; }
+	float getBColor() const { return g; }
+	float getGColor() const { return b; }
+	float getAColor() const { return a; }
+
 	void loadFile(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, VkDescriptorPool samplerDescriptorPool, VkDescriptorSetLayout samplerSetLayout);
 	void draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout);
 

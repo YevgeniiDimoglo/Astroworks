@@ -57,7 +57,7 @@ void Framework::update(HighResolutionTimer timer, float elapsedTime)
 {
 	ActorManager::Instance().update(elapsedTime);
 
-	UI::Instance().update(elapsedTime);
+	UI::Instance().update(thisApp.getWindow(), timer, elapsedTime);
 
 	lockCameraController.Update(thisApp.getWindow(), elapsedTime);
 	lockCameraController.SyncControllerToCamera(camera);
