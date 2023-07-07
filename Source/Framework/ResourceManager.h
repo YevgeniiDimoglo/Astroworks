@@ -7,7 +7,6 @@ class ResourceManager
 {
 public:
 	ResourceManager() {}
-	ResourceManager(std::string folderPath);
 	~ResourceManager() {};
 
 	static ResourceManager& Instance()
@@ -17,6 +16,13 @@ public:
 	}
 
 	std::vector<std::string> getFilePathes() const { return filePathes; }
+	std::vector<std::string> loadFilePathes(std::string folderPath) {
+		std::vector<std::string> newFilePathes;
+		for (const auto& entry : std::filesystem::directory_iterator(folderPath))
+			newFilePathes.push_back(entry.path().string());
+		return newFilePathes;
+	}
+
 	std::vector<ActorOnScreen> getActorsOnScreen() const { return actorsOnScreen; }
 
 	std::shared_ptr<GLTFStaticModel> LoadModel(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, VkDescriptorPool samplerDescriptorPool, VkDescriptorSetLayout samplerSetLayout, std::shared_ptr<GLTFStaticModel> model);

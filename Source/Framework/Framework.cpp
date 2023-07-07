@@ -39,6 +39,9 @@ Framework::Framework()
 		}
 	}
 
+	UI::Instance().setFileNames(recourceManager.loadFilePathes("./Data/UI/"));
+	UI::Instance().changeOverlay(std::make_unique<OverlayTitle>());
+
 	thisApp.init();
 
 	camera.setPerspectiveFov(
@@ -57,7 +60,7 @@ void Framework::update(HighResolutionTimer timer, float elapsedTime)
 {
 	ActorManager::Instance().update(elapsedTime);
 
-	UI::Instance().update(thisApp.getWindow(), timer, elapsedTime);
+	UI::Instance().update(timer, elapsedTime);
 
 	lockCameraController.Update(thisApp.getWindow(), elapsedTime);
 	lockCameraController.SyncControllerToCamera(camera);

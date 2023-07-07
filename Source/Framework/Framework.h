@@ -3,6 +3,9 @@
 #include "../Misc/HighResolutionTimer.h"
 #include "../Graphics/Graphics.h"
 
+#include "../UI/UI.h"
+#include "../UI/OverlayTitle.h"
+
 #include "ResourceManager.h"
 
 class Framework

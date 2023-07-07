@@ -1,13 +1,5 @@
 #include "ResourceManager.h"
 #include "../Actor/Actor.h"
-#include <filesystem>
-
-ResourceManager::ResourceManager(std::string folderPath)
-{
-	// Loading all files from folder
-	for (const auto& entry : std::filesystem::directory_iterator(folderPath))
-		filePathes.push_back(entry.path().string());
-}
 
 std::shared_ptr<GLTFStaticModel> ResourceManager::LoadModel(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, VkDescriptorPool samplerDescriptorPool, VkDescriptorSetLayout samplerSetLayout, std::shared_ptr<GLTFStaticModel> model)
 {

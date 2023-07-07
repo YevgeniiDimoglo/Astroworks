@@ -1,60 +1,66 @@
 #include "UI.h"
 
-void UI::remove(std::shared_ptr<Sprite> sprite)
+void UI::loadFiles(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, VkDescriptorPool samplerDescriptorPool, VkDescriptorSetLayout samplerSetLayout)
 {
+	for (auto it : fileNames)
+	{
+		add(it, newPhysicalDevice, newLogicalDevice, transferQueue, transferCommandPool, samplerDescriptorPool, samplerSetLayout,
+			0.f, 0.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 1.f, 1.f);
+	}
 }
 
 void UI::add(std::string name, VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, VkDescriptorPool samplerDescriptorPool, VkDescriptorSetLayout samplerSetLayout,
 	float positionX, float positionY, float positionZ, float scaleW, float scaleH, float angle, float r, float g, float b, float a)
 {
-	std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>("./Data/UI/" + name + ".png");
+	std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>(name);
 	sprite->setSpriteValues(positionX, positionY, positionZ, scaleW, scaleH, angle, r, g, b, a);
 	sprites.emplace_back(sprite);
 	sprite->loadFile(newPhysicalDevice, newLogicalDevice, transferQueue, transferCommandPool, samplerDescriptorPool, samplerSetLayout);
 }
 
-void UI::update(GLFWwindow* window, HighResolutionTimer timer, float elapsedTime)
+void UI::update(HighResolutionTimer timer, float elapsedTime)
 {
-	for (auto it : sprites)
+	if (nextOverlay != nullptr)
 	{
-		if (it->fileName == "start")
+		clear();
+
+		currentOverlay = std::move(nextOverlay);
+		nextOverlay.release();
+
+		if (currentOverlay->isReady())
 		{
-			if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
-			{
-				it->setSpriteValues(it->getPositionX(), it->getPositionY(), it->getPositionZ(), it->getWidth(), it->getHeight(), it->getAngle(), it->getRColor(), it->getGColor(), it->getBColor(), it->getAColor() * 0.995);
-			}
-			else
-			{
-				it->setSpriteValues(it->getPositionX(), it->getPositionY(), it->getPositionZ(), it->getWidth(), it->getHeight(), it->getAngle(), it->getRColor(), it->getGColor(), it->getBColor(), it->getAColor());
-			}
+			currentOverlay->initialize();
 		}
-		if (it->fileName == "titlebg")
-		{
-			if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
-			{
-				it->setSpriteValues(it->getPositionX(), it->getPositionY(), it->getPositionZ(), it->getWidth(), it->getHeight(), it->getAngle(), it->getRColor(), it->getGColor(), it->getBColor(), it->getAColor() * 0.995);
-			}
-			else
-			{
-				it->setSpriteValues(it->getPositionX(), it->getPositionY(), it->getPositionZ(), it->getWidth(), it->getHeight(), it->getAngle(), it->getRColor(), it->getGColor(), it->getBColor(), it->getAColor());
-			}
-		}
-		it->updateTransform();
+	}
+
+	if (currentOverlay != nullptr)
+	{
+		currentOverlay->update(elapsedTime);
 	}
 }
 
 void UI::render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout)
 {
-	for (auto it : sprites)
+	if (currentOverlay != nullptr)
 	{
-		it->draw(commandBuffer, pipelineLayout);
+		currentOverlay->render(commandBuffer, pipelineLayout);
+	}
+}
+
+void UI::clear()
+{
+	if (currentOverlay != nullptr)
+	{
+		currentOverlay->finalize();
+		currentOverlay.release();
 	}
 }
 
 void UI::cleanup(VkDevice newLogicalDevice)
 {
-	for (auto it : sprites)
-	{
-		it->cleanupResourses(newLogicalDevice);
-	}
+}
+
+void UI::changeOverlay(std::unique_ptr<Overlay> overlay)
+{
+	nextOverlay = std::move(overlay);
 }

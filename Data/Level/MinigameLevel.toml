@@ -30,451 +30,451 @@ typeName = "Sphere"
 
 [[ActorsOnScreen]]
 name = "Square00"
-position = [-2.0,0.0,-2.0]
+position = [-2.0,-1.0,-2.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square01"
-position = [-2.0,0.0,-1.0]
+position = [-2.0,-1.0,-1.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square02"
-position = [-2.0,0.0,0.0]
+position = [-2.0,-1.0,0.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square03"
-position = [-2.0,0.0,1.0]
+position = [-2.0,-1.0,1.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square04"
-position = [-2.0,0.0,2.0]
+position = [-2.0,-1.0,2.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square10"
-position = [-1.0,0.0,-2.0]
+position = [-1.0,-1.0,-2.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square11"
-position = [-1.0,0.0,-1.0]
+position = [-1.0,-1.0,-1.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square12"
-position = [-1.0,0.0,0.0]
+position = [-1.0,-1.0,0.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square13"
-position = [-1.0,0.0,1.0]
+position = [-1.0,-1.0,1.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square14"
-position = [-1.0,0.0,2.0]
+position = [-1.0,-1.0,2.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square20"
-position = [0.0,0.0,-2.0]
+position = [0.0,-1.0,-2.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square21"
-position = [0.0,0.0,-1.0]
+position = [0.0,-1.0,-1.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square22"
-position = [0.0,0.0,0.0]
+position = [0.0,-1.0,0.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square23"
-position = [0.0,0.0,1.0]
+position = [0.0,-1.0,1.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square24"
-position = [0.0,0.0,2.0]
+position = [0.0,-1.0,2.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square30"
-position = [1.0,0.0,-2.0]
+position = [1.0,-1.0,-2.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square31"
-position = [1.0,0.0,-1.0]
+position = [1.0,-1.0,-1.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square32"
-position = [1.0,0.0,0.0]
+position = [1.0,-1.0,0.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square33"
-position = [1.0,0.0,1.0]
+position = [1.0,-1.0,1.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square34"
-position = [1.0,0.0,2.0]
+position = [1.0,-1.0,2.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square40"
-position = [2.0,0.0,-2.0]
+position = [2.0,-1.0,-2.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square41"
-position = [2.0,0.0,-1.0]
+position = [2.0,-1.0,-1.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square42"
-position = [2.0,0.0,0.0]
+position = [2.0,-1.0,0.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square43"
-position = [2.0,0.0,1.0]
+position = [2.0,-1.0,1.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "Square44"
-position = [2.0,0.0,2.0]
+position = [2.0,-1.0,2.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_roadCross.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_01_A.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampRight"
-position = [3.0,0.0,2.0]
+position = [6.0,-1.0,2.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,90.0,0.0]
+euler = [0.0,-90.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampRight1"
-position = [3.0,0.0,1.0]
+position = [6.0,-1.0,1.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,90.0,0.0]
+euler = [0.0,-90.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampRight2"
-position = [3.0,0.0,0.0]
+position = [6.0,-1.0,0.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,90.0,0.0]
+euler = [0.0,-90.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampRight3"
-position = [3.0,0.0,-1.0]
+position = [6.0,-1.0,-1.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,90.0,0.0]
+euler = [0.0,-90.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampRight4"
-position = [3.0,0.0,-2.0]
+position = [6.0,-1.0,-2.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,90.0,0.0]
+euler = [0.0,-90.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampUp"
-position = [-2.0,0.0,-3.0]
+position = [-2.0,-1.0,-6.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,180.0,0.0]
+euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampUp1"
-position = [-1.0,0.0,-3.0]
+position = [-1.0,-1.0,-6.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,180.0,0.0]
+euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampUp2"
-position = [0.0,0.0,-3.0]
+position = [0.0,-1.0,-6.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,180.0,0.0]
+euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampUp3"
-position = [1.0,0.0,-3.0]
+position = [1.0,-1.0,-6.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,180.0,0.0]
+euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampUp4"
-position = [2.0,0.0,-3.0]
+position = [2.0,-1.0,-6.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,180.0,0.0]
+euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampLeft"
-position = [-3.0,0.0,-2.0]
+position = [-6.0,-1.0,-2.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,-90.0,0.0]
+euler = [0.0,90.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampLeft1"
-position = [-3.0,0.0,-1.0]
+position = [-6.0,-1.0,-1.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,-90.0,0.0]
+euler = [0.0,90.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampLeft2"
-position = [-3.0,0.0,0.0]
+position = [-6.0,-1.0,0.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,-90.0,0.0]
+euler = [0.0,90.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampLeft3"
-position = [-3.0,0.0,1.0]
+position = [-6.0,-1.0,1.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,-90.0,0.0]
+euler = [0.0,90.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampLeft4"
-position = [-3.0,0.0,2.0]
+position = [-6.0,-1.0,2.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,-90.0,0.0]
+euler = [0.0,90.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampDown"
-position = [2.0,0.0,3.0]
+position = [2.0,-1.0,6.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,0.0,0.0]
+euler = [0.0,180.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampDown1"
-position = [1.0,0.0,3.0]
+position = [1.0,-1.0,6.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,0.0,0.0]
+euler = [0.0,180.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampDown2"
-position = [0.0,0.0,3.0]
+position = [0.0,-1.0,6.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,0.0,0.0]
+euler = [0.0,180.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampDown3"
-position = [-1.0,0.0,3.0]
+position = [-1.0,-1.0,6.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,0.0,0.0]
+euler = [0.0,180.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
 [[ActorsOnScreen]]
 name = "RampDown4"
-position = [-2.0,0.0,3.0]
+position = [-2.0,-1.0,6.0]
 rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,0.0,0.0]
+euler = [0.0,180.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/terrain_rampLarge_detailed.glb"
+path = "./Data/StylizedCubeWorld/TODOPlatforms/SM_Platform_1m_04_A_Ramp.glb"
 type = "Terrian"
 typeName = "Simple"
 
