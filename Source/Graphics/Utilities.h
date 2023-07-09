@@ -14,23 +14,24 @@
 
 #include <stb_image.h>
 
+#include <filesystem>
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
 #include <algorithm>
 #include <chrono>
-#include <vector>
 #include <cstring>
 #include <cstdlib>
 #include <cstdint>
+#include <utility>
 #include <limits>
-#include <array>
 #include <optional>
+#include <vector>
+#include <array>
 #include <set>
 #include <map>
-#include <utility>
+#include <list>
 #include <unordered_map>
-#include <filesystem>
 
 #define DISCRETE
 

@@ -5,23 +5,8 @@
 #include "../Misc/HighResolutionTimer.h"
 
 #include "../Camera/Camera.h"
-#include "../Camera/FreeCameraController.h"
-#include "../Camera/LockCameraController.h"
-
-#include "../Actor/Unit.h"
-#include "../Actor/Movement.h"
-#include "../Actor//Worker.h"
-
-#include "../UI/UI.h"
-
-#include "../Player/Player.h"
-
-#include "../Player/Minigame.h"
 
 #include "Utilities.h"
-
-#include "GLTFStaticModel.h"
-#include "Sprite.h"
 
 enum class Pipelines
 {
@@ -213,12 +198,4 @@ private:
 
 	uint32_t currentFrame = 0;
 	bool framebufferResized = false;
-
-	// Temp Values
-
-	float					elapsedTime;
-
-	Player player;
-	Minigame minigame;
-	bool inputLock = false;
 };

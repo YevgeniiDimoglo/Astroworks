@@ -34,6 +34,10 @@ void Button::setImageValues(float positionX, float positionY, float positionZ, f
 	buttonDisabled->setSpriteValues(positionX, positionY, positionZ, width, height, angle, r, g, b, a);
 }
 
+void Button::updateSpriteValues()
+{
+}
+
 void Button::draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout)
 {
 	switch (state)

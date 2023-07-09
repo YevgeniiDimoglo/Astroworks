@@ -3,9 +3,21 @@
 #include "../Misc/HighResolutionTimer.h"
 #include "../Graphics/Graphics.h"
 
+#include "../Camera/Camera.h"
+#include "../Camera/FreeCameraController.h"
+#include "../Camera/LockCameraController.h"
+
+#include "../Actor/Actor.h"
+#include "../Actor/Unit.h"
+#include "../Actor/Worker.h"
+#include "../Actor/Movement.h"
+
 #include "../UI/UI.h"
 #include "../UI/OverlayTitle.h"
 #include "../UI/OverlayGame.h"
+
+#include "../Player/Player.h"
+#include "../Player/Minigame.h"
 
 #include "ResourceManager.h"
 
@@ -35,4 +47,7 @@ private:
 	Camera camera;
 	FreeCameraController freeCameraController;
 	LockCameraController lockCameraController;
+
+	Player player;
+	bool inputLock = false;
 };

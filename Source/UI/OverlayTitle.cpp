@@ -16,7 +16,6 @@ void OverlayTitle::initialize()
 	};
 	std::shared_ptr<Widget> buttonStart = std::make_shared<Button>(buttonNames);
 	buttonStart->setImageValues(0.0f, 0.4f, 0.001f, 0.3f, 0.15f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
-	buttonStart->setOverlayUUID(1);
 	buttonStart->registerObserver(&UI::Instance());
 	widgets.emplace_back(buttonStart);
 }

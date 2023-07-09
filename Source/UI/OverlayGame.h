@@ -19,5 +19,5 @@ public:
 	void render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout) override;
 
 private:
-	std::vector<std::shared_ptr<Widget>> widgets;
+	std::map<std::string, std::shared_ptr<Widget>> widgets;
 };

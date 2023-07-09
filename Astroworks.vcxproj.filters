@@ -34,6 +34,12 @@
     <Filter Include="ソース ファイル\UI">
       <UniqueIdentifier>{1adc9569-5e70-42ac-ba14-b72e6b161085}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Graphics\Virtual_Containers">
+      <UniqueIdentifier>{d406feb8-629d-4532-8044-5022e33b5a80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI\Virtual_Elements">
+      <UniqueIdentifier>{b9b791d2-3b48-4aa4-822d-e4e48eaf96d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Actor\Actor.cpp">
@@ -72,17 +78,11 @@
     <ClCompile Include="Source\Graphics\Graphics.cpp">
       <Filter>ソース ファイル\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\GLTFStaticModel.cpp">
-      <Filter>ソース ファイル\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Player\Minigame.cpp">
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
     <ClCompile Include="Source\Player\Player.cpp">
       <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Graphics\Sprite.cpp">
-      <Filter>ソース ファイル\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\UI\UI.cpp">
       <Filter>ソース ファイル\UI</Filter>
@@ -90,14 +90,20 @@
     <ClCompile Include="Source\UI\OverlayTitle.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\Image.cpp">
-      <Filter>ソース ファイル\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Source\UI\OverlayGame.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Graphics\GLTFStaticModel.cpp">
+      <Filter>ソース ファイル\Graphics\Virtual_Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Sprite.cpp">
+      <Filter>ソース ファイル\Graphics\Virtual_Containers</Filter>
+    </ClCompile>
     <ClCompile Include="Source\UI\Button.cpp">
-      <Filter>ソース ファイル\UI</Filter>
+      <Filter>ソース ファイル\UI\Virtual_Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Image.cpp">
+      <Filter>ソース ファイル\UI\Virtual_Elements</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -140,9 +146,6 @@
     <ClInclude Include="Source\Graphics\Utilities.h">
       <Filter>ソース ファイル\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\GLTFStaticModel.h">
-      <Filter>ソース ファイル\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Misc\HighResolutionTimer.h">
       <Filter>ソース ファイル\Misc</Filter>
     </ClInclude>
@@ -151,9 +154,6 @@
     </ClInclude>
     <ClInclude Include="Source\Player\Player.h">
       <Filter>ソース ファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphics\Sprite.h">
-      <Filter>ソース ファイル\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\UI\UI.h">
       <Filter>ソース ファイル\UI</Filter>
@@ -167,17 +167,23 @@
     <ClInclude Include="Source\UI\OverlayGame.h">
       <Filter>ソース ファイル\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Source\UI\Widget.h">
-      <Filter>ソース ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\UI\Image.h">
-      <Filter>ソース ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\UI\Button.h">
-      <Filter>ソース ファイル\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Source\UI\UIUtilities.h">
       <Filter>ソース ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\GLTFStaticModel.h">
+      <Filter>ソース ファイル\Graphics\Virtual_Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Sprite.h">
+      <Filter>ソース ファイル\Graphics\Virtual_Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\Widget.h">
+      <Filter>ソース ファイル\UI\Virtual_Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\Button.h">
+      <Filter>ソース ファイル\UI\Virtual_Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\Image.h">
+      <Filter>ソース ファイル\UI\Virtual_Elements</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

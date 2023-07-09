@@ -1,5 +1,8 @@
 #include "Graphics.h"
 
+#include "../UI/UI.h"
+#include "../Actor/Actor.h"
+
 void Graphics::init()
 {
 	initWindow();
@@ -182,54 +185,6 @@ void Graphics::drawFrame(HighResolutionTimer timer, float elapsedTime)
 
 void Graphics::update(HighResolutionTimer timer, float elapsedTime, Camera camera)
 {
-#ifdef MINIGAME
-	minigame.update(window, elapsedTime);
-#endif// MINIGAME
-
-#ifndef MINIGAME
-	std::string name;
-
-	// TODO: Create Input class
-	// Selection and command logic
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
-	{
-		if (!inputLock)
-		{
-			name = player.calculateScreenToWorldCoords(window, camera);
-			inputLock = true;
-		}
-	}
-
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
-	{
-		inputLock = false;
-	}
-
-	if (name != "")
-	{
-		if (!player.selectedTargetName.empty())
-		{
-			player.selectedActorName.clear();
-			player.selectedTargetName.clear();
-		}
-		if (player.selectedActorName.empty())
-		{
-			player.selectedActorName = name;
-		}
-		else
-		{
-			if (player.selectedActorName != name)
-			{
-				player.selectedTargetName = name;
-			}
-		}
-	}
-
-	// TODO: Move from graphics to framework
-	player.update();
-
-#endif
-
 	ActorManager::Instance().loadFiles(physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout);
 
 	// Update camera values in shader

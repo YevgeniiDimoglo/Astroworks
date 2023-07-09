@@ -2,6 +2,7 @@
 #include "../Actor/Worker.h"
 
 int Player::value = 0;
+int Player::selectedActorIndex = 0;
 
 Player::Player()
 {
@@ -48,6 +49,23 @@ std::string Player::calculateScreenToWorldCoords(GLFWwindow* window, Camera& cam
 			if (distanceToCenterSq > sphereRadiusSq) continue;
 
 			float distanceAlongRay = sqrt(sphereRadiusSq - distanceToCenterSq);
+
+			if (it->getTypeName() == "Worker")
+			{
+				selectedActorIndex = 1;
+			}
+			else if (it->getTypeName() == "Mineral")
+			{
+				selectedActorIndex = 2;
+			}
+			else if (it->getTypeName() == "Base")
+			{
+				selectedActorIndex = 3;
+			}
+			else
+			{
+				selectedActorIndex = 0;
+			}
 
 			return it->getName();
 		}
