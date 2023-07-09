@@ -5,8 +5,14 @@ Framework::Framework()
 	thisApp = Graphics();
 
 	ResourceManager recourceManager = ResourceManager::Instance();
-	//recourceManager.loadFile("./Data/Level/Level.toml");
+
+#ifdef MINIGAME
 	recourceManager.loadFile("./Data/Level/MinigameLevel.toml");
+#endif // MINIGAME
+
+#ifndef MINIGAME
+	recourceManager.loadFile("./Data/Level/Level.toml");
+#endif // !MINIGAME
 
 	for (auto it : recourceManager.getActorsOnScreen())
 	{
@@ -60,7 +66,7 @@ void Framework::update(HighResolutionTimer timer, float elapsedTime)
 {
 	ActorManager::Instance().update(elapsedTime);
 
-	UI::Instance().update(timer, elapsedTime);
+	UI::Instance().update(timer, elapsedTime, thisApp.getWindow());
 
 	lockCameraController.Update(thisApp.getWindow(), elapsedTime);
 	lockCameraController.SyncControllerToCamera(camera);

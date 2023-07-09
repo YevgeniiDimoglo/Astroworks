@@ -2,17 +2,16 @@
 
 #include "../Graphics/Utilities.h"
 #include "../Graphics/Sprite.h"
-#include "Overlay.h"
 
-#include "Widget.h"
+#include "UIUtilities.h"
 
 #include "../Misc/HighResolutionTimer.h"
 
-class UI
+class UI : public IObserver
 {
 private:
 	UI() {}
-	~UI() {};
+	virtual ~UI() {}
 
 public:
 	static UI& Instance()
@@ -20,6 +19,9 @@ public:
 		static UI instance;
 		return instance;
 	}
+
+	// TODO: class enum widgetActions
+	void notify(std::string widgetName, int widgetAction) const override;
 
 	void setFileNames(std::vector<std::string> filePathes) { fileNames = filePathes; }
 
@@ -30,7 +32,7 @@ public:
 	void add(std::string name, VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, VkDescriptorPool samplerDescriptorPool, VkDescriptorSetLayout samplerSetLayout,
 		float positionX, float positionY, float positionZ, float scaleW, float scaleH, float angle, float r, float g, float b, float a);
 
-	void update(HighResolutionTimer timer, float elapsedTime);
+	void update(HighResolutionTimer timer, float elapsedTime, GLFWwindow* window);
 
 	void render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout);
 
@@ -41,6 +43,16 @@ public:
 	void changeOverlay(std::unique_ptr<Overlay> overlay);
 
 private:
+
+	enum class  OverlayUUIDs
+	{
+		OverlayTitle,
+		OverlayGame,
+		OverlayLoading,
+		OverlayFinish,
+
+		EnumCount
+	};
 
 	std::unique_ptr<Overlay> currentOverlay;
 	std::unique_ptr<Overlay> nextOverlay;

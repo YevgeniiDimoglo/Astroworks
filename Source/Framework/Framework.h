@@ -5,6 +5,7 @@
 
 #include "../UI/UI.h"
 #include "../UI/OverlayTitle.h"
+#include "../UI/OverlayGame.h"
 
 #include "ResourceManager.h"
 

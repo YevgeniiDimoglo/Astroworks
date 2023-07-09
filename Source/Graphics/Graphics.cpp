@@ -7,7 +7,9 @@ void Graphics::init()
 	initVulkan();
 
 	// Only required for minigame
+#ifdef MINIGAME
 	minigame = Minigame();
+#endif // MINIGAME
 
 	initModels();
 
@@ -51,15 +53,8 @@ void Graphics::initModels()
 
 void Graphics::initSprites()
 {
+	// TODO: Change loading to loading on a fly
 	UI::Instance().loadFiles(physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout);
-	/*UI::Instance().add("titlebg", physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout,
-		0.f, 0.f, 0.002f, 1.f, 1.f, 0.f, 1.f, 1.f, 1.f, 1.f);
-
-	UI::Instance().add("start", physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout,
-		0.f, 0.5f, 0.001f, 0.1f, 0.1f, 0.f, 1.f, 1.f, 1.f, 1.f);
-
-	UI::Instance().add("starth", physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout,
-		0.f, 0.5f, 0.001f, 0.1f, 0.1f, 0.f, 1.f, 1.f, 1.f, 1.f);*/
 }
 
 void Graphics::initVulkan()
@@ -110,6 +105,8 @@ void Graphics::drawFrame(HighResolutionTimer timer, float elapsedTime)
 	if (result == VK_ERROR_OUT_OF_DATE_KHR)
 	{
 		recreateSwapChain();
+
+		// TODO: Set perspective after window resize
 
 		//camera.setPerspectiveFov(
 		//	glm::radians(45.f),
@@ -185,16 +182,16 @@ void Graphics::drawFrame(HighResolutionTimer timer, float elapsedTime)
 
 void Graphics::update(HighResolutionTimer timer, float elapsedTime, Camera camera)
 {
-	// Only required for minigame
+#ifdef MINIGAME
 	minigame.update(window, elapsedTime);
+#endif// MINIGAME
 
-	ActorManager::Instance().loadFiles(physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout);
-
-	//std::string name;
+#ifndef MINIGAME
+	std::string name;
 
 	// TODO: Create Input class
 	// Selection and command logic
-	/*if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 	{
 		if (!inputLock)
 		{
@@ -226,10 +223,14 @@ void Graphics::update(HighResolutionTimer timer, float elapsedTime, Camera camer
 				player.selectedTargetName = name;
 			}
 		}
-	}*/
+	}
 
 	// TODO: Move from graphics to framework
-	//player.update();
+	player.update();
+
+#endif
+
+	ActorManager::Instance().loadFiles(physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout);
 
 	// Update camera values in shader
 	updateUniformBuffer(timer, elapsedTime, currentFrame, camera);
@@ -1100,17 +1101,38 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	scissor.extent = swapChainExtent;
 	vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
-	// -- Model Pipeline
+	static bool wireframe = false;
 
-	// Bind specific pipeline
-	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::ModelPipeline)]);
-
-	// Bind descriptors
-	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)],
-		0, 1, &descriptorSets[currentFrame], 0, nullptr);
+	if (glfwGetKey(window, GLFW_KEY_F9) == GLFW_PRESS)
+	{
+		wireframe = !wireframe;
+	}
 
 	// Model rendering
-	ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)]);
+
+	if (!wireframe)
+	{
+		// -- Model Pipeline
+
+	// Bind specific pipeline
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::ModelPipeline)]);
+
+		// Bind camera descriptor
+		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)],
+			0, 1, &descriptorSets[currentFrame], 0, nullptr);
+
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)]);
+	}
+	else
+	{
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::DebugDrawingPipeline)]);
+
+		// Bind descriptors
+		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)],
+			0, 1, &descriptorSets[currentFrame], 0, nullptr);
+
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)]);
+	}
 
 	// --
 

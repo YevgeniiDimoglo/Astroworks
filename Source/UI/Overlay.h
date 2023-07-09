@@ -12,7 +12,7 @@ public:
 
 	virtual void finalize() = 0;
 
-	virtual void update(float elapsedTime) = 0;
+	virtual void update(float elapsedTime, GLFWwindow* window) = 0;
 
 	virtual void render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout) = 0;
 

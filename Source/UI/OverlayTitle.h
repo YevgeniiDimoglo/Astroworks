@@ -2,9 +2,7 @@
 
 #include "../Graphics/Utilities.h"
 
-#include "Overlay.h"
-#include "Widget.h"
-#include "Image.h"
+#include "UIUtilities.h"
 
 class OverlayTitle : public Overlay
 {
@@ -16,7 +14,7 @@ public:
 
 	void finalize() override;
 
-	void update(float elapsedTime) override;
+	void update(float elapsedTime, GLFWwindow* window) override;
 
 	void render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout) override;
 

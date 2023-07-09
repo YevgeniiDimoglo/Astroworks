@@ -1,5 +1,16 @@
 #include "UI.h"
 
+#include "OverlayTitle.h"
+#include "OverlayGame.h"
+
+void UI::notify(std::string widgetName, int widgetAction) const
+{
+	if (widgetName == "start" && widgetAction == 0)
+	{
+		UI::Instance().changeOverlay(std::make_unique<OverlayGame>());
+	}
+}
+
 void UI::loadFiles(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, VkDescriptorPool samplerDescriptorPool, VkDescriptorSetLayout samplerSetLayout)
 {
 	for (auto it : fileNames)
@@ -18,7 +29,7 @@ void UI::add(std::string name, VkPhysicalDevice newPhysicalDevice, VkDevice newL
 	sprite->loadFile(newPhysicalDevice, newLogicalDevice, transferQueue, transferCommandPool, samplerDescriptorPool, samplerSetLayout);
 }
 
-void UI::update(HighResolutionTimer timer, float elapsedTime)
+void UI::update(HighResolutionTimer timer, float elapsedTime, GLFWwindow* window)
 {
 	if (nextOverlay != nullptr)
 	{
@@ -35,7 +46,7 @@ void UI::update(HighResolutionTimer timer, float elapsedTime)
 
 	if (currentOverlay != nullptr)
 	{
-		currentOverlay->update(elapsedTime);
+		currentOverlay->update(elapsedTime, window);
 	}
 }
 
@@ -58,6 +69,10 @@ void UI::clear()
 
 void UI::cleanup(VkDevice newLogicalDevice)
 {
+	for (auto it : sprites)
+	{
+		it->cleanupResourses(newLogicalDevice);
+	}
 }
 
 void UI::changeOverlay(std::unique_ptr<Overlay> overlay)

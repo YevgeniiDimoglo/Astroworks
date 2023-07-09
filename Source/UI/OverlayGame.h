@@ -1,21 +1,22 @@
 #pragma once
 
-#include "Overlay.h"
-#include "Widget.h"
+#include "../Graphics/Utilities.h"
 
-class OverlayGame
+#include "UIUtilities.h"
+
+class OverlayGame : public Overlay
 {
 public:
 	OverlayGame() {}
-	~OverlayGame() {}
+	~OverlayGame() override {}
 
-	void initialize();
+	void initialize() override;
 
-	void finalize();
+	void finalize() override;
 
-	void update(float elapsedTime);
+	void update(float elapsedTime, GLFWwindow* window) override;
 
-	//void render() override;
+	void render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout) override;
 
 private:
 	std::vector<std::shared_ptr<Widget>> widgets;

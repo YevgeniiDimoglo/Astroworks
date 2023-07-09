@@ -153,7 +153,9 @@
     <ClCompile Include="Source\Graphics\Sprite.cpp" />
     <ClCompile Include="Source\Player\Minigame.cpp" />
     <ClCompile Include="Source\Player\Player.cpp" />
+    <ClCompile Include="Source\UI\Button.cpp" />
     <ClCompile Include="Source\UI\Image.cpp" />
+    <ClCompile Include="Source\UI\OverlayGame.cpp" />
     <ClCompile Include="Source\UI\OverlayTitle.cpp" />
     <ClCompile Include="Source\UI\UI.cpp" />
   </ItemGroup>
@@ -182,6 +184,7 @@
     <ClInclude Include="Source\UI\OverlayGame.h" />
     <ClInclude Include="Source\UI\OverlayTitle.h" />
     <ClInclude Include="Source\UI\UI.h" />
+    <ClInclude Include="Source\UI\UIUtilities.h" />
     <ClInclude Include="Source\UI\Widget.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
