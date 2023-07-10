@@ -4,6 +4,7 @@
 
 void OverlayGame::initialize()
 {
+#ifndef MINIGAME
 	std::shared_ptr<Widget> rock = std::make_shared<Image>("rock_crystalsLargeB");
 	rock->setImageValues(0.8f, -0.9f, 0.001f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	widgets["rock"] = rock;
@@ -27,6 +28,7 @@ void OverlayGame::initialize()
 	std::shared_ptr<Widget> space = std::make_shared<Image>("Space");
 	space->setImageValues(0.0f, 0.0f, 0.999, 1.0f, 1.0f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	widgets["space"] = space;
+#endif // MINIGAME
 }
 
 void OverlayGame::finalize()
@@ -40,7 +42,7 @@ void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 	switch (Player::selectedActorIndex)
 	{
 	case 0:
-		selectedUnit = std::make_shared<Image>("joystick");
+		selectedUnit = std::make_shared<Image>("Dummy");
 		selectedUnit->setImageValues(0.0f, 0.7f, 0.001f, 0.2f, 0.2f, glm::radians(0.f), 1.f, 1.f, 1.f, 0.f);
 		widgets["selectedUnit"] = selectedUnit;
 		break;

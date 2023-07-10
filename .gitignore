@@ -33,6 +33,10 @@
 
 # Visual Studio user specific files
 .vs/
+Level.code-workspace
 
 # Builds
 x64/*
+
+#Temp folders
+ToImplement*/

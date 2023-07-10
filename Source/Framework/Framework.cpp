@@ -14,6 +14,11 @@ Framework::Framework()
 	recourceManager.loadFile("./Data/Level/Level.toml");
 #endif // !MINIGAME
 
+	// Only required for minigame
+#ifdef MINIGAME
+	minigame = Minigame();
+#endif // MINIGAME
+
 	for (auto it : recourceManager.getActorsOnScreen())
 	{
 		std::shared_ptr<Actor> actor = ActorManager::Instance().create();
@@ -64,56 +69,15 @@ Framework::~Framework()
 
 void Framework::update(HighResolutionTimer timer, float elapsedTime)
 {
-	std::string name;
-
-	// TODO: Create Input class
-	// Selection and command logic
-	if (glfwGetMouseButton(thisApp.getWindow(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
-	{
-		if (!inputLock)
-		{
-			name = player.calculateScreenToWorldCoords(thisApp.getWindow(), camera);
-			inputLock = true;
-		}
-	}
-
-	if (glfwGetMouseButton(thisApp.getWindow(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
-	{
-		inputLock = false;
-	}
-
-	if (glfwGetKey(thisApp.getWindow(), GLFW_KEY_ESCAPE) == GLFW_PRESS)
-	{
-		player.selectedActorName.clear();
-		player.selectedTargetName.clear();
-		player.selectedActorIndex = 0;
-	}
-
-	if (name != "")
-	{
-		if (!player.selectedTargetName.empty())
-		{
-			player.selectedActorName.clear();
-			player.selectedTargetName.clear();
-		}
-		if (player.selectedActorName.empty())
-		{
-			player.selectedActorName = name;
-		}
-		else
-		{
-			if (player.selectedActorName != name)
-			{
-				player.selectedTargetName = name;
-			}
-		}
-	}
-
 #ifdef MINIGAME
-	minigame.update(window, elapsedTime);
+	minigame.update(thisApp.getWindow(), elapsedTime);
 #endif// MINIGAME
 
+#ifndef MINIGAME
+	player.input(thisApp.getWindow(), camera);
+
 	player.update();
+#endif // !MINIGAME
 
 	ActorManager::Instance().update(elapsedTime);
 
@@ -128,7 +92,7 @@ void Framework::update(HighResolutionTimer timer, float elapsedTime)
 	{
 		ResourceManager::Instance().saveFile("./Data/Level/NewLevel.toml");
 	}
-	}
+}
 
 void Framework::render(HighResolutionTimer timer, float elapsedTime)
 {

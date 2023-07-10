@@ -50,4 +50,6 @@ private:
 
 	Player player;
 	bool inputLock = false;
+
+	Minigame minigame;
 };

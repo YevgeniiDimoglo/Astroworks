@@ -9,11 +9,6 @@ void Graphics::init()
 
 	initVulkan();
 
-	// Only required for minigame
-#ifdef MINIGAME
-	minigame = Minigame();
-#endif // MINIGAME
-
 	initModels();
 
 	initSprites();
