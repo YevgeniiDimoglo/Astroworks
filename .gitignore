@@ -19,6 +19,7 @@
 *.exe
 *.out
 *.app
+*.lib
 
 # Visual Studio user specific files
 .vs/

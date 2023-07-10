@@ -17,7 +17,6 @@
 #include "../UI/OverlayGame.h"
 
 #include "../Player/Player.h"
-#include "../Player/Minigame.h"
 
 #include "ResourceManager.h"
 
@@ -50,6 +49,4 @@ private:
 
 	Player player;
 	bool inputLock = false;
-
-	Minigame minigame;
 };

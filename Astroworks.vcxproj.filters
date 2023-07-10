@@ -45,9 +45,6 @@
     <ClCompile Include="Source\Actor\Actor.cpp">
       <Filter>ソース ファイル\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Actor\MinigameBull.cpp">
-      <Filter>ソース ファイル\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Actor\Movement.cpp">
       <Filter>ソース ファイル\Actor</Filter>
     </ClCompile>
@@ -77,9 +74,6 @@
     </ClCompile>
     <ClCompile Include="Source\Graphics\Graphics.cpp">
       <Filter>ソース ファイル\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Player\Minigame.cpp">
-      <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
     <ClCompile Include="Source\Player\Player.cpp">
       <Filter>ソース ファイル\Player</Filter>
@@ -111,9 +105,6 @@
       <Filter>ソース ファイル\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Source\Actor\Component.h">
-      <Filter>ソース ファイル\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\MinigameBull.h">
       <Filter>ソース ファイル\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Source\Actor\Movement.h">
@@ -148,9 +139,6 @@
     </ClInclude>
     <ClInclude Include="Source\Misc\HighResolutionTimer.h">
       <Filter>ソース ファイル\Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Player\Minigame.h">
-      <Filter>ソース ファイル\Player</Filter>
     </ClInclude>
     <ClInclude Include="Source\Player\Player.h">
       <Filter>ソース ファイル\Player</Filter>

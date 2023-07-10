@@ -4,7 +4,6 @@
 
 void OverlayGame::initialize()
 {
-#ifndef MINIGAME
 	std::shared_ptr<Widget> rock = std::make_shared<Image>("rock_crystalsLargeB");
 	rock->setImageValues(0.8f, -0.9f, 0.001f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	widgets["rock"] = rock;
@@ -28,7 +27,6 @@ void OverlayGame::initialize()
 	std::shared_ptr<Widget> space = std::make_shared<Image>("Space");
 	space->setImageValues(0.0f, 0.0f, 0.999, 1.0f, 1.0f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	widgets["space"] = space;
-#endif // MINIGAME
 }
 
 void OverlayGame::finalize()

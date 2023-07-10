@@ -6,18 +6,7 @@ Framework::Framework()
 
 	ResourceManager recourceManager = ResourceManager::Instance();
 
-#ifdef MINIGAME
-	recourceManager.loadFile("./Data/Level/MinigameLevel.toml");
-#endif // MINIGAME
-
-#ifndef MINIGAME
 	recourceManager.loadFile("./Data/Level/Level.toml");
-#endif // !MINIGAME
-
-	// Only required for minigame
-#ifdef MINIGAME
-	minigame = Minigame();
-#endif // MINIGAME
 
 	for (auto it : recourceManager.getActorsOnScreen())
 	{
@@ -69,15 +58,9 @@ Framework::~Framework()
 
 void Framework::update(HighResolutionTimer timer, float elapsedTime)
 {
-#ifdef MINIGAME
-	minigame.update(thisApp.getWindow(), elapsedTime);
-#endif// MINIGAME
-
-#ifndef MINIGAME
 	player.input(thisApp.getWindow(), camera);
 
 	player.update();
-#endif // !MINIGAME
 
 	ActorManager::Instance().update(elapsedTime);
 
