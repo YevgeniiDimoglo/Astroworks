@@ -8,11 +8,8 @@
 class Worker : public Unit
 {
 public:
-	Worker();
 	Worker(std::string name);
 	~Worker() override;
-
-	std::string getName() const override { return "Worker"; }
 
 	void setPointOfInterest(glm::vec3 position, bool isMineral) {
 		pointOfInterest = position;
@@ -62,9 +59,6 @@ private:
 	void workerControl(float elapsedTime);
 
 private:
-	std::shared_ptr<Movement> movement;
-
-	float movementTimer = 3.0f;
 
 	State state = State::Idle;
 

@@ -138,6 +138,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Actor\Actor.cpp" />
+    <ClCompile Include="Source\Actor\Building.cpp" />
     <ClCompile Include="Source\Actor\Movement.cpp" />
     <ClCompile Include="Source\Actor\Unit.cpp" />
     <ClCompile Include="Source\Actor\Worker.cpp" />
@@ -159,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Actor\Actor.h" />
+    <ClInclude Include="Source\Actor\Building.h" />
     <ClInclude Include="Source\Actor\Component.h" />
     <ClInclude Include="Source\Actor\Movement.h" />
     <ClInclude Include="Source\Actor\Unit.h" />

@@ -19,7 +19,6 @@
 *.exe
 *.out
 *.app
-*.lib
 
 # Visual Studio user specific files
 .vs/
@@ -30,3 +29,4 @@ x64/*
 
 #Temp folders
 ToImplement*/
+LibFull/

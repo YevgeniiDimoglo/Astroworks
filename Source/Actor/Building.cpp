@@ -1,9 +1,7 @@
-#include "Unit.h"
+#include "Building.h"
 
-void Unit::start()
+void Building::start()
 {
-	movement = getActor()->getComponent<Movement>();
-
 	GLTFStaticModel* model = getActor()->getModel();
 
 	// Setup collisions
@@ -18,19 +16,13 @@ void Unit::start()
 		collisionPosition = getCollisionPosition();
 		collisionRadius = 0.5f;
 	}
-
-	if (getActor()->getTypeName() == "Worker")
-	{
-		collisionPosition = getCollisionPosition();
-		collisionRadius = 0.3f;
-	}
 }
 
-void Unit::update(float elapsedTime)
+void Building::update(float elapsedTime)
 {
-	unitControl(elapsedTime);
+	buildingControl(elapsedTime);
 }
 
-void Unit::unitControl(float elapsedTime)
+void Building::buildingControl(float elapsedTime)
 {
 }

@@ -1,10 +1,6 @@
 #include "Worker.h"
 #include "../Player/Player.h"
 
-Worker::Worker()
-{
-}
-
 Worker::Worker(std::string name)
 {
 	TransitionIdleState();
@@ -188,7 +184,7 @@ void Worker::UpdateReturnState(float elapsedTime)
 				if (newDisatance < 1.5f)
 				{
 					TransitionSearchState();
-					Player::value += 20;
+					Player::Instance().setMineralValue(Player::Instance().getMineralValue() + 20);
 				}
 				distance = newDisatance;
 				pointOfInterest = it->getPosition();

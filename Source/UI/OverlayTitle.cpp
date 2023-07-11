@@ -1,11 +1,12 @@
 #include "OverlayTitle.h"
 
 #include "UI.h"
+#include "../Player/Player.h"
 
 void OverlayTitle::initialize()
 {
 	std::shared_ptr<Widget> imageBackScreen = std::make_shared<Image>("titlebg");
-	imageBackScreen->setImageValues(0.f, 0.f, 0.002f, 1.f, 1.f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	imageBackScreen->setImageValues(0.f, 0.f, 0.f, 1.f, 1.f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	widgets.emplace_back(imageBackScreen);
 
 	std::vector<std::string> buttonNames = {
@@ -15,8 +16,9 @@ void OverlayTitle::initialize()
 	"start"
 	};
 	std::shared_ptr<Widget> buttonStart = std::make_shared<Button>(buttonNames);
-	buttonStart->setImageValues(0.0f, 0.4f, 0.001f, 0.3f, 0.15f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	buttonStart->setImageValues(0.0f, 0.4f, 0.f, 0.3f, 0.15f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	buttonStart->registerObserver(&UI::Instance());
+	buttonStart->registerObserver(&Player::Instance());
 	widgets.emplace_back(buttonStart);
 }
 

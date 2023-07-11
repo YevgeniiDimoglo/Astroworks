@@ -40,18 +40,15 @@
     <Filter Include="ソース ファイル\UI\Virtual_Elements">
       <UniqueIdentifier>{b9b791d2-3b48-4aa4-822d-e4e48eaf96d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Actor\Virtual_ActorsType">
+      <UniqueIdentifier>{56d8cb09-c5a9-44e9-b0fc-88ad96656fdc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Actor\Actor.cpp">
       <Filter>ソース ファイル\Actor</Filter>
     </ClCompile>
     <ClCompile Include="Source\Actor\Movement.cpp">
-      <Filter>ソース ファイル\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Actor\Unit.cpp">
-      <Filter>ソース ファイル\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Actor\Worker.cpp">
       <Filter>ソース ファイル\Actor</Filter>
     </ClCompile>
     <ClCompile Include="Source\Camera\Camera.cpp">
@@ -99,6 +96,15 @@
     <ClCompile Include="Source\UI\Image.cpp">
       <Filter>ソース ファイル\UI\Virtual_Elements</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Actor\Building.cpp">
+      <Filter>ソース ファイル\Actor\Virtual_ActorsType</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Unit.cpp">
+      <Filter>ソース ファイル\Actor\Virtual_ActorsType</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Worker.cpp">
+      <Filter>ソース ファイル\Actor\Virtual_ActorsType</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Actor\Actor.h">
@@ -108,12 +114,6 @@
       <Filter>ソース ファイル\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Source\Actor\Movement.h">
-      <Filter>ソース ファイル\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\Unit.h">
-      <Filter>ソース ファイル\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\Worker.h">
       <Filter>ソース ファイル\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Source\Camera\Camera.h">
@@ -172,6 +172,15 @@
     </ClInclude>
     <ClInclude Include="Source\UI\Image.h">
       <Filter>ソース ファイル\UI\Virtual_Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Building.h">
+      <Filter>ソース ファイル\Actor\Virtual_ActorsType</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Unit.h">
+      <Filter>ソース ファイル\Actor\Virtual_ActorsType</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Worker.h">
+      <Filter>ソース ファイル\Actor\Virtual_ActorsType</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

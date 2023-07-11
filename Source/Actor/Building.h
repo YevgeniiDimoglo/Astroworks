@@ -1,11 +1,10 @@
 #pragma once
 
 #include "Component.h"
-#include "Movement.h"
 
-// Basic ingame unit component
+// Basic ingame building component
 
-class Unit : public Component
+class Building : public Component
 {
 public:
 
@@ -23,7 +22,7 @@ public:
 
 protected:
 
-	void unitControl(float elapsedTime);
+	void buildingControl(float elapsedTime);
 
 protected:
 
@@ -31,7 +30,4 @@ protected:
 
 	glm::vec3 collisionPosition;
 	float collisionRadius = 10.f;
-
-	std::shared_ptr<Movement> movement;
-	float movementTimer = 3.0f;
 };

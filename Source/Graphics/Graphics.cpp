@@ -631,6 +631,11 @@ void Graphics::createGraphicsPipelines()
 		depthStencil.front = {};
 		depthStencil.back = {};
 
+		if (pipelineName == Pipelines::UIPipeline)
+		{
+			depthStencil.depthTestEnable = VK_FALSE;
+		}
+
 		// Blend attachment state (how blending is handle)
 		VkPipelineColorBlendAttachmentState colorBlendAttachment{};
 
@@ -1308,7 +1313,7 @@ bool Graphics::isDeviceSuitable(VkPhysicalDevice device)
 #else
 	return (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) && indices.isComplete() && extensionsSupported && swapChainAdequate && deviceFeatures.samplerAnisotropy;
 #endif // DISCRETE
-}
+	}
 
 QueueFamilyIndices Graphics::findQueueFamilies(VkPhysicalDevice device)
 {

@@ -76,7 +76,7 @@ struct ActorOnScreen
 class IObserver {
 public:
 	virtual ~IObserver() {};
-	virtual void notify(std::string name, int action) const = 0;
+	virtual void notify(std::string name, int action) = 0;
 };
 
 #ifdef NDEBUG

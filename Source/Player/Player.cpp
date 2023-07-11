@@ -1,12 +1,6 @@
 #include "Player.h"
 #include "../Actor/Worker.h"
-
-int Player::value = 0;
-int Player::selectedActorIndex = 0;
-
-Player::Player()
-{
-}
+#include "../Actor/Building.h"
 
 std::string Player::getSelectedActor(GLFWwindow* window, Camera& camera)
 {
@@ -23,7 +17,18 @@ std::string Player::getSelectedActor(GLFWwindow* window, Camera& camera)
 			if (rayDotSphere < 0.0) continue;
 
 			float distanceToCenterSq = glm::dot(rayToSphere, rayToSphere) - rayDotSphere * rayDotSphere;
-			float sphereRadiusSq = it.get()->getComponent<Unit>()->getCollisionRadius() * it.get()->getComponent<Unit>()->getCollisionRadius();
+
+			float sphereRadiusSq = 0.f;
+
+			if (it->getType() == "Unit")
+			{
+				sphereRadiusSq = it.get()->getComponent<Unit>()->getCollisionRadius() * it.get()->getComponent<Unit>()->getCollisionRadius();
+			}
+			else if (it->getType() == "Building")
+			{
+				sphereRadiusSq = it.get()->getComponent<Building>()->getCollisionRadius() * it.get()->getComponent<Building>()->getCollisionRadius();
+			}
+
 			if (distanceToCenterSq > sphereRadiusSq) continue;
 
 			float distanceAlongRay = sqrt(sphereRadiusSq - distanceToCenterSq);
@@ -89,8 +94,13 @@ std::string Player::getTargetActor(GLFWwindow* window, Camera& camera)
 	return "terrain";
 }
 
-void Player::notify(std::string widgetName, int widgetAction) const
+void Player::notify(std::string widgetName, int widgetAction)
 {
+	if (widgetName == "start" && widgetAction == 0)
+	{
+		isPaused = false;
+		selectedActorIndex = 0;
+	}
 }
 
 void Player::input(GLFWwindow* window, Camera camera)
@@ -133,6 +143,8 @@ void Player::input(GLFWwindow* window, Camera camera)
 
 void Player::update()
 {
+	if (isPaused) return;
+
 	if (selectedActorName.empty() || selectedTargetName.empty()) return;
 
 	std::vector<std::shared_ptr<Actor>> actors = ActorManager::Instance().getUpdateActors();

@@ -21,7 +21,7 @@ public:
 	}
 
 	// TODO: class enum widgetActions
-	void notify(std::string widgetName, int widgetAction) const override;
+	void notify(std::string widgetName, int widgetAction) override;
 
 	void setFileNames(std::vector<std::string> filePathes) { fileNames = filePathes; }
 

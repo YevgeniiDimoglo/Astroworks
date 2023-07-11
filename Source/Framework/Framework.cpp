@@ -1,45 +1,23 @@
 #include "Framework.h"
 
+#include "ResourceManager.h"
+
+#include "../Actor/Actor.h"
+
+#include "../UI/UI.h"
+#include "../UI/OverlayTitle.h"
+
+#include "../Player/Player.h"
+
 Framework::Framework()
 {
 	thisApp = Graphics();
 
-	ResourceManager recourceManager = ResourceManager::Instance();
+	ResourceManager::Instance().loadFile("./Data/Level/Level.toml");
 
-	recourceManager.loadFile("./Data/Level/Level.toml");
+	ActorManager::Instance().deserializeActor();
 
-	for (auto it : recourceManager.getActorsOnScreen())
-	{
-		std::shared_ptr<Actor> actor = ActorManager::Instance().create();
-		actor->loadModel(it.filePath);
-		actor->setName(it.name);
-		actor->setPosition(it.position);
-		actor->setEuler(it.euler);
-		actor->setScale(it.scale);
-		actor->setType(it.type);
-		actor->setTypeName(it.typeName);
-
-		if (it.type == "Unit")
-		{
-			actor->addComponent<Movement>();
-
-			if (it.typeName == "Worker")
-			{
-				actor->addComponent<Worker>(it.name);
-			}
-			else
-			{
-				actor->addComponent<Unit>();
-			}
-		}
-
-		if (it.type == "Building")
-		{
-			actor->addComponent<Unit>();
-		}
-	}
-
-	UI::Instance().setFileNames(recourceManager.loadFilePathes("./Data/UI/"));
+	UI::Instance().setFileNames(ResourceManager::Instance().loadFilePathes("./Data/UI/"));
 	UI::Instance().changeOverlay(std::make_unique<OverlayTitle>());
 
 	thisApp.init();
@@ -58,16 +36,19 @@ Framework::~Framework()
 
 void Framework::update(HighResolutionTimer timer, float elapsedTime)
 {
-	player.input(thisApp.getWindow(), camera);
+	Player::Instance().input(thisApp.getWindow(), camera);
 
-	player.update();
+	Player::Instance().update();
 
 	ActorManager::Instance().update(elapsedTime);
 
 	UI::Instance().update(timer, elapsedTime, thisApp.getWindow());
 
-	lockCameraController.Update(thisApp.getWindow(), elapsedTime);
-	lockCameraController.SyncControllerToCamera(camera);
+	if (!Player::Instance().getIsPaused())
+	{
+		lockCameraController.Update(thisApp.getWindow(), elapsedTime);
+		lockCameraController.SyncControllerToCamera(camera);
+	}
 
 	thisApp.update(timer, elapsedTime, camera);
 

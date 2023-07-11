@@ -3,7 +3,7 @@
 #include "OverlayTitle.h"
 #include "OverlayGame.h"
 
-void UI::notify(std::string widgetName, int widgetAction) const
+void UI::notify(std::string widgetName, int widgetAction)
 {
 	if (widgetName == "start" && widgetAction == 0)
 	{

@@ -11,8 +11,6 @@ public:
 	Movement();
 	virtual ~Movement();
 
-	std::string getName() const override { return "Movement"; }
-
 	void SetRandomTargetPosition();
 	void SetTargetPosition(glm::vec3 pointOfInterest);
 

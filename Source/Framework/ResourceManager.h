@@ -2,6 +2,7 @@
 
 #include "../Graphics/Utilities.h"
 #include "../Graphics/GLTFStaticModel.h"
+#include "../Graphics/Sprite.h"
 
 class ResourceManager
 {
@@ -34,6 +35,7 @@ private:
 
 	std::vector<std::string> filePathes;
 	std::vector<ActorOnScreen> actorsOnScreen;
+
 	using ModelMap = std::map<std::string, std::weak_ptr<GLTFStaticModel>>;
 
 	ModelMap models;

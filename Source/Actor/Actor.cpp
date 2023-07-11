@@ -1,6 +1,10 @@
-#include "Actor.h"
-#include "Component.h"
 #include "../Framework/ResourceManager.h"
+
+#include "Actor.h"
+#include "Unit.h"
+#include "Worker.h"
+#include "Movement.h"
+#include "Building.h"
 
 void Actor::start()
 {
@@ -66,6 +70,37 @@ std::shared_ptr<Actor> ActorManager::create()
 	startActors.emplace_back(actor);
 
 	return actor;
+}
+
+void ActorManager::deserializeActor()
+{
+	for (auto it : ResourceManager::Instance().getActorsOnScreen())
+	{
+		std::shared_ptr<Actor> actor = ActorManager::Instance().create();
+		actor->loadModel(it.filePath);
+		actor->setName(it.name);
+		actor->setPosition(it.position);
+		actor->setEuler(it.euler);
+		actor->setScale(it.scale);
+		actor->setType(it.type);
+		actor->setTypeName(it.typeName);
+
+		if (it.type == "Unit")
+		{
+			actor->addComponent<Unit>();
+			actor->addComponent<Movement>();
+
+			if (it.typeName == "Worker")
+			{
+				actor->addComponent<Worker>(it.name);
+			}
+		}
+
+		if (it.type == "Building")
+		{
+			actor->addComponent<Building>();
+		}
+	}
 }
 
 void ActorManager::loadFiles(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, VkDescriptorPool samplerDescriptorPool, VkDescriptorSetLayout samplerSetLayout)

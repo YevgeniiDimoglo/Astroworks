@@ -8,8 +8,6 @@ public:
 	Component() {}
 	virtual ~Component() {}
 
-	virtual std::string getName() const = 0;
-
 	virtual void start() {}
 
 	virtual void update(float elapsedTIme) {}

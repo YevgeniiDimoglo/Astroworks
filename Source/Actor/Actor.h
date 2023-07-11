@@ -123,6 +123,8 @@ public:
 
 	std::shared_ptr<Actor> create();
 
+	void deserializeActor();
+
 	void loadFiles(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, VkDescriptorPool samplerDescriptorPool, VkDescriptorSetLayout samplerSetLayout);
 
 	void remove(std::shared_ptr<Actor> actor);

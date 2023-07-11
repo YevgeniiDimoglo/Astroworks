@@ -7,19 +7,6 @@
 #include "../Camera/FreeCameraController.h"
 #include "../Camera/LockCameraController.h"
 
-#include "../Actor/Actor.h"
-#include "../Actor/Unit.h"
-#include "../Actor/Worker.h"
-#include "../Actor/Movement.h"
-
-#include "../UI/UI.h"
-#include "../UI/OverlayTitle.h"
-#include "../UI/OverlayGame.h"
-
-#include "../Player/Player.h"
-
-#include "ResourceManager.h"
-
 class Framework
 {
 public:
@@ -41,12 +28,7 @@ private:
 
 	Graphics thisApp;
 
-	ResourceManager resourceManager;
-
 	Camera camera;
 	FreeCameraController freeCameraController;
 	LockCameraController lockCameraController;
-
-	Player player;
-	bool inputLock = false;
 };
