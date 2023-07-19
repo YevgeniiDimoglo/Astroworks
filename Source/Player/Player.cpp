@@ -66,7 +66,7 @@ std::string Player::getTargetActor(GLFWwindow* window, Camera& camera)
 
 	for (auto it : actors)
 	{
-		if (it->getType() == "Building" || it->getType() == "Unit")
+		if (it->getType() == "Unit")
 		{
 			glm::vec3 rayToSphere = it->getPosition() - cameraRay.rayStart;
 			float rayDotSphere = glm::dot(rayToSphere, cameraRay.rayDirection);
@@ -74,6 +74,22 @@ std::string Player::getTargetActor(GLFWwindow* window, Camera& camera)
 
 			float distanceToCenterSq = glm::dot(rayToSphere, rayToSphere) - rayDotSphere * rayDotSphere;
 			float sphereRadiusSq = it.get()->getComponent<Unit>()->getCollisionRadius() * it.get()->getComponent<Unit>()->getCollisionRadius();
+			if (distanceToCenterSq > sphereRadiusSq) continue;
+
+			float distanceAlongRay = sqrt(sphereRadiusSq - distanceToCenterSq);
+
+			targetActorName = it->getName();
+			break;
+		}
+
+		if (it->getType() == "Building")
+		{
+			glm::vec3 rayToSphere = it->getPosition() - cameraRay.rayStart;
+			float rayDotSphere = glm::dot(rayToSphere, cameraRay.rayDirection);
+			if (rayDotSphere < 0.0) continue;
+
+			float distanceToCenterSq = glm::dot(rayToSphere, rayToSphere) - rayDotSphere * rayDotSphere;
+			float sphereRadiusSq = it.get()->getComponent<Building>()->getCollisionRadius() * it.get()->getComponent<Building>()->getCollisionRadius();
 			if (distanceToCenterSq > sphereRadiusSq) continue;
 
 			float distanceAlongRay = sqrt(sphereRadiusSq - distanceToCenterSq);
