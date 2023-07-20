@@ -20,6 +20,8 @@ public:
 
 	void update(float elapsedTime) override;
 
+	void execute();
+
 protected:
 
 	void buildingControl(float elapsedTime);
@@ -30,4 +32,7 @@ protected:
 
 	glm::vec3 collisionPosition;
 	float collisionRadius = 10.f;
+
+	float timerToProduce = 5.f;
+	bool buildingStart = false;
 };

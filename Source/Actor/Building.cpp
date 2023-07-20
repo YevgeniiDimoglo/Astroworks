@@ -1,5 +1,10 @@
 #include "Building.h"
 
+#include "../Actor/Actor.h"
+#include "../Actor/Unit.h"
+#include "../Actor/Worker.h"
+#include "../Actor/Movement.h"
+
 void Building::start()
 {
 	GLTFStaticModel* model = getActor()->getModel();
@@ -21,8 +26,40 @@ void Building::start()
 void Building::update(float elapsedTime)
 {
 	buildingControl(elapsedTime);
+
+	if (getActor()->getTypeName() == "Base")
+	{
+		if (timerToProduce <= 0)
+		{
+			std::shared_ptr<Actor> thisActor = getActor();
+			glm::vec3 currentPosition = thisActor->getPosition();
+
+			std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
+			newActor->loadModel("./Data/SpaceKit/astronautA.glb");
+			newActor->setName("NewWorker" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+			newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
+			newActor->setPosition({ currentPosition.x + 2.f, currentPosition.y, currentPosition.z + 2.f });
+			newActor->setType("Unit");
+			newActor->setTypeName("Worker");
+			newActor->addComponent<Movement>();
+			newActor->addComponent<Unit>();
+			newActor->addComponent<Worker>(newActor->getName());
+
+			timerToProduce = 5.f;
+			buildingStart = false;
+		}
+	}
+}
+
+void Building::execute()
+{
+	buildingStart = true;
 }
 
 void Building::buildingControl(float elapsedTime)
 {
+	if (buildingStart)
+	{
+		timerToProduce -= elapsedTime;
+	}
 }

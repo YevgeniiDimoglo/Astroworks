@@ -2,7 +2,7 @@
 #include "../Actor/Actor.h"
 #include "../Actor/Worker.h"
 
-static const float CAMERAMOVEMENTSPEED = 20.f;
+static const float CAMERAMOVEMENTSPEED = 2.f;
 static const int WINDOWSCROLLBORDER = 25;
 
 void LockCameraController::SyncCameraToController(const Camera& camera)

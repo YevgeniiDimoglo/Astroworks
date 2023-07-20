@@ -39,16 +39,6 @@ type = "Unit"
 typeName = "Worker"
 
 [[ActorsOnScreen]]
-name = "Worker4"
-position = [5.3,0.0,1.4]
-rotation = [1.0,0.0,0.0,0.0]
-euler = [0.0,0.0,0.0]
-scale = [1.0,1.0,1.0]
-path = "./Data/SpaceKit/astronautA.glb"
-type = "Unit"
-typeName = "Worker"
-
-[[ActorsOnScreen]]
 name = "Mineral1"
 position = [-2.0,0.0,-4.2]
 rotation = [1.0,0.0,0.0,0.0]
@@ -4097,4 +4087,3 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
-

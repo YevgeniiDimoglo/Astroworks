@@ -5,6 +5,7 @@
 std::string Player::getSelectedActor(GLFWwindow* window, Camera& camera)
 {
 	calculateScreenToWorldCoords(window, camera);
+	selectedActors.clear();
 
 	std::vector<std::shared_ptr<Actor>> actors = ActorManager::Instance().getUpdateActors();
 
@@ -46,14 +47,14 @@ std::string Player::getSelectedActor(GLFWwindow* window, Camera& camera)
 				selectedActorIndex = 3;
 			}
 
+			selectedActors.push_back(it);
 			return it->getName();
 		}
-		else
-		{
-			selectedActorIndex = 0;
-			return "";
-		}
 	}
+
+	selectedActorIndex = 0;
+	selectedActors.clear();
+	return "";
 }
 
 std::string Player::getTargetActor(GLFWwindow* window, Camera& camera)
@@ -117,16 +118,35 @@ void Player::notify(std::string widgetName, int widgetAction)
 		isPaused = false;
 		selectedActorIndex = 0;
 	}
+
+	if (widgetName == "astronautA" && widgetAction == 0)
+	{
+		for (auto it : selectedActors)
+		{
+			it.get()->getComponent<Building>()->execute();
+		}
+	}
 }
 
 void Player::input(GLFWwindow* window, Camera camera)
 {
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 	{
-		if (!inputLockLMB)
+		double xpos, ypos;
+		glfwGetCursorPos(window, &xpos, &ypos);
+		int width, height;
+		glfwGetWindowSize(window, &width, &height);
+
+		if (ypos / height >= 0.7f)
 		{
-			selectedActorName = getSelectedActor(window, camera);
-			inputLockLMB = true;
+		}
+		else
+		{
+			if (!inputLockLMB)
+			{
+				selectedActorName = getSelectedActor(window, camera);
+				inputLockLMB = true;
+			}
 		}
 	}
 
@@ -137,10 +157,21 @@ void Player::input(GLFWwindow* window, Camera camera)
 
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
 	{
-		if (!inputLockRMB)
+		double xpos, ypos;
+		glfwGetCursorPos(window, &xpos, &ypos);
+		int width, height;
+		glfwGetWindowSize(window, &width, &height);
+
+		if (ypos / height >= 0.7f)
 		{
-			selectedTargetName = getTargetActor(window, camera);
-			inputLockRMB = true;
+		}
+		else
+		{
+			if (!inputLockRMB)
+			{
+				selectedTargetName = getTargetActor(window, camera);
+				inputLockRMB = true;
+			}
 		}
 	}
 

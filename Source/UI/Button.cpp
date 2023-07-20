@@ -81,7 +81,11 @@ void Button::update(float elapsedTime, GLFWwindow* window)
 
 		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 		{
-			notifyObservers(buttonNormal->fileName, 0);
+			if (!inputLock)
+			{
+				notifyObservers(buttonNormal->fileName, 0);
+				inputLock = true;
+			}
 		}
 	}
 	else
@@ -105,5 +109,10 @@ void Button::update(float elapsedTime, GLFWwindow* window)
 		break;
 	default:
 		break;
+	}
+
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
+	{
+		inputLock = false;
 	}
 }

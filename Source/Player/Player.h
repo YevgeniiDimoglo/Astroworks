@@ -4,6 +4,7 @@
 
 #include "../Graphics/Utilities.h"
 
+#include "../Actor/Actor.h"
 #include "../Camera/Camera.h"
 
 class Player : public IObserver
@@ -66,4 +67,7 @@ private:
 	int selectedActorIndex = 0;
 
 	bool isPaused = false;
+
+	std::vector<std::shared_ptr<Actor>> controlledActors;
+	std::vector<std::shared_ptr<Actor>> selectedActors;
 };

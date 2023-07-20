@@ -36,4 +36,6 @@ private:
 	std::shared_ptr<Sprite> buttonDisabled;
 
 	int overlayUUID;
+
+	bool inputLock = false;
 };
