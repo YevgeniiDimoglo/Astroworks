@@ -102,6 +102,7 @@ public:
 	};
 
 	glm::mat4 sceneValues = glm::mat4(1.0f);
+	glm::vec4 baseColor = glm::vec4(1.0f);
 
 	struct Material
 	{
@@ -142,7 +143,8 @@ public:
 	void drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, GLTFStaticModel::Node* node);
 	void draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout);
 
-	void setSceneValues(glm::mat4x4 matrixTansform) { sceneValues = matrixTansform; }
+	void setSceneValues(glm::mat4x4 matrixTansform) { this->sceneValues = matrixTansform; }
+	void setBaseColor(glm::vec4 baseColor) { this->baseColor = baseColor; }
 
 	void loadglTFFile(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, VkDescriptorPool samplerDescriptorPool, VkDescriptorSetLayout samplerSetLayout);
 

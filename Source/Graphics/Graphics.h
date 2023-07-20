@@ -11,10 +11,11 @@
 enum class Pipelines
 {
 	ModelPipeline,
+
 	DebugDrawingPipeline,
 	UIPipeline,
 
-	Max
+	EnumCount
 };
 
 // - Vulkan structs

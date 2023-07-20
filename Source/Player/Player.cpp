@@ -4,7 +4,6 @@
 
 std::string Player::getSelectedActor(GLFWwindow* window, Camera& camera)
 {
-	calculateScreenToWorldCoords(window, camera);
 	selectedActors.clear();
 
 	std::vector<std::shared_ptr<Actor>> actors = ActorManager::Instance().getUpdateActors();
@@ -46,6 +45,14 @@ std::string Player::getSelectedActor(GLFWwindow* window, Camera& camera)
 			{
 				selectedActorIndex = 3;
 			}
+			else if (it->getTypeName() == "Hangar")
+			{
+				selectedActorIndex = 4;
+			}
+			else if (it->getTypeName() == "Turret")
+			{
+				selectedActorIndex = 5;
+			}
 
 			selectedActors.push_back(it);
 			return it->getName();
@@ -60,8 +67,6 @@ std::string Player::getSelectedActor(GLFWwindow* window, Camera& camera)
 std::string Player::getTargetActor(GLFWwindow* window, Camera& camera)
 {
 	std::string targetActorName = "";
-
-	calculateScreenToWorldCoords(window, camera);
 
 	std::vector<std::shared_ptr<Actor>> actors = ActorManager::Instance().getUpdateActors();
 
@@ -113,6 +118,8 @@ std::string Player::getTargetActor(GLFWwindow* window, Camera& camera)
 
 void Player::notify(std::string widgetName, int widgetAction)
 {
+	// Change widget name to unique widget name
+
 	if (widgetName == "start" && widgetAction == 0)
 	{
 		isPaused = false;
@@ -126,10 +133,93 @@ void Player::notify(std::string widgetName, int widgetAction)
 			it.get()->getComponent<Building>()->execute();
 		}
 	}
+
+	if (!buildingBlock)
+	{
+		if (widgetName == "hangar_roundGlass" && widgetAction == 0)
+		{
+			ActorManager::Instance().remove(prebuildActor);
+			prebuildActor.reset();
+
+			for (auto it : selectedActors)
+			{
+				std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
+				newActor->loadModel("./Data/SpaceKit/hangar_roundGlass.glb");
+				newActor->setName("TempBuilding" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+				newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
+				newActor->setPosition({ 0.f, 0.f , 0.f });
+				newActor->setType("Building");
+				newActor->setTypeName("Base");
+				newActor->addComponent<Building>();
+				newActor->setShaderType(ShaderType::PhongTransparency);
+
+				prebuildActor = newActor;
+
+				it.get()->getComponent<Worker>()->execute();
+
+				buildingBlock = true;
+				buildingMode = true;
+			}
+		}
+
+		if (widgetName == "hangar_smallB" && widgetAction == 0)
+		{
+			ActorManager::Instance().remove(prebuildActor);
+			prebuildActor.reset();
+
+			for (auto it : selectedActors)
+			{
+				std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
+				newActor->loadModel("./Data/SpaceKit/hangar_smallB.glb");
+				newActor->setName("TempBuilding" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+				newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
+				newActor->setPosition({ 0.f, 0.f , 0.f });
+				newActor->setType("Building");
+				newActor->setTypeName("Hangar");
+				newActor->addComponent<Building>();
+				newActor->setShaderType(ShaderType::PhongTransparency);
+
+				prebuildActor = newActor;
+
+				it.get()->getComponent<Worker>()->execute();
+
+				buildingBlock = true;
+				buildingMode = true;
+			}
+		}
+
+		if (widgetName == "turret_double" && widgetAction == 0)
+		{
+			ActorManager::Instance().remove(prebuildActor);
+			prebuildActor.reset();
+
+			for (auto it : selectedActors)
+			{
+				std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
+				newActor->loadModel("./Data/SpaceKit/turret_double.glb");
+				newActor->setName("TempBuilding" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+				newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
+				newActor->setPosition({ 0.f, 0.f , 0.f });
+				newActor->setType("Building");
+				newActor->setTypeName("Turret");
+				newActor->addComponent<Building>();
+				newActor->setShaderType(ShaderType::PhongTransparency);
+
+				prebuildActor = newActor;
+
+				it.get()->getComponent<Worker>()->execute();
+
+				buildingBlock = true;
+				buildingMode = true;
+			}
+		}
+	}
 }
 
 void Player::input(GLFWwindow* window, Camera camera)
 {
+	calculateScreenToWorldCoords(window, camera);
+
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 	{
 		double xpos, ypos;
@@ -144,8 +234,25 @@ void Player::input(GLFWwindow* window, Camera camera)
 		{
 			if (!inputLockLMB)
 			{
-				selectedActorName = getSelectedActor(window, camera);
-				inputLockLMB = true;
+				if (buildingMode)
+				{
+					for (auto it : selectedActors)
+					{
+						it.get()->getComponent<Worker>()->setState(5);
+						it.get()->getComponent<Worker>()->setPointOfInterest(prebuildActor->getPosition(), false);
+						it.get()->getComponent<Worker>()->setBuildingType(prebuildActor->getTypeName());
+					}
+
+					inputLockLMB = true;
+					buildingMode = false;
+					ActorManager::Instance().remove(prebuildActor);
+					prebuildActor.reset();
+				}
+				else
+				{
+					selectedActorName = getSelectedActor(window, camera);
+					inputLockLMB = true;
+				}
 			}
 		}
 	}
@@ -153,6 +260,7 @@ void Player::input(GLFWwindow* window, Camera camera)
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
 	{
 		inputLockLMB = false;
+		buildingBlock = false;
 	}
 
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
@@ -185,12 +293,24 @@ void Player::input(GLFWwindow* window, Camera camera)
 		selectedActorName.clear();
 		selectedTargetName.clear();
 		selectedActorIndex = 0;
+
+		ActorManager::Instance().remove(prebuildActor);
+		prebuildActor.reset();
+		buildingMode = false;
 	}
 }
 
 void Player::update()
 {
 	if (isPaused) return;
+
+	if (prebuildActor != nullptr)
+	{
+		float denominator = glm::dot(glm::vec3(0.f, 0.f, 0.f), -glm::vec3(0.f, 1.f, 0.f));
+		float t = -(denominator + glm::dot(cameraRay.rayStart, glm::vec3(0.f, 1.f, 0.f))) / glm::dot(cameraRay.rayDirection, glm::vec3(0.f, 1.f, 0.f));
+		glm::vec3 intersectionPoint = cameraRay.rayStart + (cameraRay.rayDirection * t);
+		prebuildActor->setPosition(intersectionPoint);
+	}
 
 	if (selectedActorName.empty() || selectedTargetName.empty()) return;
 

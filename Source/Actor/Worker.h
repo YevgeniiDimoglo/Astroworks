@@ -16,6 +16,10 @@ public:
 		mineral = isMineral;
 	}
 
+	void setBuildingType(std::string type) { this->buildingType = type; }
+
+	void execute();
+
 	void setState(int number);
 
 	void start() override;
@@ -31,8 +35,11 @@ private:
 		Search,
 		Gather,
 		Return,
+		Building,
 		Attack,
 		Death,
+
+		EnumCount
 	};
 
 	void TransitionWanderState();
@@ -49,6 +56,9 @@ private:
 
 	void TransitionReturnState();
 	void UpdateReturnState(float elapsedTime);
+
+	void TransitionBuildingState();
+	void UpdateBuildingState(float elapsedTime);
 
 	void TransitionAttackState();
 	void UpdateAttackState(float elapsedTime);
@@ -67,4 +77,6 @@ private:
 
 	glm::vec3 pointOfInterest;
 	bool mineral = false;
+
+	std::string buildingType;
 };

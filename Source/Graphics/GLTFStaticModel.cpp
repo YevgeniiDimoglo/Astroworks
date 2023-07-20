@@ -254,7 +254,7 @@ void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout p
 		for (GLTFStaticModel::Primitive& primitive : node->mesh.primitives)
 		{
 			PushConstants pushConstants;
-			pushConstants.baseColor = materials[primitive.materialIndex].baseColorFactor;
+			pushConstants.baseColor = materials[primitive.materialIndex].baseColorFactor * baseColor;
 			pushConstants.model = sceneValues * nodeMatrix;
 			vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstants), &pushConstants);
 

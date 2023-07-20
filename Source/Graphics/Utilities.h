@@ -44,6 +44,16 @@ static const uint32_t HEIGHT = 600;
 
 static const int syncInterval = 0;
 
+enum class ShaderType
+{
+	Phong,
+	PhongTransparency,
+	PhongDissolve,
+	Sprite,
+
+	EnumCount
+};
+
 struct PushConstants {
 	glm::mat4 model;
 	glm::vec4 baseColor;

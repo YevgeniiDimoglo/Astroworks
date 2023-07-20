@@ -209,7 +209,7 @@ void Graphics::cleanup()
 	vkDestroyDescriptorSetLayout(device, samplerSetLayout, nullptr);
 
 	for (Pipelines pipelineName = Pipelines::ModelPipeline;
-		pipelineName != Pipelines::Max;
+		pipelineName != Pipelines::EnumCount;
 		pipelineName = static_cast<Pipelines>(static_cast<int>(pipelineName) + 1))
 	{
 		vkDestroyPipeline(device, graphicsPipelines[static_cast<int>(pipelineName)], nullptr);
@@ -511,12 +511,12 @@ void Graphics::createDescriptorSetLayout()
 
 void Graphics::createGraphicsPipelines()
 {
-	graphicsPipelines.resize(static_cast<int>(Pipelines::Max));
-	pipelineLayouts.resize(static_cast<int>(Pipelines::Max));
+	graphicsPipelines.resize(static_cast<int>(Pipelines::EnumCount));
+	pipelineLayouts.resize(static_cast<int>(Pipelines::EnumCount));
 
 	// TODO: rewrite to use multiple shaders
 	for (Pipelines pipelineName = Pipelines::ModelPipeline;
-		pipelineName != Pipelines::Max;
+		pipelineName != Pipelines::EnumCount;
 		pipelineName = static_cast<Pipelines>(static_cast<int>(pipelineName) + 1))
 	{
 		// Read in SPIR-V code of shaders
@@ -1313,7 +1313,7 @@ bool Graphics::isDeviceSuitable(VkPhysicalDevice device)
 #else
 	return (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) && indices.isComplete() && extensionsSupported && swapChainAdequate && deviceFeatures.samplerAnisotropy;
 #endif // DISCRETE
-	}
+}
 
 QueueFamilyIndices Graphics::findQueueFamilies(VkPhysicalDevice device)
 {

@@ -26,6 +26,8 @@ private:
 		Hovered,
 		Clicked,
 		Disabled,
+
+		EnumCount,
 	};
 
 	State state = State::Normal;

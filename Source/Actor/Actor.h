@@ -52,6 +52,13 @@ public:
 		return typeName;
 	}
 
+	void setBaseColor(const glm::vec4 baseColor) { this->baseColor = baseColor; }
+
+	void setShaderType(const ShaderType shaderType) { this->shaderType = shaderType; }
+	const ShaderType getShaderType() const {
+		return shaderType;
+	}
+
 	const glm::mat4x4 getTransform() const {
 		return transform;
 	}
@@ -96,6 +103,8 @@ private:
 	glm::vec3 scale = { 1, 1, 1 };
 	glm::mat4x4 transform = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
 
+	glm::vec4 baseColor = { 1.f, 1.f, 1.f, 1.f };
+
 	std::shared_ptr<GLTFStaticModel> model;
 	std::string modelPath;
 
@@ -103,6 +112,8 @@ private:
 	std::string typeName;
 
 	std::vector<std::shared_ptr<Component>> components;
+
+	ShaderType shaderType;
 };
 
 class ActorManager

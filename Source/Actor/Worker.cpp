@@ -1,12 +1,18 @@
 #include "Worker.h"
 #include "../Player/Player.h"
 
+#include "../Actor/Building.h"
+
 Worker::Worker(std::string name)
 {
 	TransitionIdleState();
 }
 
 Worker::~Worker()
+{
+}
+
+void Worker::execute()
 {
 }
 
@@ -17,9 +23,29 @@ void Worker::setState(int number)
 	case 0:
 		TransitionIdleState();
 		break;
-
 	case 1:
 		TransitionWanderState();
+		break;
+	case 2:
+		TransitionSearchState();
+		break;
+	case 3:
+		TransitionGatherState();
+		break;
+	case 4:
+		TransitionReturnState();
+		break;
+	case 5:
+		TransitionBuildingState();
+		break;
+	case 6:
+		TransitionAttackState();
+		break;
+	case 7:
+		TransitionDeathState();
+		break;
+	default:
+		TransitionIdleState();
 		break;
 	}
 }
@@ -59,6 +85,9 @@ void Worker::workerControl(float elapsedTime)
 		break;
 	case Worker::State::Return:
 		UpdateReturnState(elapsedTime);
+		break;
+	case Worker::State::Building:
+		UpdateBuildingState(elapsedTime);
 		break;
 	case Worker::State::Attack:
 		UpdateAttackState(elapsedTime);
@@ -195,6 +224,66 @@ void Worker::UpdateReturnState(float elapsedTime)
 	movement->SetTargetPosition(pointOfInterest);
 }
 
+void Worker::TransitionBuildingState()
+{
+	state = State::Building;
+
+	needMovement = true;
+}
+
+void Worker::UpdateBuildingState(float elapsedTime)
+{
+	float newDisatance = sqrtf(pow(this->getActor()->getPosition().x - pointOfInterest.x, 2) + pow(this->getActor()->getPosition().z - pointOfInterest.z, 2));
+	if (newDisatance < 0.1f)
+	{
+		if (buildingType == "Base")
+		{
+			std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
+			newActor->loadModel("./Data/SpaceKit/hangar_roundGlass.glb");
+			newActor->setName("TempBuilding" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+			newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
+			newActor->setPosition({ pointOfInterest.x, pointOfInterest.y , pointOfInterest.z });
+			newActor->setType("Building");
+			newActor->setTypeName("Base");
+			newActor->addComponent<Building>();
+			newActor->setShaderType(ShaderType::PhongDissolve);
+		}
+		else if (buildingType == "Hangar")
+		{
+			std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
+			newActor->loadModel("./Data/SpaceKit/hangar_smallB.glb");
+			newActor->setName("TempBuilding" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+			newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
+			newActor->setPosition({ pointOfInterest.x, pointOfInterest.y , pointOfInterest.z });
+			newActor->setType("Building");
+			newActor->setTypeName("Hangar");
+			newActor->addComponent<Building>();
+			newActor->setShaderType(ShaderType::PhongDissolve);
+		}
+		else if (buildingType == "Turret")
+		{
+			std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
+			newActor->loadModel("./Data/SpaceKit/turret_double.glb");
+			newActor->setName("TempBuilding" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+			newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
+			newActor->setPosition({ pointOfInterest.x, pointOfInterest.y , pointOfInterest.z });
+			newActor->setType("Building");
+			newActor->setTypeName("Turret");
+			newActor->addComponent<Building>();
+			newActor->setShaderType(ShaderType::PhongDissolve);
+		}
+
+		Player::Instance().selectedActorName.clear();
+		Player::Instance().selectedTargetName.clear();
+		Player::Instance().setSelectedActorIndex(0);
+		Player::Instance().buildingMode = false;
+
+		TransitionDeathState();
+	}
+
+	movement->SetTargetPosition(pointOfInterest);
+}
+
 void Worker::TransitionAttackState()
 {
 	state = State::Attack;
@@ -211,4 +300,5 @@ void Worker::TransitionDeathState()
 
 void Worker::UpdateDeathState(float elapsedTime)
 {
+	ActorManager::Instance().remove(this->getActor());
 }

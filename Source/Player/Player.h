@@ -42,6 +42,14 @@ public:
 
 	void changePause() { isPaused = !isPaused; }
 
+	std::string selectedActorName;
+	std::string selectedTargetName;
+
+	std::shared_ptr<Actor> prebuildActor;
+
+	bool buildingMode = false;
+	bool buildingBlock = false;
+
 private:
 
 	void calculateScreenToWorldCoords(GLFWwindow* window, Camera& camera);
@@ -52,9 +60,6 @@ private:
 		glm::vec3 rayEnd;
 		glm::vec3 rayDirection;
 	} cameraRay;
-
-	std::string selectedActorName;
-	std::string selectedTargetName;
 
 	glm::vec3 movementPoint = { 0.f, 0.f, 0.f };
 

@@ -16,6 +16,18 @@ void Building::start()
 		collisionRadius = 1.f;
 	}
 
+	if (getActor()->getTypeName() == "Hangar")
+	{
+		collisionPosition = getCollisionPosition();
+		collisionRadius = 1.f;
+	}
+
+	if (getActor()->getTypeName() == "Turret")
+	{
+		collisionPosition = getCollisionPosition();
+		collisionRadius = 0.5f;
+	}
+
 	if (getActor()->getTypeName() == "Mineral")
 	{
 		collisionPosition = getCollisionPosition();
@@ -27,6 +39,7 @@ void Building::update(float elapsedTime)
 {
 	buildingControl(elapsedTime);
 
+	// Produce worker
 	if (getActor()->getTypeName() == "Base")
 	{
 		if (timerToProduce <= 0)
@@ -46,19 +59,19 @@ void Building::update(float elapsedTime)
 			newActor->addComponent<Worker>(newActor->getName());
 
 			timerToProduce = 5.f;
-			buildingStart = false;
+			recruteStart = false;
 		}
 	}
 }
 
 void Building::execute()
 {
-	buildingStart = true;
+	recruteStart = true;
 }
 
 void Building::buildingControl(float elapsedTime)
 {
-	if (buildingStart)
+	if (recruteStart)
 	{
 		timerToProduce -= elapsedTime;
 	}

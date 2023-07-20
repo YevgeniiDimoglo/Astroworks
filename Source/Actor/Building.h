@@ -35,4 +35,7 @@ protected:
 
 	float timerToProduce = 5.f;
 	bool buildingStart = false;
+
+	bool finished = false;
+	int buildingTime;
 };
