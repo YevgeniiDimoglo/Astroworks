@@ -247,6 +247,7 @@ void Worker::UpdateBuildingState(float elapsedTime)
 			newActor->setTypeName("Base");
 			newActor->addComponent<Building>();
 			newActor->setShaderType(ShaderType::PhongDissolve);
+			newActor->getComponent<Building>()->setBuildingStart(true);
 		}
 		else if (buildingType == "Hangar")
 		{
@@ -259,6 +260,7 @@ void Worker::UpdateBuildingState(float elapsedTime)
 			newActor->setTypeName("Hangar");
 			newActor->addComponent<Building>();
 			newActor->setShaderType(ShaderType::PhongDissolve);
+			newActor->getComponent<Building>()->setBuildingStart(true);
 		}
 		else if (buildingType == "Turret")
 		{
@@ -271,6 +273,7 @@ void Worker::UpdateBuildingState(float elapsedTime)
 			newActor->setTypeName("Turret");
 			newActor->addComponent<Building>();
 			newActor->setShaderType(ShaderType::PhongDissolve);
+			newActor->getComponent<Building>()->setBuildingStart(true);
 		}
 
 		Player::Instance().selectedActorName.clear();

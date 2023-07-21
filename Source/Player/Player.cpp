@@ -151,7 +151,9 @@ void Player::notify(std::string widgetName, int widgetAction)
 				newActor->setType("Building");
 				newActor->setTypeName("Base");
 				newActor->addComponent<Building>();
-				newActor->setShaderType(ShaderType::PhongTransparency);
+				newActor->setShaderType(ShaderType::Phong);
+				newActor->setShaderSubType(ShaderType::PhongTransparency);
+				newActor->getComponent<Building>()->setCurrentBuildingTime(1000.f);
 
 				prebuildActor = newActor;
 
@@ -177,7 +179,9 @@ void Player::notify(std::string widgetName, int widgetAction)
 				newActor->setType("Building");
 				newActor->setTypeName("Hangar");
 				newActor->addComponent<Building>();
-				newActor->setShaderType(ShaderType::PhongTransparency);
+				newActor->setShaderType(ShaderType::Phong);
+				newActor->setShaderSubType(ShaderType::PhongTransparency);
+				newActor->getComponent<Building>()->setCurrentBuildingTime(1000.f);
 
 				prebuildActor = newActor;
 
@@ -203,7 +207,9 @@ void Player::notify(std::string widgetName, int widgetAction)
 				newActor->setType("Building");
 				newActor->setTypeName("Turret");
 				newActor->addComponent<Building>();
-				newActor->setShaderType(ShaderType::PhongTransparency);
+				newActor->setShaderType(ShaderType::Phong);
+				newActor->setShaderSubType(ShaderType::PhongTransparency);
+				newActor->getComponent<Building>()->setCurrentBuildingTime(1000.f);
 
 				prebuildActor = newActor;
 

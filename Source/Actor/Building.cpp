@@ -14,24 +14,28 @@ void Building::start()
 	{
 		collisionPosition = getCollisionPosition();
 		collisionRadius = 1.f;
+		buildingTime = 30.f;
 	}
 
 	if (getActor()->getTypeName() == "Hangar")
 	{
 		collisionPosition = getCollisionPosition();
 		collisionRadius = 1.f;
+		buildingTime = 15.f;
 	}
 
 	if (getActor()->getTypeName() == "Turret")
 	{
 		collisionPosition = getCollisionPosition();
 		collisionRadius = 0.5f;
+		buildingTime = 5.f;
 	}
 
 	if (getActor()->getTypeName() == "Mineral")
 	{
 		collisionPosition = getCollisionPosition();
 		collisionRadius = 0.5f;
+		buildingTime = 999.f;
 	}
 }
 
@@ -57,11 +61,14 @@ void Building::update(float elapsedTime)
 			newActor->addComponent<Movement>();
 			newActor->addComponent<Unit>();
 			newActor->addComponent<Worker>(newActor->getName());
+			newActor->setShaderType(ShaderType::Phong);
 
 			timerToProduce = 5.f;
 			recruteStart = false;
 		}
 	}
+
+	getActor()->setTimer({ currentBuildingTime / buildingTime, 0.f, 0.f, 0.f });
 }
 
 void Building::execute()
@@ -74,5 +81,24 @@ void Building::buildingControl(float elapsedTime)
 	if (recruteStart)
 	{
 		timerToProduce -= elapsedTime;
+	}
+
+	if (buildingStart)
+	{
+		currentBuildingTime += elapsedTime;
+	}
+
+	if (currentBuildingTime >= buildingTime)
+	{
+		finished = true;
+	}
+
+	if (!finished)
+	{
+		getActor()->setShaderType(ShaderType::PhongDissolve);
+	}
+	else
+	{
+		getActor()->setShaderType(ShaderType::Phong);
 	}
 }

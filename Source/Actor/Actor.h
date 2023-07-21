@@ -59,6 +59,16 @@ public:
 		return shaderType;
 	}
 
+	void setShaderSubType(const ShaderType shaderSubType) { this->shaderSubType = shaderSubType; }
+	const ShaderType getShaderSubType() const {
+		return shaderSubType;
+	}
+
+	void setTimer(const glm::vec4& timer) { this->timer = timer; }
+	const glm::vec3& getTimer() const {
+		return timer;
+	}
+
 	const glm::mat4x4 getTransform() const {
 		return transform;
 	}
@@ -104,6 +114,7 @@ private:
 	glm::mat4x4 transform = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
 
 	glm::vec4 baseColor = { 1.f, 1.f, 1.f, 1.f };
+	glm::vec4 timer;
 
 	std::shared_ptr<GLTFStaticModel> model;
 	std::string modelPath;
@@ -114,6 +125,7 @@ private:
 	std::vector<std::shared_ptr<Component>> components;
 
 	ShaderType shaderType;
+	ShaderType shaderSubType;
 };
 
 class ActorManager
@@ -144,7 +156,7 @@ public:
 
 	void updateTransform();
 
-	void render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout);
+	void render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, int pipelineNumber);
 
 	void cleanup(VkDevice newLogicalDevice);
 

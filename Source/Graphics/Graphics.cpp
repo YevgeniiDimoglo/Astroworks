@@ -12,6 +12,8 @@ void Graphics::init()
 	initModels();
 
 	initSprites();
+
+	dissolveImage = createTexture(physicalDevice, device, commandPool, graphicsQueue, dissolveSamplerDescriptorPool, dissolveSamplerSetLayout, "./Data/Textures/dissolve_animation.png");
 }
 
 void Graphics::draw(HighResolutionTimer timer, float elapsedTime)
@@ -471,10 +473,18 @@ void Graphics::createDescriptorSetLayout()
 	samplerLayoutBinding.pImmutableSamplers = nullptr;
 	samplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
 
+	VkDescriptorSetLayoutBinding dissolveSamplerLayoutBinding{};
+	dissolveSamplerLayoutBinding.binding = 2;
+	dissolveSamplerLayoutBinding.descriptorCount = 1;
+	dissolveSamplerLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+	dissolveSamplerLayoutBinding.pImmutableSamplers = nullptr;
+	dissolveSamplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+
 	// Create Descriptor Set Layout with given bindings
-	std::array<VkDescriptorSetLayoutBinding, 2> bindings = {
+	std::array<VkDescriptorSetLayoutBinding, 3> bindings = {
 		uboLayoutBinding,
-		samplerLayoutBinding
+		samplerLayoutBinding,
+		dissolveSamplerLayoutBinding
 	};
 
 	// Create Descriptor Set Layout
@@ -507,6 +517,26 @@ void Graphics::createDescriptorSetLayout()
 	{
 		throw std::runtime_error("failed to create a texture descriptor set layout");
 	}
+
+	// Create texture sampler descriptor set layout
+	// Texture binding info
+	dissolveSamplerLayoutBinding.binding = 0;
+	dissolveSamplerLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+	dissolveSamplerLayoutBinding.descriptorCount = 1;
+	dissolveSamplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+	dissolveSamplerLayoutBinding.pImmutableSamplers = nullptr;
+
+	// Create a descriptor set layout with given binding for texture
+	VkDescriptorSetLayoutCreateInfo dissolveTextureLayoutCreateInfo = {};
+	dissolveTextureLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+	dissolveTextureLayoutCreateInfo.bindingCount = 1;
+	dissolveTextureLayoutCreateInfo.pBindings = &dissolveSamplerLayoutBinding;
+
+	// Create Descriptor set layout
+	if (vkCreateDescriptorSetLayout(device, &dissolveTextureLayoutCreateInfo, nullptr, &dissolveSamplerSetLayout) != VK_SUCCESS)
+	{
+		throw std::runtime_error("failed to create a texture descriptor set layout");
+	}
 }
 
 void Graphics::createGraphicsPipelines()
@@ -534,6 +564,12 @@ void Graphics::createGraphicsPipelines()
 		{
 			vertShaderCode = readFile("Shaders/spriteVS.spv");
 			fragShaderCode = readFile("Shaders/spritePS.spv");
+		}
+
+		if (pipelineName == Pipelines::DissolvePipeline)
+		{
+			vertShaderCode = readFile("Shaders/phongVS.spv");
+			fragShaderCode = readFile("Shaders/dissolvePS.spv");
 		}
 
 		// Build shader modules to link to Graphics Pipeline
@@ -672,7 +708,7 @@ void Graphics::createGraphicsPipelines()
 		dynamicState.pDynamicStates = dynamicStates.data();
 
 		// Pipeline layout
-		std::array<VkDescriptorSetLayout, 2> descriptorSetLayouts = { descriptorSetLayout, samplerSetLayout };
+		std::array<VkDescriptorSetLayout, 3> descriptorSetLayouts = { descriptorSetLayout, samplerSetLayout, dissolveSamplerSetLayout };
 
 		// Define push constant values
 		VkPushConstantRange pushConstantRange{};
@@ -806,12 +842,15 @@ void Graphics::createDescriptorPool()
 {
 	// Create uniform descriptor pool
 	// Type of descriptors and how many Descriptors
-	std::array<VkDescriptorPoolSize, 2> poolSizes{};
+	std::array<VkDescriptorPoolSize, 3> poolSizes{};
 	poolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 	poolSizes[0].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 
 	poolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 	poolSizes[1].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+
+	poolSizes[2].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+	poolSizes[2].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 
 	// Data to create Descriptor pool
 	VkDescriptorPoolCreateInfo poolInfo{};
@@ -839,6 +878,23 @@ void Graphics::createDescriptorPool()
 	samplerPoolCreateInfo.pPoolSizes = &samplerPoolSize;
 
 	if (vkCreateDescriptorPool(device, &samplerPoolCreateInfo, nullptr, &samplerDescriptorPool) != VK_SUCCESS)
+	{
+		throw std::runtime_error("failed to create a sampler descriptor pool");
+	}
+
+	// Create sampler descriptor pool
+	// Texture sampler pool
+	VkDescriptorPoolSize dissolveSamplerPoolSize = {};
+	dissolveSamplerPoolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+	dissolveSamplerPoolSize.descriptorCount = 1;
+
+	VkDescriptorPoolCreateInfo dissolveSamplerPoolCreateInfo = {};
+	dissolveSamplerPoolCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+	dissolveSamplerPoolCreateInfo.maxSets = 1;
+	dissolveSamplerPoolCreateInfo.poolSizeCount = 1;
+	dissolveSamplerPoolCreateInfo.pPoolSizes = &dissolveSamplerPoolSize;
+
+	if (vkCreateDescriptorPool(device, &dissolveSamplerPoolCreateInfo, nullptr, &dissolveSamplerDescriptorPool) != VK_SUCCESS)
 	{
 		throw std::runtime_error("failed to create a sampler descriptor pool");
 	}
@@ -873,7 +929,7 @@ void Graphics::createDescriptorSets()
 		bufferInfo.range = sizeof(UniformBufferObject);
 
 		// List of descriptor set writes
-		std::array<VkWriteDescriptorSet, 2> descriptorWrites{};
+		std::array<VkWriteDescriptorSet, 1> descriptorWrites{};
 		descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 		descriptorWrites[0].dstSet = descriptorSets[i];
 		descriptorWrites[0].dstBinding = 0;
@@ -885,7 +941,7 @@ void Graphics::createDescriptorSets()
 		descriptorWrites[0].pTexelBufferView = nullptr;
 
 		// Update the descriptor sets with new buffer / binding info
-		vkUpdateDescriptorSets(device, 1, &descriptorWrites[0], 0, nullptr);
+		vkUpdateDescriptorSets(device, static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
 	}
 }
 
@@ -1069,14 +1125,26 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	{
 		// -- Model Pipeline
 
-	// Bind specific pipeline
+		// Bind specific pipeline
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::ModelPipeline)]);
 
 		// Bind camera descriptor
 		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)],
 			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)]);
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)], static_cast<int>(Pipelines::ModelPipeline));
+
+		// Bind specific pipeline
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::DissolvePipeline)]);
+
+		// Bind camera descriptor
+		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::DissolvePipeline)],
+			0, 1, &descriptorSets[currentFrame], 0, nullptr);
+
+		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::DissolvePipeline)],
+			2, 1, &dissolveImage.descriptorSet, 0, nullptr);
+
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DissolvePipeline)], static_cast<int>(Pipelines::DissolvePipeline));
 	}
 	else
 	{
@@ -1086,7 +1154,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)],
 			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)]);
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(Pipelines::ModelPipeline));
 	}
 
 	// --
@@ -1143,6 +1211,8 @@ void Graphics::updateUniformBuffer(HighResolutionTimer timer, float elapsedTime,
 	ubo.lightDirection = { 0, -1 , -1 , 1 };
 	ubo.lightColor = { 1, 1, 1, 1 };
 	ubo.lightColor = { 1, 1, 1, 1 };
+	ubo.timeConstants.r = elapsedTime;
+	ubo.timeConstants.g = timer.TimeStamp();
 
 	memcpy(uniformBuffersMapped[currentImage], &ubo, sizeof(ubo));
 }

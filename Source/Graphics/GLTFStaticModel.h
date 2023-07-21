@@ -103,6 +103,7 @@ public:
 
 	glm::mat4 sceneValues = glm::mat4(1.0f);
 	glm::vec4 baseColor = glm::vec4(1.0f);
+	glm::vec4 timer;
 
 	struct Material
 	{
@@ -127,6 +128,8 @@ public:
 		int32_t imageIndex;
 	};
 
+	bool dissolveTexture = false;
+
 	GLTFStaticModel(std::string filePath);
 	~GLTFStaticModel() {};
 
@@ -145,6 +148,7 @@ public:
 
 	void setSceneValues(glm::mat4x4 matrixTansform) { this->sceneValues = matrixTansform; }
 	void setBaseColor(glm::vec4 baseColor) { this->baseColor = baseColor; }
+	void setTimer(glm::vec4 timer) { this->timer = timer; }
 
 	void loadglTFFile(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, VkDescriptorPool samplerDescriptorPool, VkDescriptorSetLayout samplerSetLayout);
 

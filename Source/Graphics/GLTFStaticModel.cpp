@@ -256,6 +256,7 @@ void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout p
 			PushConstants pushConstants;
 			pushConstants.baseColor = materials[primitive.materialIndex].baseColorFactor * baseColor;
 			pushConstants.model = sceneValues * nodeMatrix;
+			pushConstants.timer = timer;
 			vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstants), &pushConstants);
 
 			if (primitive.indexCount > 0)
@@ -271,6 +272,7 @@ void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout p
 					GLTFStaticModel::Texture texture = GLTFStaticModel::Texture{ 0 };
 					vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &dummyTextureImages[texture.imageIndex].descriptorSet, 0, nullptr);
 				}
+
 				vkCmdDrawIndexed(commandBuffer, primitive.indexCount, 1, primitive.firstIndex, 0, 0);
 			}
 		}

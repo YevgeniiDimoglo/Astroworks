@@ -35,6 +35,7 @@ void Actor::updateTransform()
 	glm::mat4x4 transform = translate * rotate * scale;
 	model->setSceneValues(transform);
 	model->setBaseColor(baseColor);
+	model->setTimer(timer);
 }
 
 void Actor::loadModel(std::string filename)
@@ -100,7 +101,10 @@ void ActorManager::deserializeActor()
 		if (it.type == "Building")
 		{
 			actor->addComponent<Building>();
+			actor->getComponent<Building>()->setCurrentBuildingTime(1000.f);
 		}
+
+		actor->setShaderType(ShaderType::Phong);
 	}
 }
 
@@ -158,22 +162,25 @@ void ActorManager::updateTransform()
 {
 }
 
-void ActorManager::render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout)
+void ActorManager::render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, int pipelineNumber)
 {
 	// TODO: Move updateTransform to update function
 	// Render actor models
 	static int localTimer = 0;
 	for (std::shared_ptr<Actor>& actor : updateActors)
 	{
-		GLTFStaticModel* model = actor->getModel();
-		if (model != nullptr)
+		if (static_cast<int>(actor->getShaderType()) == pipelineNumber)
 		{
-			actor->updateTransform();
-			if (actor->getShaderType() == ShaderType::PhongTransparency)
+			GLTFStaticModel* model = actor->getModel();
+			if (model != nullptr)
 			{
-				actor->setBaseColor({ 0.f, 1.f, 0.f, 0.5f });
+				actor->updateTransform();
+				if (actor->getShaderSubType() == ShaderType::PhongTransparency)
+				{
+					actor->setBaseColor({ 0.f, 1.f, 0.f, 0.5f });
+				}
+				model->draw(commandBuffer, pipelineLayout);
 			}
-			model->draw(commandBuffer, pipelineLayout);
 		}
 	}
 }

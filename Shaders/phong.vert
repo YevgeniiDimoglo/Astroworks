@@ -8,11 +8,13 @@ layout(binding = 0) uniform UniformBufferObject
     vec4 lightDirection;
     vec4 lightColor;
     vec4 cameraPosition;
+    vec4 timerConstants;
 } ubo;
 
 layout(push_constant) uniform PushModel{
       mat4 model;
       vec4 baseColor;
+      vec4 timer;
 } pushModel;
 
 layout(location = 0) in vec3 inPosition;
@@ -25,6 +27,7 @@ layout(location = 2) out vec3 vertPos;
 layout(location = 3) out vec3 lightDirection;
 layout(location = 4) out vec4 lightColor;
 layout(location = 5) out vec4 baseColor;
+layout(location = 6) out vec4 timerConstants;
 
 void main() 
 {
@@ -38,4 +41,5 @@ void main()
     normalInterp = inNormal;
     fragTexCoord = inTexCoord;
     baseColor = pushModel.baseColor;
+    timerConstants = pushModel.timer;
 }

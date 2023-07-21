@@ -18,6 +18,10 @@ public:
 		return collisionRadius;
 	}
 
+	void setCurrentBuildingTime(float currentBuildingTime) { this->currentBuildingTime = currentBuildingTime; }
+
+	void setBuildingStart(bool buildingStart) { this->buildingStart = buildingStart; }
+
 	void update(float elapsedTime) override;
 
 	void execute();
@@ -34,8 +38,10 @@ protected:
 	float collisionRadius = 10.f;
 
 	float timerToProduce = 5.f;
-	bool buildingStart = false;
+	bool recruteStart = false;
 
 	bool finished = false;
-	int buildingTime;
+	bool buildingStart = false;
+	float buildingTime;
+	float currentBuildingTime = 0.f;
 };

@@ -11,7 +11,7 @@
 enum class Pipelines
 {
 	ModelPipeline,
-
+	DissolvePipeline,
 	DebugDrawingPipeline,
 	UIPipeline,
 
@@ -189,8 +189,11 @@ private:
 	std::vector<VkDescriptorSet> descriptorSets;
 
 	VkDescriptorPool samplerDescriptorPool;
-	std::vector<VkDescriptorSet> samplerDescriptorSets;
 	VkDescriptorSetLayout samplerSetLayout;
+
+	VkDescriptorPool dissolveSamplerDescriptorPool;
+	VkDescriptorSetLayout dissolveSamplerSetLayout;
+	ImageBuffer dissolveImage;
 
 	VkImage depthImage;
 	VkDeviceMemory depthImageMemory;
