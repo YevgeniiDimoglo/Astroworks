@@ -1,8 +1,11 @@
 #include "Building.h"
 
+#include "../Player/Player.h"
+
 #include "../Actor/Actor.h"
 #include "../Actor/Unit.h"
 #include "../Actor/Worker.h"
+
 #include "../Actor/Movement.h"
 
 void Building::start()
@@ -14,21 +17,24 @@ void Building::start()
 	{
 		collisionPosition = getCollisionPosition();
 		collisionRadius = 1.f;
-		buildingTime = 30.f;
+		buildingTime = 75.6f;
+		HP = 1500;
 	}
 
 	if (getActor()->getTypeName() == "Hangar")
 	{
 		collisionPosition = getCollisionPosition();
 		collisionRadius = 1.f;
-		buildingTime = 15.f;
+		buildingTime = 50.4f;
+		HP = 1000;
 	}
 
 	if (getActor()->getTypeName() == "Turret")
 	{
 		collisionPosition = getCollisionPosition();
 		collisionRadius = 0.5f;
-		buildingTime = 5.f;
+		buildingTime = 18.9f;
+		HP = 200;
 	}
 
 	if (getActor()->getTypeName() == "Mineral")
@@ -36,6 +42,7 @@ void Building::start()
 		collisionPosition = getCollisionPosition();
 		collisionRadius = 0.5f;
 		buildingTime = 999.f;
+		HP = 9999;
 	}
 }
 
@@ -60,8 +67,11 @@ void Building::update(float elapsedTime)
 			newActor->setTypeName("Worker");
 			newActor->addComponent<Movement>();
 			newActor->addComponent<Unit>();
-			newActor->addComponent<Worker>(newActor->getName());
+			newActor->addComponent<Worker>();
 			newActor->setShaderType(ShaderType::Phong);
+			newActor->setControllerName("Player");
+
+			Player::Instance().emplaceActor(newActor);
 
 			timerToProduce = 5.f;
 			recruteStart = false;
@@ -100,5 +110,10 @@ void Building::buildingControl(float elapsedTime)
 	else
 	{
 		getActor()->setShaderType(ShaderType::Phong);
+	}
+
+	if (HP <= 0)
+	{
+		ActorManager::Instance().remove(this->getActor());
 	}
 }

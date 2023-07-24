@@ -52,6 +52,11 @@ public:
 		return typeName;
 	}
 
+	void setControllerName(const std::string controllerName) { this->controller = controllerName; }
+	const std::string getControllerName() const {
+		return controller;
+	}
+
 	void setBaseColor(const glm::vec4 baseColor) { this->baseColor = baseColor; }
 
 	void setShaderType(const ShaderType shaderType) { this->shaderType = shaderType; }
@@ -121,6 +126,8 @@ private:
 
 	std::string type;
 	std::string typeName;
+
+	std::string controller;
 
 	std::vector<std::shared_ptr<Component>> components;
 

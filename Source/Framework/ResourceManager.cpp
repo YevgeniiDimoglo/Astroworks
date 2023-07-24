@@ -54,7 +54,8 @@ void ResourceManager::loadFile(std::string filepath)
 			{scale[0].value<float>().value(), scale[1].value<float>().value(), scale[2].value<float>().value()},
 			actors[i]["path"].value<std::string>().value(),
 			actors[i]["type"].value<std::string>().value(),
-			actors[i]["typeName"].value<std::string>().value()
+			actors[i]["typeName"].value<std::string>().value(),
+			actors[i]["controller"].value<std::string>().value()
 		};
 
 		actorsOnScreen.push_back(tempActor);
@@ -83,6 +84,8 @@ void ResourceManager::saveFile(std::string filepath)
 
 		MyFile << "type = " << "\"" << it.get()->getType() << "\"" << std::endl;
 		MyFile << "typeName = " << "\"" << it.get()->getTypeName() << "\"" << std::endl;
+
+		MyFile << "controller = " << "\"" << it.get()->getControllerName() << "\"" << std::endl;
 
 		MyFile << std::endl;
 	}

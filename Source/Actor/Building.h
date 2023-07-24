@@ -32,6 +32,8 @@ protected:
 
 protected:
 
+	int HP = 0;
+
 	glm::vec3 pointOfInterest = { 0, 0, 0 };
 
 	glm::vec3 collisionPosition;

@@ -3,7 +3,7 @@
 
 #include "../Actor/Building.h"
 
-Worker::Worker(std::string name)
+Worker::Worker()
 {
 	TransitionIdleState();
 }
@@ -55,16 +55,15 @@ void Worker::start()
 	movement = getActor()->getComponent<Movement>();
 
 	GLTFStaticModel* model = getActor()->getModel();
+
+	HP = 60;
 }
 
 void Worker::update(float elapsedTime)
 {
 	workerControl(elapsedTime);
 
-	std::vector<std::shared_ptr<Actor>> actors = ActorManager::Instance().getUpdateActors();
-
 	collisionPosition = getActor()->getPosition();
-	collisionRadius = 0.3f;
 }
 
 void Worker::workerControl(float elapsedTime)
@@ -100,6 +99,7 @@ void Worker::workerControl(float elapsedTime)
 	}
 
 	if (needMovement) movement->MoveToTarget(elapsedTime, 1.f);
+	if (HP <= 0) TransitionDeathState();
 }
 
 void Worker::TransitionWanderState()
@@ -248,6 +248,7 @@ void Worker::UpdateBuildingState(float elapsedTime)
 			newActor->addComponent<Building>();
 			newActor->setShaderType(ShaderType::PhongDissolve);
 			newActor->getComponent<Building>()->setBuildingStart(true);
+			Player::Instance().emplaceActor(newActor);
 		}
 		else if (buildingType == "Hangar")
 		{
@@ -261,6 +262,7 @@ void Worker::UpdateBuildingState(float elapsedTime)
 			newActor->addComponent<Building>();
 			newActor->setShaderType(ShaderType::PhongDissolve);
 			newActor->getComponent<Building>()->setBuildingStart(true);
+			Player::Instance().emplaceActor(newActor);
 		}
 		else if (buildingType == "Turret")
 		{
@@ -274,6 +276,7 @@ void Worker::UpdateBuildingState(float elapsedTime)
 			newActor->addComponent<Building>();
 			newActor->setShaderType(ShaderType::PhongDissolve);
 			newActor->getComponent<Building>()->setBuildingStart(true);
+			Player::Instance().emplaceActor(newActor);
 		}
 
 		Player::Instance().selectedActorName.clear();
@@ -303,5 +306,6 @@ void Worker::TransitionDeathState()
 
 void Worker::UpdateDeathState(float elapsedTime)
 {
+	Player::Instance().removeActor(this->getActor());
 	ActorManager::Instance().remove(this->getActor());
 }

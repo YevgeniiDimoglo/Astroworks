@@ -95,6 +95,8 @@ struct ActorOnScreen
 
 	std::string type;
 	std::string typeName;
+
+	std::string controller;
 };
 
 class IObserver {

@@ -1,10 +1,16 @@
 #include "../Framework/ResourceManager.h"
 
+#include "../Player/Player.h"
+
 #include "Actor.h"
+
 #include "Unit.h"
 #include "Worker.h"
-#include "Movement.h"
+#include "Alien.h"
+
 #include "Building.h"
+
+#include "Movement.h"
 
 void Actor::start()
 {
@@ -86,6 +92,7 @@ void ActorManager::deserializeActor()
 		actor->setScale(it.scale);
 		actor->setType(it.type);
 		actor->setTypeName(it.typeName);
+		actor->setControllerName(it.controller);
 
 		if (it.type == "Unit")
 		{
@@ -94,7 +101,12 @@ void ActorManager::deserializeActor()
 
 			if (it.typeName == "Worker")
 			{
-				actor->addComponent<Worker>(it.name);
+				actor->addComponent<Worker>();
+			}
+
+			if (it.typeName == "Alien")
+			{
+				actor->addComponent<Alien>();
 			}
 		}
 
@@ -105,6 +117,11 @@ void ActorManager::deserializeActor()
 		}
 
 		actor->setShaderType(ShaderType::Phong);
+
+		if (actor->getControllerName() == "Player")
+		{
+			Player::Instance().emplaceActor(actor);
+		}
 	}
 }
 

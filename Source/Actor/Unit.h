@@ -27,10 +27,12 @@ protected:
 
 protected:
 
+	int HP;
+
 	glm::vec3 pointOfInterest = { 0, 0, 0 };
 
 	glm::vec3 collisionPosition;
-	float collisionRadius = 10.f;
+	float collisionRadius = 0.1f;
 
 	std::shared_ptr<Movement> movement;
 	float movementTimer = 3.0f;

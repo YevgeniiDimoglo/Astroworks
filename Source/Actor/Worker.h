@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Unit.h"
+
 #include "Movement.h"
 
 // Worker type of Unit
@@ -8,7 +9,7 @@
 class Worker : public Unit
 {
 public:
-	Worker(std::string name);
+	Worker();
 	~Worker() override;
 
 	void setPointOfInterest(glm::vec3 position, bool isMineral) {

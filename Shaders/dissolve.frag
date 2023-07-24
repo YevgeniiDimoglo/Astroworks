@@ -52,13 +52,13 @@ void main()
 {
     vec4 diffuseColor = texture(texSampler, fragTexCoord) * baseColor;
 
-    float dissolveFactor = texture(dissolveSampler, fragTexCoord).r;
+    float dissolveFactor = texture(dissolveSampler, fragTexCoord * 0.01).r;
  
     vec4 clrBG = vec4(1., 1., 1., 0.); //* gridTexture(fragTexCoord.xy/vec2(5., 5.)) + 0.6;
     
     // set this to fade the alpha (0-1)
-    float t = 1.0 - timerConstants.r;
-    
+    float t = 1.0 - pow(timerConstants.r, 0.3);
+
 	// set these to increase/decrease the edge width
     float edge_width_start = 0.25; // width at the start of the dissolve (alpha = 1)
     float edge_width_end = 0.05; // width at the end of the dissolve (alpha = 0)

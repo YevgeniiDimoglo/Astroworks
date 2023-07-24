@@ -1,4 +1,5 @@
 #include "Player.h"
+
 #include "../Actor/Worker.h"
 #include "../Actor/Building.h"
 
@@ -6,9 +7,7 @@ std::string Player::getSelectedActor(GLFWwindow* window, Camera& camera)
 {
 	selectedActors.clear();
 
-	std::vector<std::shared_ptr<Actor>> actors = ActorManager::Instance().getUpdateActors();
-
-	for (auto it : actors)
+	for (auto it : controlledActors)
 	{
 		if (it->getType() == "Building" || it->getType() == "Unit")
 		{

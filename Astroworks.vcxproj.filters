@@ -105,6 +105,9 @@
     <ClCompile Include="Source\Actor\Worker.cpp">
       <Filter>ソース ファイル\Actor\Virtual_ActorsType</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Actor\Alien.cpp">
+      <Filter>ソース ファイル\Actor\Virtual_ActorsType</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Actor\Actor.h">
@@ -180,6 +183,9 @@
       <Filter>ソース ファイル\Actor\Virtual_ActorsType</Filter>
     </ClInclude>
     <ClInclude Include="Source\Actor\Worker.h">
+      <Filter>ソース ファイル\Actor\Virtual_ActorsType</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Alien.h">
       <Filter>ソース ファイル\Actor\Virtual_ActorsType</Filter>
     </ClInclude>
   </ItemGroup>

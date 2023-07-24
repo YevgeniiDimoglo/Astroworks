@@ -23,8 +23,27 @@ public:
 
 	void notify(std::string widgetName, int widgetAction) override;
 
+	void emplaceActor(std::shared_ptr<Actor> actor)
+	{
+		controlledActors.push_back(actor);
+	};
+
+	void removeActor(std::shared_ptr<Actor> actor)
+	{
+		for (auto it : controlledActors)
+		{
+			std::vector<std::shared_ptr<Actor>>::iterator it = std::find(controlledActors.begin(), controlledActors.end(), actor);
+			if (it != controlledActors.end())
+			{
+				controlledActors.erase(it);
+			}
+		}
+	};
+
 	std::string getSelectedActor(GLFWwindow* window, Camera& camera);
 	std::string getTargetActor(GLFWwindow* window, Camera& camera);
+
+	std::vector<std::shared_ptr<Actor>> getControlledActors() { return controlledActors; }
 
 	void setSelectedActorIndex(int index) { selectedActorIndex = index; }
 	int getSelectedActorIndex() const { return selectedActorIndex; }

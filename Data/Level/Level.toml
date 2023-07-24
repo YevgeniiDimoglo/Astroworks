@@ -7,6 +7,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/hangar_roundGlass.glb"
 type = "Building"
 typeName = "Base"
+controller = "Player"
 
 [[ActorsOnScreen]]
 name = "Worker1"
@@ -17,6 +18,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/astronautA.glb"
 type = "Unit"
 typeName = "Worker"
+controller = "Player"
 
 [[ActorsOnScreen]]
 name = "Worker2"
@@ -27,6 +29,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/astronautA.glb"
 type = "Unit"
 typeName = "Worker"
+controller = "Player"
 
 [[ActorsOnScreen]]
 name = "Worker3"
@@ -37,6 +40,18 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/astronautA.glb"
 type = "Unit"
 typeName = "Worker"
+controller = "Player"
+
+[[ActorsOnScreen]]
+name = "Alien"
+position = [4.3,0.0,2.4]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/alien.glb"
+type = "Unit"
+typeName = "Alien"
+controller = "Enemy"
 
 [[ActorsOnScreen]]
 name = "Mineral1"
@@ -47,6 +62,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/rock_crystalsLargeA.glb"
 type = "Building"
 typeName = "Mineral"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Mineral2"
@@ -57,6 +73,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/rock_crystalsLargeA.glb"
 type = "Building"
 typeName = "Mineral"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Mineral3"
@@ -67,6 +84,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/rock_crystalsLargeA.glb"
 type = "Building"
 typeName = "Mineral"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Mineral4"
@@ -77,6 +95,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/rock_crystalsLargeA.glb"
 type = "Building"
 typeName = "Mineral"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Mineral5"
@@ -87,6 +106,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/rock_crystalsLargeA.glb"
 type = "Building"
 typeName = "Mineral"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square00"
@@ -97,6 +117,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square01"
@@ -107,6 +128,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square02"
@@ -117,6 +139,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square03"
@@ -127,6 +150,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square04"
@@ -137,6 +161,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square05"
@@ -147,6 +172,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square06"
@@ -157,6 +183,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square07"
@@ -167,6 +194,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square08"
@@ -177,6 +205,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square09"
@@ -187,6 +216,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square010"
@@ -197,6 +227,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square011"
@@ -207,6 +238,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square012"
@@ -217,6 +249,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square013"
@@ -227,6 +260,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square014"
@@ -237,6 +271,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square015"
@@ -247,6 +282,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square016"
@@ -257,6 +293,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square017"
@@ -267,6 +304,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square018"
@@ -277,6 +315,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square019"
@@ -287,6 +326,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square10"
@@ -297,6 +337,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square11"
@@ -307,6 +348,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square12"
@@ -317,6 +359,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square13"
@@ -327,6 +370,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square14"
@@ -337,6 +381,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square15"
@@ -347,6 +392,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square16"
@@ -357,6 +403,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square17"
@@ -367,6 +414,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square18"
@@ -377,6 +425,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square19"
@@ -387,6 +436,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square110"
@@ -397,6 +447,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square111"
@@ -407,6 +458,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square112"
@@ -417,6 +469,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square113"
@@ -427,6 +480,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square114"
@@ -437,6 +491,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square115"
@@ -447,6 +502,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square116"
@@ -457,6 +513,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square117"
@@ -467,6 +524,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square118"
@@ -477,6 +535,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square119"
@@ -487,6 +546,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square20"
@@ -497,6 +557,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square21"
@@ -507,6 +568,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square22"
@@ -517,6 +579,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square23"
@@ -527,6 +590,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square24"
@@ -537,6 +601,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square25"
@@ -547,6 +612,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square26"
@@ -557,6 +623,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square27"
@@ -567,6 +634,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square28"
@@ -577,6 +645,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square29"
@@ -587,6 +656,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square210"
@@ -597,6 +667,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square211"
@@ -607,6 +678,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square212"
@@ -617,6 +689,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square213"
@@ -627,6 +700,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square214"
@@ -637,6 +711,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square215"
@@ -647,6 +722,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square216"
@@ -657,6 +733,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square217"
@@ -667,6 +744,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square218"
@@ -677,6 +755,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square219"
@@ -687,6 +766,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square30"
@@ -697,6 +777,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square31"
@@ -707,6 +788,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square32"
@@ -717,6 +799,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square33"
@@ -727,6 +810,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square34"
@@ -737,6 +821,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square35"
@@ -747,6 +832,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square36"
@@ -757,6 +843,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square37"
@@ -767,6 +854,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square38"
@@ -777,6 +865,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square39"
@@ -787,6 +876,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square310"
@@ -797,6 +887,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square311"
@@ -807,6 +898,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square312"
@@ -817,6 +909,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square313"
@@ -827,6 +920,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square314"
@@ -837,6 +931,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square315"
@@ -847,6 +942,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square316"
@@ -857,6 +953,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square317"
@@ -867,6 +964,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square318"
@@ -877,6 +975,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square319"
@@ -887,6 +986,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square40"
@@ -897,6 +997,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square41"
@@ -907,6 +1008,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square42"
@@ -917,6 +1019,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square43"
@@ -927,6 +1030,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square44"
@@ -937,6 +1041,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square45"
@@ -947,6 +1052,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square46"
@@ -957,6 +1063,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square47"
@@ -967,6 +1074,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square48"
@@ -977,6 +1085,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square49"
@@ -987,6 +1096,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square410"
@@ -997,6 +1107,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square411"
@@ -1007,6 +1118,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square412"
@@ -1017,6 +1129,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square413"
@@ -1027,6 +1140,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square414"
@@ -1037,6 +1151,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square415"
@@ -1047,6 +1162,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square416"
@@ -1057,6 +1173,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square417"
@@ -1067,6 +1184,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square418"
@@ -1077,6 +1195,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square419"
@@ -1087,6 +1206,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square50"
@@ -1097,6 +1217,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square51"
@@ -1107,6 +1228,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square52"
@@ -1117,6 +1239,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square53"
@@ -1127,6 +1250,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square54"
@@ -1137,6 +1261,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square55"
@@ -1147,6 +1272,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square56"
@@ -1157,6 +1283,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square57"
@@ -1167,6 +1294,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square58"
@@ -1177,6 +1305,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square59"
@@ -1187,6 +1316,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square510"
@@ -1197,6 +1327,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square511"
@@ -1207,6 +1338,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square512"
@@ -1217,6 +1349,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square513"
@@ -1227,6 +1360,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square514"
@@ -1237,6 +1371,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square515"
@@ -1247,6 +1382,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square516"
@@ -1257,6 +1393,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square517"
@@ -1267,6 +1404,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square518"
@@ -1277,6 +1415,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square519"
@@ -1287,6 +1426,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square60"
@@ -1297,6 +1437,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square61"
@@ -1307,6 +1448,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square62"
@@ -1317,6 +1459,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square63"
@@ -1327,6 +1470,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square64"
@@ -1337,6 +1481,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square65"
@@ -1347,6 +1492,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square66"
@@ -1357,6 +1503,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square67"
@@ -1367,6 +1514,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square68"
@@ -1377,6 +1525,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square69"
@@ -1387,6 +1536,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square610"
@@ -1397,6 +1547,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square611"
@@ -1407,6 +1558,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square612"
@@ -1417,6 +1569,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square613"
@@ -1427,6 +1580,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square614"
@@ -1437,6 +1591,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square615"
@@ -1447,6 +1602,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square616"
@@ -1457,6 +1613,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square617"
@@ -1467,6 +1624,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square618"
@@ -1477,6 +1635,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square619"
@@ -1487,6 +1646,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square70"
@@ -1497,6 +1657,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square71"
@@ -1507,6 +1668,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square72"
@@ -1517,6 +1679,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square73"
@@ -1527,6 +1690,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square74"
@@ -1537,6 +1701,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square75"
@@ -1547,6 +1712,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square76"
@@ -1557,6 +1723,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square77"
@@ -1567,6 +1734,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square78"
@@ -1577,6 +1745,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square79"
@@ -1587,6 +1756,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square710"
@@ -1597,6 +1767,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square711"
@@ -1607,6 +1778,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square712"
@@ -1617,6 +1789,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square713"
@@ -1627,6 +1800,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square714"
@@ -1637,6 +1811,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square715"
@@ -1647,6 +1822,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square716"
@@ -1657,6 +1833,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square717"
@@ -1667,6 +1844,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square718"
@@ -1677,6 +1855,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square719"
@@ -1687,6 +1866,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square80"
@@ -1697,6 +1877,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square81"
@@ -1707,6 +1888,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square82"
@@ -1717,6 +1899,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square83"
@@ -1727,6 +1910,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square84"
@@ -1737,6 +1921,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square85"
@@ -1747,6 +1932,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square86"
@@ -1757,6 +1943,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square87"
@@ -1767,6 +1954,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square88"
@@ -1777,6 +1965,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square89"
@@ -1787,6 +1976,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square810"
@@ -1797,6 +1987,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square811"
@@ -1807,6 +1998,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square812"
@@ -1817,6 +2009,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square813"
@@ -1827,6 +2020,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square814"
@@ -1837,6 +2031,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square815"
@@ -1847,6 +2042,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square816"
@@ -1857,6 +2053,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square817"
@@ -1867,6 +2064,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square818"
@@ -1877,6 +2075,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square819"
@@ -1887,6 +2086,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square90"
@@ -1897,6 +2097,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square91"
@@ -1907,6 +2108,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square92"
@@ -1917,6 +2119,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square93"
@@ -1927,6 +2130,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square94"
@@ -1937,6 +2141,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square95"
@@ -1947,6 +2152,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square96"
@@ -1957,6 +2163,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square97"
@@ -1967,6 +2174,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square98"
@@ -1977,6 +2185,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square99"
@@ -1987,6 +2196,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square910"
@@ -1997,6 +2207,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square911"
@@ -2007,6 +2218,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square912"
@@ -2017,6 +2229,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square913"
@@ -2027,6 +2240,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square914"
@@ -2037,6 +2251,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square915"
@@ -2047,6 +2262,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square916"
@@ -2057,6 +2273,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square917"
@@ -2067,6 +2284,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square918"
@@ -2077,6 +2295,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square919"
@@ -2087,6 +2306,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square100"
@@ -2097,6 +2317,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square101"
@@ -2107,6 +2328,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square102"
@@ -2117,6 +2339,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square103"
@@ -2127,6 +2350,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square104"
@@ -2137,6 +2361,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square105"
@@ -2147,6 +2372,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square106"
@@ -2157,6 +2383,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square107"
@@ -2167,6 +2394,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square108"
@@ -2177,6 +2405,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square109"
@@ -2187,6 +2416,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1010"
@@ -2197,6 +2427,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1011"
@@ -2207,6 +2438,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1012"
@@ -2217,6 +2449,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1013"
@@ -2227,6 +2460,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1014"
@@ -2237,6 +2471,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1015"
@@ -2247,6 +2482,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1016"
@@ -2257,6 +2493,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1017"
@@ -2267,6 +2504,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1018"
@@ -2277,6 +2515,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1019"
@@ -2287,6 +2526,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square110"
@@ -2297,6 +2537,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square111"
@@ -2307,6 +2548,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square112"
@@ -2317,6 +2559,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square113"
@@ -2327,6 +2570,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square114"
@@ -2337,6 +2581,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square115"
@@ -2347,6 +2592,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square116"
@@ -2357,6 +2603,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square117"
@@ -2367,6 +2614,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square118"
@@ -2377,6 +2625,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square119"
@@ -2387,6 +2636,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1110"
@@ -2397,6 +2647,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1111"
@@ -2407,6 +2658,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1112"
@@ -2417,6 +2669,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1113"
@@ -2427,6 +2680,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1114"
@@ -2437,6 +2691,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1115"
@@ -2447,6 +2702,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1116"
@@ -2457,6 +2713,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1117"
@@ -2467,6 +2724,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1118"
@@ -2477,6 +2735,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1119"
@@ -2487,6 +2746,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square120"
@@ -2497,6 +2757,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square121"
@@ -2507,6 +2768,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square122"
@@ -2517,6 +2779,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square123"
@@ -2527,6 +2790,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square124"
@@ -2537,6 +2801,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square125"
@@ -2547,6 +2812,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square126"
@@ -2557,6 +2823,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square127"
@@ -2567,6 +2834,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square128"
@@ -2577,6 +2845,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square129"
@@ -2587,6 +2856,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1210"
@@ -2597,6 +2867,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1211"
@@ -2607,6 +2878,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1212"
@@ -2617,6 +2889,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1213"
@@ -2627,6 +2900,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1214"
@@ -2637,6 +2911,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1215"
@@ -2647,6 +2922,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1216"
@@ -2657,6 +2933,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1217"
@@ -2667,6 +2944,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1218"
@@ -2677,6 +2955,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1219"
@@ -2687,6 +2966,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square130"
@@ -2697,6 +2977,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square131"
@@ -2707,6 +2988,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square132"
@@ -2717,6 +2999,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square133"
@@ -2727,6 +3010,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square134"
@@ -2737,6 +3021,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square135"
@@ -2747,6 +3032,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square136"
@@ -2757,6 +3043,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square137"
@@ -2767,6 +3054,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square138"
@@ -2777,6 +3065,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square139"
@@ -2787,6 +3076,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1310"
@@ -2797,6 +3087,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1311"
@@ -2807,6 +3098,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1312"
@@ -2817,6 +3109,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1313"
@@ -2827,6 +3120,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1314"
@@ -2837,6 +3131,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1315"
@@ -2847,6 +3142,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1316"
@@ -2857,6 +3153,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1317"
@@ -2867,6 +3164,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1318"
@@ -2877,6 +3175,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1319"
@@ -2887,6 +3186,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square140"
@@ -2897,6 +3197,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square141"
@@ -2907,6 +3208,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square142"
@@ -2917,6 +3219,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square143"
@@ -2927,6 +3230,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square144"
@@ -2937,6 +3241,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square145"
@@ -2947,6 +3252,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square146"
@@ -2957,6 +3263,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square147"
@@ -2967,6 +3274,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square148"
@@ -2977,6 +3285,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square149"
@@ -2987,6 +3296,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1410"
@@ -2997,6 +3307,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1411"
@@ -3007,6 +3318,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1412"
@@ -3017,6 +3329,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1413"
@@ -3027,6 +3340,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1414"
@@ -3037,6 +3351,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1415"
@@ -3047,6 +3362,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1416"
@@ -3057,6 +3373,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1417"
@@ -3067,6 +3384,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1418"
@@ -3077,6 +3395,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1419"
@@ -3087,6 +3406,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square150"
@@ -3097,6 +3417,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square151"
@@ -3107,6 +3428,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square152"
@@ -3117,6 +3439,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square153"
@@ -3127,6 +3450,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square154"
@@ -3137,6 +3461,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square155"
@@ -3147,6 +3472,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square156"
@@ -3157,6 +3483,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square157"
@@ -3167,6 +3494,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square158"
@@ -3177,6 +3505,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square159"
@@ -3187,6 +3516,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1510"
@@ -3197,6 +3527,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1511"
@@ -3207,6 +3538,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1512"
@@ -3217,6 +3549,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1513"
@@ -3227,6 +3560,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1514"
@@ -3237,6 +3571,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1515"
@@ -3247,6 +3582,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1516"
@@ -3257,6 +3593,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1517"
@@ -3267,6 +3604,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1518"
@@ -3277,6 +3615,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1519"
@@ -3287,6 +3626,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square160"
@@ -3297,6 +3637,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square161"
@@ -3307,6 +3648,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square162"
@@ -3317,6 +3659,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square163"
@@ -3327,6 +3670,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square164"
@@ -3337,6 +3681,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square165"
@@ -3347,6 +3692,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square166"
@@ -3357,6 +3703,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square167"
@@ -3367,6 +3714,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square168"
@@ -3377,6 +3725,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square169"
@@ -3387,6 +3736,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1610"
@@ -3397,6 +3747,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1611"
@@ -3407,6 +3758,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1612"
@@ -3417,6 +3769,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1613"
@@ -3427,6 +3780,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1614"
@@ -3437,6 +3791,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1615"
@@ -3447,6 +3802,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1616"
@@ -3457,6 +3813,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1617"
@@ -3467,6 +3824,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1618"
@@ -3477,6 +3835,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1619"
@@ -3487,6 +3846,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square170"
@@ -3497,6 +3857,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square171"
@@ -3507,6 +3868,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square172"
@@ -3517,6 +3879,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square173"
@@ -3527,6 +3890,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square174"
@@ -3537,6 +3901,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square175"
@@ -3547,6 +3912,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square176"
@@ -3557,6 +3923,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square177"
@@ -3567,6 +3934,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square178"
@@ -3577,6 +3945,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square179"
@@ -3587,6 +3956,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1710"
@@ -3597,6 +3967,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1711"
@@ -3607,6 +3978,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1712"
@@ -3617,6 +3989,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1713"
@@ -3627,6 +4000,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1714"
@@ -3637,6 +4011,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1715"
@@ -3647,6 +4022,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1716"
@@ -3657,6 +4033,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1717"
@@ -3667,6 +4044,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1718"
@@ -3677,6 +4055,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1719"
@@ -3687,6 +4066,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square180"
@@ -3697,6 +4077,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square181"
@@ -3707,6 +4088,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square182"
@@ -3717,6 +4099,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square183"
@@ -3727,6 +4110,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square184"
@@ -3737,6 +4121,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square185"
@@ -3747,6 +4132,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square186"
@@ -3757,6 +4143,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square187"
@@ -3767,6 +4154,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square188"
@@ -3777,6 +4165,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square189"
@@ -3787,6 +4176,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1810"
@@ -3797,6 +4187,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1811"
@@ -3807,6 +4198,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1812"
@@ -3817,6 +4209,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1813"
@@ -3827,6 +4220,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1814"
@@ -3837,6 +4231,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1815"
@@ -3847,6 +4242,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1816"
@@ -3857,6 +4253,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1817"
@@ -3867,6 +4264,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1818"
@@ -3877,6 +4275,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1819"
@@ -3887,6 +4286,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square190"
@@ -3897,6 +4297,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square191"
@@ -3907,6 +4308,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square192"
@@ -3917,6 +4319,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square193"
@@ -3927,6 +4330,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square194"
@@ -3937,6 +4341,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square195"
@@ -3947,6 +4352,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square196"
@@ -3957,6 +4363,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square197"
@@ -3967,6 +4374,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square198"
@@ -3977,6 +4385,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square199"
@@ -3987,6 +4396,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1910"
@@ -3997,6 +4407,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1911"
@@ -4007,6 +4418,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1912"
@@ -4017,6 +4429,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1913"
@@ -4027,6 +4440,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1914"
@@ -4037,6 +4451,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1915"
@@ -4047,6 +4462,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1916"
@@ -4057,6 +4473,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1917"
@@ -4067,6 +4484,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1918"
@@ -4077,6 +4495,7 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
 
 [[ActorsOnScreen]]
 name = "Square1919"
@@ -4087,3 +4506,5 @@ scale = [1.0,1.0,1.0]
 path = "./Data/SpaceKit/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
+
