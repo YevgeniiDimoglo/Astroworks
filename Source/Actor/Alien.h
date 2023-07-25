@@ -53,9 +53,6 @@ private:
 	void TransitionAttackState();
 	void UpdateAttackState(float elapsedTime);
 
-	void TransitionIdleBattleState();
-	void UpdateIdleBattleStance(float elapsedTime);
-
 	void TransitionDamageState();
 	void UpdateDamageState(float elapsedTime);
 
@@ -70,7 +67,8 @@ private:
 	float moveSpeed = 2.5f;
 
 	float searchRange = 5.0f;
-	float attackRange = 1.5;
+	float attackRange = 0.3f;
+	float stateTimer = 3.5f;
 
 	glm::vec3 territoryOrigin = { 0, 0, 0 };
 	float territoryRange = 10.0f;

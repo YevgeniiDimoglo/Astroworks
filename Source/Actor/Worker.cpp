@@ -99,7 +99,7 @@ void Worker::workerControl(float elapsedTime)
 	}
 
 	if (needMovement) movement->MoveToTarget(elapsedTime, 1.f);
-	if (HP <= 0) TransitionDeathState();
+	if (this->getActor()->getComponent<Unit>()->HP <= 0) TransitionDeathState();
 }
 
 void Worker::TransitionWanderState()
@@ -111,7 +111,7 @@ void Worker::TransitionWanderState()
 void Worker::UpdateWanderState(float elapsedTime)
 {
 	glm::vec3 position = getActor()->getPosition();
-	if (glm::length(position - pointOfInterest) <= 0.1f)
+	if (glm::length(position - pointOfInterest) <= collisionRadius)
 	{
 		if (mineral)
 		{

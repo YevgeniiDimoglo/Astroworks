@@ -22,3 +22,8 @@ void Unit::update(float elapsedTime)
 void Unit::unitControl(float elapsedTime)
 {
 }
+
+void Unit::applyDamage(int damage)
+{
+	HP -= damage;
+}

@@ -36,7 +36,7 @@ void Movement::MoveToTarget(float elapsedTime, float speedRate)
 	vz /= dist;
 
 	MoveLocal(vx, vz, moveSpeed * speedRate, elapsedTime);
-	//Turn(elapsedTime, vx, vz, turnSpeed * speedRate);
+	Turn(elapsedTime, vx, vz, turnSpeed * speedRate);
 }
 
 void Movement::MoveLocal(float vx, float vz, float speed, float elapsedTime)
@@ -73,10 +73,10 @@ void Movement::Turn(float elapsedTime, float vx, float vz, float speed)
 
 	if (cross < 0.0f)
 	{
-		actor->setEuler({ actor->getEuler().x, actor->getEuler().y + rot, actor->getEuler().z });
+		actor->setEuler({ actor->getEuler().x, actor->getEuler().y - rot, actor->getEuler().z });
 	}
 	else
 	{
-		actor->setEuler({ actor->getEuler().x, actor->getEuler().y - rot, actor->getEuler().z });
+		actor->setEuler({ actor->getEuler().x, actor->getEuler().y + rot, actor->getEuler().z });
 	}
 }

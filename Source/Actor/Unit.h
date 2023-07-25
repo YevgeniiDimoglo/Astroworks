@@ -21,13 +21,15 @@ public:
 
 	void update(float elapsedTime) override;
 
+	void applyDamage(int damage);
+
+	int HP = 10;
+
 protected:
 
 	void unitControl(float elapsedTime);
 
 protected:
-
-	int HP;
 
 	glm::vec3 pointOfInterest = { 0, 0, 0 };
 
