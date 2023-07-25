@@ -246,8 +246,20 @@ void Worker::UpdateBuildingState(float elapsedTime)
 			newActor->setType("Building");
 			newActor->setTypeName("Base");
 			newActor->addComponent<Building>();
-			newActor->setShaderType(ShaderType::PhongDissolve);
-			newActor->getComponent<Building>()->setBuildingStart(true);
+			newActor->getComponent<Building>()->setState(0);
+			Player::Instance().emplaceActor(newActor);
+		}
+		else if (buildingType == "Supply")
+		{
+			std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
+			newActor->loadModel("./Data/SpaceKit/machine_barrelLarge.glb");
+			newActor->setName("TempBuilding" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+			newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
+			newActor->setPosition({ pointOfInterest.x, pointOfInterest.y , pointOfInterest.z });
+			newActor->setType("Building");
+			newActor->setTypeName("Supply");
+			newActor->addComponent<Building>();
+			newActor->getComponent<Building>()->setState(0);
 			Player::Instance().emplaceActor(newActor);
 		}
 		else if (buildingType == "Hangar")
@@ -260,8 +272,7 @@ void Worker::UpdateBuildingState(float elapsedTime)
 			newActor->setType("Building");
 			newActor->setTypeName("Hangar");
 			newActor->addComponent<Building>();
-			newActor->setShaderType(ShaderType::PhongDissolve);
-			newActor->getComponent<Building>()->setBuildingStart(true);
+			newActor->getComponent<Building>()->setState(0);
 			Player::Instance().emplaceActor(newActor);
 		}
 		else if (buildingType == "Turret")
@@ -274,8 +285,7 @@ void Worker::UpdateBuildingState(float elapsedTime)
 			newActor->setType("Building");
 			newActor->setTypeName("Turret");
 			newActor->addComponent<Building>();
-			newActor->setShaderType(ShaderType::PhongDissolve);
-			newActor->getComponent<Building>()->setBuildingStart(true);
+			newActor->getComponent<Building>()->setState(0);
 			Player::Instance().emplaceActor(newActor);
 		}
 

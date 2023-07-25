@@ -44,7 +44,7 @@ controller = "Player"
 
 [[ActorsOnScreen]]
 name = "Alien"
-position = [0.0,0.0,5.0]
+position = [0.0,0.0,11.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]

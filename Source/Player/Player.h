@@ -68,6 +68,7 @@ public:
 
 	bool buildingMode = false;
 	bool buildingBlock = false;
+	bool buildingReady = true;
 
 private:
 
@@ -88,6 +89,8 @@ private:
 	// Player objects
 
 	int mineralValue = 0;
+	int supplyValue = 0;
+
 	int selectedActorIndex = 0;
 
 	bool isPaused = false;

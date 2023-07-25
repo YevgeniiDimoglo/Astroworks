@@ -21,6 +21,14 @@ void Building::start()
 		HP = 1500;
 	}
 
+	if (getActor()->getTypeName() == "Supply")
+	{
+		collisionPosition = getCollisionPosition();
+		collisionRadius = 1.f;
+		buildingTime = 25.4f;
+		HP = 500;
+	}
+
 	if (getActor()->getTypeName() == "Hangar")
 	{
 		collisionPosition = getCollisionPosition();
@@ -50,7 +58,96 @@ void Building::update(float elapsedTime)
 {
 	buildingControl(elapsedTime);
 
-	// Produce worker
+	switch (state)
+	{
+	case Building::State::Construction:
+		UpdateConstructionState(elapsedTime);
+		break;
+	case Building::State::Finished:
+		UpdateFinishedState(elapsedTime);
+		break;
+	case Building::State::Production:
+		UpdateProductionState(elapsedTime);
+		break;
+	case Building::State::Destroyed:
+		UpdateDestroyedState(elapsedTime);
+		break;
+	default:
+		break;
+	}
+
+	if (this->getActor()->getComponent<Building>()->HP <= 0) TransitionDestroyedState();
+}
+
+void Building::setState(int number)
+{
+	switch (number)
+	{
+	case 0:
+		TransitionConstructionState();
+		break;
+	case 1:
+		TransitionFinishedState();
+		break;
+	case 2:
+		TransitionProductionState();
+		break;
+	case 3:
+		TransitionDestroyedState();
+		break;
+	}
+}
+
+void Building::execute()
+{
+	TransitionProductionState();
+}
+
+void Building::applyDamage(int damage)
+{
+	HP -= damage;
+}
+
+void Building::buildingControl(float elapsedTime)
+{
+}
+
+void Building::TransitionConstructionState()
+{
+	state = State::Construction;
+
+	getActor()->setShaderType(ShaderType::PhongDissolve);
+}
+
+void Building::UpdateConstructionState(float elapsedTime)
+{
+	currentBuildingTime += elapsedTime;
+
+	getActor()->setTimer({ currentBuildingTime / buildingTime, 0.f, 0.f, 0.f });
+
+	if (currentBuildingTime >= buildingTime) TransitionFinishedState();
+}
+
+void Building::TransitionFinishedState()
+{
+	state = State::Finished;
+
+	getActor()->setShaderType(ShaderType::Phong);
+}
+
+void Building::UpdateFinishedState(float elapsedTime)
+{
+}
+
+void Building::TransitionProductionState()
+{
+	state = State::Production;
+}
+
+void Building::UpdateProductionState(float elapsedTime)
+{
+	timerToProduce -= elapsedTime;
+
 	if (getActor()->getTypeName() == "Base")
 	{
 		if (timerToProduce <= 0)
@@ -74,46 +171,19 @@ void Building::update(float elapsedTime)
 			Player::Instance().emplaceActor(newActor);
 
 			timerToProduce = 5.f;
-			recruteStart = false;
+
+			TransitionFinishedState();
 		}
 	}
-
-	getActor()->setTimer({ currentBuildingTime / buildingTime, 0.f, 0.f, 0.f });
 }
 
-void Building::execute()
+void Building::TransitionDestroyedState()
 {
-	recruteStart = true;
+	state = State::Destroyed;
 }
 
-void Building::buildingControl(float elapsedTime)
+void Building::UpdateDestroyedState(float elapsedTime)
 {
-	if (recruteStart)
-	{
-		timerToProduce -= elapsedTime;
-	}
-
-	if (buildingStart)
-	{
-		currentBuildingTime += elapsedTime;
-	}
-
-	if (currentBuildingTime >= buildingTime)
-	{
-		finished = true;
-	}
-
-	if (!finished)
-	{
-		getActor()->setShaderType(ShaderType::PhongDissolve);
-	}
-	else
-	{
-		getActor()->setShaderType(ShaderType::Phong);
-	}
-
-	if (HP <= 0)
-	{
-		ActorManager::Instance().remove(this->getActor());
-	}
+	Player::Instance().removeActor(this->getActor());
+	ActorManager::Instance().remove(this->getActor());
 }

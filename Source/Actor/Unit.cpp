@@ -12,6 +12,12 @@ void Unit::start()
 		collisionPosition = getCollisionPosition();
 		collisionRadius = 0.3f;
 	}
+
+	if (getActor()->getTypeName() == "Alien")
+	{
+		collisionPosition = getCollisionPosition();
+		collisionRadius = 0.3f;
+	}
 }
 
 void Unit::update(float elapsedTime)

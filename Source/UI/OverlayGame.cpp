@@ -33,16 +33,17 @@ void OverlayGame::finalize()
 void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 {
 	std::shared_ptr<Widget> selectedUnit;
-	std::shared_ptr<Widget> workerIcon;
-	std::shared_ptr<Widget> baseIcon;
-	std::shared_ptr<Widget> hangarIcon;
-	std::shared_ptr<Widget> turretIcon;
 
 	frontendWidgets.erase("selectedUnit");
-	frontendWidgets.erase("workerIcon");
+
 	frontendWidgets.erase("baseIcon");
+	frontendWidgets.erase("supplyIcon");
 	frontendWidgets.erase("hangarIcon");
 	frontendWidgets.erase("turretIcon");
+
+	frontendWidgets.erase("workerIcon");
+	frontendWidgets.erase("soldierIcon");
+	frontendWidgets.erase("tankIcon");
 
 	switch (Player::Instance().getSelectedActorIndex())
 	{
@@ -63,12 +64,27 @@ void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 		"hangar_roundGlass",
 		"hangar_roundGlass"
 		};
-		baseIcon = std::make_shared<Button>(baseButtonNames);
+
+		std::shared_ptr<Button> baseIcon = std::make_shared<Button>(baseButtonNames);
 		baseIcon->setImageValues(0.6f, 0.55f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 		baseIcon->registerObserver(&UI::Instance());
 		baseIcon->registerObserver(&Player::Instance());
 
 		frontendWidgets["baseIcon"] = baseIcon;
+
+		std::vector<std::string> supplyButtonNames = {
+		"machine_barrelLarge",
+		"machine_barrelLarge",
+		"machine_barrelLarge",
+		"machine_barrelLarge"
+		};
+
+		std::shared_ptr<Button> supplyIcon = std::make_shared<Button>(supplyButtonNames);
+		supplyIcon->setImageValues(0.75f, 0.55f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+		supplyIcon->registerObserver(&UI::Instance());
+		supplyIcon->registerObserver(&Player::Instance());
+
+		frontendWidgets["supplyIcon"] = supplyIcon;
 
 		std::vector<std::string> hangarButtonNames = {
 		"hangar_smallB",
@@ -76,8 +92,9 @@ void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 		"hangar_smallB",
 		"hangar_smallB"
 		};
-		hangarIcon = std::make_shared<Button>(hangarButtonNames);
-		hangarIcon->setImageValues(0.75f, 0.55f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+
+		std::shared_ptr<Button> hangarIcon = std::make_shared<Button>(hangarButtonNames);
+		hangarIcon->setImageValues(0.9f, 0.55f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 		hangarIcon->registerObserver(&UI::Instance());
 		hangarIcon->registerObserver(&Player::Instance());
 
@@ -89,8 +106,9 @@ void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 		"turret_double",
 		"turret_double"
 		};
-		turretIcon = std::make_shared<Button>(turretButtonNames);
-		turretIcon->setImageValues(0.9f, 0.55f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+
+		std::shared_ptr<Button> turretIcon = std::make_shared<Button>(turretButtonNames);
+		turretIcon->setImageValues(0.6f, 0.75f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 		turretIcon->registerObserver(&UI::Instance());
 		turretIcon->registerObserver(&Player::Instance());
 
@@ -108,29 +126,71 @@ void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 		selectedUnit = std::make_shared<Image>("hangar_roundGlass");
 		selectedUnit->setImageValues(0.0f, 0.7f, 0.f, 0.2f, 0.2f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 
-		std::vector<std::string> workerbuttonNames = {
-		"astronautA",
-		"astronautA",
-		"astronautA",
-		"astronautA"
-		};
-		workerIcon = std::make_shared<Button>(workerbuttonNames);
-		workerIcon->setImageValues(0.6f, 0.55f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
-		workerIcon->registerObserver(&UI::Instance());
-		workerIcon->registerObserver(&Player::Instance());
+		if (Player::Instance().buildingReady)
+		{
+			std::vector<std::string> workerbuttonNames = {
+			"astronautA",
+			"astronautA",
+			"astronautA",
+			"astronautA"
+			};
 
-		frontendWidgets["workerIcon"] = workerIcon;
+			std::shared_ptr<Button> workerIcon = std::make_shared<Button>(workerbuttonNames);
+			workerIcon->setImageValues(0.6f, 0.55f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+			workerIcon->registerObserver(&UI::Instance());
+			workerIcon->registerObserver(&Player::Instance());
+
+			frontendWidgets["workerIcon"] = workerIcon;
+		}
+
 		break;
 	}
 	case 4:
 	{
 		selectedUnit = std::make_shared<Image>("hangar_smallB");
 		selectedUnit->setImageValues(0.0f, 0.7f, 0.f, 0.2f, 0.2f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+
+		if (Player::Instance().buildingReady)
+		{
+			std::vector<std::string> soldierButtonNames = {
+			"astronautB",
+			"astronautB",
+			"astronautB",
+			"astronautB"
+			};
+
+			std::shared_ptr<Button> soldierIcon = std::make_shared<Button>(soldierButtonNames);
+			soldierIcon->setImageValues(0.6f, 0.55f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+			soldierIcon->registerObserver(&UI::Instance());
+			soldierIcon->registerObserver(&Player::Instance());
+
+			frontendWidgets["soldierIcon"] = soldierIcon;
+
+			std::vector<std::string> tankButtonNames = {
+			"craft_miner",
+			"craft_miner",
+			"craft_miner",
+			"craft_miner"
+			};
+
+			std::shared_ptr<Button> tankIcon = std::make_shared<Button>(tankButtonNames);
+			tankIcon->setImageValues(0.75f, 0.55f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+			tankIcon->registerObserver(&UI::Instance());
+			tankIcon->registerObserver(&Player::Instance());
+
+			frontendWidgets["tankIcon"] = tankIcon;
+		}
 		break;
 	}
 	case 5:
 	{
 		selectedUnit = std::make_shared<Image>("turret_double");
+		selectedUnit->setImageValues(0.0f, 0.7f, 0.f, 0.2f, 0.2f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+		break;
+	}
+	case 6:
+	{
+		selectedUnit = std::make_shared<Image>("machine_barrelLarge");
 		selectedUnit->setImageValues(0.0f, 0.7f, 0.f, 0.2f, 0.2f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 		break;
 	}

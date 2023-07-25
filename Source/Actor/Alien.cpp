@@ -2,6 +2,8 @@
 
 #include "../Player/Player.h"
 
+#include "../Actor/Building.h"
+
 Alien::Alien()
 {
 	TransitionIdleState();
@@ -30,34 +32,32 @@ void Alien::update(float elapsedTime)
 {
 	switch (state)
 	{
-	case Alien::State::Wander:
-		UpdateWanderState(elapsedTime);
-		break;
+		//case Alien::State::Wander:
+		//	UpdateWanderState(elapsedTime);
+		//	break;
 	case Alien::State::Idle:
 		UpdateIdleState(elapsedTime);
 		break;
-	case Alien::State::Pursuit:
-		UpdatePursuitState(elapsedTime);
-		break;
-	case Alien::State::Attack:
-		UpdateAttackState(elapsedTime);
-		break;
-	case Alien::State::Damage:
-		UpdateDamageState(elapsedTime);
-		break;
-	case Alien::State::Death:
-		UpdateDeathState(elapsedTime);
-		break;
-	default:
-		break;
+		//case Alien::State::Pursuit:
+		//	UpdatePursuitState(elapsedTime);
+		//	break;
+		//case Alien::State::Attack:
+		//	UpdateAttackState(elapsedTime);
+		//	break;
+		//case Alien::State::Damage:
+		//	UpdateDamageState(elapsedTime);
+		//	break;
+		//case Alien::State::Death:
+		//	UpdateDeathState(elapsedTime);
+		//	break;
+		//default:
+		//	break;
 	}
 
 	collisionPosition = getActor()->getPosition();
 
 	if (needMovement) movement->MoveToTarget(elapsedTime, 0.8f);
 	if (HP <= 0) TransitionDeathState();
-
-	std::cout << static_cast<int>(state) << std::endl;
 }
 
 bool Alien::searchEnemy()
@@ -113,12 +113,12 @@ void Alien::TransitionIdleState()
 {
 	state = State::Idle;
 
-	stateTimer = 3.5f;
+	stateTimer = 1.5f;
 }
 
 void Alien::UpdateIdleState(float elapsedTime)
 {
-	stateTimer -= elapsedTime;
+	/*stateTimer -= elapsedTime;
 
 	if (stateTimer < 0.0f)
 	{
@@ -129,8 +129,8 @@ void Alien::UpdateIdleState(float elapsedTime)
 	{
 		TransitionPursuitState();
 	}
-
-	needMovement = true;
+	*/
+	needMovement = false;
 }
 
 void Alien::TransitionPursuitState()
@@ -214,7 +214,14 @@ void Alien::UpdateAttackState(float elapsedTime)
 			{
 				if (it->getName() == clothestEnemyName)
 				{
-					it->getComponent<Unit>()->applyDamage(10);
+					if (it->getType() == "Unit")
+					{
+						it->getComponent<Unit>()->applyDamage(10);
+					}
+					if (it->getType() == "Building")
+					{
+						it->getComponent<Building>()->applyDamage(100);
+					}
 				}
 			}
 			TransitionAttackState();

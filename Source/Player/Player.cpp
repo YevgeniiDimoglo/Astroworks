@@ -42,15 +42,23 @@ std::string Player::getSelectedActor(GLFWwindow* window, Camera& camera)
 			}
 			else if (it->getTypeName() == "Base")
 			{
+				buildingReady = it->getComponent<Building>()->getReadyStatus();
 				selectedActorIndex = 3;
 			}
 			else if (it->getTypeName() == "Hangar")
 			{
+				buildingReady = it->getComponent<Building>()->getReadyStatus();
 				selectedActorIndex = 4;
 			}
 			else if (it->getTypeName() == "Turret")
 			{
+				buildingReady = it->getComponent<Building>()->getReadyStatus();
 				selectedActorIndex = 5;
+			}
+			else if (it->getTypeName() == "Supply")
+			{
+				buildingReady = it->getComponent<Building>()->getReadyStatus();
+				selectedActorIndex = 6;
 			}
 
 			selectedActors.push_back(it);
@@ -149,6 +157,34 @@ void Player::notify(std::string widgetName, int widgetAction)
 				newActor->setPosition({ 0.f, 0.f , 0.f });
 				newActor->setType("Building");
 				newActor->setTypeName("Base");
+				newActor->addComponent<Building>();
+				newActor->setShaderType(ShaderType::Phong);
+				newActor->setShaderSubType(ShaderType::PhongTransparency);
+				newActor->getComponent<Building>()->setCurrentBuildingTime(1000.f);
+
+				prebuildActor = newActor;
+
+				it.get()->getComponent<Worker>()->execute();
+
+				buildingBlock = true;
+				buildingMode = true;
+			}
+		}
+
+		if (widgetName == "machine_barrelLarge" && widgetAction == 0)
+		{
+			ActorManager::Instance().remove(prebuildActor);
+			prebuildActor.reset();
+
+			for (auto it : selectedActors)
+			{
+				std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
+				newActor->loadModel("./Data/SpaceKit/machine_barrelLarge.glb");
+				newActor->setName("TempBuilding" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+				newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
+				newActor->setPosition({ 0.f, 0.f , 0.f });
+				newActor->setType("Building");
+				newActor->setTypeName("Supply");
 				newActor->addComponent<Building>();
 				newActor->setShaderType(ShaderType::Phong);
 				newActor->setShaderSubType(ShaderType::PhongTransparency);
@@ -315,6 +351,20 @@ void Player::update()
 		float t = -(denominator + glm::dot(cameraRay.rayStart, glm::vec3(0.f, 1.f, 0.f))) / glm::dot(cameraRay.rayDirection, glm::vec3(0.f, 1.f, 0.f));
 		glm::vec3 intersectionPoint = cameraRay.rayStart + (cameraRay.rayDirection * t);
 		prebuildActor->setPosition(intersectionPoint);
+	}
+
+	supplyValue = 0;
+
+	for (auto it : controlledActors)
+	{
+		if (it->getTypeName() == "Supply" && it->getComponent<Building>()->getReadyStatus())
+		{
+			supplyValue += 8;
+		}
+		if (it->getTypeName() == "Base" && it->getComponent<Building>()->getReadyStatus())
+		{
+			supplyValue += 10;
+		}
 	}
 
 	if (selectedActorName.empty() || selectedTargetName.empty()) return;
