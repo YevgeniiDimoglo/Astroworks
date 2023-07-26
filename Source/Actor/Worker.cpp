@@ -105,6 +105,7 @@ void Worker::workerControl(float elapsedTime)
 void Worker::TransitionWanderState()
 {
 	state = State::Wander;
+
 	needMovement = true;
 }
 

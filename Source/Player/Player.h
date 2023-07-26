@@ -74,6 +74,17 @@ private:
 
 	void calculateScreenToWorldCoords(GLFWwindow* window, Camera& camera);
 
+	std::map <std::string, std::pair<int, int>> costSupplyValue =
+	{
+		{"Base", {400, 0}},
+		{"Supply", {100, 0}},
+		{"Hangar", {150, 0}},
+		{"Turret", {75, 0}},
+		{"Worker", {50, 1}},
+		{"Marine", {50, 1}},
+		{"Base", {150, 2}},
+	};
+
 	struct CameraRay
 	{
 		glm::vec3 rayStart;

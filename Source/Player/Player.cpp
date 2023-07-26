@@ -1,6 +1,9 @@
 #include "Player.h"
 
 #include "../Actor/Worker.h"
+#include "../Actor/Marine.h"
+#include "../Actor/Tank.h"
+
 #include "../Actor/Building.h"
 
 std::string Player::getSelectedActor(GLFWwindow* window, Camera& camera)
@@ -59,6 +62,14 @@ std::string Player::getSelectedActor(GLFWwindow* window, Camera& camera)
 			{
 				buildingReady = it->getComponent<Building>()->getReadyStatus();
 				selectedActorIndex = 6;
+			}
+			else if (it->getTypeName() == "Marine")
+			{
+				selectedActorIndex = 7;
+			}
+			else if (it->getTypeName() == "Tank")
+			{
+				selectedActorIndex = 8;
 			}
 
 			selectedActors.push_back(it);
@@ -138,6 +149,25 @@ void Player::notify(std::string widgetName, int widgetAction)
 		for (auto it : selectedActors)
 		{
 			it.get()->getComponent<Building>()->execute();
+			it.get()->getComponent<Building>()->produceUnitNumber = 1;
+		}
+	}
+
+	if (widgetName == "astronautB" && widgetAction == 0)
+	{
+		for (auto it : selectedActors)
+		{
+			it.get()->getComponent<Building>()->execute();
+			it.get()->getComponent<Building>()->produceUnitNumber = 1;
+		}
+	}
+
+	if (widgetName == "craft_miner" && widgetAction == 0)
+	{
+		for (auto it : selectedActors)
+		{
+			it.get()->getComponent<Building>()->execute();
+			it.get()->getComponent<Building>()->produceUnitNumber = 2;
 		}
 	}
 
@@ -394,6 +424,64 @@ void Player::update()
 						{
 							it->getComponent<Worker>()->setPointOfInterest(jt->getPosition(), true);
 							it->getComponent<Worker>()->setState(1);
+
+							selectedTargetName.clear();
+
+							return;
+						}
+					}
+				}
+			}
+			else if (it->getTypeName() == "Marine")
+			{
+				if (selectedTargetName == "terrain")
+				{
+					it->getComponent<Marine>()->setPointOfInterest(movementPoint);
+					it->getComponent<Marine>()->setState(1);
+					it->getComponent<Marine>()->targetName = "";
+
+					selectedTargetName.clear();
+
+					return;
+				}
+				else
+				{
+					for (auto jt : actors)
+					{
+						if (jt->getName() == selectedTargetName || it->getControllerName() == "Enemy")
+						{
+							it->getComponent<Marine>()->setPointOfInterest(jt->getPosition());
+							it->getComponent<Marine>()->setState(2);
+							it->getComponent<Marine>()->targetName = selectedTargetName;
+
+							selectedTargetName.clear();
+
+							return;
+						}
+					}
+				}
+			}
+			else if (it->getTypeName() == "Tank")
+			{
+				if (selectedTargetName == "terrain")
+				{
+					it->getComponent<Tank>()->setPointOfInterest(movementPoint);
+					it->getComponent<Tank>()->setState(1);
+					it->getComponent<Tank>()->targetName = "";
+
+					selectedTargetName.clear();
+
+					return;
+				}
+				else
+				{
+					for (auto jt : actors)
+					{
+						if (jt->getName() == selectedTargetName || it->getControllerName() == "Enemy")
+						{
+							it->getComponent<Tank>()->setPointOfInterest(jt->getPosition());
+							it->getComponent<Tank>()->setState(2);
+							it->getComponent<Tank>()->targetName = selectedTargetName;
 
 							selectedTargetName.clear();
 

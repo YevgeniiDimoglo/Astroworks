@@ -194,6 +194,18 @@ void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 		selectedUnit->setImageValues(0.0f, 0.7f, 0.f, 0.2f, 0.2f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 		break;
 	}
+	case 7:
+	{
+		selectedUnit = std::make_shared<Image>("astronautB");
+		selectedUnit->setImageValues(0.0f, 0.7f, 0.f, 0.2f, 0.2f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+		break;
+	}
+	case 8:
+	{
+		selectedUnit = std::make_shared<Image>("craft_miner");
+		selectedUnit->setImageValues(0.0f, 0.7f, 0.f, 0.2f, 0.2f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+		break;
+	}
 	}
 
 	frontendWidgets["selectedUnit"] = selectedUnit;

@@ -41,15 +41,15 @@ void Alien::update(float elapsedTime)
 		//case Alien::State::Pursuit:
 		//	UpdatePursuitState(elapsedTime);
 		//	break;
-		//case Alien::State::Attack:
-		//	UpdateAttackState(elapsedTime);
-		//	break;
-		//case Alien::State::Damage:
-		//	UpdateDamageState(elapsedTime);
-		//	break;
-		//case Alien::State::Death:
-		//	UpdateDeathState(elapsedTime);
-		//	break;
+	case Alien::State::Attack:
+		UpdateAttackState(elapsedTime);
+		break;
+	case Alien::State::Damage:
+		UpdateDamageState(elapsedTime);
+		break;
+	case Alien::State::Death:
+		UpdateDeathState(elapsedTime);
+		break;
 		//default:
 		//	break;
 	}
@@ -57,7 +57,7 @@ void Alien::update(float elapsedTime)
 	collisionPosition = getActor()->getPosition();
 
 	if (needMovement) movement->MoveToTarget(elapsedTime, 0.8f);
-	if (HP <= 0) TransitionDeathState();
+	if (this->getActor()->getComponent<Unit>()->HP <= 0) TransitionDeathState();
 }
 
 bool Alien::searchEnemy()

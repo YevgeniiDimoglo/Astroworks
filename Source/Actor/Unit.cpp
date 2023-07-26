@@ -18,6 +18,18 @@ void Unit::start()
 		collisionPosition = getCollisionPosition();
 		collisionRadius = 0.3f;
 	}
+
+	if (getActor()->getTypeName() == "Marine")
+	{
+		collisionPosition = getCollisionPosition();
+		collisionRadius = 0.3f;
+	}
+
+	if (getActor()->getTypeName() == "Tank")
+	{
+		collisionPosition = getCollisionPosition();
+		collisionRadius = 0.5f;
+	}
 }
 
 void Unit::update(float elapsedTime)

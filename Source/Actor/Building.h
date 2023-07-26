@@ -36,6 +36,7 @@ public:
 	void applyDamage(int damage);
 
 	int HP = 10;
+	int produceUnitNumber = 0;
 
 protected:
 

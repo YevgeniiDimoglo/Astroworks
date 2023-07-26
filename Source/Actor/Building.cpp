@@ -3,8 +3,11 @@
 #include "../Player/Player.h"
 
 #include "../Actor/Actor.h"
+
 #include "../Actor/Unit.h"
 #include "../Actor/Worker.h"
+#include "../Actor//Marine.h"
+#include "../Actor/Tank.h"
 
 #include "../Actor/Movement.h"
 
@@ -152,27 +155,88 @@ void Building::UpdateProductionState(float elapsedTime)
 	{
 		if (timerToProduce <= 0)
 		{
-			std::shared_ptr<Actor> thisActor = getActor();
-			glm::vec3 currentPosition = thisActor->getPosition();
+			if (produceUnitNumber == 1)
+			{
+				std::shared_ptr<Actor> thisActor = getActor();
+				glm::vec3 currentPosition = thisActor->getPosition();
 
-			std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
-			newActor->loadModel("./Data/SpaceKit/astronautA.glb");
-			newActor->setName("NewWorker" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
-			newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
-			newActor->setPosition({ currentPosition.x + 2.f, currentPosition.y, currentPosition.z + 2.f });
-			newActor->setType("Unit");
-			newActor->setTypeName("Worker");
-			newActor->addComponent<Movement>();
-			newActor->addComponent<Unit>();
-			newActor->addComponent<Worker>();
-			newActor->setShaderType(ShaderType::Phong);
-			newActor->setControllerName("Player");
+				std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
+				newActor->loadModel("./Data/SpaceKit/astronautA.glb");
+				newActor->setName("NewWorker" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+				newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
+				newActor->setPosition({ currentPosition.x + 2.f, currentPosition.y, currentPosition.z + 2.f });
+				newActor->setType("Unit");
+				newActor->setTypeName("Worker");
+				newActor->addComponent<Movement>();
+				newActor->addComponent<Unit>();
+				newActor->addComponent<Worker>();
+				newActor->setShaderType(ShaderType::Phong);
+				newActor->setControllerName("Player");
 
-			Player::Instance().emplaceActor(newActor);
+				Player::Instance().emplaceActor(newActor);
 
-			timerToProduce = 5.f;
+				timerToProduce = 5.f;
 
-			TransitionFinishedState();
+				TransitionFinishedState();
+			}
+		}
+	}
+
+	if (getActor()->getTypeName() == "Hangar")
+	{
+		if (timerToProduce <= 0)
+		{
+			if (produceUnitNumber == 1)
+			{
+				std::shared_ptr<Actor> thisActor = getActor();
+				glm::vec3 currentPosition = thisActor->getPosition();
+
+				std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
+				newActor->loadModel("./Data/SpaceKit/astronautB.glb");
+				newActor->setName("NewMarine" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+				newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
+				newActor->setPosition({ currentPosition.x + 2.f, currentPosition.y, currentPosition.z + 2.f });
+				newActor->setType("Unit");
+				newActor->setTypeName("Marine");
+				newActor->addComponent<Movement>();
+				newActor->addComponent<Unit>();
+				newActor->addComponent<Marine>();
+				newActor->setShaderType(ShaderType::Phong);
+				newActor->setControllerName("Player");
+
+				Player::Instance().emplaceActor(newActor);
+
+				timerToProduce = 13.f;
+
+				TransitionFinishedState();
+			}
+
+			if (produceUnitNumber == 2)
+			{
+				std::shared_ptr<Actor> thisActor = getActor();
+				glm::vec3 currentPosition = thisActor->getPosition();
+
+				std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
+				newActor->loadModel("./Data/SpaceKit/craft_miner.glb");
+				newActor->setName("NewTank" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+				newActor->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
+				newActor->setPosition({ currentPosition.x + 2.f, currentPosition.y, currentPosition.z + 2.f });
+				newActor->setType("Unit");
+				newActor->setTypeName("Tank");
+				newActor->addComponent<Movement>();
+				newActor->addComponent<Unit>();
+				newActor->addComponent<Tank>();
+				newActor->setShaderType(ShaderType::Phong);
+				newActor->setControllerName("Player");
+
+				Player::Instance().emplaceActor(newActor);
+
+				timerToProduce = 32.f;
+
+				TransitionFinishedState();
+			}
+
+			produceUnitNumber = 0;
 		}
 	}
 }

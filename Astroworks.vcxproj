@@ -140,7 +140,9 @@
     <ClCompile Include="Source\Actor\Actor.cpp" />
     <ClCompile Include="Source\Actor\Alien.cpp" />
     <ClCompile Include="Source\Actor\Building.cpp" />
+    <ClCompile Include="Source\Actor\Marine.cpp" />
     <ClCompile Include="Source\Actor\Movement.cpp" />
+    <ClCompile Include="Source\Actor\Tank.cpp" />
     <ClCompile Include="Source\Actor\Unit.cpp" />
     <ClCompile Include="Source\Actor\Worker.cpp" />
     <ClCompile Include="Source\Camera\Camera.cpp" />
@@ -164,7 +166,9 @@
     <ClInclude Include="Source\Actor\Alien.h" />
     <ClInclude Include="Source\Actor\Building.h" />
     <ClInclude Include="Source\Actor\Component.h" />
+    <ClInclude Include="Source\Actor\Marine.h" />
     <ClInclude Include="Source\Actor\Movement.h" />
+    <ClInclude Include="Source\Actor\Tank.h" />
     <ClInclude Include="Source\Actor\Unit.h" />
     <ClInclude Include="Source\Actor\Worker.h" />
     <ClInclude Include="Source\Camera\Camera.h" />
