@@ -33,6 +33,10 @@ void Image::updateSpriteValues()
 	image->setSpriteValues(positionX, positionY, positionZ, width, height, angle, r, g, b, a);
 }
 
+void Image::updateValues(float timer, int value)
+{
+}
+
 void Image::draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout)
 {
 	// TODO: remove update from draw

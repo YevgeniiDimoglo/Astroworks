@@ -38,6 +38,10 @@ void Button::updateSpriteValues()
 {
 }
 
+void Button::updateValues(float timer, int value)
+{
+}
+
 void Button::draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout)
 {
 	switch (state)

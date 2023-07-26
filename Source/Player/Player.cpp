@@ -383,17 +383,17 @@ void Player::update()
 		prebuildActor->setPosition(intersectionPoint);
 	}
 
-	supplyValue = 0;
+	overallSupplyValue = 0;
 
 	for (auto it : controlledActors)
 	{
 		if (it->getTypeName() == "Supply" && it->getComponent<Building>()->getReadyStatus())
 		{
-			supplyValue += 8;
+			overallSupplyValue += 8;
 		}
 		if (it->getTypeName() == "Base" && it->getComponent<Building>()->getReadyStatus())
 		{
-			supplyValue += 10;
+			overallSupplyValue += 10;
 		}
 	}
 

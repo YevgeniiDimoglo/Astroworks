@@ -51,6 +51,12 @@ public:
 	void setMineralValue(int mineralValue) { this->mineralValue = mineralValue; }
 	int getMineralValue() const { return mineralValue; }
 
+	void setCurrentSupplyValue(int currentSupplyValue) { this->currentSupplyValue = currentSupplyValue; }
+	int getCurrentSupplylValue() const { return currentSupplyValue; }
+
+	void setOverallSupplyValue(int overallSupplyValue) { this->overallSupplyValue = overallSupplyValue; }
+	int getOverallSupplylValue() const { return overallSupplyValue; }
+
 	void setPause(bool pause) { isPaused = pause; }
 	void setUnPause(bool unpause) { isPaused = unpause; }
 	bool getIsPaused() const { return isPaused; }
@@ -100,7 +106,8 @@ private:
 	// Player objects
 
 	int mineralValue = 0;
-	int supplyValue = 0;
+	int currentSupplyValue = 10;
+	int overallSupplyValue = 0;
 
 	int selectedActorIndex = 0;
 

@@ -22,6 +22,9 @@ public:
 
 	virtual void updateSpriteValues() = 0;
 
+	// Change to pointer function
+	virtual void updateValues(float timer, int value) = 0;
+
 	virtual void draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout) = 0;
 
 	virtual void update(float elapsedTime, GLFWwindow* window) = 0;

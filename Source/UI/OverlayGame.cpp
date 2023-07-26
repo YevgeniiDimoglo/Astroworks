@@ -5,13 +5,29 @@
 
 void OverlayGame::initialize()
 {
+	std::shared_ptr<Widget> supply = std::make_shared<Image>("barrel");
+	supply->setImageValues(-0.9f, -0.9f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	backendWidgets["supply"] = supply;
+
+	std::shared_ptr<Widget> currentSupplyCounter = std::make_shared<Counter>("currentSupplyCounter");
+	currentSupplyCounter->setImageValues(-0.65f, -0.9f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	frontendWidgets["currentSupplyCounter"] = currentSupplyCounter;
+
+	std::shared_ptr<Widget> divider = std::make_shared<Image>("bar_blue");
+	divider->setImageValues(-0.55f, -0.9f, 0.f, 0.05f, 0.05f, glm::radians(45.f), 1.f, 1.f, 1.f, 1.f);
+	frontendWidgets["divider"] = divider;
+
+	std::shared_ptr<Widget> overallSupplyCounter = std::make_shared<Counter>("overallSupplyCounter");
+	overallSupplyCounter->setImageValues(-0.35f, -0.9f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	frontendWidgets["overallSupplyCounter"] = overallSupplyCounter;
+
 	std::shared_ptr<Widget> rock = std::make_shared<Image>("rock_crystalsLargeB");
-	rock->setImageValues(0.8f, -0.9f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	rock->setImageValues(0.6f, -0.9f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	backendWidgets["rock"] = rock;
 
-	std::shared_ptr<Widget> supply = std::make_shared<Image>("barrel");
-	supply->setImageValues(0.6f, -0.9f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
-	backendWidgets["supply"] = supply;
+	std::shared_ptr<Widget> mineralCounter = std::make_shared<Counter>("MineralCounter");
+	mineralCounter->setImageValues(0.9f, -0.9f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	frontendWidgets["mineralCounter"] = mineralCounter;
 
 	std::shared_ptr<Widget> minimapArea = std::make_shared<Image>("window_transparent");
 	minimapArea->setImageValues(-0.8f, 0.7f, 0.f, 0.2f, 0.3f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
@@ -217,6 +233,21 @@ void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 
 	for (auto it : frontendWidgets)
 	{
+		if (it.first == "mineralCounter")
+		{
+			it.second->updateValues(elapsedTime, Player::Instance().getMineralValue());
+		}
+
+		if (it.first == "currentSupplyCounter")
+		{
+			it.second->updateValues(elapsedTime, Player::Instance().getCurrentSupplylValue());
+		}
+
+		if (it.first == "overallSupplyCounter")
+		{
+			it.second->updateValues(elapsedTime, Player::Instance().getOverallSupplylValue());
+		}
+
 		it.second->update(elapsedTime, window);
 	}
 }

@@ -114,6 +114,9 @@
     <ClCompile Include="Source\Actor\Tank.cpp">
       <Filter>ソース ファイル\Actor\Virtual_ActorsType</Filter>
     </ClCompile>
+    <ClCompile Include="Source\UI\Counter.cpp">
+      <Filter>ソース ファイル\UI\Virtual_Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Actor\Actor.h">
@@ -199,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="Source\Actor\Tank.h">
       <Filter>ソース ファイル\Actor\Virtual_ActorsType</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\Counter.h">
+      <Filter>ソース ファイル\UI\Virtual_Elements</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

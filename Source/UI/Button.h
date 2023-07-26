@@ -14,6 +14,8 @@ public:
 
 	void updateSpriteValues() override;
 
+	void updateValues(float timer, int value) override;
+
 	void draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout) override;
 
 	void update(float elapsedTime, GLFWwindow* window) override;

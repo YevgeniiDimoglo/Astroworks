@@ -4,11 +4,13 @@
 
 #include "UIUtilities.h"
 
-class Image : public Widget
+class Image;
+
+class Counter : public Widget
 {
 public:
-	Image() {}
-	Image(std::string name);
+	Counter() {}
+	Counter(std::string name);
 
 	void setImageValues(float positionX, float positionY, float positionZ, float width, float height, float angle, float r, float g, float b, float a) override;
 
@@ -22,6 +24,9 @@ public:
 
 private:
 
+	float timer = 0;
+	int value = 0;
+
 	float positionX;
 	float positionY;
 	float positionZ;
@@ -33,5 +38,5 @@ private:
 	float b;
 	float a;
 
-	std::shared_ptr<Sprite> image;
+	std::vector<std::shared_ptr<Image>> images;
 };
