@@ -149,95 +149,106 @@ void Building::TransitionProductionState()
 
 void Building::UpdateProductionState(float elapsedTime)
 {
-	timerToProduce -= elapsedTime;
-
-	if (getActor()->getTypeName() == "Base")
+	if (!isInProduction)
 	{
-		if (timerToProduce <= 0)
+		if (getActor()->getTypeName() == "Base")
 		{
-			if (produceUnitNumber == 1)
+			if (produceUnitNumber == 1 && Player::Instance().checkResourceAvailability(50) && Player::Instance().checkSupplyAvailability(1))
 			{
-				std::shared_ptr<Actor> thisActor = getActor();
-				glm::vec3 currentPosition = thisActor->getPosition();
-
-				std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
-				newActor->loadModel("./Data/SpaceKit/astronautA.glb");
-				newActor->setName("NewWorker" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
-				newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
-				newActor->setPosition({ currentPosition.x + 2.f, currentPosition.y, currentPosition.z + 2.f });
-				newActor->setType("Unit");
-				newActor->setTypeName("Worker");
-				newActor->addComponent<Movement>();
-				newActor->addComponent<Unit>();
-				newActor->addComponent<Worker>();
-				newActor->setShaderType(ShaderType::Phong);
-				newActor->setControllerName("Player");
-
-				Player::Instance().emplaceActor(newActor);
-
-				timerToProduce = 5.f;
-
-				TransitionFinishedState();
+				timerToProduce = 13.f;
+				isInProduction = true;
 			}
+		}
+
+		if (getActor()->getTypeName() == "Hangar")
+		{
+			if (produceUnitNumber == 1 && Player::Instance().checkResourceAvailability(50) && Player::Instance().checkSupplyAvailability(1))
+			{
+				timerToProduce = 15.f;
+				isInProduction = true;
+			}
+			else if (produceUnitNumber == 2 && Player::Instance().checkResourceAvailability(150) && Player::Instance().checkSupplyAvailability(2))
+			{
+				timerToProduce = 32.f;
+				isInProduction = true;
+			}
+		}
+
+		if (!isInProduction)
+		{
+			TransitionFinishedState();
 		}
 	}
-
-	if (getActor()->getTypeName() == "Hangar")
+	else
 	{
-		if (timerToProduce <= 0)
+		timerToProduce -= elapsedTime;
+	}
+
+	if (timerToProduce <= 0)
+	{
+		if (getActor()->getTypeName() == "Base" && produceUnitNumber == 1)
 		{
-			if (produceUnitNumber == 1)
-			{
-				std::shared_ptr<Actor> thisActor = getActor();
-				glm::vec3 currentPosition = thisActor->getPosition();
+			std::shared_ptr<Actor> thisActor = getActor();
+			glm::vec3 currentPosition = thisActor->getPosition();
 
-				std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
-				newActor->loadModel("./Data/SpaceKit/astronautB.glb");
-				newActor->setName("NewMarine" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
-				newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
-				newActor->setPosition({ currentPosition.x + 2.f, currentPosition.y, currentPosition.z + 2.f });
-				newActor->setType("Unit");
-				newActor->setTypeName("Marine");
-				newActor->addComponent<Movement>();
-				newActor->addComponent<Unit>();
-				newActor->addComponent<Marine>();
-				newActor->setShaderType(ShaderType::Phong);
-				newActor->setControllerName("Player");
+			std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
+			newActor->loadModel("./Data/SpaceKit/astronautA.glb");
+			newActor->setName("NewWorker" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+			newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
+			newActor->setPosition({ currentPosition.x + 2.f, currentPosition.y, currentPosition.z + 2.f });
+			newActor->setType("Unit");
+			newActor->setTypeName("Worker");
+			newActor->addComponent<Movement>();
+			newActor->addComponent<Unit>();
+			newActor->addComponent<Worker>();
+			newActor->setShaderType(ShaderType::Phong);
+			newActor->setControllerName("Player");
 
-				Player::Instance().emplaceActor(newActor);
-
-				timerToProduce = 13.f;
-
-				TransitionFinishedState();
-			}
-
-			if (produceUnitNumber == 2)
-			{
-				std::shared_ptr<Actor> thisActor = getActor();
-				glm::vec3 currentPosition = thisActor->getPosition();
-
-				std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
-				newActor->loadModel("./Data/SpaceKit/craft_miner.glb");
-				newActor->setName("NewTank" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
-				newActor->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
-				newActor->setPosition({ currentPosition.x + 2.f, currentPosition.y, currentPosition.z + 2.f });
-				newActor->setType("Unit");
-				newActor->setTypeName("Tank");
-				newActor->addComponent<Movement>();
-				newActor->addComponent<Unit>();
-				newActor->addComponent<Tank>();
-				newActor->setShaderType(ShaderType::Phong);
-				newActor->setControllerName("Player");
-
-				Player::Instance().emplaceActor(newActor);
-
-				timerToProduce = 32.f;
-
-				TransitionFinishedState();
-			}
-
-			produceUnitNumber = 0;
+			Player::Instance().emplaceActor(newActor);
 		}
+		if (getActor()->getTypeName() == "Hangar" && produceUnitNumber == 1)
+		{
+			std::shared_ptr<Actor> thisActor = getActor();
+			glm::vec3 currentPosition = thisActor->getPosition();
+
+			std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
+			newActor->loadModel("./Data/SpaceKit/astronautB.glb");
+			newActor->setName("NewMarine" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+			newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
+			newActor->setPosition({ currentPosition.x + 2.f, currentPosition.y, currentPosition.z + 2.f });
+			newActor->setType("Unit");
+			newActor->setTypeName("Marine");
+			newActor->addComponent<Movement>();
+			newActor->addComponent<Unit>();
+			newActor->addComponent<Marine>();
+			newActor->setShaderType(ShaderType::Phong);
+			newActor->setControllerName("Player");
+
+			Player::Instance().emplaceActor(newActor);
+		}
+		if (getActor()->getTypeName() == "Hangar" && produceUnitNumber == 2)
+		{
+			std::shared_ptr<Actor> thisActor = getActor();
+			glm::vec3 currentPosition = thisActor->getPosition();
+
+			std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
+			newActor->loadModel("./Data/SpaceKit/craft_miner.glb");
+			newActor->setName("NewTank" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+			newActor->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
+			newActor->setPosition({ currentPosition.x + 2.f, currentPosition.y, currentPosition.z + 2.f });
+			newActor->setType("Unit");
+			newActor->setTypeName("Tank");
+			newActor->addComponent<Movement>();
+			newActor->addComponent<Unit>();
+			newActor->addComponent<Tank>();
+			newActor->setShaderType(ShaderType::Phong);
+			newActor->setControllerName("Player");
+
+			Player::Instance().emplaceActor(newActor);
+		}
+		produceUnitNumber = 0;
+		isInProduction = false;
+		TransitionFinishedState();
 	}
 }
 

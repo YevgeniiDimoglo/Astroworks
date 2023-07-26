@@ -73,10 +73,11 @@ private:
 	glm::vec3 collisionPosition;
 	float collisionRadius = 10.f;
 
-	float timerToProduce = 5.f;
+	float timerToProduce = 999.f;
 
 	bool finished = false;
 	bool buildingStart = false;
+	bool isInProduction = false;
 	float buildingTime;
 	float currentBuildingTime = 0.f;
 };

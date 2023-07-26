@@ -14,7 +14,7 @@ void OverlayGame::initialize()
 	frontendWidgets["currentSupplyCounter"] = currentSupplyCounter;
 
 	std::shared_ptr<Widget> divider = std::make_shared<Image>("bar_blue");
-	divider->setImageValues(-0.55f, -0.9f, 0.f, 0.05f, 0.05f, glm::radians(45.f), 1.f, 1.f, 1.f, 1.f);
+	divider->setImageValues(-0.55f, -0.9f, 0.f, 0.05f, 0.05f, glm::radians(90.f), 1.f, 1.f, 1.f, 1.f);
 	frontendWidgets["divider"] = divider;
 
 	std::shared_ptr<Widget> overallSupplyCounter = std::make_shared<Counter>("overallSupplyCounter");
@@ -22,7 +22,7 @@ void OverlayGame::initialize()
 	frontendWidgets["overallSupplyCounter"] = overallSupplyCounter;
 
 	std::shared_ptr<Widget> rock = std::make_shared<Image>("rock_crystalsLargeB");
-	rock->setImageValues(0.6f, -0.9f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	rock->setImageValues(0.45f, -0.9f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	backendWidgets["rock"] = rock;
 
 	std::shared_ptr<Widget> mineralCounter = std::make_shared<Counter>("MineralCounter");

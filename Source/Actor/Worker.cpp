@@ -88,6 +88,9 @@ void Worker::workerControl(float elapsedTime)
 	case Worker::State::Building:
 		UpdateBuildingState(elapsedTime);
 		break;
+	case Worker::State::BuildingProgress:
+		UpdateTransitionBuildingProgressState(elapsedTime);
+		break;
 	case Worker::State::Attack:
 		UpdateAttackState(elapsedTime);
 		break;
@@ -214,7 +217,7 @@ void Worker::UpdateReturnState(float elapsedTime)
 				if (newDisatance < 1.5f)
 				{
 					TransitionSearchState();
-					Player::Instance().setMineralValue(Player::Instance().getMineralValue() + 20);
+					Player::Instance().setMineralValue(Player::Instance().getMineralValue() + 10);
 				}
 				distance = newDisatance;
 				pointOfInterest = it->getPosition();
@@ -229,10 +232,46 @@ void Worker::TransitionBuildingState()
 {
 	state = State::Building;
 
-	needMovement = true;
+	needMovement = false;
 }
 
 void Worker::UpdateBuildingState(float elapsedTime)
+{
+	if (buildingType == "Base" && Player::Instance().checkResourceAvailability(400))
+	{
+		TransitionBuildingProgressState();
+		return;
+	}
+	else if (buildingType == "Supply" && Player::Instance().checkResourceAvailability(100))
+	{
+		TransitionBuildingProgressState();
+		return;
+	}
+	else if (buildingType == "Hangar" && Player::Instance().checkResourceAvailability(150))
+	{
+		TransitionBuildingProgressState();
+		return;
+	}
+	else if (buildingType == "Turret" && Player::Instance().checkResourceAvailability(75))
+	{
+		TransitionBuildingProgressState();
+		return;
+	}
+	else
+	{
+		TransitionIdleState();
+		return;
+	}
+}
+
+void Worker::TransitionBuildingProgressState()
+{
+	state = State::BuildingProgress;
+
+	needMovement = true;
+}
+
+void Worker::UpdateTransitionBuildingProgressState(float elapsedTime)
 {
 	float newDisatance = sqrtf(pow(this->getActor()->getPosition().x - pointOfInterest.x, 2) + pow(this->getActor()->getPosition().z - pointOfInterest.z, 2));
 	if (newDisatance < 0.1f)

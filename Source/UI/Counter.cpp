@@ -46,6 +46,13 @@ void Counter::update(float elapsedTime, GLFWwindow* window)
 
 	auto sprites = UI::Instance().getSprites();
 
+	if (value == 0)
+	{
+		std::shared_ptr<Image> tempImage = std::make_shared<Image>("0d");
+		tempImage->setImageValues(positionX - 0.1f * digits, positionY, positionZ, width, height, angle, r, g, b, a);
+		images.insert(images.begin(), tempImage);
+	}
+
 	while (value > 0)
 	{
 		int temp = value % 10;

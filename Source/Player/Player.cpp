@@ -383,18 +383,20 @@ void Player::update()
 		prebuildActor->setPosition(intersectionPoint);
 	}
 
+	currentSupplyValue = 0;
 	overallSupplyValue = 0;
 
 	for (auto it : controlledActors)
 	{
-		if (it->getTypeName() == "Supply" && it->getComponent<Building>()->getReadyStatus())
-		{
-			overallSupplyValue += 8;
-		}
-		if (it->getTypeName() == "Base" && it->getComponent<Building>()->getReadyStatus())
-		{
-			overallSupplyValue += 10;
-		}
+		if (it->getTypeName() == "Supply" && it->getComponent<Building>()->getReadyStatus()) overallSupplyValue += 8;
+		if (it->getTypeName() == "Base" && it->getComponent<Building>()->getReadyStatus()) overallSupplyValue += 10;
+	}
+
+	for (auto it : controlledActors)
+	{
+		if (it->getTypeName() == "Worker") currentSupplyValue += 1;
+		if (it->getTypeName() == "Marine") currentSupplyValue += 1;
+		if (it->getTypeName() == "Tank") currentSupplyValue += 2;
 	}
 
 	if (selectedActorName.empty() || selectedTargetName.empty()) return;
@@ -519,4 +521,17 @@ void Player::calculateScreenToWorldCoords(GLFWwindow* window, Camera& camera)
 		glm::vec4(0, 0, width, height));
 
 	cameraRay.rayDirection = glm::normalize(cameraRay.rayEnd - cameraRay.rayStart);
+}
+
+bool Player::checkSupplyAvailability(int additionalValue)
+{
+	if (currentSupplyValue + additionalValue > overallSupplyValue) return false;
+	return true;
+}
+
+bool Player::checkResourceAvailability(int additionalValue)
+{
+	if (mineralValue - additionalValue < 0) return false;
+	mineralValue -= additionalValue;
+	return true;
 }

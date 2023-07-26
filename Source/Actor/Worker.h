@@ -37,6 +37,7 @@ private:
 		Gather,
 		Return,
 		Building,
+		BuildingProgress,
 		Attack,
 		Death,
 
@@ -60,6 +61,9 @@ private:
 
 	void TransitionBuildingState();
 	void UpdateBuildingState(float elapsedTime);
+
+	void TransitionBuildingProgressState();
+	void UpdateTransitionBuildingProgressState(float elapsedTime);
 
 	void TransitionAttackState();
 	void UpdateAttackState(float elapsedTime);

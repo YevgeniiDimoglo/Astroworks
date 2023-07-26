@@ -43,6 +43,9 @@ public:
 	std::string getSelectedActor(GLFWwindow* window, Camera& camera);
 	std::string getTargetActor(GLFWwindow* window, Camera& camera);
 
+	bool checkSupplyAvailability(int additionalValue);
+	bool checkResourceAvailability(int additionalValue);
+
 	std::vector<std::shared_ptr<Actor>> getControlledActors() { return controlledActors; }
 
 	void setSelectedActorIndex(int index) { selectedActorIndex = index; }
@@ -88,7 +91,7 @@ private:
 		{"Turret", {75, 0}},
 		{"Worker", {50, 1}},
 		{"Marine", {50, 1}},
-		{"Base", {150, 2}},
+		{"Tank", {150, 2}},
 	};
 
 	struct CameraRay
