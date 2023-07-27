@@ -60,6 +60,9 @@ public:
 	void setOverallSupplyValue(int overallSupplyValue) { this->overallSupplyValue = overallSupplyValue; }
 	int getOverallSupplylValue() const { return overallSupplyValue; }
 
+	void setInGameTimer(HighResolutionTimer inGameTimer) { this->inGameTimer = inGameTimer; }
+	HighResolutionTimer getInGameTimer() const { return inGameTimer; }
+
 	void setPause(bool pause) { isPaused = pause; }
 	void setUnPause(bool unpause) { isPaused = unpause; }
 	bool getIsPaused() const { return isPaused; }
@@ -114,8 +117,10 @@ private:
 
 	int selectedActorIndex = 0;
 
-	bool isPaused = false;
+	bool isPaused = true;
 
 	std::vector<std::shared_ptr<Actor>> controlledActors;
 	std::vector<std::shared_ptr<Actor>> selectedActors;
+
+	HighResolutionTimer inGameTimer;
 };

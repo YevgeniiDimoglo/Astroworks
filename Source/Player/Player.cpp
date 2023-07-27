@@ -141,6 +141,7 @@ void Player::notify(std::string widgetName, int widgetAction)
 	if (widgetName == "start" && widgetAction == 0)
 	{
 		isPaused = false;
+		inGameTimer.Start();
 		selectedActorIndex = 0;
 	}
 
@@ -190,6 +191,14 @@ void Player::notify(std::string widgetName, int widgetAction)
 				newActor->addComponent<Building>();
 				newActor->setShaderType(ShaderType::Phong);
 				newActor->setShaderSubType(ShaderType::PhongTransparency);
+				if (Player::Instance().getMineralValue() <= 400)
+				{
+					newActor->setBaseColor({ 1.f, 0.f, 0.f, 0.5f });
+				}
+				else
+				{
+					newActor->setBaseColor({ 0.f, 1.f, 0.f, 0.5f });
+				}
 				newActor->getComponent<Building>()->setCurrentBuildingTime(1000.f);
 
 				prebuildActor = newActor;
@@ -218,6 +227,14 @@ void Player::notify(std::string widgetName, int widgetAction)
 				newActor->addComponent<Building>();
 				newActor->setShaderType(ShaderType::Phong);
 				newActor->setShaderSubType(ShaderType::PhongTransparency);
+				if (Player::Instance().getMineralValue() <= 100)
+				{
+					newActor->setBaseColor({ 1.f, 0.f, 0.f, 0.5f });
+				}
+				else
+				{
+					newActor->setBaseColor({ 0.f, 1.f, 0.f, 0.5f });
+				}
 				newActor->getComponent<Building>()->setCurrentBuildingTime(1000.f);
 
 				prebuildActor = newActor;
@@ -246,6 +263,14 @@ void Player::notify(std::string widgetName, int widgetAction)
 				newActor->addComponent<Building>();
 				newActor->setShaderType(ShaderType::Phong);
 				newActor->setShaderSubType(ShaderType::PhongTransparency);
+				if (Player::Instance().getMineralValue() <= 150)
+				{
+					newActor->setBaseColor({ 1.f, 0.f, 0.f, 0.5f });
+				}
+				else
+				{
+					newActor->setBaseColor({ 0.f, 1.f, 0.f, 0.5f });
+				}
 				newActor->getComponent<Building>()->setCurrentBuildingTime(1000.f);
 
 				prebuildActor = newActor;
@@ -274,6 +299,14 @@ void Player::notify(std::string widgetName, int widgetAction)
 				newActor->addComponent<Building>();
 				newActor->setShaderType(ShaderType::Phong);
 				newActor->setShaderSubType(ShaderType::PhongTransparency);
+				if (Player::Instance().getMineralValue() <= 75)
+				{
+					newActor->setBaseColor({ 1.f, 0.f, 0.f, 0.5f });
+				}
+				else
+				{
+					newActor->setBaseColor({ 0.f, 1.f, 0.f, 0.5f });
+				}
 				newActor->getComponent<Building>()->setCurrentBuildingTime(1000.f);
 
 				prebuildActor = newActor;
@@ -373,7 +406,17 @@ void Player::input(GLFWwindow* window, Camera camera)
 
 void Player::update()
 {
-	if (isPaused) return;
+	if (isPaused)
+	{
+		inGameTimer.Stop();
+		return;
+	}
+	else
+	{
+		inGameTimer.Start();
+	}
+
+	inGameTimer.Tick();
 
 	if (prebuildActor != nullptr)
 	{
@@ -424,6 +467,11 @@ void Player::update()
 					{
 						if (jt->getName() == selectedTargetName)
 						{
+							if (jt->getTypeName() == "Worker")
+							{
+								return;
+							}
+
 							it->getComponent<Worker>()->setPointOfInterest(jt->getPosition(), true);
 							it->getComponent<Worker>()->setState(1);
 
@@ -452,6 +500,11 @@ void Player::update()
 					{
 						if (jt->getName() == selectedTargetName || it->getControllerName() == "Enemy")
 						{
+							if (jt->getTypeName() == "Marine")
+							{
+								return;
+							}
+
 							it->getComponent<Marine>()->setPointOfInterest(jt->getPosition());
 							it->getComponent<Marine>()->setState(2);
 							it->getComponent<Marine>()->targetName = selectedTargetName;
@@ -481,6 +534,11 @@ void Player::update()
 					{
 						if (jt->getName() == selectedTargetName || it->getControllerName() == "Enemy")
 						{
+							if (jt->getTypeName() == "Tank")
+							{
+								return;
+							}
+
 							it->getComponent<Tank>()->setPointOfInterest(jt->getPosition());
 							it->getComponent<Tank>()->setState(2);
 							it->getComponent<Tank>()->targetName = selectedTargetName;

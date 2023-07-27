@@ -160,6 +160,7 @@
     <ClCompile Include="Source\UI\Image.cpp" />
     <ClCompile Include="Source\UI\OverlayGame.cpp" />
     <ClCompile Include="Source\UI\OverlayTitle.cpp" />
+    <ClCompile Include="Source\UI\Timer.cpp" />
     <ClCompile Include="Source\UI\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +190,7 @@
     <ClInclude Include="Source\UI\Overlay.h" />
     <ClInclude Include="Source\UI\OverlayGame.h" />
     <ClInclude Include="Source\UI\OverlayTitle.h" />
+    <ClInclude Include="Source\UI\Timer.h" />
     <ClInclude Include="Source\UI\UI.h" />
     <ClInclude Include="Source\UI\UIUtilities.h" />
     <ClInclude Include="Source\UI\Widget.h" />

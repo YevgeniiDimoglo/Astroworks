@@ -40,6 +40,10 @@ void OverlayGame::initialize()
 	std::shared_ptr<Widget> commandArea = std::make_shared<Image>("window_transparent");
 	commandArea->setImageValues(.75f, 0.7f, 0.f, 0.25f, 0.3f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	backendWidgets["commandArea"] = commandArea;
+
+	std::shared_ptr<Widget> inGameTimer = std::make_shared<Timer>("inGameTimer");
+	inGameTimer->setImageValues(-0.72f, 0.85f, 0.f, 0.08f, 0.08f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	frontendWidgets["inGameTimer"] = inGameTimer;
 }
 
 void OverlayGame::finalize()
@@ -246,6 +250,11 @@ void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 		if (it.first == "overallSupplyCounter")
 		{
 			it.second->updateValues(elapsedTime, Player::Instance().getOverallSupplylValue());
+		}
+
+		if (it.first == "inGameTimer")
+		{
+			it.second->updateValues(Player::Instance().getInGameTimer().TimeStamp(), 0);
 		}
 
 		it.second->update(elapsedTime, window);

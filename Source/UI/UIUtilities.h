@@ -6,3 +6,4 @@
 #include "Image.h"
 #include "Button.h"
 #include "Counter.h"
+#include "Timer.h"

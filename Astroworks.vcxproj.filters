@@ -117,6 +117,9 @@
     <ClCompile Include="Source\UI\Counter.cpp">
       <Filter>ソース ファイル\UI\Virtual_Elements</Filter>
     </ClCompile>
+    <ClCompile Include="Source\UI\Timer.cpp">
+      <Filter>ソース ファイル\UI\Virtual_Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Actor\Actor.h">
@@ -204,6 +207,9 @@
       <Filter>ソース ファイル\Actor\Virtual_ActorsType</Filter>
     </ClInclude>
     <ClInclude Include="Source\UI\Counter.h">
+      <Filter>ソース ファイル\UI\Virtual_Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\Timer.h">
       <Filter>ソース ファイル\UI\Virtual_Elements</Filter>
     </ClInclude>
   </ItemGroup>

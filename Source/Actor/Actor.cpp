@@ -192,10 +192,10 @@ void ActorManager::render(VkCommandBuffer commandBuffer, VkPipelineLayout pipeli
 			if (model != nullptr)
 			{
 				actor->updateTransform();
-				if (actor->getShaderSubType() == ShaderType::PhongTransparency)
-				{
-					actor->setBaseColor({ 0.f, 1.f, 0.f, 0.5f });
-				}
+				//if (actor->getShaderSubType() == ShaderType::PhongTransparency)
+				//{
+				//	actor->setBaseColor({ 0.f, 1.f, 0.f, 0.5f });
+				//}
 				model->draw(commandBuffer, pipelineLayout);
 			}
 		}

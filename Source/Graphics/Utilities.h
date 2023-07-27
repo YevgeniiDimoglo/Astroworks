@@ -33,6 +33,8 @@
 #include <list>
 #include <unordered_map>
 
+#include "../Misc/HighResolutionTimer.h"
+
 #define DISCRETE
 
 static const int MAX_FRAMES_IN_FLIGHT = 2;
