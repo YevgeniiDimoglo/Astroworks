@@ -8,6 +8,7 @@
 #include "../UI/OverlayTitle.h"
 
 #include "../Player/Player.h"
+#include "../Player/Enemy.h"
 
 Framework::Framework()
 {
@@ -39,6 +40,8 @@ void Framework::update(HighResolutionTimer timer, float elapsedTime)
 	Player::Instance().input(thisApp.getWindow(), camera);
 
 	Player::Instance().update();
+
+	Enemy::Instance().update();
 
 	ActorManager::Instance().update(elapsedTime);
 

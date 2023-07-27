@@ -2,6 +2,9 @@
 
 #include "OverlayTitle.h"
 #include "OverlayGame.h"
+#include "OverlayComplete.h"
+
+#include "../Player/Player.h"
 
 void UI::notify(std::string widgetName, int widgetAction)
 {
@@ -47,6 +50,11 @@ void UI::update(HighResolutionTimer timer, float elapsedTime, GLFWwindow* window
 	if (currentOverlay != nullptr)
 	{
 		currentOverlay->update(elapsedTime, window);
+	}
+
+	if (Player::Instance().getInGameTimer().TimeStamp() >= 10 * 60)
+	{
+		UI::Instance().changeOverlay(std::make_unique<OverlayComplete>());
 	}
 }
 

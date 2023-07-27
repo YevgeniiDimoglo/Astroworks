@@ -9,12 +9,17 @@ void OverlayTitle::initialize()
 	imageBackScreen->setImageValues(0.f, 0.f, 0.f, 1.f, 1.f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	widgets.emplace_back(imageBackScreen);
 
+	std::shared_ptr<Widget> imageFrontScreen = std::make_shared<Image>("Title");
+	imageFrontScreen->setImageValues(0.f, 0.f, 0.f, 1.f, 1.f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	widgets.emplace_back(imageFrontScreen);
+
 	std::vector<std::string> buttonNames = {
 	"start",
 	"starth",
 	"start",
 	"start"
 	};
+
 	std::shared_ptr<Widget> buttonStart = std::make_shared<Button>(buttonNames);
 	buttonStart->setImageValues(0.0f, 0.4f, 0.f, 0.3f, 0.15f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	buttonStart->registerObserver(&UI::Instance());

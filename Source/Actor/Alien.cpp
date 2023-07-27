@@ -32,15 +32,15 @@ void Alien::update(float elapsedTime)
 {
 	switch (state)
 	{
-		//case Alien::State::Wander:
-		//	UpdateWanderState(elapsedTime);
-		//	break;
+	case Alien::State::Wander:
+		UpdateWanderState(elapsedTime);
+		break;
 	case Alien::State::Idle:
 		UpdateIdleState(elapsedTime);
 		break;
-		//case Alien::State::Pursuit:
-		//	UpdatePursuitState(elapsedTime);
-		//	break;
+	case Alien::State::Pursuit:
+		UpdatePursuitState(elapsedTime);
+		break;
 	case Alien::State::Attack:
 		UpdateAttackState(elapsedTime);
 		break;
@@ -50,8 +50,8 @@ void Alien::update(float elapsedTime)
 	case Alien::State::Death:
 		UpdateDeathState(elapsedTime);
 		break;
-		//default:
-		//	break;
+	default:
+		break;
 	}
 
 	collisionPosition = getActor()->getPosition();
@@ -70,19 +70,21 @@ bool Alien::searchEnemy()
 		float dist = sqrtf(vx * vx + vy * vy + vz * vz);
 		if (dist < searchRange)
 		{
-			float distXZ = sqrtf(vx * vx + vz * vz);
+			return true;
 
-			vx /= distXZ;
-			vz /= distXZ;
+			//float distXZ = sqrtf(vx * vx + vz * vz);
 
-			float frontX = sinf(this->getActor()->getEuler().y);
-			float frontZ = cosf(this->getActor()->getEuler().y);
+			//vx /= distXZ;
+			//vz /= distXZ;
 
-			float dot = (frontX * vx) + (frontZ * vz);
-			if (dot > 0.f)
-			{
-				return true;
-			}
+			//float frontX = sinf(this->getActor()->getEuler().y);
+			//float frontZ = cosf(this->getActor()->getEuler().y);
+
+			//float dot = (frontX * vx) + (frontZ * vz);
+			//if (dot > 0.f)
+			//{
+			//	return true;
+			//}
 		}
 	}
 	return false;
@@ -93,6 +95,8 @@ void Alien::TransitionWanderState()
 	state = State::Wander;
 
 	movement->SetRandomTargetPosition();
+
+	needMovement = true;
 }
 
 void Alien::UpdateWanderState(float elapsedTime)
@@ -114,11 +118,13 @@ void Alien::TransitionIdleState()
 	state = State::Idle;
 
 	stateTimer = 1.5f;
+
+	needMovement = false;
 }
 
 void Alien::UpdateIdleState(float elapsedTime)
 {
-	/*stateTimer -= elapsedTime;
+	stateTimer -= elapsedTime;
 
 	if (stateTimer < 0.0f)
 	{
@@ -129,8 +135,6 @@ void Alien::UpdateIdleState(float elapsedTime)
 	{
 		TransitionPursuitState();
 	}
-	*/
-	needMovement = false;
 }
 
 void Alien::TransitionPursuitState()
@@ -138,6 +142,8 @@ void Alien::TransitionPursuitState()
 	state = State::Pursuit;
 
 	stateTimer = 1.0f;
+
+	needMovement = true;
 }
 
 void Alien::UpdatePursuitState(float elapsedTime)

@@ -19,7 +19,7 @@ void Building::start()
 	if (getActor()->getTypeName() == "Base")
 	{
 		collisionPosition = getCollisionPosition();
-		collisionRadius = 1.f;
+		collisionRadius = 1.7f;
 		buildingTime = 75.6f;
 		HP = 1500;
 	}

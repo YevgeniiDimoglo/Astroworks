@@ -73,6 +73,8 @@ public:
 
 	void changePause() { isPaused = !isPaused; }
 
+	int calculateScore();
+
 	std::string selectedActorName;
 	std::string selectedTargetName;
 
@@ -118,6 +120,7 @@ private:
 	int selectedActorIndex = 0;
 
 	bool isPaused = true;
+	bool closeApp = false;
 
 	std::vector<std::shared_ptr<Actor>> controlledActors;
 	std::vector<std::shared_ptr<Actor>> selectedActors;

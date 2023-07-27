@@ -55,6 +55,7 @@ void Actor::loadFile(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevi
 {
 	// TODO: merge loading model and loading file
 	model = ResourceManager::Instance().LoadModel(newPhysicalDevice, newLogicalDevice, transferQueue, transferCommandPool, samplerDescriptorPool, samplerSetLayout, model);
+	loadedModel = true;
 }
 
 void Actor::destroy(VkDevice newLogicalDevice)
@@ -143,9 +144,20 @@ void ActorManager::update(float elapsedTime)
 	for (std::shared_ptr<Actor>& actor : startActors)
 	{
 		actor->start();
-		updateActors.emplace_back(actor);
+		if (actor->loadedModel)
+		{
+			updateActors.emplace_back(actor);
+		}
 	}
-	startActors.clear();
+
+	startActors.erase(
+		std::remove_if(
+			startActors.begin(),
+			startActors.end(),
+			[](std::shared_ptr<Actor>& actor) { return actor->loadedModel == true; }
+		),
+		startActors.end()
+	);
 
 	for (std::shared_ptr<Actor>& actor : updateActors)
 	{
@@ -192,10 +204,6 @@ void ActorManager::render(VkCommandBuffer commandBuffer, VkPipelineLayout pipeli
 			if (model != nullptr)
 			{
 				actor->updateTransform();
-				//if (actor->getShaderSubType() == ShaderType::PhongTransparency)
-				//{
-				//	actor->setBaseColor({ 0.f, 1.f, 0.f, 0.5f });
-				//}
 				model->draw(commandBuffer, pipelineLayout);
 			}
 		}

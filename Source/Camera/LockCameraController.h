@@ -26,7 +26,7 @@ private:
 	glm::vec3 up;
 	glm::vec3 right;
 
-	float distance = 7.f;
+	float distance = 10.f;
 	float angleX = 3.14f;
 	float angleY = 0.0f;
 

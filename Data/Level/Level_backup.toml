@@ -1,0 +1,4510 @@
+[[ActorsOnScreen]]
+name = "Base"
+position = [0.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/hangar_roundGlass.glb"
+type = "Building"
+typeName = "Base"
+controller = "Player"
+
+[[ActorsOnScreen]]
+name = "Worker1"
+position = [3.3,0.0,0.4]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/astronautA.glb"
+type = "Unit"
+typeName = "Worker"
+controller = "Player"
+
+[[ActorsOnScreen]]
+name = "Worker2"
+position = [2.3,0.0,0.4]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/astronautA.glb"
+type = "Unit"
+typeName = "Worker"
+controller = "Player"
+
+[[ActorsOnScreen]]
+name = "Worker3"
+position = [3.3,0.0,1.4]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/astronautA.glb"
+type = "Unit"
+typeName = "Worker"
+controller = "Player"
+
+[[ActorsOnScreen]]
+name = "Alien"
+position = [0.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/alien.glb"
+type = "Unit"
+typeName = "Alien"
+controller = "Enemy"
+
+[[ActorsOnScreen]]
+name = "Mineral1"
+position = [-2.0,0.0,-4.2]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/rock_crystalsLargeA.glb"
+type = "Building"
+typeName = "Mineral"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Mineral2"
+position = [0.0,0.0,-5.2]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/rock_crystalsLargeA.glb"
+type = "Building"
+typeName = "Mineral"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Mineral3"
+position = [2.0,0.0,-4.2]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/rock_crystalsLargeA.glb"
+type = "Building"
+typeName = "Mineral"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Mineral4"
+position = [3.0,0.0,-3.2]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/rock_crystalsLargeA.glb"
+type = "Building"
+typeName = "Mineral"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Mineral5"
+position = [-3.0,0.0,-3.2]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/rock_crystalsLargeA.glb"
+type = "Building"
+typeName = "Mineral"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square00"
+position = [-10.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square01"
+position = [-10.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square02"
+position = [-10.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square03"
+position = [-10.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square04"
+position = [-10.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square05"
+position = [-10.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square06"
+position = [-10.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square07"
+position = [-10.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square08"
+position = [-10.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square09"
+position = [-10.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square010"
+position = [-10.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square011"
+position = [-10.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square012"
+position = [-10.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square013"
+position = [-10.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square014"
+position = [-10.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square015"
+position = [-10.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square016"
+position = [-10.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square017"
+position = [-10.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square018"
+position = [-10.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square019"
+position = [-10.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square10"
+position = [-9.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square11"
+position = [-9.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square12"
+position = [-9.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square13"
+position = [-9.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square14"
+position = [-9.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square15"
+position = [-9.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square16"
+position = [-9.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square17"
+position = [-9.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square18"
+position = [-9.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square19"
+position = [-9.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square110"
+position = [-9.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square111"
+position = [-9.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square112"
+position = [-9.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square113"
+position = [-9.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square114"
+position = [-9.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square115"
+position = [-9.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square116"
+position = [-9.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square117"
+position = [-9.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square118"
+position = [-9.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square119"
+position = [-9.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square20"
+position = [-8.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square21"
+position = [-8.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square22"
+position = [-8.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square23"
+position = [-8.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square24"
+position = [-8.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square25"
+position = [-8.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square26"
+position = [-8.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square27"
+position = [-8.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square28"
+position = [-8.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square29"
+position = [-8.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square210"
+position = [-8.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square211"
+position = [-8.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square212"
+position = [-8.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square213"
+position = [-8.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square214"
+position = [-8.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square215"
+position = [-8.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square216"
+position = [-8.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square217"
+position = [-8.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square218"
+position = [-8.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square219"
+position = [-8.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square30"
+position = [-7.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square31"
+position = [-7.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square32"
+position = [-7.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square33"
+position = [-7.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square34"
+position = [-7.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square35"
+position = [-7.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square36"
+position = [-7.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square37"
+position = [-7.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square38"
+position = [-7.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square39"
+position = [-7.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square310"
+position = [-7.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square311"
+position = [-7.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square312"
+position = [-7.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square313"
+position = [-7.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square314"
+position = [-7.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square315"
+position = [-7.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square316"
+position = [-7.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square317"
+position = [-7.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square318"
+position = [-7.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square319"
+position = [-7.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square40"
+position = [-6.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square41"
+position = [-6.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square42"
+position = [-6.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square43"
+position = [-6.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square44"
+position = [-6.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square45"
+position = [-6.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square46"
+position = [-6.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square47"
+position = [-6.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square48"
+position = [-6.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square49"
+position = [-6.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square410"
+position = [-6.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square411"
+position = [-6.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square412"
+position = [-6.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square413"
+position = [-6.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square414"
+position = [-6.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square415"
+position = [-6.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square416"
+position = [-6.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square417"
+position = [-6.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square418"
+position = [-6.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square419"
+position = [-6.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square50"
+position = [-5.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square51"
+position = [-5.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square52"
+position = [-5.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square53"
+position = [-5.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square54"
+position = [-5.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square55"
+position = [-5.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square56"
+position = [-5.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square57"
+position = [-5.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square58"
+position = [-5.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square59"
+position = [-5.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square510"
+position = [-5.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square511"
+position = [-5.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square512"
+position = [-5.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square513"
+position = [-5.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square514"
+position = [-5.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square515"
+position = [-5.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square516"
+position = [-5.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square517"
+position = [-5.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square518"
+position = [-5.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square519"
+position = [-5.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square60"
+position = [-4.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square61"
+position = [-4.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square62"
+position = [-4.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square63"
+position = [-4.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square64"
+position = [-4.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square65"
+position = [-4.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square66"
+position = [-4.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square67"
+position = [-4.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square68"
+position = [-4.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square69"
+position = [-4.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square610"
+position = [-4.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square611"
+position = [-4.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square612"
+position = [-4.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square613"
+position = [-4.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square614"
+position = [-4.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square615"
+position = [-4.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square616"
+position = [-4.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square617"
+position = [-4.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square618"
+position = [-4.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square619"
+position = [-4.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square70"
+position = [-3.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square71"
+position = [-3.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square72"
+position = [-3.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square73"
+position = [-3.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square74"
+position = [-3.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square75"
+position = [-3.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square76"
+position = [-3.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square77"
+position = [-3.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square78"
+position = [-3.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square79"
+position = [-3.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square710"
+position = [-3.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square711"
+position = [-3.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square712"
+position = [-3.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square713"
+position = [-3.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square714"
+position = [-3.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square715"
+position = [-3.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square716"
+position = [-3.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square717"
+position = [-3.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square718"
+position = [-3.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square719"
+position = [-3.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square80"
+position = [-2.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square81"
+position = [-2.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square82"
+position = [-2.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square83"
+position = [-2.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square84"
+position = [-2.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square85"
+position = [-2.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square86"
+position = [-2.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square87"
+position = [-2.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square88"
+position = [-2.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square89"
+position = [-2.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square810"
+position = [-2.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square811"
+position = [-2.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square812"
+position = [-2.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square813"
+position = [-2.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square814"
+position = [-2.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square815"
+position = [-2.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square816"
+position = [-2.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square817"
+position = [-2.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square818"
+position = [-2.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square819"
+position = [-2.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square90"
+position = [-1.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square91"
+position = [-1.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square92"
+position = [-1.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square93"
+position = [-1.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square94"
+position = [-1.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square95"
+position = [-1.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square96"
+position = [-1.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square97"
+position = [-1.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square98"
+position = [-1.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square99"
+position = [-1.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square910"
+position = [-1.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square911"
+position = [-1.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square912"
+position = [-1.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square913"
+position = [-1.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square914"
+position = [-1.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square915"
+position = [-1.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square916"
+position = [-1.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square917"
+position = [-1.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square918"
+position = [-1.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square919"
+position = [-1.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square100"
+position = [0.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square101"
+position = [0.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square102"
+position = [0.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square103"
+position = [0.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square104"
+position = [0.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square105"
+position = [0.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square106"
+position = [0.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square107"
+position = [0.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square108"
+position = [0.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square109"
+position = [0.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1010"
+position = [0.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1011"
+position = [0.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1012"
+position = [0.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1013"
+position = [0.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1014"
+position = [0.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1015"
+position = [0.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1016"
+position = [0.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1017"
+position = [0.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1018"
+position = [0.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1019"
+position = [0.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square110"
+position = [1.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square111"
+position = [1.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square112"
+position = [1.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square113"
+position = [1.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square114"
+position = [1.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square115"
+position = [1.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square116"
+position = [1.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square117"
+position = [1.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square118"
+position = [1.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square119"
+position = [1.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1110"
+position = [1.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1111"
+position = [1.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1112"
+position = [1.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1113"
+position = [1.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1114"
+position = [1.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1115"
+position = [1.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1116"
+position = [1.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1117"
+position = [1.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1118"
+position = [1.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1119"
+position = [1.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square120"
+position = [2.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square121"
+position = [2.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square122"
+position = [2.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square123"
+position = [2.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square124"
+position = [2.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square125"
+position = [2.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square126"
+position = [2.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square127"
+position = [2.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square128"
+position = [2.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square129"
+position = [2.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1210"
+position = [2.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1211"
+position = [2.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1212"
+position = [2.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1213"
+position = [2.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1214"
+position = [2.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1215"
+position = [2.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1216"
+position = [2.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1217"
+position = [2.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1218"
+position = [2.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1219"
+position = [2.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square130"
+position = [3.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square131"
+position = [3.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square132"
+position = [3.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square133"
+position = [3.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square134"
+position = [3.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square135"
+position = [3.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square136"
+position = [3.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square137"
+position = [3.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square138"
+position = [3.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square139"
+position = [3.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1310"
+position = [3.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1311"
+position = [3.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1312"
+position = [3.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1313"
+position = [3.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1314"
+position = [3.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1315"
+position = [3.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1316"
+position = [3.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1317"
+position = [3.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1318"
+position = [3.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1319"
+position = [3.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square140"
+position = [4.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square141"
+position = [4.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square142"
+position = [4.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square143"
+position = [4.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square144"
+position = [4.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square145"
+position = [4.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square146"
+position = [4.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square147"
+position = [4.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square148"
+position = [4.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square149"
+position = [4.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1410"
+position = [4.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1411"
+position = [4.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1412"
+position = [4.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1413"
+position = [4.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1414"
+position = [4.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1415"
+position = [4.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1416"
+position = [4.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1417"
+position = [4.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1418"
+position = [4.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1419"
+position = [4.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square150"
+position = [5.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square151"
+position = [5.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square152"
+position = [5.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square153"
+position = [5.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square154"
+position = [5.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square155"
+position = [5.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square156"
+position = [5.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square157"
+position = [5.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square158"
+position = [5.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square159"
+position = [5.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1510"
+position = [5.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1511"
+position = [5.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1512"
+position = [5.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1513"
+position = [5.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1514"
+position = [5.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1515"
+position = [5.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1516"
+position = [5.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1517"
+position = [5.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1518"
+position = [5.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1519"
+position = [5.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square160"
+position = [6.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square161"
+position = [6.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square162"
+position = [6.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square163"
+position = [6.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square164"
+position = [6.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square165"
+position = [6.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square166"
+position = [6.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square167"
+position = [6.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square168"
+position = [6.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square169"
+position = [6.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1610"
+position = [6.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1611"
+position = [6.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1612"
+position = [6.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1613"
+position = [6.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1614"
+position = [6.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1615"
+position = [6.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1616"
+position = [6.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1617"
+position = [6.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1618"
+position = [6.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1619"
+position = [6.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square170"
+position = [7.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square171"
+position = [7.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square172"
+position = [7.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square173"
+position = [7.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square174"
+position = [7.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square175"
+position = [7.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square176"
+position = [7.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square177"
+position = [7.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square178"
+position = [7.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square179"
+position = [7.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1710"
+position = [7.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1711"
+position = [7.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1712"
+position = [7.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1713"
+position = [7.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1714"
+position = [7.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1715"
+position = [7.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1716"
+position = [7.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1717"
+position = [7.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1718"
+position = [7.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1719"
+position = [7.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square180"
+position = [8.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square181"
+position = [8.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square182"
+position = [8.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square183"
+position = [8.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square184"
+position = [8.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square185"
+position = [8.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square186"
+position = [8.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square187"
+position = [8.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square188"
+position = [8.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square189"
+position = [8.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1810"
+position = [8.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1811"
+position = [8.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1812"
+position = [8.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1813"
+position = [8.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1814"
+position = [8.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1815"
+position = [8.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1816"
+position = [8.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1817"
+position = [8.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1818"
+position = [8.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1819"
+position = [8.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square190"
+position = [9.0,0.0,-10.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square191"
+position = [9.0,0.0,-9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square192"
+position = [9.0,0.0,-8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square193"
+position = [9.0,0.0,-7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square194"
+position = [9.0,0.0,-6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square195"
+position = [9.0,0.0,-5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square196"
+position = [9.0,0.0,-4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square197"
+position = [9.0,0.0,-3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square198"
+position = [9.0,0.0,-2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square199"
+position = [9.0,0.0,-1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1910"
+position = [9.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1911"
+position = [9.0,0.0,1.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1912"
+position = [9.0,0.0,2.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1913"
+position = [9.0,0.0,3.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1914"
+position = [9.0,0.0,4.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1915"
+position = [9.0,0.0,5.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1916"
+position = [9.0,0.0,6.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1917"
+position = [9.0,0.0,7.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1918"
+position = [9.0,0.0,8.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Square1919"
+position = [9.0,0.0,9.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+

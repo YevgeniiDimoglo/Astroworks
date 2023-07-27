@@ -43,28 +43,51 @@ void LockCameraController::SyncControllerToCamera(Camera& camera)
 
 void LockCameraController::Update(GLFWwindow* window, float elapsedTime)
 {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-	{
-		cameraEnable = !cameraEnable;
-	}
-
 	if (!cameraEnable) return;
 
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
 	{
-		target.z -= CAMERAMOVEMENTSPEED * elapsedTime;
+		if (target.z <= -20)
+		{
+			target.z = -20;
+		}
+		else
+		{
+			target.z -= CAMERAMOVEMENTSPEED * elapsedTime * 10;
+		}
 	}
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
 	{
-		target.z += CAMERAMOVEMENTSPEED * elapsedTime;
+		if (target.z >= 20)
+		{
+			target.z = 20;
+		}
+		else
+		{
+			target.z += CAMERAMOVEMENTSPEED * elapsedTime * 10;
+		}
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 	{
-		target.x -= CAMERAMOVEMENTSPEED * elapsedTime;
+		if (target.x <= -20)
+		{
+			target.x = -20;
+		}
+		else
+		{
+			target.x -= CAMERAMOVEMENTSPEED * elapsedTime * 10;
+		}
 	}
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 	{
-		target.x += CAMERAMOVEMENTSPEED * elapsedTime;
+		if (target.x >= 20)
+		{
+			target.x = 20;
+		}
+		else
+		{
+			target.x += CAMERAMOVEMENTSPEED * elapsedTime * 10;
+		}
 	}
 
 	double xpos, ypos;

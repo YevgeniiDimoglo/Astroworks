@@ -109,6 +109,8 @@ public:
 		return nullptr;
 	}
 
+	bool loadedModel = false;
+
 private:
 
 	std::string name;

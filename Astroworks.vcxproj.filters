@@ -120,6 +120,12 @@
     <ClCompile Include="Source\UI\Timer.cpp">
       <Filter>ソース ファイル\UI\Virtual_Elements</Filter>
     </ClCompile>
+    <ClCompile Include="Source\UI\OverlayComplete.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player\Enemy.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Actor\Actor.h">
@@ -211,6 +217,12 @@
     </ClInclude>
     <ClInclude Include="Source\UI\Timer.h">
       <Filter>ソース ファイル\UI\Virtual_Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\OverlayComplete.h">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player\Enemy.h">
+      <Filter>ソース ファイル\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

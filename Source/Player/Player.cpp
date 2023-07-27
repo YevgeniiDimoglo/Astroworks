@@ -145,6 +145,11 @@ void Player::notify(std::string widgetName, int widgetAction)
 		selectedActorIndex = 0;
 	}
 
+	if (widgetName == "exit" && widgetAction == 0)
+	{
+		closeApp = true;
+	}
+
 	if (widgetName == "astronautA" && widgetAction == 0)
 	{
 		for (auto it : selectedActors)
@@ -402,6 +407,11 @@ void Player::input(GLFWwindow* window, Camera camera)
 		prebuildActor.reset();
 		buildingMode = false;
 	}
+
+	if (closeApp)
+	{
+		glfwSetWindowShouldClose(window, GL_TRUE);
+	}
 }
 
 void Player::update()
@@ -552,6 +562,45 @@ void Player::update()
 			}
 		}
 	}
+}
+
+int Player::calculateScore()
+{
+	int totalScore = 0;
+
+	for (auto it : controlledActors)
+	{
+		if (it->getTypeName() == "Base")
+		{
+			totalScore += 100;
+		}
+		if (it->getTypeName() == "Supply")
+		{
+			totalScore += 20;
+		}
+		if (it->getTypeName() == "Hangar")
+		{
+			totalScore += 50;
+		}
+		if (it->getTypeName() == "Turret")
+		{
+			totalScore += 10;
+		}
+		if (it->getTypeName() == "Worker")
+		{
+			totalScore += 1;
+		}
+		if (it->getTypeName() == "Marine")
+		{
+			totalScore += 2;
+		}
+		if (it->getTypeName() == "Tank")
+		{
+			totalScore += 5;
+		}
+	}
+
+	return totalScore;
 }
 
 void Player::calculateScreenToWorldCoords(GLFWwindow* window, Camera& camera)
