@@ -187,9 +187,9 @@ void Tank::UpdateAttackState(float elapsedTime)
 			{
 				if (it->getName() == targetName)
 				{
-					if (it->getType() == "Unit")
+					if (it->getControllerName() == "Enemy")
 					{
-						it->getComponent<Unit>()->applyDamage(10);
+						it->getComponent<Unit>()->applyDamage(50);
 					}
 				}
 			}
@@ -217,5 +217,6 @@ void Tank::TransitionDeathState()
 
 void Tank::UpdateDeathState(float elapsedTime)
 {
+	Player::Instance().removeActor(this->getActor());
 	ActorManager::Instance().remove(this->getActor());
 }

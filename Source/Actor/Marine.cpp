@@ -187,7 +187,7 @@ void Marine::UpdateAttackState(float elapsedTime)
 			{
 				if (it->getName() == targetName)
 				{
-					if (it->getType() == "Unit")
+					if (it->getControllerName() == "Enemy")
 					{
 						it->getComponent<Unit>()->applyDamage(10);
 					}
@@ -217,5 +217,6 @@ void Marine::TransitionDeathState()
 
 void Marine::UpdateDeathState(float elapsedTime)
 {
+	Player::Instance().removeActor(this->getActor());
 	ActorManager::Instance().remove(this->getActor());
 }

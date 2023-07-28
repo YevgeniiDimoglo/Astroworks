@@ -193,7 +193,7 @@ void Building::UpdateProductionState(float elapsedTime)
 
 			std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
 			newActor->loadModel("./Data/SpaceKit/astronautA.glb");
-			newActor->setName("NewWorker" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+			newActor->setName("NewWorker" + std::to_string(ActorManager::Instance().getUpdateActors().size()) + std::to_string(rand()));
 			newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
 			newActor->setPosition({ currentPosition.x + 2.f, currentPosition.y, currentPosition.z + 2.f });
 			newActor->setType("Unit");
@@ -213,7 +213,7 @@ void Building::UpdateProductionState(float elapsedTime)
 
 			std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
 			newActor->loadModel("./Data/SpaceKit/astronautB.glb");
-			newActor->setName("NewMarine" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+			newActor->setName("NewMarine" + std::to_string(ActorManager::Instance().getUpdateActors().size()) + std::to_string(rand()));
 			newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
 			newActor->setPosition({ currentPosition.x + 2.f, currentPosition.y, currentPosition.z + 2.f });
 			newActor->setType("Unit");
@@ -233,7 +233,7 @@ void Building::UpdateProductionState(float elapsedTime)
 
 			std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
 			newActor->loadModel("./Data/SpaceKit/craft_miner.glb");
-			newActor->setName("NewTank" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+			newActor->setName("NewTank" + std::to_string(ActorManager::Instance().getUpdateActors().size()) + std::to_string(rand()));
 			newActor->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
 			newActor->setPosition({ currentPosition.x + 2.f, currentPosition.y, currentPosition.z + 2.f });
 			newActor->setType("Unit");

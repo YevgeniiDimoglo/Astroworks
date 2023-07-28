@@ -25,7 +25,7 @@ void Alien::start()
 
 	GLTFStaticModel* model = getActor()->getModel();
 
-	HP = 160;
+	HP = 20;
 }
 
 void Alien::update(float elapsedTime)
@@ -222,7 +222,7 @@ void Alien::UpdateAttackState(float elapsedTime)
 				{
 					if (it->getType() == "Unit")
 					{
-						it->getComponent<Unit>()->applyDamage(10);
+						it->getComponent<Unit>()->applyDamage(5);
 					}
 					if (it->getType() == "Building")
 					{

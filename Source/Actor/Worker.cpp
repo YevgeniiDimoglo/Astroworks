@@ -280,7 +280,7 @@ void Worker::UpdateTransitionBuildingProgressState(float elapsedTime)
 		{
 			std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
 			newActor->loadModel("./Data/SpaceKit/hangar_roundGlass.glb");
-			newActor->setName("TempBuilding" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+			newActor->setName("TempBuilding" + std::to_string(ActorManager::Instance().getUpdateActors().size()) + std::to_string(rand()));
 			newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
 			newActor->setPosition({ pointOfInterest.x, pointOfInterest.y , pointOfInterest.z });
 			newActor->setType("Building");
@@ -293,7 +293,7 @@ void Worker::UpdateTransitionBuildingProgressState(float elapsedTime)
 		{
 			std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
 			newActor->loadModel("./Data/SpaceKit/machine_barrelLarge.glb");
-			newActor->setName("TempBuilding" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+			newActor->setName("TempBuilding" + std::to_string(ActorManager::Instance().getUpdateActors().size()) + std::to_string(rand()));
 			newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
 			newActor->setPosition({ pointOfInterest.x, pointOfInterest.y , pointOfInterest.z });
 			newActor->setType("Building");
@@ -306,7 +306,7 @@ void Worker::UpdateTransitionBuildingProgressState(float elapsedTime)
 		{
 			std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
 			newActor->loadModel("./Data/SpaceKit/hangar_smallB.glb");
-			newActor->setName("TempBuilding" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+			newActor->setName("TempBuilding" + std::to_string(ActorManager::Instance().getUpdateActors().size()) + std::to_string(rand()));
 			newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
 			newActor->setPosition({ pointOfInterest.x, pointOfInterest.y , pointOfInterest.z });
 			newActor->setType("Building");
@@ -319,7 +319,7 @@ void Worker::UpdateTransitionBuildingProgressState(float elapsedTime)
 		{
 			std::shared_ptr<Actor> newActor = ActorManager::Instance().create();
 			newActor->loadModel("./Data/SpaceKit/turret_double.glb");
-			newActor->setName("TempBuilding" + std::to_string(ActorManager::Instance().getUpdateActors().size()));
+			newActor->setName("TempBuilding" + std::to_string(ActorManager::Instance().getUpdateActors().size()) + std::to_string(rand()));
 			newActor->setScale(glm::vec3(1.0f, 1.0f, 1.0f));
 			newActor->setPosition({ pointOfInterest.x, pointOfInterest.y , pointOfInterest.z });
 			newActor->setType("Building");
