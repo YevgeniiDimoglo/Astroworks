@@ -14,6 +14,7 @@ enum class Pipelines
 	DissolvePipeline,
 	DebugDrawingPipeline,
 	UIPipeline,
+	Offscreen,
 
 	EnumCount
 };
@@ -95,6 +96,10 @@ private:
 
 	void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
 	void updateUniformBuffer(HighResolutionTimer timer, float elapsedTime, uint32_t currentImage, Camera camera);
+
+	// -- Prepare Functions
+
+	void prepareOffscreen();
 
 	// -- Cleanup Function
 
@@ -194,6 +199,8 @@ private:
 	VkDescriptorPool dissolveSamplerDescriptorPool;
 	VkDescriptorSetLayout dissolveSamplerSetLayout;
 	ImageBuffer dissolveImage;
+
+	Offscreen offscreen;
 
 	VkImage depthImage;
 	VkDeviceMemory depthImageMemory;

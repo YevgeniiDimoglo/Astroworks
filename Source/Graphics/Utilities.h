@@ -37,7 +37,7 @@
 
 #define DISCRETE
 
-static const int MAX_FRAMES_IN_FLIGHT = 2;
+static const int MAX_FRAMES_IN_FLIGHT = 1;
 static const int MAX_OBJECTS = 2048;
 static const int DUMMIES = 1;
 
@@ -65,6 +65,21 @@ struct ImageBuffer
 	uint32_t				width, height;
 	VkDescriptorImageInfo	descriptor;
 	VkSampler				sampler;
+	VkDescriptorSet			descriptorSet;
+};
+
+struct FrameBufferAttachment {
+	VkImage image;
+	VkDeviceMemory mem;
+	VkImageView view;
+};
+
+struct Offscreen
+{
+	int32_t width, height;
+	FrameBufferAttachment offscreenColorAttachment, offscreenDepthAttachment;
+	VkSampler sampler;
+	VkDescriptorImageInfo descriptor;
 	VkDescriptorSet			descriptorSet;
 };
 

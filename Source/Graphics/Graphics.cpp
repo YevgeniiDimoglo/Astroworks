@@ -73,7 +73,7 @@ void Graphics::initVulkan()
 	createSwapChain();
 	// Create image for rendering
 	createImageViews();
-	// Create input laytou
+	// Create input layout
 	createDescriptorSetLayout();
 	// Create pipelines for different rendering
 	createGraphicsPipelines();
@@ -87,6 +87,8 @@ void Graphics::initVulkan()
 	createDescriptorPool();
 	// Create descriptors
 	createDescriptorSets();
+	//
+	prepareOffscreen();
 	// Create buffers for commands
 	createCommandBuffers();
 	// Create synchronisation on GPU side
@@ -572,6 +574,12 @@ void Graphics::createGraphicsPipelines()
 			fragShaderCode = readFile("Shaders/dissolvePS.spv");
 		}
 
+		if (pipelineName == Pipelines::Offscreen)
+		{
+			vertShaderCode = readFile("Shaders/quadVS.spv");
+			fragShaderCode = readFile("Shaders/quadPS.spv");
+		}
+
 		// Build shader modules to link to Graphics Pipeline
 		// Create Shader Modules
 		VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
@@ -675,15 +683,24 @@ void Graphics::createGraphicsPipelines()
 		// Blend attachment state (how blending is handle)
 		VkPipelineColorBlendAttachmentState colorBlendAttachment{};
 
-		colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
-			VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-		colorBlendAttachment.blendEnable = VK_TRUE;
-		colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
-		colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
-		colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-		colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-		colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-		colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+		if (pipelineName == Pipelines::Offscreen)
+		{
+			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
+				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+			colorBlendAttachment.blendEnable = VK_FALSE;
+		}
+		else
+		{
+			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
+				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+			colorBlendAttachment.blendEnable = VK_TRUE;
+			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+		}
 
 		VkPipelineColorBlendStateCreateInfo colorBlending{};
 		colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
@@ -707,26 +724,45 @@ void Graphics::createGraphicsPipelines()
 		dynamicState.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
 		dynamicState.pDynamicStates = dynamicStates.data();
 
-		// Pipeline layout
-		std::array<VkDescriptorSetLayout, 3> descriptorSetLayouts = { descriptorSetLayout, samplerSetLayout, dissolveSamplerSetLayout };
-
-		// Define push constant values
-		VkPushConstantRange pushConstantRange{};
-		pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-		pushConstantRange.offset = 0;
-		pushConstantRange.size = sizeof(PushConstants);
-
-		VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
-		pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-		pipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(descriptorSetLayouts.size());
-		pipelineLayoutInfo.pSetLayouts = descriptorSetLayouts.data();
-		pipelineLayoutInfo.pushConstantRangeCount = 1;
-		pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
-
-		// Create a pipeline layout
-		if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayouts[static_cast<int>(pipelineName)]) != VK_SUCCESS)
+		if (pipelineName == Pipelines::Offscreen)
 		{
-			throw std::runtime_error("Failed to create pipeline layout");
+			// Pipeline layout
+			std::array<VkDescriptorSetLayout, 1> descriptorSetLayouts = { dissolveSamplerSetLayout };
+
+			VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
+			pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+			pipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(descriptorSetLayouts.size());
+			pipelineLayoutInfo.pSetLayouts = descriptorSetLayouts.data();
+
+			// Create a pipeline layout
+			if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayouts[static_cast<int>(pipelineName)]) != VK_SUCCESS)
+			{
+				throw std::runtime_error("Failed to create pipeline layout");
+			}
+		}
+		else
+		{
+			// Pipeline layout
+			std::array<VkDescriptorSetLayout, 3> descriptorSetLayouts = { descriptorSetLayout, samplerSetLayout, dissolveSamplerSetLayout };
+
+			// Define push constant values
+			VkPushConstantRange pushConstantRange{};
+			pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+			pushConstantRange.offset = 0;
+			pushConstantRange.size = sizeof(PushConstants);
+
+			VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
+			pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+			pipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(descriptorSetLayouts.size());
+			pipelineLayoutInfo.pSetLayouts = descriptorSetLayouts.data();
+			pipelineLayoutInfo.pushConstantRangeCount = 1;
+			pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
+
+			// Create a pipeline layout
+			if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayouts[static_cast<int>(pipelineName)]) != VK_SUCCESS)
+			{
+				throw std::runtime_error("Failed to create pipeline layout");
+			}
 		}
 
 		// Create a graphics pipeline
@@ -886,11 +922,11 @@ void Graphics::createDescriptorPool()
 	// Texture sampler pool
 	VkDescriptorPoolSize dissolveSamplerPoolSize = {};
 	dissolveSamplerPoolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-	dissolveSamplerPoolSize.descriptorCount = 1;
+	dissolveSamplerPoolSize.descriptorCount = 2;
 
 	VkDescriptorPoolCreateInfo dissolveSamplerPoolCreateInfo = {};
 	dissolveSamplerPoolCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-	dissolveSamplerPoolCreateInfo.maxSets = 1;
+	dissolveSamplerPoolCreateInfo.maxSets = 2;
 	dissolveSamplerPoolCreateInfo.poolSizeCount = 1;
 	dissolveSamplerPoolCreateInfo.pPoolSizes = &dissolveSamplerPoolSize;
 
@@ -1029,8 +1065,8 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
 		.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
 		.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
-		.newLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
-		.image = swapChainImages[imageIndex],
+		.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
+		.image = offscreen.offscreenColorAttachment.image,
 		.subresourceRange =
 		{
 			.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
@@ -1058,11 +1094,13 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		}
 	};
 
+	// Pipeline barrier for color
 	vkCmdPipelineBarrier(commandBuffer,
 		VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
 		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
 		0, 0, nullptr, 0, nullptr, 1, &image_memory_barrier_start);
 
+	// Pipeline barrier for depth
 	vkCmdPipelineBarrier(commandBuffer,
 		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
 		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
@@ -1072,15 +1110,15 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 
 	VkRenderingAttachmentInfoKHR colorAttachment{};
 	colorAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
-	colorAttachment.imageView = swapChainImageViews[imageIndex];
+	colorAttachment.imageView = offscreen.offscreenColorAttachment.view;
 	colorAttachment.imageLayout = VK_IMAGE_LAYOUT_ATTACHMENT_OPTIMAL_KHR;
 	colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 	colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-	colorAttachment.clearValue.color = { 0.0f,0.0f,0.0f,1.0f };
+	colorAttachment.clearValue.color = { 0.0f,0.0f,0.0f,0.0f };
 
 	VkRenderingAttachmentInfoKHR depthStencilAttachment{};
 	depthStencilAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
-	depthStencilAttachment.imageView = depthImageView;
+	depthStencilAttachment.imageView = offscreen.offscreenDepthAttachment.view;
 	depthStencilAttachment.imageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 	depthStencilAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 	depthStencilAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
@@ -1171,8 +1209,84 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	// - End of rendering
 	vkCmdEndRendering(commandBuffer);
 
+	// Present
+
+	// Synchronisation for images
+	const VkImageMemoryBarrier new_image_memory_barrier_start
+	{
+		.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
+		.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
+		.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
+		.newLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
+		.image = swapChainImages[imageIndex],
+		.subresourceRange =
+		{
+			.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
+			.baseMipLevel = 0,
+			.levelCount = 1,
+			.baseArrayLayer = 0,
+			.layerCount = 1,
+		}
+	};
+
+	// Pipeline barrier for color
+	vkCmdPipelineBarrier(commandBuffer,
+		VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
+		0, 0, nullptr, 0, nullptr, 1, &image_memory_barrier_start);
+
+	// Pipeline barrier for depth
+	vkCmdPipelineBarrier(commandBuffer,
+		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
+		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
+		0, 0, nullptr, 0, nullptr, 1, &image_memory_barrier_depth_start);
+
+	// New structures are used to define the attachments used in dynamic rendering
+
+	colorAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
+	colorAttachment.imageView = swapChainImageViews[imageIndex];
+	colorAttachment.imageLayout = VK_IMAGE_LAYOUT_ATTACHMENT_OPTIMAL_KHR;
+	colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+	colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+	colorAttachment.clearValue.color = { 0.0f,0.0f,0.0f,0.0f };
+
+	renderingInfo.sType = VK_STRUCTURE_TYPE_RENDERING_INFO_KHR;
+	renderingInfo.renderArea = { 0, 0, swapChainExtent.width, swapChainExtent.height };
+	renderingInfo.layerCount = 1;
+	renderingInfo.colorAttachmentCount = 1;
+	renderingInfo.pColorAttachments = &colorAttachment;
+	renderingInfo.pDepthAttachment = nullptr;
+	renderingInfo.pStencilAttachment = nullptr;
+
+	// - Begin rendering
+	vkCmdBeginRendering(commandBuffer, &renderingInfo);
+
+	viewport.x = 0.0f;
+	viewport.y = 0.0f;
+	viewport.width = static_cast<float>(swapChainExtent.width);
+	viewport.height = static_cast<float>(swapChainExtent.height);
+	viewport.minDepth = 0.0f;
+	viewport.maxDepth = 1.0f;
+	vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
+
+	scissor.offset = { 0, 0 };
+	scissor.extent = swapChainExtent;
+	vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
+
+	// Bind specific pipeline
+	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::Offscreen)]);
+
+	// Bind camera descriptor
+	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::Offscreen)],
+		0, 1, &offscreen.descriptorSet, 0, nullptr);
+
+	vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+
+	// - End of rendering
+	vkCmdEndRendering(commandBuffer);
+
 	// End of synchronisation for images
-	const VkImageMemoryBarrier image_memory_barrier_end
+	const VkImageMemoryBarrier new_image_memory_barrier_end
 	{
 		.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
 		.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
@@ -1192,7 +1306,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	vkCmdPipelineBarrier(commandBuffer,
 		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
 		VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
-		0, 0, nullptr, 0, nullptr, 1, &image_memory_barrier_end);
+		0, 0, nullptr, 0, nullptr, 1, &new_image_memory_barrier_end);
 
 	if (vkEndCommandBuffer(commandBuffer) != VK_SUCCESS)
 	{
@@ -1215,6 +1329,147 @@ void Graphics::updateUniformBuffer(HighResolutionTimer timer, float elapsedTime,
 	ubo.timeConstants.g = timer.TimeStamp();
 
 	memcpy(uniformBuffersMapped[currentImage], &ubo, sizeof(ubo));
+}
+
+void Graphics::prepareOffscreen()
+{
+	offscreen.width = swapChainExtent.width;
+	offscreen.height = swapChainExtent.height;
+
+	// Find a suitable depth format
+	VkFormat fbDepthFormat = findDepthFormat();
+
+	// Color attachment
+	VkImageCreateInfo image = {};
+	image.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+	image.imageType = VK_IMAGE_TYPE_2D;
+	image.format = VK_FORMAT_B8G8R8A8_UNORM;
+	image.extent.width = offscreen.width;
+	image.extent.height = offscreen.height;
+	image.extent.depth = 1;
+	image.mipLevels = 1;
+	image.arrayLayers = 1;
+	image.samples = VK_SAMPLE_COUNT_1_BIT;
+	image.tiling = VK_IMAGE_TILING_OPTIMAL;
+	// We will sample directly from the color attachment
+	image.usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+
+	VkMemoryAllocateInfo memAlloc = {};
+	memAlloc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+	VkMemoryRequirements memReqs;
+
+	vkCreateImage(device, &image, nullptr, &offscreen.offscreenColorAttachment.image);
+	vkGetImageMemoryRequirements(device, offscreen.offscreenColorAttachment.image, &memReqs);
+	memAlloc.allocationSize = memReqs.size;
+	memAlloc.memoryTypeIndex = findMemoryType(physicalDevice, memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+	vkAllocateMemory(device, &memAlloc, nullptr, &offscreen.offscreenColorAttachment.mem);
+	vkBindImageMemory(device, offscreen.offscreenColorAttachment.image, offscreen.offscreenColorAttachment.mem, 0);
+
+	VkImageViewCreateInfo colorImageView = {};
+	colorImageView.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+	colorImageView.viewType = VK_IMAGE_VIEW_TYPE_2D;
+	colorImageView.format = VK_FORMAT_B8G8R8A8_UNORM;
+	colorImageView.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+	colorImageView.subresourceRange.baseMipLevel = 0;
+	colorImageView.subresourceRange.levelCount = 1;
+	colorImageView.subresourceRange.baseArrayLayer = 0;
+	colorImageView.subresourceRange.layerCount = 1;
+	colorImageView.image = offscreen.offscreenColorAttachment.image;
+	vkCreateImageView(device, &colorImageView, nullptr, &offscreen.offscreenColorAttachment.view);
+
+	// Create sampler to sample from the attachment in the fragment shader
+	VkSamplerCreateInfo samplerInfo = {};
+	samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+	samplerInfo.magFilter = VK_FILTER_LINEAR;
+	samplerInfo.minFilter = VK_FILTER_LINEAR;
+
+	samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+	samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+	samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+
+	samplerInfo.anisotropyEnable = VK_TRUE;
+	samplerInfo.maxAnisotropy = 1.0f;
+	samplerInfo.borderColor = VK_BORDER_COLOR_INT_OPAQUE_BLACK;
+	samplerInfo.unnormalizedCoordinates = VK_FALSE;
+	samplerInfo.compareEnable = VK_FALSE;
+	samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
+
+	samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
+	samplerInfo.mipLodBias = 0.0f;
+	samplerInfo.minLod = 0.0f;
+	samplerInfo.maxLod = 0.0f;
+
+	vkCreateSampler(device, &samplerInfo, nullptr, &offscreen.sampler);
+
+	// Depth stencil attachment
+	image.format = fbDepthFormat;
+	image.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+
+	vkCreateImage(device, &image, nullptr, &offscreen.offscreenDepthAttachment.image);
+	vkGetImageMemoryRequirements(device, offscreen.offscreenDepthAttachment.image, &memReqs);
+	memAlloc.allocationSize = memReqs.size;
+	memAlloc.memoryTypeIndex = findMemoryType(physicalDevice, memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+	vkAllocateMemory(device, &memAlloc, nullptr, &offscreen.offscreenDepthAttachment.mem);
+	vkBindImageMemory(device, offscreen.offscreenDepthAttachment.image, offscreen.offscreenDepthAttachment.mem, 0);
+
+	VkImageViewCreateInfo depthStencilView = {};
+	depthStencilView.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+	depthStencilView.viewType = VK_IMAGE_VIEW_TYPE_2D;
+	depthStencilView.format = fbDepthFormat;
+	depthStencilView.flags = 0;
+	depthStencilView.subresourceRange = {};
+	depthStencilView.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
+	if (fbDepthFormat >= VK_FORMAT_D16_UNORM_S8_UINT) {
+		depthStencilView.subresourceRange.aspectMask |= VK_IMAGE_ASPECT_STENCIL_BIT;
+	}
+	depthStencilView.subresourceRange.baseMipLevel = 0;
+	depthStencilView.subresourceRange.levelCount = 1;
+	depthStencilView.subresourceRange.baseArrayLayer = 0;
+	depthStencilView.subresourceRange.layerCount = 1;
+	depthStencilView.image = offscreen.offscreenDepthAttachment.image;
+	vkCreateImageView(device, &depthStencilView, nullptr, &offscreen.offscreenDepthAttachment.view);
+
+	// Fill a descriptor for later use in a descriptor set
+	offscreen.descriptor.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+	offscreen.descriptor.imageView = offscreen.offscreenColorAttachment.view;
+	offscreen.descriptor.sampler = offscreen.sampler;
+
+	VkDescriptorSet descriptorSet;
+
+	// Descriptor set allocation info
+	VkDescriptorSetAllocateInfo setAllocInfo = {};
+	setAllocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+	setAllocInfo.descriptorPool = dissolveSamplerDescriptorPool;
+	setAllocInfo.descriptorSetCount = 1;
+	setAllocInfo.pSetLayouts = &dissolveSamplerSetLayout;
+
+	// Allocate descriptor sets
+	VkResult result = vkAllocateDescriptorSets(device, &setAllocInfo, &descriptorSet);
+	if (result != VK_SUCCESS)
+	{
+		throw std::runtime_error("Failed to allocate texture descriptor sets");
+	}
+
+	// Texture image info
+	VkDescriptorImageInfo imageInfo = {};
+	imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;							// Image layout when image in use
+	imageInfo.imageView = offscreen.descriptor.imageView;															// Image to bind to set
+	imageInfo.sampler = offscreen.descriptor.sampler;															// Sampler to use for set
+
+	// Descriptor write info
+	VkWriteDescriptorSet descriptorWrite = {};
+	descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+	descriptorWrite.dstSet = descriptorSet;
+	descriptorWrite.dstBinding = 0;
+	descriptorWrite.dstArrayElement = 0;
+	descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+	descriptorWrite.descriptorCount = 1;
+	descriptorWrite.pImageInfo = &imageInfo;
+
+	// Update new descriptor set
+	vkUpdateDescriptorSets(device, 1, &descriptorWrite, 0, nullptr);
+
+	offscreen.descriptorSet = descriptorSet;
 }
 
 void Graphics::cleanupSwapChain()
@@ -1515,7 +1770,7 @@ VkSurfaceFormatKHR Graphics::chooseSwapSurfaceFormat(const std::vector<VkSurface
 {
 	for (const auto& availableFormat : availableFormats)
 	{
-		if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
+		if (availableFormat.format == VK_FORMAT_R8G8B8A8_SRGB && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
 		{
 			return availableFormat;
 		}
