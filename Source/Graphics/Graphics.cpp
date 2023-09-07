@@ -87,7 +87,7 @@ void Graphics::initVulkan()
 	createDescriptorPool();
 	// Create descriptors
 	createDescriptorSets();
-	//
+	// Create offscreen buffers
 	prepareOffscreen();
 	// Create buffers for commands
 	createCommandBuffers();
@@ -129,7 +129,7 @@ void Graphics::drawFrame(HighResolutionTimer timer, float elapsedTime)
 	vkResetCommandBuffer(commandBuffers[currentFrame], 0);
 
 	// Record all drawing commands
-	recordCommandBuffer(commandBuffers[currentFrame], imageIndex);
+	recordCommandBuffer(commandBuffers[currentFrame], imageIndex, timer);
 
 	// Submit command buffer to queue for exec, making sure it waits for one image to be signalled as available before drawing and signals when it has finished rendering
 	VkSubmitInfo submitInfo{};
@@ -206,8 +206,28 @@ void Graphics::cleanup()
 
 	UI::Instance().cleanup(device);
 
+	{
+		vkDestroyImageView(device, offscreen.offscreenColorAttachment.view, nullptr);
+		vkDestroyImage(device, offscreen.offscreenColorAttachment.image, nullptr);
+		vkFreeMemory(device, offscreen.offscreenColorAttachment.mem, nullptr);
+
+		vkDestroyImageView(device, offscreen.offscreenDepthAttachment.view, nullptr);
+		vkDestroyImage(device, offscreen.offscreenDepthAttachment.image, nullptr);
+		vkFreeMemory(device, offscreen.offscreenDepthAttachment.mem, nullptr);
+
+		vkDestroyImageView(device, dissolveImage.view, nullptr);
+		vkDestroyImage(device, dissolveImage.image, nullptr);
+		vkFreeMemory(device, dissolveImage.deviceMemory, nullptr);
+		vkDestroySampler(device, dissolveImage.sampler, nullptr);
+
+		vkDestroySampler(device, offscreen.sampler, nullptr);
+	}
+
 	vkDestroyDescriptorPool(device, descriptorPool, nullptr);
 	vkDestroyDescriptorSetLayout(device, descriptorSetLayout, nullptr);
+
+	vkDestroyDescriptorPool(device, dissolveSamplerDescriptorPool, nullptr);
+	vkDestroyDescriptorSetLayout(device, dissolveSamplerSetLayout, nullptr);
 
 	vkDestroyDescriptorPool(device, samplerDescriptorPool, nullptr);
 	vkDestroyDescriptorSetLayout(device, samplerSetLayout, nullptr);
@@ -729,10 +749,18 @@ void Graphics::createGraphicsPipelines()
 			// Pipeline layout
 			std::array<VkDescriptorSetLayout, 1> descriptorSetLayouts = { dissolveSamplerSetLayout };
 
+			// Define push constant values
+			VkPushConstantRange pushConstantRange{};
+			pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+			pushConstantRange.offset = 0;
+			pushConstantRange.size = sizeof(PushConstants);
+
 			VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
 			pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 			pipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(descriptorSetLayouts.size());
 			pipelineLayoutInfo.pSetLayouts = descriptorSetLayouts.data();
+			pipelineLayoutInfo.pushConstantRangeCount = 1;
+			pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
 
 			// Create a pipeline layout
 			if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayouts[static_cast<int>(pipelineName)]) != VK_SUCCESS)
@@ -1045,7 +1073,7 @@ void Graphics::recreateSwapChain()
 	createaDepthResources();
 }
 
-void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex)
+void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, HighResolutionTimer timer)
 {
 	// Information about how to begin each command buffer
 	VkCommandBufferBeginInfo beginInfo{};
@@ -1229,17 +1257,11 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		}
 	};
 
-	// Pipeline barrier for color
+	//// Pipeline barrier for color
 	vkCmdPipelineBarrier(commandBuffer,
 		VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
 		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
-		0, 0, nullptr, 0, nullptr, 1, &image_memory_barrier_start);
-
-	// Pipeline barrier for depth
-	vkCmdPipelineBarrier(commandBuffer,
-		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
-		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
-		0, 0, nullptr, 0, nullptr, 1, &image_memory_barrier_depth_start);
+		0, 0, nullptr, 0, nullptr, 1, &new_image_memory_barrier_start);
 
 	// New structures are used to define the attachments used in dynamic rendering
 
@@ -1275,6 +1297,10 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 
 	// Bind specific pipeline
 	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::Offscreen)]);
+
+	PushConstants pushConstants;
+	pushConstants.timer.r = timer.TimeStamp();
+	vkCmdPushConstants(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::Offscreen)], VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstants), &pushConstants);
 
 	// Bind camera descriptor
 	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::Offscreen)],
@@ -1638,7 +1664,7 @@ bool Graphics::isDeviceSuitable(VkPhysicalDevice device)
 #else
 	return (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) && indices.isComplete() && extensionsSupported && swapChainAdequate && deviceFeatures.samplerAnisotropy;
 #endif // DISCRETE
-}
+	}
 
 QueueFamilyIndices Graphics::findQueueFamilies(VkPhysicalDevice device)
 {

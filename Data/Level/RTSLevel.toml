@@ -1,0 +1,111 @@
+[[ActorsOnScreen]]
+name = "Base"
+position = [0.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/hangar_roundGlass.glb"
+type = "Building"
+typeName = "Base"
+controller = "Player"
+
+[[ActorsOnScreen]]
+name = "Worker1"
+position = [3.3,0.0,0.4]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/astronautA.glb"
+type = "Unit"
+typeName = "Worker"
+controller = "Player"
+
+[[ActorsOnScreen]]
+name = "Worker2"
+position = [2.3,0.0,0.4]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/astronautA.glb"
+type = "Unit"
+typeName = "Worker"
+controller = "Player"
+
+[[ActorsOnScreen]]
+name = "Worker3"
+position = [3.3,0.0,1.4]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/astronautA.glb"
+type = "Unit"
+typeName = "Worker"
+controller = "Player"
+
+[[ActorsOnScreen]]
+name = "Mineral1"
+position = [-2.0,0.0,-4.2]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/rock_crystalsLargeA.glb"
+type = "Building"
+typeName = "Mineral"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Mineral2"
+position = [0.0,0.0,-5.2]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/rock_crystalsLargeA.glb"
+type = "Building"
+typeName = "Mineral"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Mineral3"
+position = [2.0,0.0,-4.2]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/rock_crystalsLargeA.glb"
+type = "Building"
+typeName = "Mineral"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Mineral4"
+position = [3.0,0.0,-3.2]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/rock_crystalsLargeA.glb"
+type = "Building"
+typeName = "Mineral"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Mineral5"
+position = [-3.0,0.0,-3.2]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/SpaceKit/rock_crystalsLargeA.glb"
+type = "Building"
+typeName = "Mineral"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Terrain"
+position = [0.0,0.0,30.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,180.0,0.0]
+scale = [0.1,0.1,0.1]
+path = "./Data/Primitives/terrain.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+
