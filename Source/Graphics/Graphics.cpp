@@ -2,6 +2,7 @@
 
 #include "../UI/UI.h"
 #include "../Actor/Actor.h"
+#include "../Camera/Camera.h"
 
 void Graphics::init()
 {
@@ -182,7 +183,7 @@ void Graphics::drawFrame(HighResolutionTimer timer, float elapsedTime)
 	currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 }
 
-void Graphics::update(HighResolutionTimer timer, float elapsedTime, Camera camera)
+void Graphics::update(HighResolutionTimer timer, float elapsedTime, Camera* camera)
 {
 	ActorManager::Instance().loadFiles(physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout);
 
@@ -1340,12 +1341,12 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	}
 }
 
-void Graphics::updateUniformBuffer(HighResolutionTimer timer, float elapsedTime, uint32_t currentImage, Camera camera)
+void Graphics::updateUniformBuffer(HighResolutionTimer timer, float elapsedTime, uint32_t currentImage, Camera* camera)
 {
 	UniformBufferObject ubo{};
 
-	ubo.view = glm::lookAt(camera.getEye(), camera.getFocus(), glm::vec3(0.f, 1.f, 0.f));
-	ubo.proj = camera.getProjection();
+	ubo.view = glm::lookAt(camera->getEye(), camera->getFocus(), glm::vec3(0.f, 1.f, 0.f));
+	ubo.proj = camera->getProjection();
 
 	ubo.proj[1][1] *= -1;
 	ubo.lightDirection = { 0, -1 , -1 , 1 };
@@ -1664,7 +1665,7 @@ bool Graphics::isDeviceSuitable(VkPhysicalDevice device)
 #else
 	return (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) && indices.isComplete() && extensionsSupported && swapChainAdequate && deviceFeatures.samplerAnisotropy;
 #endif // DISCRETE
-	}
+}
 
 QueueFamilyIndices Graphics::findQueueFamilies(VkPhysicalDevice device)
 {

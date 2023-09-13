@@ -6,7 +6,7 @@
 
 #include "../Actor/Building.h"
 
-std::string Player::getSelectedActor(GLFWwindow* window, Camera& camera)
+std::string Player::getSelectedActor(GLFWwindow* window, Camera* camera)
 {
 	selectedActors.clear();
 
@@ -82,7 +82,7 @@ std::string Player::getSelectedActor(GLFWwindow* window, Camera& camera)
 	return "";
 }
 
-std::string Player::getTargetActor(GLFWwindow* window, Camera& camera)
+std::string Player::getTargetActor(GLFWwindow* window, Camera* camera)
 {
 	std::string targetActorName = "";
 
@@ -325,7 +325,7 @@ void Player::notify(std::string widgetName, int widgetAction)
 	}
 }
 
-void Player::input(GLFWwindow* window, Camera camera)
+void Player::input(GLFWwindow* window, Camera* camera)
 {
 	calculateScreenToWorldCoords(window, camera);
 
@@ -603,7 +603,7 @@ int Player::calculateScore()
 	return totalScore;
 }
 
-void Player::calculateScreenToWorldCoords(GLFWwindow* window, Camera& camera)
+void Player::calculateScreenToWorldCoords(GLFWwindow* window, Camera* camera)
 {
 	double xpos, ypos;
 	glfwGetCursorPos(window, &xpos, &ypos);
@@ -612,8 +612,8 @@ void Player::calculateScreenToWorldCoords(GLFWwindow* window, Camera& camera)
 
 	ypos = height - ypos;
 
-	glm::mat4x4 projection = camera.getProjection();
-	glm::mat4x4 view = glm::lookAt(camera.getEye(), camera.getFocus(), glm::vec3(0.f, 1.f, 0.f));
+	glm::mat4x4 projection = camera->getProjection();
+	glm::mat4x4 view = glm::lookAt(camera->getEye(), camera->getFocus(), glm::vec3(0.f, 1.f, 0.f));
 
 	cameraRay.rayStart = glm::unProject(
 		glm::vec3(xpos, ypos, 0.f),

@@ -7,8 +7,8 @@
 class FreeCameraController
 {
 public:
-	void SyncCameraToController(const Camera& camera);
-	void SyncControllerToCamera(Camera& camera);
+	void SyncCameraToController(Camera* camera);
+	void SyncControllerToCamera(Camera* camera);
 
 	void Update(GLFWwindow* window, float deltaTime);
 

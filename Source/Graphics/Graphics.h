@@ -4,9 +4,9 @@
 
 #include "../Misc/HighResolutionTimer.h"
 
-#include "../Camera/Camera.h"
-
 #include "Utilities.h"
+
+class Camera;
 
 enum class Pipelines
 {
@@ -49,7 +49,7 @@ public:
 
 	void draw(HighResolutionTimer timer, float elapsedTime);
 
-	void update(HighResolutionTimer timer, float elapsedTime, Camera camera);
+	void update(HighResolutionTimer timer, float elapsedTime, Camera* camera);
 
 	void finalize();
 
@@ -95,7 +95,7 @@ private:
 	// -- Record & Update Functions
 
 	void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, HighResolutionTimer timer);
-	void updateUniformBuffer(HighResolutionTimer timer, float elapsedTime, uint32_t currentImage, Camera camera);
+	void updateUniformBuffer(HighResolutionTimer timer, float elapsedTime, uint32_t currentImage, Camera* camera);
 
 	// -- Prepare Functions
 

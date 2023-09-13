@@ -5,17 +5,17 @@
 static const float CAMERAMOVEMENTSPEED = 2.f;
 static const int WINDOWSCROLLBORDER = 25;
 
-void LockCameraController::SyncCameraToController(const Camera& camera)
+void LockCameraController::SyncCameraToController(Camera* camera)
 {
-	eye = camera.getEye();
-	focus = camera.getFocus();
-	up = camera.getUp();
-	right = camera.getRight();
+	eye = camera->getEye();
+	focus = camera->getFocus();
+	up = camera->getUp();
+	right = camera->getRight();
 
 	glm::vec3 vector = focus - eye;
 	distance = glm::length(vector);
 
-	glm::vec3 front = camera.getFront();
+	glm::vec3 front = camera->getFront();
 	angleX = ::asinf(-front.y);
 
 	if (up.y < 0)
@@ -36,9 +36,9 @@ void LockCameraController::SyncCameraToController(const Camera& camera)
 	}
 }
 
-void LockCameraController::SyncControllerToCamera(Camera& camera)
+void LockCameraController::SyncControllerToCamera(Camera* camera)
 {
-	camera.setLookAt(eye, target, glm::vec3(0.f, 1.f, 0.f));
+	camera->setLookAt(eye, target, glm::vec3(0.f, 1.f, 0.f));
 }
 
 void LockCameraController::Update(GLFWwindow* window, float elapsedTime)

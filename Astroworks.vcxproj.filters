@@ -224,5 +224,8 @@
     <ClInclude Include="Source\Player\Enemy.h">
       <Filter>ソース ファイル\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Graphics\Light.h">
+      <Filter>ソース ファイル\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

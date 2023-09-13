@@ -182,6 +182,7 @@
     <ClInclude Include="Source\Framework\ResourceManager.h" />
     <ClInclude Include="Source\Graphics\GLTFStaticModel.h" />
     <ClInclude Include="Source\Graphics\Graphics.h" />
+    <ClInclude Include="Source\Graphics\Light.h" />
     <ClInclude Include="Source\Graphics\Sprite.h" />
     <ClInclude Include="Source\Graphics\Utilities.h" />
     <ClInclude Include="Source\Misc\HighResolutionTimer.h" />

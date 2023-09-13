@@ -3,9 +3,9 @@
 #include "../Misc/HighResolutionTimer.h"
 #include "../Graphics/Graphics.h"
 
-#include "../Camera/Camera.h"
-#include "../Camera/FreeCameraController.h"
-#include "../Camera/LockCameraController.h"
+class Camera;
+class FreeCameraController;
+class LockCameraController;
 
 class Framework
 {
@@ -28,7 +28,8 @@ private:
 
 	Graphics thisApp;
 
-	Camera camera;
-	FreeCameraController freeCameraController;
-	LockCameraController lockCameraController;
+	Camera* camera;
+	FreeCameraController* freeCameraController;
+	LockCameraController* lockCameraController;
+	bool isFreeCameraController = true;
 };

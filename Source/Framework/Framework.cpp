@@ -10,6 +10,10 @@
 #include "../Player/Player.h"
 #include "../Player/Enemy.h"
 
+#include "../Camera/Camera.h"
+#include "../Camera/FreeCameraController.h"
+#include "../Camera/LockCameraController.h"
+
 Framework::Framework()
 {
 	thisApp = Graphics();
@@ -23,15 +27,23 @@ Framework::Framework()
 
 	thisApp.init();
 
-	camera.setPerspectiveFov(
+	camera = new Camera();
+	camera->setPerspectiveFov(
 		glm::radians(60.f),
 		thisApp.getExtent().width, thisApp.getExtent().height,
 		0.1f,
 		1000.0f);
+
+	freeCameraController = new FreeCameraController();
+	lockCameraController = new LockCameraController();
 }
 
 Framework::~Framework()
 {
+	delete freeCameraController;
+	delete lockCameraController;
+	delete camera;
+
 	thisApp.finalize();
 }
 
@@ -49,8 +61,16 @@ void Framework::update(HighResolutionTimer timer, float elapsedTime)
 
 	if (!Player::Instance().getIsPaused())
 	{
-		lockCameraController.Update(thisApp.getWindow(), elapsedTime);
-		lockCameraController.SyncControllerToCamera(camera);
+		if (isFreeCameraController)
+		{
+			freeCameraController->Update(thisApp.getWindow(), elapsedTime);
+			freeCameraController->SyncControllerToCamera(camera);
+		}
+		else
+		{
+			lockCameraController->Update(thisApp.getWindow(), elapsedTime);
+			lockCameraController->SyncControllerToCamera(camera);
+		}
 	}
 
 	thisApp.update(timer, elapsedTime, camera);

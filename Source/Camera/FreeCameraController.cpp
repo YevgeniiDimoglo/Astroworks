@@ -3,17 +3,17 @@
 
 static float MOUSESPEED = 0.05f;
 
-void FreeCameraController::SyncCameraToController(const Camera& camera)
+void FreeCameraController::SyncCameraToController(Camera* camera)
 {
-	eye = camera.getEye();
-	focus = camera.getFocus();
-	up = camera.getUp();
-	right = camera.getRight();
+	eye = camera->getEye();
+	focus = camera->getFocus();
+	up = camera->getUp();
+	right = camera->getRight();
 
 	glm::vec3 vector = focus - eye;
 	distance = glm::length(vector);
 
-	glm::vec3 front = camera.getFront();
+	glm::vec3 front = camera->getFront();
 	angleX = ::asinf(-front.y);
 
 	if (up.y < 0)
@@ -34,11 +34,11 @@ void FreeCameraController::SyncCameraToController(const Camera& camera)
 	}
 }
 
-void FreeCameraController::SyncControllerToCamera(Camera& camera)
+void FreeCameraController::SyncControllerToCamera(Camera* camera)
 {
 	glm::vec3 front = glm::cross(up, right);
 	front = glm::normalize(front);
-	camera.setLookAt(eye, eye + front, up);
+	camera->setLookAt(eye, eye + front, up);
 }
 
 void FreeCameraController::Update(GLFWwindow* window, float deltaTime)

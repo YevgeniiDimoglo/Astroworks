@@ -8,3 +8,14 @@ path = "./Data/Primitives/terrain.glb"
 type = "Terrian"
 typeName = "Simple"
 controller = "None"
+
+[[ActorsOnScreen]]
+name = "Terrain"
+position = [0.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,180.0,0.0]
+scale = [100.1,100.1,100.1]
+path = "./Data/Primitives/NaraSkyDome.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"

@@ -40,8 +40,8 @@ public:
 		}
 	};
 
-	std::string getSelectedActor(GLFWwindow* window, Camera& camera);
-	std::string getTargetActor(GLFWwindow* window, Camera& camera);
+	std::string getSelectedActor(GLFWwindow* window, Camera* camera);
+	std::string getTargetActor(GLFWwindow* window, Camera* camera);
 
 	bool checkSupplyAvailability(int additionalValue);
 	bool checkResourceAvailability(int additionalValue);
@@ -67,7 +67,7 @@ public:
 	void setUnPause(bool unpause) { isPaused = unpause; }
 	bool getIsPaused() const { return isPaused; }
 
-	void input(GLFWwindow* window, Camera camera);
+	void input(GLFWwindow* window, Camera* camera);
 
 	void update();
 
@@ -86,7 +86,7 @@ public:
 
 private:
 
-	void calculateScreenToWorldCoords(GLFWwindow* window, Camera& camera);
+	void calculateScreenToWorldCoords(GLFWwindow* window, Camera* camera);
 
 	std::map <std::string, std::pair<int, int>> costSupplyValue =
 	{
