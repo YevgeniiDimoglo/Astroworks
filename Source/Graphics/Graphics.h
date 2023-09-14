@@ -2,15 +2,15 @@
 
 // All rendering
 
-#include "../Misc/HighResolutionTimer.h"
-
 #include "Utilities.h"
+#include "Macros.h"
 
 class Camera;
 
 enum class Pipelines
 {
 	ModelPipeline,
+	UnlitPipeline,
 	DissolvePipeline,
 	DebugDrawingPipeline,
 	UIPipeline,

@@ -10,7 +10,7 @@ typeName = "Simple"
 controller = "None"
 
 [[ActorsOnScreen]]
-name = "Terrain"
+name = "SkyDome"
 position = [0.0,0.0,0.0]
 rotation = [1.0,0.0,0.0,0.0]
 euler = [0.0,180.0,0.0]

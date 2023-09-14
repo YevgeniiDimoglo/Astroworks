@@ -45,7 +45,7 @@ void main()
     vec3 ks = {1, 1, 1};
     float shineness = 128;
 
-    vec3 ambient = ka * vec3(0.2, 0.2, 0.2);
+    vec3 ambient = ka * vec3(1.0, 1.0, 1.0);
     vec3 directionalDiffuse = CalcHalfLambert(N, L, vec3(lightColor), kd);
 
     vec4 color = vec4(ambient, diffuseColor.a);

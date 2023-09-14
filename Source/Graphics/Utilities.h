@@ -51,6 +51,7 @@ enum class ShaderType
 	Phong,
 	PhongDissolve,
 	PhongTransparency,
+	Flat,
 	Sprite,
 
 	EnumCount

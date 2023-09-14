@@ -123,6 +123,11 @@ void ActorManager::deserializeActor()
 		{
 			Player::Instance().emplaceActor(actor);
 		}
+
+		if (actor->getName() == "SkyDome")
+		{
+			actor->setShaderType(ShaderType::Flat);
+		}
 	}
 }
 

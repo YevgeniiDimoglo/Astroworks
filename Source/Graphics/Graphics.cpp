@@ -583,6 +583,12 @@ void Graphics::createGraphicsPipelines()
 			fragShaderCode = readFile("Shaders/phongPS.spv");
 		}
 
+		if (pipelineName == Pipelines::UnlitPipeline)
+		{
+			vertShaderCode = readFile("Shaders/flatVS.spv");
+			fragShaderCode = readFile("Shaders/flatPS.spv");
+		}
+
 		if (pipelineName == Pipelines::UIPipeline)
 		{
 			vertShaderCode = readFile("Shaders/spriteVS.spv");
@@ -1191,7 +1197,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	if (!wireframe)
 	{
 		// -- Model Pipeline
-
+		//
 		// Bind specific pipeline
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::ModelPipeline)]);
 
@@ -1199,15 +1205,28 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)],
 			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)], static_cast<int>(Pipelines::ModelPipeline));
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)], static_cast<int>(ShaderType::Phong));
 
+		// -- Unlit Pipeline
+		//
+		// Bind specific pipeline
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::UnlitPipeline)]);
+
+		// Bind camera descriptor
+		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::UnlitPipeline)],
+			0, 1, &descriptorSets[currentFrame], 0, nullptr);
+
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::UnlitPipeline)], static_cast<int>(ShaderType::Flat));
+
+		// -- Dissolve Pipeline
+		//
 		// Bind specific pipeline
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::DissolvePipeline)]);
 
 		// Bind camera descriptor
 		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::DissolvePipeline)],
 			0, 1, &descriptorSets[currentFrame], 0, nullptr);
-
+		// Bind image descriptor
 		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::DissolvePipeline)],
 			2, 1, &dissolveImage.descriptorSet, 0, nullptr);
 

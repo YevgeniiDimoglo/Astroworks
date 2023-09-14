@@ -227,5 +227,8 @@
     <ClInclude Include="Source\Graphics\Light.h">
       <Filter>ソース ファイル\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Graphics\Macros.h">
+      <Filter>ソース ファイル\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
