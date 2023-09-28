@@ -50,7 +50,7 @@ void Sprite::loadFile(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDev
 
 	imageSize = width * height * 4;
 
-	createTextureFromBuffer(image, imageSize, VK_FORMAT_R8G8B8A8_SRGB, width, height, newPhysicalDevice, newLogicalDevice, transferCommandPool, transferQueue);
+	createTextureFromBuffer(image, imageSize, VK_FORMAT_R8G8B8A8_UNORM, width, height, newPhysicalDevice, newLogicalDevice, transferCommandPool, transferQueue);
 
 	indices.count = static_cast<uint32_t>(indexBuffer.size());
 
@@ -187,20 +187,20 @@ Sprite::Image Sprite::createTextureFromBuffer(void* buffer, VkDeviceSize bufferS
 	VkImage texImage;
 	VkDeviceMemory texImageMemory;
 	texImage = createImage(newPhysicalDevice, newLogicalDevice,
-		texWidth, texHeight, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL,
+		texWidth, texHeight, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_TILING_OPTIMAL,
 		VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, texImageMemory);
 
 	// Copy data to image
 	// Transition image to be DST for copy operation
 	transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue,
-		texImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+		texImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
 
 	// Copy image data
 	copyBufferToImage(newLogicalDevice, transferCommandPool, transferQueue, imageStagingBuffer, texImage, texWidth, texHeight);
 
 	// Transition image to be shader readable for shader usage
 	transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue,
-		texImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+		texImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
 	// Add texture data to vector for reference
 	image.image = texImage;

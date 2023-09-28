@@ -46,7 +46,7 @@ void GLTFStaticModel::loadImages(tinygltf::Model& input)
 			bufferSize = glTFImage.image.size();
 		}
 
-		images[i] = createTextureFromBuffer(buffer, bufferSize, VK_FORMAT_R8G8B8A8_SRGB, glTFImage.width, glTFImage.height, newPhysicalDevice, newLogicalDevice, commandPool, transferQueue);
+		images[i] = createTextureFromBuffer(buffer, bufferSize, VK_FORMAT_R8G8B8A8_UNORM, glTFImage.width, glTFImage.height, newPhysicalDevice, newLogicalDevice, commandPool, transferQueue);
 
 		if (deleteBuffer)
 		{
@@ -459,20 +459,20 @@ GLTFStaticModel::Image GLTFStaticModel::createTextureFromBuffer(void* buffer, Vk
 	VkImage texImage;
 	VkDeviceMemory texImageMemory;
 	texImage = createImage(newPhysicalDevice, newLogicalDevice,
-		texWidth, texHeight, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL,
+		texWidth, texHeight, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_TILING_OPTIMAL,
 		VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, texImageMemory);
 
 	// Copy data to image
 	// Transition image to be DST for copy operation
 	transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue,
-		texImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+		texImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
 
 	// Copy image data
 	copyBufferToImage(newLogicalDevice, transferCommandPool, transferQueue, imageStagingBuffer, texImage, texWidth, texHeight);
 
 	// Transition image to be shader readable for shader usage
 	transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue,
-		texImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+		texImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
 	// Add texture data to vector for reference
 	image.image = texImage;
@@ -602,10 +602,10 @@ void GLTFStaticModel::createDummyTextures(VkPhysicalDevice newPhysicalDevice, Vk
 
 		VkImage texImage;
 		VkDeviceMemory texImageMemory;
-		texImage = createImage(newPhysicalDevice, newLogicalDevice, texWidth, texHeight, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, texImageMemory);
-		transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue, texImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+		texImage = createImage(newPhysicalDevice, newLogicalDevice, texWidth, texHeight, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, texImageMemory);
+		transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue, texImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
 		copyBufferToImage(newLogicalDevice, transferCommandPool, transferQueue, stagingBuffer, texImage, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight));
-		transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue, texImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+		transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue, texImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
 		vkDestroyBuffer(newLogicalDevice, stagingBuffer, nullptr);
 		vkFreeMemory(newLogicalDevice, stagingBufferMemory, nullptr);
@@ -641,7 +641,7 @@ void GLTFStaticModel::createDummyTextures(VkPhysicalDevice newPhysicalDevice, Vk
 		viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
 		viewInfo.image = texImage;
 		viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-		viewInfo.format = VK_FORMAT_R8G8B8A8_SRGB;
+		viewInfo.format = VK_FORMAT_R8G8B8A8_UNORM;
 		viewInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 		viewInfo.subresourceRange.baseMipLevel = 0;
 		viewInfo.subresourceRange.levelCount = 1;
