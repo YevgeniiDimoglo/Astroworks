@@ -1,14 +1,16 @@
 #version 450
 
-layout(location = 0) in vec3 normalInterp;
-layout(location = 1) in vec2 fragTexCoord;
+layout(location = 0) in vec3 inNormal;
+layout(location = 1) in vec2 inUV;
 layout(location = 2) in vec3 vertPos;
-layout(location = 3) in vec3 lightDirection;
-layout(location = 4) in vec4 lightColor;
-layout(location = 5) in vec4 baseColor;
-layout(location = 6) in vec4 timerConstants;
+layout(location = 3) in vec4 inTangent;
+layout(location = 4) in vec3 lightDirection;
+layout(location = 5) in vec4 lightColor;
+layout(location = 6) in vec4 baseColor;
+layout(location = 7) in vec4 timerConstants;
 
-layout(set = 1, binding = 0) uniform sampler2D texSampler;
+layout(set = 1, binding = 0) uniform sampler2D samplerColorMap;
+layout (set = 1, binding = 1) uniform sampler2D samplerNormalMap;
 
 layout(location = 0) out vec4 outColor;
 
@@ -34,9 +36,14 @@ vec3 CalcPhongSpecular(vec3 normal, vec3 lightVector, vec3 lightColor, vec3 eyeV
 
 void main() 
 {
-    vec4 diffuseColor = texture(texSampler, fragTexCoord) * baseColor;
+    vec4 diffuseColor = texture(samplerColorMap, inUV) * baseColor;
     
-    vec3 N = normalize(normalInterp);
+    vec3 N = normalize(inNormal);
+    vec3 T = normalize(inTangent.xyz);
+    vec3 B = cross(inNormal, inTangent.xyz) * inTangent.w;
+    mat3 TBN = mat3(T, B, N);
+    N = TBN * normalize(texture(samplerNormalMap, inUV)).xyz * 2.0 - vec3(1.0);
+
     vec3 L = normalize(lightDirection);
     vec3 E = {0, 0, 0};
 

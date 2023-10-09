@@ -15,6 +15,7 @@ public:
 		glm::vec3 pos;
 		glm::vec3 color;
 		glm::vec2 uv;
+		glm::vec4 tangent;
 
 		static VkVertexInputBindingDescription getBindingDescription()
 		{
@@ -26,9 +27,9 @@ public:
 			return bingingDescription;
 		}
 
-		static std::array<VkVertexInputAttributeDescription, 3> getAttributeDescriptions()
+		static std::array<VkVertexInputAttributeDescription, 4> getAttributeDescriptions()
 		{
-			std::array<VkVertexInputAttributeDescription, 3> attributeDescriptions{};
+			std::array<VkVertexInputAttributeDescription, 4> attributeDescriptions{};
 			attributeDescriptions[0].binding = 0;
 			attributeDescriptions[0].location = 0;
 			attributeDescriptions[0].format = VK_FORMAT_R32G32B32_SFLOAT;
@@ -43,6 +44,11 @@ public:
 			attributeDescriptions[2].location = 2;
 			attributeDescriptions[2].format = VK_FORMAT_R32G32_SFLOAT;
 			attributeDescriptions[2].offset = offsetof(Vertex, uv);
+
+			attributeDescriptions[3].binding = 0;
+			attributeDescriptions[3].location = 2;
+			attributeDescriptions[3].format = VK_FORMAT_R32G32B32A32_SFLOAT;
+			attributeDescriptions[3].offset = offsetof(Vertex, tangent);
 
 			return attributeDescriptions;
 		}

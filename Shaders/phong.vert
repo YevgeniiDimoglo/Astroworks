@@ -1,45 +1,50 @@
 #version 450
 
-layout(binding = 0) uniform UniformBufferObject
+layout(binding = 0) uniform UBOScene
 {
     mat4 model;
     mat4 view;
-    mat4 proj;
+    mat4 projection;
     vec4 lightDirection;
     vec4 lightColor;
-    vec4 cameraPosition;
+    vec4 viewPos;
     vec4 timerConstants;
-} ubo;
+} uboScene;
 
 layout(push_constant) uniform PushModel{
       mat4 model;
       vec4 baseColor;
       vec4 timer;
-} pushModel;
+} primitive;
 
-layout(location = 0) in vec3 inPosition;
+layout(location = 0) in vec3 inPos;
 layout(location = 1) in vec3 inNormal;
-layout(location = 2) in vec2 inTexCoord;
+layout(location = 2) in vec2 inUV;
+layout(location = 3) in vec4 inTangent;
 
-layout(location = 0) out vec3 normalInterp;
-layout(location = 1) out vec2 fragTexCoord;
-layout(location = 2) out vec3 vertPos;
-layout(location = 3) out vec3 lightDirection;
-layout(location = 4) out vec4 lightColor;
-layout(location = 5) out vec4 baseColor;
-layout(location = 6) out vec4 timerConstants;
+layout(location = 0) out vec3 outNormal;
+layout(location = 1) out vec2 outUV;
+layout(location = 2) out vec3 outVertPos;
+layout(location = 3) out vec4 outTangent;
+layout(location = 4) out vec3 outLightDirection;
+layout(location = 5) out vec4 outLightColor;
+layout(location = 6) out vec4 outBaseColor;
+layout(location = 7) out vec4 outTimerConstants;
 
 void main() 
 {
-    gl_Position = ubo.proj * ubo.view * pushModel.model * vec4(inPosition, 1.0);
-    vec4 vertPos4 = pushModel.model * vec4(inPosition, 1.0);
-    vertPos = vec3(vertPos4) / vertPos4.w;
+    outNormal = inNormal;
+    outBaseColor = primitive.baseColor;
+    outUV = inUV;
+    outTangent = inTangent;
+    gl_Position = uboScene.projection * uboScene.view * primitive.model * vec4(inPos, 1.0);
+    
+    vec4 vertPos4 = primitive.model * vec4(inPos, 1.0);
+    outVertPos = vec3(vertPos4) / vertPos4.w;
+    outLightDirection = vec3(uboScene.lightDirection);
+    outLightColor = uboScene.lightColor;
 
-    lightDirection = vec3(ubo.lightDirection);
-    lightColor = ubo.lightColor;
+    outNormal = mat3(primitive.model) * inNormal;
 
-    normalInterp = inNormal;
-    fragTexCoord = inTexCoord;
-    baseColor = pushModel.baseColor;
-    timerConstants = pushModel.timer;
+    outTimerConstants = primitive.timer;
 }

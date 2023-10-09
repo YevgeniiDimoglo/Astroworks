@@ -12,10 +12,12 @@
 #include <tiny_obj_loader.h>
 
 #define TINYGLTF_IMPLEMENTATION
+#define TINYGLTF_NO_EXTERNAL_IMAGE
 #define TINYGLTF_NO_STB_IMAGE_WRITE
 #define TINYGLTF_NO_INCLUDE_STB_IMAGE
-#include <json.hpp>
+#define TINYGLTF_NO_INCLUDE_STB_IMAGE_WRITE
 #define TINYGLTF_NO_INCLUDE_JSON
+#include <json.hpp>
 #include <tiny_gltf.h>
 
 int main()

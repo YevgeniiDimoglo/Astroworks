@@ -9,7 +9,7 @@ layout(location = 5) in vec4 baseColor;
 layout(location = 6) in vec4 timerConstants;
 
 layout(set = 1, binding = 0) uniform sampler2D texSampler;
-layout(set = 2, binding = 0) uniform sampler2D dissolveSampler;
+layout(set = 3, binding = 0) uniform sampler2D dissolveSampler;
 
 layout(location = 0) out vec4 outColor;
 

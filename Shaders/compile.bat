@@ -7,4 +7,6 @@
 %~dp0\glslc.exe flat.frag -o flatPS.spv
 %~dp0\glslc.exe quad.vert -o quadVS.spv
 %~dp0\glslc.exe quad.frag -o quadPS.spv
+%~dp0\glslc.exe pbrtexture.vert -o pbrtextureVS.spv
+%~dp0\glslc.exe pbrtexture.frag -o pbrtexturePS.spv
 pause

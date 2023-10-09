@@ -39,7 +39,7 @@
 
 static const int MAX_FRAMES_IN_FLIGHT = 2;
 static const int MAX_OBJECTS = 2048;
-static const int DUMMIES = 1;
+static const int DUMMIES = 2;
 
 static const uint32_t WIDTH = 1920;
 static const uint32_t HEIGHT = 1080;

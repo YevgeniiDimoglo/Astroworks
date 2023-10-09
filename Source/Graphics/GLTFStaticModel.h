@@ -20,6 +20,7 @@ public:
 		glm::vec3 pos;
 		glm::vec3 normal;
 		glm::vec2 uv;
+		glm::vec4 tangent;
 
 		static VkVertexInputBindingDescription getBindingDescription()
 		{
@@ -31,9 +32,9 @@ public:
 			return bingingDescription;
 		}
 
-		static std::array<VkVertexInputAttributeDescription, 3> getAttributeDescriptions()
+		static std::array<VkVertexInputAttributeDescription, 4> getAttributeDescriptions()
 		{
-			std::array<VkVertexInputAttributeDescription, 3> attributeDescriptions{};
+			std::array<VkVertexInputAttributeDescription, 4> attributeDescriptions{};
 			attributeDescriptions[0].binding = 0;
 			attributeDescriptions[0].location = 0;
 			attributeDescriptions[0].format = VK_FORMAT_R32G32B32_SFLOAT;
@@ -48,6 +49,11 @@ public:
 			attributeDescriptions[2].location = 2;
 			attributeDescriptions[2].format = VK_FORMAT_R32G32_SFLOAT;
 			attributeDescriptions[2].offset = offsetof(Vertex, uv);
+
+			attributeDescriptions[3].binding = 0;
+			attributeDescriptions[3].location = 3;
+			attributeDescriptions[3].format = VK_FORMAT_R32G32B32A32_SFLOAT;
+			attributeDescriptions[3].offset = offsetof(Vertex, tangent);
 
 			return attributeDescriptions;
 		}
@@ -91,6 +97,8 @@ public:
 		std::vector<Node*>	children;
 		Mesh				mesh;
 		glm::mat4			matrix;
+		std::string			name;
+		bool				visible = true;
 
 		~Node()
 		{
@@ -105,12 +113,6 @@ public:
 	glm::vec4 baseColor = glm::vec4(1.0f);
 	glm::vec4 timer;
 
-	struct Material
-	{
-		glm::vec4	baseColorFactor = glm::vec4(1.0f);
-		uint32_t	baseColorTextureIndex;
-	};
-
 	struct Image
 	{
 		VkImage					image;
@@ -121,6 +123,25 @@ public:
 		VkDescriptorImageInfo	descriptor;
 		VkSampler				sampler;
 		VkDescriptorSet			descriptorSet;
+	};
+
+	struct Material
+	{
+		glm::vec4	baseColorFactor = glm::vec4(1.0f);
+		uint32_t	baseColorTextureIndex;
+		uint32_t	normalTextureIndex;
+		GLTFStaticModel::Image* baseColorTexture;
+		GLTFStaticModel::Image* metallicRoughnessTexture;
+		GLTFStaticModel::Image* normalTexture;
+		GLTFStaticModel::Image* occlussionTexture;
+		GLTFStaticModel::Image* emissiveTexture;
+		GLTFStaticModel::Image* ambientOcclusionTexture;
+		std::string alphaMode = "OPAQUE";
+		float alphaCutoff = 1.0f;
+		float metallicFactor = 1.0f;
+		float roughnessFactor = 1.0f;
+		bool		doubleSided = false;
+		VkDescriptorSet descriptorSet = VK_NULL_HANDLE;
 	};
 
 	struct Texture
@@ -142,6 +163,8 @@ public:
 	void loadTextures(tinygltf::Model& input);
 	void loadMaterials(tinygltf::Model& input);
 	void loadNode(const tinygltf::Node& inputNode, const tinygltf::Model& input, GLTFStaticModel::Node* parent, std::vector<uint32_t>& indexBuffer, std::vector<GLTFStaticModel::Vertex>& vertexBuffer);
+
+	void updateDescriptors(GLTFStaticModel::Material& material);
 
 	void drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, GLTFStaticModel::Node* node);
 	void draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout);

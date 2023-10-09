@@ -54,7 +54,7 @@ void GLTFStaticModel::loadImages(tinygltf::Model& input)
 		}
 	}
 
-	if (images.size() == 0)
+	if (images.size() < 2)
 	{
 		createDummyTextures(newPhysicalDevice, newLogicalDevice, commandPool, transferQueue);
 	}
@@ -74,15 +74,36 @@ void GLTFStaticModel::loadMaterials(tinygltf::Model& input)
 	materials.resize(input.materials.size());
 	for (size_t i = 0; i < input.materials.size(); i++)
 	{
+		// Material Values
 		tinygltf::Material glTFMaterial = input.materials[i];
 		if (glTFMaterial.values.find("baseColorFactor") != glTFMaterial.values.end())
 		{
 			materials[i].baseColorFactor = glm::make_vec4(glTFMaterial.values["baseColorFactor"].ColorFactor().data());
 		}
+		if (glTFMaterial.values.find("roughnessFactor") != glTFMaterial.values.end()) {
+			materials[i].roughnessFactor = static_cast<float>(glTFMaterial.values["roughnessFactor"].Factor());
+		}
+		if (glTFMaterial.values.find("metallicFactor") != glTFMaterial.values.end()) {
+			materials[i].metallicFactor = static_cast<float>(glTFMaterial.values["metallicFactor"].Factor());
+		}
+		if (glTFMaterial.values.find("baseColorFactor") != glTFMaterial.values.end()) {
+			materials[i].baseColorFactor = glm::make_vec4(glTFMaterial.values["baseColorFactor"].ColorFactor().data());
+		}
+
+		// Material Textures
 		if (glTFMaterial.values.find("baseColorTexture") != glTFMaterial.values.end())
 		{
 			materials[i].baseColorTextureIndex = glTFMaterial.values["baseColorTexture"].TextureIndex();
+			materials[i].baseColorTexture = &images[materials[i].baseColorTextureIndex];
 		}
+		if (glTFMaterial.additionalValues.find("normalTexture") != glTFMaterial.additionalValues.end()) {
+			materials[i].normalTextureIndex = glTFMaterial.additionalValues["normalTexture"].TextureIndex();
+			materials[i].normalTexture = &images[materials[i].normalTextureIndex];
+		}
+
+		materials[i].alphaMode = glTFMaterial.alphaMode;
+		materials[i].alphaCutoff = (float)glTFMaterial.alphaCutoff;
+		materials[i].doubleSided = glTFMaterial.doubleSided;
 	}
 }
 
@@ -141,6 +162,7 @@ void GLTFStaticModel::loadNode(const tinygltf::Node& inputNode, const tinygltf::
 				const float* positionBuffer = nullptr;
 				const float* normalsBuffer = nullptr;
 				const float* texCoordsBuffer = nullptr;
+				const float* tangentBuffer = nullptr;
 				size_t vertexCount = 0;
 
 				if (glTFPrimitive.attributes.find("POSITION") != glTFPrimitive.attributes.end())
@@ -165,12 +187,20 @@ void GLTFStaticModel::loadNode(const tinygltf::Node& inputNode, const tinygltf::
 					texCoordsBuffer = reinterpret_cast<const float*>(&(input.buffers[view.buffer].data[accessor.byteOffset + view.byteOffset]));
 				}
 
+				if (glTFPrimitive.attributes.find("TANGENT") != glTFPrimitive.attributes.end())
+				{
+					const tinygltf::Accessor& accessor = input.accessors[glTFPrimitive.attributes.find("TANGENT")->second];
+					const tinygltf::BufferView& view = input.bufferViews[accessor.bufferView];
+					tangentBuffer = reinterpret_cast<const float*>(&(input.buffers[view.buffer].data[accessor.byteOffset + view.byteOffset]));
+				}
+
 				for (size_t v = 0; v < vertexCount; v++)
 				{
 					Vertex vert{};
 					vert.pos = glm::vec4(glm::make_vec3(&positionBuffer[v * 3]), 1.0f);
 					vert.normal = glm::normalize(glm::vec3(normalsBuffer ? glm::make_vec3(&normalsBuffer[v * 3]) : glm::vec3(0.0f)));
 					vert.uv = texCoordsBuffer ? glm::make_vec2(&texCoordsBuffer[v * 2]) : glm::vec3(0.0f);
+					vert.tangent = tangentBuffer ? glm::make_vec4(&texCoordsBuffer[v * 2]) : glm::vec4(0.0f);
 					vertexBuffer.push_back(vert);
 				}
 			}
@@ -239,6 +269,44 @@ void GLTFStaticModel::loadNode(const tinygltf::Node& inputNode, const tinygltf::
 	}
 }
 
+void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
+{
+	VkDescriptorSetAllocateInfo descriptorSetAllocInfo{};
+	descriptorSetAllocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+	descriptorSetAllocInfo.descriptorPool = samplerDescriptorPool;
+	descriptorSetAllocInfo.pSetLayouts = &samplerSetLayout;
+	descriptorSetAllocInfo.descriptorSetCount = 1;
+	vkAllocateDescriptorSets(newLogicalDevice, &descriptorSetAllocInfo, &material.descriptorSet);
+
+	GLTFStaticModel::Image* color = material.baseColorTexture;
+	GLTFStaticModel::Image* normal = material.normalTexture;
+
+	if (normal == nullptr)
+	{
+		normal = &dummyTextureImages[1];
+	}
+
+	VkDescriptorImageInfo colorInfo = color->descriptor;
+	VkDescriptorImageInfo normalInfo = normal->descriptor;
+
+	std::vector<VkDescriptorImageInfo> imageDescriptors = {
+		colorInfo,
+		normalInfo,
+	};
+
+	std::array<VkWriteDescriptorSet, 2> writeDescriptorSets{};
+	for (size_t i = 0; i < imageDescriptors.size(); i++) {
+		writeDescriptorSets[i].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+		writeDescriptorSets[i].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+		writeDescriptorSets[i].descriptorCount = 1;
+		writeDescriptorSets[i].dstSet = material.descriptorSet;
+		writeDescriptorSets[i].dstBinding = static_cast<uint32_t>(i);
+		writeDescriptorSets[i].pImageInfo = &imageDescriptors[i];
+	}
+
+	vkUpdateDescriptorSets(newLogicalDevice, static_cast<uint32_t>(writeDescriptorSets.size()), writeDescriptorSets.data(), 0, NULL);
+}
+
 void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, GLTFStaticModel::Node* node)
 {
 	if (node->mesh.primitives.size() > 0)
@@ -264,8 +332,9 @@ void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout p
 				// Create dummy texture
 				if (dummyTextureImages.empty())
 				{
-					GLTFStaticModel::Texture texture = textures[materials[primitive.materialIndex].baseColorTextureIndex];
-					vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &images[texture.imageIndex].descriptorSet, 0, nullptr);
+					GLTFStaticModel::Material& material = materials[primitive.materialIndex];
+					//GLTFStaticModel::Texture texture = textures[materials[primitive.materialIndex].baseColorTextureIndex];
+					vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &material.descriptorSet, 0, nullptr);
 				}
 				else
 				{
@@ -344,6 +413,11 @@ void GLTFStaticModel::loadglTFFile(VkPhysicalDevice newPhysicalDevice, VkDevice 
 
 	createVertexBuffer(newPhysicalDevice, newLogicalDevice, transferQueue, transferCommandPool, &vertexBuffer);
 	createIndexBuffer(newPhysicalDevice, newLogicalDevice, transferQueue, transferCommandPool, &indexBuffer);
+
+	for (GLTFStaticModel::Material& material : materials)
+	{
+		updateDescriptors(material);
+	}
 }
 
 void GLTFStaticModel::cleanupResourses(VkDevice newLogicalDevice)
@@ -579,7 +653,10 @@ void GLTFStaticModel::createDummyTextures(VkPhysicalDevice newPhysicalDevice, Vk
 	for (size_t i = 0; i < dummyTextureImages.size(); i++)
 	{
 		int texWidth, texHeight, texChannels;
-		stbi_uc* pixels = stbi_load("./Data/Textures/Dummy.png", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+		stbi_uc* pixels = nullptr;
+		if (i == 0) pixels = stbi_load("./Data/Textures/Dummy.png", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+		if (i == 1) pixels = stbi_load("./Data/Textures/DummyNormal.png", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+
 		VkDeviceSize imageSize = texWidth * texHeight * 4;
 
 		if (!pixels)
