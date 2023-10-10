@@ -53,11 +53,6 @@ void GLTFStaticModel::loadImages(tinygltf::Model& input)
 			delete[] buffer;
 		}
 	}
-
-	if (images.size() < 2)
-	{
-		createDummyTextures(newPhysicalDevice, newLogicalDevice, commandPool, transferQueue);
-	}
 }
 
 GLTFStaticModel::Image GLTFStaticModel::loadImage(tinygltf::Image& gltfimage)
@@ -315,9 +310,36 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	GLTFStaticModel::Image* color = material.baseColorTexture;
 	GLTFStaticModel::Image* normal = material.normalTexture;
 
+	if (color == nullptr)
+	{
+		GLTFStaticModel::Image dummyColor = {
+		dummyBasicColor.image,
+			dummyBasicColor.imageLayout,
+			dummyBasicColor.deviceMemory,
+			dummyBasicColor.view,
+			dummyBasicColor.width, dummyBasicColor.height,
+			dummyBasicColor.descriptor,
+			dummyBasicColor.sampler,
+			dummyBasicColor.descriptorSet,
+		};
+
+		color = &dummyColor;
+	}
+
 	if (normal == nullptr)
 	{
-		normal = &dummyTextureImages[1];
+		GLTFStaticModel::Image dummyNormal = {
+		dummyBasicNormal.image,
+			dummyBasicNormal.imageLayout,
+			dummyBasicNormal.deviceMemory,
+			dummyBasicNormal.view,
+			dummyBasicNormal.width, dummyBasicColor.height,
+			dummyBasicNormal.descriptor,
+			dummyBasicNormal.sampler,
+			dummyBasicNormal.descriptorSet,
+		};
+
+		normal = &dummyNormal;
 	}
 
 	VkDescriptorImageInfo colorInfo = color->descriptor;
@@ -681,9 +703,7 @@ GLTFStaticModel::Image GLTFStaticModel::createTextureFromBuffer(void* buffer, Vk
 
 void GLTFStaticModel::createDummyTextures(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkCommandPool transferCommandPool, VkQueue transferQueue)
 {
-	dummyTextureImages.resize(DUMMIES);
-
-	for (size_t i = 0; i < dummyTextureImages.size(); i++)
+	for (size_t i = 0; i < DUMMIES; i++)
 	{
 		int texWidth, texHeight, texChannels;
 		stbi_uc* pixels = nullptr;
@@ -810,7 +830,6 @@ void GLTFStaticModel::createDummyTextures(VkPhysicalDevice newPhysicalDevice, Vk
 		dummyImage.sampler = imageSampler;
 		dummyImage.descriptorSet = descriptorSet;
 
-		dummyTextureImages.resize(dummyTextureImages.size() - 1);
 		dummyTextureImages.push_back(dummyImage);
 	}
 }

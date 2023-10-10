@@ -4,17 +4,22 @@
 #include "../Actor/Actor.h"
 #include "../Camera/Camera.h"
 
+ImageBuffer dummyBasicColor;
+ImageBuffer dummyBasicNormal;
+
 void Graphics::init()
 {
 	initWindow();
 
 	initVulkan();
 
+	dissolveImage = createTexture(physicalDevice, device, commandPool, graphicsQueue, dissolveSamplerDescriptorPool, dissolveSamplerSetLayout, "./Data/Textures/dissolve_animation.png");
+	dummyBasicColor = createTexture(physicalDevice, device, commandPool, graphicsQueue, dissolveSamplerDescriptorPool, dissolveSamplerSetLayout, "./Data/Textures/Dummy.png");
+	dummyBasicNormal = createTexture(physicalDevice, device, commandPool, graphicsQueue, dissolveSamplerDescriptorPool, dissolveSamplerSetLayout, "./Data/Textures/DummyNormal.png");
+
 	initModels();
 
 	initSprites();
-
-	dissolveImage = createTexture(physicalDevice, device, commandPool, graphicsQueue, dissolveSamplerDescriptorPool, dissolveSamplerSetLayout, "./Data/Textures/dissolve_animation.png");
 }
 
 void Graphics::draw(HighResolutionTimer timer, float elapsedTime)
@@ -950,7 +955,7 @@ void Graphics::createDescriptorPool()
 
 	VkDescriptorPoolCreateInfo dissolveSamplerPoolCreateInfo = {};
 	dissolveSamplerPoolCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-	dissolveSamplerPoolCreateInfo.maxSets = 2;
+	dissolveSamplerPoolCreateInfo.maxSets = 10;
 	dissolveSamplerPoolCreateInfo.poolSizeCount = 1;
 	dissolveSamplerPoolCreateInfo.pPoolSizes = &dissolveSamplerPoolSize;
 
@@ -1673,7 +1678,7 @@ bool Graphics::isDeviceSuitable(VkPhysicalDevice device)
 #else
 	return (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) && indices.isComplete() && extensionsSupported && swapChainAdequate && deviceFeatures.samplerAnisotropy;
 #endif // DISCRETE
-}
+	}
 
 QueueFamilyIndices Graphics::findQueueFamilies(VkPhysicalDevice device)
 {

@@ -142,6 +142,9 @@ static const std::vector<const char*> deviceExtensions = {
 		VK_KHR_DEPTH_STENCIL_RESOLVE_EXTENSION_NAME
 };
 
+extern ImageBuffer dummyBasicColor;
+extern ImageBuffer dummyBasicNormal;
+
 static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 	VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 	VkDebugUtilsMessageTypeFlagsEXT messageType,
