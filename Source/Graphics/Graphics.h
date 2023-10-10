@@ -10,7 +10,7 @@ class Camera;
 enum class Pipelines
 {
 	ModelPipeline,
-	//PBRModelPipeline,
+	PBRModelPipeline,
 	UnlitPipeline,
 	//DissolvePipeline,
 	DebugDrawingPipeline,

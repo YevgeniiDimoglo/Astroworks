@@ -589,6 +589,12 @@ void Graphics::createGraphicsPipelines()
 			fragShaderCode = readFile("Shaders/quadPS.spv");
 		}
 
+		if (pipelineName == Pipelines::PBRModelPipeline)
+		{
+			vertShaderCode = readFile("Shaders/pbrtextureVS.spv");
+			fragShaderCode = readFile("Shaders/pbrtexturePS.spv");
+		}
+
 		// Build shader modules to link to Graphics Pipeline
 		// Create Shader Modules
 		VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);

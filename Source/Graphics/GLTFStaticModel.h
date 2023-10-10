@@ -140,6 +140,7 @@ public:
 		float alphaCutoff = 1.0f;
 		float metallicFactor = 1.0f;
 		float roughnessFactor = 1.0f;
+		int index = 0;
 		bool		doubleSided = false;
 		VkDescriptorSet descriptorSet = VK_NULL_HANDLE;
 	};
@@ -147,6 +148,7 @@ public:
 	struct Texture
 	{
 		int32_t imageIndex;
+		GLTFStaticModel::Image image;
 	};
 
 	bool dissolveTexture = false;
@@ -160,6 +162,7 @@ public:
 	std::vector<GLTFStaticModel::Image> getDummyImages() const { return dummyTextureImages; }
 
 	void loadImages(tinygltf::Model& input);
+	GLTFStaticModel::Image loadImage(tinygltf::Image& gltfimage);
 	void loadTextures(tinygltf::Model& input);
 	void loadMaterials(tinygltf::Model& input);
 	void loadNode(const tinygltf::Node& inputNode, const tinygltf::Model& input, GLTFStaticModel::Node* parent, std::vector<uint32_t>& indexBuffer, std::vector<GLTFStaticModel::Vertex>& vertexBuffer);

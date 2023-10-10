@@ -60,50 +60,84 @@ void GLTFStaticModel::loadImages(tinygltf::Model& input)
 	}
 }
 
+GLTFStaticModel::Image GLTFStaticModel::loadImage(tinygltf::Image& gltfimage)
+{
+	unsigned char* buffer = nullptr;
+	VkDeviceSize bufferSize = 0;
+	bool deleteBuffer = false;
+	if (gltfimage.component == 3) {
+		bufferSize = gltfimage.width * gltfimage.height * 4;
+		buffer = new unsigned char[bufferSize];
+		unsigned char* rgba = buffer;
+		unsigned char* rgb = &gltfimage.image[0];
+		for (int32_t i = 0; i < gltfimage.width * gltfimage.height; ++i) {
+			for (int32_t j = 0; j < 3; ++j) {
+				rgba[j] = rgb[j];
+			}
+			rgba += 4;
+			rgb += 3;
+		}
+		deleteBuffer = true;
+	}
+	else {
+		buffer = &gltfimage.image[0];
+		bufferSize = gltfimage.image.size();
+	}
+
+	return createTextureFromBuffer(buffer, bufferSize, VK_FORMAT_R8G8B8A8_UNORM, gltfimage.width, gltfimage.height, newPhysicalDevice, newLogicalDevice, commandPool, transferQueue);
+
+	if (deleteBuffer)
+	{
+		delete[] buffer;
+	}
+}
+
 void GLTFStaticModel::loadTextures(tinygltf::Model& input)
 {
-	textures.resize(input.textures.size());
-	for (size_t i = 0; i < input.textures.size(); i++)
-	{
-		textures[i].imageIndex = input.textures[i].source;
+	for (tinygltf::Texture& tex : input.textures) {
+		tinygltf::Image gltfImage = input.images[tex.source];
+		GLTFStaticModel::Texture texture;
+		texture.image = loadImage(gltfImage);
+		texture.imageIndex = tex.source;
+		textures.push_back(texture);
 	}
 }
 
 void GLTFStaticModel::loadMaterials(tinygltf::Model& input)
 {
-	materials.resize(input.materials.size());
-	for (size_t i = 0; i < input.materials.size(); i++)
-	{
-		// Material Values
-		tinygltf::Material glTFMaterial = input.materials[i];
-		if (glTFMaterial.values.find("baseColorFactor") != glTFMaterial.values.end())
-		{
-			materials[i].baseColorFactor = glm::make_vec4(glTFMaterial.values["baseColorFactor"].ColorFactor().data());
-		}
-		if (glTFMaterial.values.find("roughnessFactor") != glTFMaterial.values.end()) {
-			materials[i].roughnessFactor = static_cast<float>(glTFMaterial.values["roughnessFactor"].Factor());
-		}
-		if (glTFMaterial.values.find("metallicFactor") != glTFMaterial.values.end()) {
-			materials[i].metallicFactor = static_cast<float>(glTFMaterial.values["metallicFactor"].Factor());
-		}
-		if (glTFMaterial.values.find("baseColorFactor") != glTFMaterial.values.end()) {
-			materials[i].baseColorFactor = glm::make_vec4(glTFMaterial.values["baseColorFactor"].ColorFactor().data());
-		}
+	for (tinygltf::Material& mat : input.materials) {
+		GLTFStaticModel::Material material{};
 
-		// Material Textures
-		if (glTFMaterial.values.find("baseColorTexture") != glTFMaterial.values.end())
-		{
-			materials[i].baseColorTextureIndex = glTFMaterial.values["baseColorTexture"].TextureIndex();
-			materials[i].baseColorTexture = &images[materials[i].baseColorTextureIndex];
+		if (mat.values.find("baseColorTexture") != mat.values.end()) {
+			material.baseColorTexture = &textures[mat.values["baseColorTexture"].TextureIndex()].image;
 		}
-		if (glTFMaterial.additionalValues.find("normalTexture") != glTFMaterial.additionalValues.end()) {
-			materials[i].normalTextureIndex = glTFMaterial.additionalValues["normalTexture"].TextureIndex();
-			materials[i].normalTexture = &images[materials[i].normalTextureIndex];
+		/*	if (mat.values.find("metallicRoughnessTexture") != mat.values.end()) {
+				material.metallicRoughnessTexture = &textures[mat.values["metallicRoughnessTexture"].TextureIndex()];
+				material.texCoordSets.metallicRoughness = mat.values["metallicRoughnessTexture"].TextureTexCoord();
+			}*/
+		if (mat.values.find("roughnessFactor") != mat.values.end()) {
+			material.roughnessFactor = static_cast<float>(mat.values["roughnessFactor"].Factor());
 		}
+		if (mat.values.find("metallicFactor") != mat.values.end()) {
+			material.metallicFactor = static_cast<float>(mat.values["metallicFactor"].Factor());
+		}
+		if (mat.values.find("baseColorFactor") != mat.values.end()) {
+			material.baseColorFactor = glm::make_vec4(mat.values["baseColorFactor"].ColorFactor().data());
+		}
+		if (mat.additionalValues.find("normalTexture") != mat.additionalValues.end()) {
+			material.normalTexture = &textures[mat.additionalValues["normalTexture"].TextureIndex()].image;
+		}
+		/*if (mat.additionalValues.find("emissiveTexture") != mat.additionalValues.end()) {
+			material.emissiveTexture = &textures[mat.additionalValues["emissiveTexture"].TextureIndex()];
+			material.texCoordSets.emissive = mat.additionalValues["emissiveTexture"].TextureTexCoord();
+		}
+		if (mat.additionalValues.find("occlusionTexture") != mat.additionalValues.end()) {
+			material.occlusionTexture = &textures[mat.additionalValues["occlusionTexture"].TextureIndex()];
+			material.texCoordSets.occlusion = mat.additionalValues["occlusionTexture"].TextureTexCoord();
+		}*/
 
-		materials[i].alphaMode = glTFMaterial.alphaMode;
-		materials[i].alphaCutoff = (float)glTFMaterial.alphaCutoff;
-		materials[i].doubleSided = glTFMaterial.doubleSided;
+		material.index = static_cast<uint32_t>(materials.size());
+		materials.push_back(material);
 	}
 }
 
@@ -333,13 +367,12 @@ void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout p
 				if (dummyTextureImages.empty())
 				{
 					GLTFStaticModel::Material& material = materials[primitive.materialIndex];
-					//GLTFStaticModel::Texture texture = textures[materials[primitive.materialIndex].baseColorTextureIndex];
 					vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &material.descriptorSet, 0, nullptr);
 				}
 				else
 				{
-					GLTFStaticModel::Texture texture = GLTFStaticModel::Texture{ 0 };
-					vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &dummyTextureImages[texture.imageIndex].descriptorSet, 0, nullptr);
+					//GLTFStaticModel::Texture texture = GLTFStaticModel::Texture{ 0 };
+					//vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &dummyTextureImages[texture.imageIndex].descriptorSet, 0, nullptr);
 				}
 
 				vkCmdDrawIndexed(commandBuffer, primitive.indexCount, 1, primitive.firstIndex, 0, 0);
@@ -395,8 +428,8 @@ void GLTFStaticModel::loadglTFFile(VkPhysicalDevice newPhysicalDevice, VkDevice 
 	if (fileLoaded)
 	{
 		this->loadImages(glTFInput);
-		this->loadMaterials(glTFInput);
 		this->loadTextures(glTFInput);
+		this->loadMaterials(glTFInput);
 		const tinygltf::Scene& scene = glTFInput.scenes[0];
 		for (size_t i = 0; i < scene.nodes.size(); i++)
 		{
