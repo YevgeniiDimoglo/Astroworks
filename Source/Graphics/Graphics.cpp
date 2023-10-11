@@ -6,6 +6,9 @@
 
 ImageBuffer dummyBasicColor;
 ImageBuffer dummyBasicNormal;
+ImageBuffer dummyBasicMetalness;
+ImageBuffer dummyBasicRoughness;
+ImageBuffer dummyBasicAO;
 
 void Graphics::init()
 {
@@ -16,6 +19,9 @@ void Graphics::init()
 	dissolveImage = createTexture(physicalDevice, device, commandPool, graphicsQueue, dissolveSamplerDescriptorPool, dissolveSamplerSetLayout, "./Data/Textures/dissolve_animation.png");
 	dummyBasicColor = createTexture(physicalDevice, device, commandPool, graphicsQueue, dissolveSamplerDescriptorPool, dissolveSamplerSetLayout, "./Data/Textures/Dummy.png");
 	dummyBasicNormal = createTexture(physicalDevice, device, commandPool, graphicsQueue, dissolveSamplerDescriptorPool, dissolveSamplerSetLayout, "./Data/Textures/DummyNormal.png");
+	dummyBasicMetalness = createTexture(physicalDevice, device, commandPool, graphicsQueue, dissolveSamplerDescriptorPool, dissolveSamplerSetLayout, "./Data/Textures/DummyMetalness.png");
+	dummyBasicRoughness = createTexture(physicalDevice, device, commandPool, graphicsQueue, dissolveSamplerDescriptorPool, dissolveSamplerSetLayout, "./Data/Textures/DummyRoughness.png");
+	dummyBasicAO = createTexture(physicalDevice, device, commandPool, graphicsQueue, dissolveSamplerDescriptorPool, dissolveSamplerSetLayout, "./Data/Textures/DummyAO.png");
 
 	initModels();
 
@@ -513,6 +519,9 @@ void Graphics::createDescriptorSetLayout()
 	std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings = {
 				{ 0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
 				{ 1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
+				{ 2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
+				{ 3, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
+				{ 4, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
 	};
 
 	VkDescriptorSetLayoutCreateInfo descriptorSetLayoutCI{};
@@ -934,11 +943,11 @@ void Graphics::createDescriptorPool()
 	// Texture sampler pool
 	VkDescriptorPoolSize samplerPoolSize = {};
 	samplerPoolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-	samplerPoolSize.descriptorCount = MAX_OBJECTS * 2;
+	samplerPoolSize.descriptorCount = MAX_OBJECTS * 5;
 
 	VkDescriptorPoolCreateInfo samplerPoolCreateInfo = {};
 	samplerPoolCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-	samplerPoolCreateInfo.maxSets = MAX_OBJECTS * 2;
+	samplerPoolCreateInfo.maxSets = MAX_OBJECTS * 5;
 	samplerPoolCreateInfo.poolSizeCount = 1;
 	samplerPoolCreateInfo.pPoolSizes = &samplerPoolSize;
 
@@ -1200,6 +1209,14 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
 		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)], static_cast<int>(ShaderType::Phong));
+
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::PBRModelPipeline)]);
+
+		// Bind camera descriptor
+		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::PBRModelPipeline)],
+			0, 1, &descriptorSets[currentFrame], 0, nullptr);
+
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::PBRModelPipeline)], static_cast<int>(ShaderType::PBR));
 
 		// -- Unlit Pipeline
 		//
@@ -1678,7 +1695,7 @@ bool Graphics::isDeviceSuitable(VkPhysicalDevice device)
 #else
 	return (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) && indices.isComplete() && extensionsSupported && swapChainAdequate && deviceFeatures.samplerAnisotropy;
 #endif // DISCRETE
-	}
+}
 
 QueueFamilyIndices Graphics::findQueueFamilies(VkPhysicalDevice device)
 {

@@ -49,6 +49,7 @@ static const int syncInterval = 0;
 enum class ShaderType
 {
 	Phong,
+	PBR,
 	PhongDissolve,
 	PhongTransparency,
 	Flat,
@@ -144,6 +145,9 @@ static const std::vector<const char*> deviceExtensions = {
 
 extern ImageBuffer dummyBasicColor;
 extern ImageBuffer dummyBasicNormal;
+extern ImageBuffer dummyBasicMetalness;
+extern ImageBuffer dummyBasicRoughness;
+extern ImageBuffer dummyBasicAO;
 
 static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 	VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,

@@ -46,6 +46,15 @@ void FreeCameraController::Update(GLFWwindow* window, float deltaTime)
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
 		cameraEnable = !cameraEnable;
+
+		if (cameraEnable)
+		{
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		}
+		else
+		{
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
 	}
 
 	if (cameraEnable)
@@ -58,7 +67,7 @@ void FreeCameraController::Update(GLFWwindow* window, float deltaTime)
 		glfwSetCursorPos(window, width * 0.5, height * 0.5);
 
 		angleX += MOUSESPEED * deltaTime * float(width * 0.5 - xpos);
-		angleY += MOUSESPEED * deltaTime * float(height * 0.5 - ypos);
+		angleY += MOUSESPEED * deltaTime * float(height * 0.5 - ypos - 0.5);
 
 		glm::vec3 front = glm::vec3(
 			cosf(angleY) * sin(angleX),

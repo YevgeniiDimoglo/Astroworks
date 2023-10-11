@@ -128,6 +128,11 @@ void ActorManager::deserializeActor()
 		{
 			actor->setShaderType(ShaderType::Flat);
 		}
+
+		if (actor->getTypeName() == "PBR")
+		{
+			actor->setShaderType(ShaderType::PBR);
+		}
 	}
 }
 

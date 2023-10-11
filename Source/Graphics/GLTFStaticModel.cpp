@@ -106,10 +106,9 @@ void GLTFStaticModel::loadMaterials(tinygltf::Model& input)
 		if (mat.values.find("baseColorTexture") != mat.values.end()) {
 			material.baseColorTexture = &textures[mat.values["baseColorTexture"].TextureIndex()].image;
 		}
-		/*	if (mat.values.find("metallicRoughnessTexture") != mat.values.end()) {
-				material.metallicRoughnessTexture = &textures[mat.values["metallicRoughnessTexture"].TextureIndex()];
-				material.texCoordSets.metallicRoughness = mat.values["metallicRoughnessTexture"].TextureTexCoord();
-			}*/
+		if (mat.values.find("metallicRoughnessTexture") != mat.values.end()) {
+			material.metallicRoughnessTexture = &textures[mat.values["metallicRoughnessTexture"].TextureIndex()].image;
+		}
 		if (mat.values.find("roughnessFactor") != mat.values.end()) {
 			material.roughnessFactor = static_cast<float>(mat.values["roughnessFactor"].Factor());
 		}
@@ -122,14 +121,12 @@ void GLTFStaticModel::loadMaterials(tinygltf::Model& input)
 		if (mat.additionalValues.find("normalTexture") != mat.additionalValues.end()) {
 			material.normalTexture = &textures[mat.additionalValues["normalTexture"].TextureIndex()].image;
 		}
-		/*if (mat.additionalValues.find("emissiveTexture") != mat.additionalValues.end()) {
-			material.emissiveTexture = &textures[mat.additionalValues["emissiveTexture"].TextureIndex()];
-			material.texCoordSets.emissive = mat.additionalValues["emissiveTexture"].TextureTexCoord();
+		if (mat.additionalValues.find("emissiveTexture") != mat.additionalValues.end()) {
+			material.emissiveTexture = &textures[mat.additionalValues["emissiveTexture"].TextureIndex()].image;
 		}
 		if (mat.additionalValues.find("occlusionTexture") != mat.additionalValues.end()) {
-			material.occlusionTexture = &textures[mat.additionalValues["occlusionTexture"].TextureIndex()];
-			material.texCoordSets.occlusion = mat.additionalValues["occlusionTexture"].TextureTexCoord();
-		}*/
+			material.ambientOcclusionTexture = &textures[mat.additionalValues["occlusionTexture"].TextureIndex()].image;
+		}
 
 		material.index = static_cast<uint32_t>(materials.size());
 		materials.push_back(material);
@@ -309,6 +306,9 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 
 	GLTFStaticModel::Image* color = material.baseColorTexture;
 	GLTFStaticModel::Image* normal = material.normalTexture;
+	GLTFStaticModel::Image* metallic = material.metallicRoughnessTexture;
+	GLTFStaticModel::Image* roughness = material.metallicRoughnessTexture;
+	GLTFStaticModel::Image* AO = material.ambientOcclusionTexture;
 
 	if (color == nullptr)
 	{
@@ -342,15 +342,69 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 		normal = &dummyNormal;
 	}
 
+	if (metallic == nullptr)
+	{
+		GLTFStaticModel::Image dummyMetallic = {
+		dummyBasicMetalness.image,
+			dummyBasicMetalness.imageLayout,
+			dummyBasicMetalness.deviceMemory,
+			dummyBasicMetalness.view,
+			dummyBasicMetalness.width, dummyBasicColor.height,
+			dummyBasicMetalness.descriptor,
+			dummyBasicMetalness.sampler,
+			dummyBasicMetalness.descriptorSet,
+		};
+
+		metallic = &dummyMetallic;
+	}
+
+	if (roughness == nullptr)
+	{
+		GLTFStaticModel::Image dummyRoughness = {
+		dummyBasicRoughness.image,
+			dummyBasicRoughness.imageLayout,
+			dummyBasicRoughness.deviceMemory,
+			dummyBasicRoughness.view,
+			dummyBasicRoughness.width, dummyBasicColor.height,
+			dummyBasicRoughness.descriptor,
+			dummyBasicRoughness.sampler,
+			dummyBasicRoughness.descriptorSet,
+		};
+
+		roughness = &dummyRoughness;
+	}
+
+	if (AO == nullptr)
+	{
+		GLTFStaticModel::Image dummyAO = {
+		dummyBasicAO.image,
+			dummyBasicAO.imageLayout,
+			dummyBasicAO.deviceMemory,
+			dummyBasicAO.view,
+			dummyBasicAO.width, dummyBasicColor.height,
+			dummyBasicAO.descriptor,
+			dummyBasicAO.sampler,
+			dummyBasicAO.descriptorSet,
+		};
+
+		AO = &dummyAO;
+	}
+
 	VkDescriptorImageInfo colorInfo = color->descriptor;
 	VkDescriptorImageInfo normalInfo = normal->descriptor;
+	VkDescriptorImageInfo metalliclInfo = metallic->descriptor;
+	VkDescriptorImageInfo roughnesslInfo = roughness->descriptor;
+	VkDescriptorImageInfo AOInfo = AO->descriptor;
 
 	std::vector<VkDescriptorImageInfo> imageDescriptors = {
 		colorInfo,
 		normalInfo,
+		metalliclInfo,
+		roughnesslInfo,
+		AOInfo,
 	};
 
-	std::array<VkWriteDescriptorSet, 2> writeDescriptorSets{};
+	std::array<VkWriteDescriptorSet, 5> writeDescriptorSets{};
 	for (size_t i = 0; i < imageDescriptors.size(); i++) {
 		writeDescriptorSets[i].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 		writeDescriptorSets[i].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
