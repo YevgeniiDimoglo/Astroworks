@@ -222,6 +222,11 @@ void GLTFStaticModel::loadNode(const tinygltf::Node& inputNode, const tinygltf::
 					vert.tangent = tangentBuffer ? glm::make_vec4(&texCoordsBuffer[v * 2]) : glm::vec4(0.0f);
 					vertexBuffer.push_back(vert);
 				}
+
+				for (size_t v = 0; v < vertexCount; v++)
+				{
+					boundingSphere.position += glm::vec4(glm::make_vec3(&positionBuffer[v * 3]), 1.0f);
+				}
 			}
 
 			// Indices

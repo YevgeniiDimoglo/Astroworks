@@ -26,10 +26,13 @@ layout(location = 0) out vec3 outNormal;
 layout(location = 1) out vec2 outUV;
 layout(location = 2) out vec3 outVertPos;
 layout(location = 3) out vec4 outTangent;
+
 layout(location = 4) out vec3 outLightDirection;
 layout(location = 5) out vec4 outLightColor;
 layout(location = 6) out vec4 outBaseColor;
-layout(location = 7) out vec4 outTimerConstants;
+
+layout(location = 7) out vec4 outCameraPos;
+layout(location = 8) out vec4 outTimerConstants;
 
 void main() 
 {
@@ -40,11 +43,13 @@ void main()
     gl_Position = uboScene.projection * uboScene.view * primitive.model * vec4(inPos, 1.0);
     
     vec4 vertPos4 = primitive.model * vec4(inPos, 1.0);
-    outVertPos = vec3(vertPos4) / vertPos4.w;
+    vertPos4.y = -vertPos4.y;
+    outVertPos = vertPos4.xyz / vertPos4.w;
     outLightDirection = vec3(uboScene.lightDirection);
     outLightColor = uboScene.lightColor;
 
     outNormal = mat3(primitive.model) * inNormal;
 
+    outCameraPos = uboScene.viewPos;
     outTimerConstants = primitive.timer;
 }

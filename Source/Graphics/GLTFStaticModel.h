@@ -59,7 +59,7 @@ public:
 		}
 
 		bool operator==(const Vertex& other) const {
-			return pos == other.pos && normal == other.normal && uv == other.uv;
+			return pos == other.pos && normal == other.normal && uv == other.uv && tangent == other.tangent;
 		}
 	};
 
@@ -151,6 +151,14 @@ public:
 		GLTFStaticModel::Image image;
 	};
 
+	struct BoundingSphere
+	{
+		glm::vec4 position;
+		float radius;
+
+		BoundingSphere() : position(glm::vec4(0.f, 0.f, 0.f, 1.f)), radius(0.0f) {};
+	};
+
 	bool dissolveTexture = false;
 
 	GLTFStaticModel(std::string filePath);
@@ -198,4 +206,6 @@ private:
 	std::vector<Texture>	textures;
 	std::vector<Material>	materials;
 	std::vector<Node*>		nodes;
+
+	BoundingSphere			boundingSphere;
 };

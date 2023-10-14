@@ -556,11 +556,6 @@ void Graphics::createDescriptorSetLayout()
 	vkCreateDescriptorSetLayout(device, &descriptorSetLayoutCI, nullptr, &samplerSetLayout);
 
 	VkDescriptorSetLayoutBinding dissolveSamplerLayoutBinding{};
-	dissolveSamplerLayoutBinding.binding = 2;
-	dissolveSamplerLayoutBinding.descriptorCount = 1;
-	dissolveSamplerLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-	dissolveSamplerLayoutBinding.pImmutableSamplers = nullptr;
-	dissolveSamplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
 
 	// Create texture sampler descriptor set layout
 	// Texture binding info
@@ -1409,11 +1404,12 @@ void Graphics::updateUniformBuffer(HighResolutionTimer timer, float elapsedTime,
 
 	ubo.view = glm::lookAt(camera->getEye(), camera->getFocus(), glm::vec3(0.f, 1.f, 0.f));
 	ubo.proj = camera->getProjection();
-
 	ubo.proj[1][1] *= -1;
-	ubo.lightDirection = { 0, -1 , -1 , 1 };
+	ubo.model = glm::mat4(1.0f);
+
+	ubo.lightDirection = { 0, 1, 0 , 1 };
 	ubo.lightColor = { 1, 1, 1, 1 };
-	ubo.lightColor = { 1, 1, 1, 1 };
+	ubo.cameraPosition = glm::vec4(camera->getEye().x, camera->getEye().y, camera->getEye().z, 1.f);
 	ubo.timeConstants.r = elapsedTime;
 	ubo.timeConstants.g = timer.TimeStamp();
 
@@ -1727,7 +1723,7 @@ bool Graphics::isDeviceSuitable(VkPhysicalDevice device)
 #else
 	return (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) && indices.isComplete() && extensionsSupported && swapChainAdequate && deviceFeatures.samplerAnisotropy;
 #endif // DISCRETE
-	}
+}
 
 QueueFamilyIndices Graphics::findQueueFamilies(VkPhysicalDevice device)
 {
