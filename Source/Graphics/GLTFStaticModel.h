@@ -7,6 +7,8 @@
 #define TINYGLTF_NO_STB_IMAGE_WRITE
 #include <tiny_gltf.h>
 
+class Camera;
+
 class GLTFStaticModel
 {
 public:
@@ -91,6 +93,14 @@ public:
 		std::vector<Primitive>	primitives;
 	};
 
+	struct BoundingSphere
+	{
+		glm::vec3 position;
+		float radius;
+
+		BoundingSphere() : position(glm::vec3(0.f, 0.f, 0.f)), radius(0.0f) {};
+	};
+
 	struct Node
 	{
 		Node* parent;
@@ -99,6 +109,7 @@ public:
 		glm::mat4			matrix;
 		std::string			name;
 		bool				visible = true;
+		BoundingSphere		boundingSphere;
 
 		~Node()
 		{
@@ -151,14 +162,6 @@ public:
 		GLTFStaticModel::Image image;
 	};
 
-	struct BoundingSphere
-	{
-		glm::vec4 position;
-		float radius;
-
-		BoundingSphere() : position(glm::vec4(0.f, 0.f, 0.f, 1.f)), radius(0.0f) {};
-	};
-
 	bool dissolveTexture = false;
 
 	GLTFStaticModel(std::string filePath);
@@ -187,6 +190,8 @@ public:
 
 	void cleanupResourses(VkDevice newLogicalDevice);
 
+	bool sphereInFrustum(const BoundingSphere& sphere, const Camera& camera);
+
 private:
 
 	void createVertexBuffer(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, std::vector<Vertex>* vertices);
@@ -206,6 +211,4 @@ private:
 	std::vector<Texture>	textures;
 	std::vector<Material>	materials;
 	std::vector<Node*>		nodes;
-
-	BoundingSphere			boundingSphere;
 };

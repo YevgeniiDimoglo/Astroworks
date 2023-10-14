@@ -1,5 +1,7 @@
 #include "GLTFStaticModel.h"
 
+#include "../Camera/Camera.h"
+
 GLTFStaticModel::GLTFStaticModel(std::string filePath)
 {
 	std::size_t found = filePath.find_last_of("/\\");
@@ -225,8 +227,25 @@ void GLTFStaticModel::loadNode(const tinygltf::Node& inputNode, const tinygltf::
 
 				for (size_t v = 0; v < vertexCount; v++)
 				{
-					boundingSphere.position += glm::vec4(glm::make_vec3(&positionBuffer[v * 3]), 1.0f);
+					node->boundingSphere.position += glm::vec3(glm::make_vec3(&positionBuffer[v * 3]));
 				}
+
+				node->boundingSphere.position.x /= vertexCount;
+				node->boundingSphere.position.y /= vertexCount;
+				node->boundingSphere.position.z /= vertexCount;
+
+				float radius = 0.f;
+				float newRadius = 0.f;
+				for (size_t v = 0; v < vertexCount; v++)
+				{
+					newRadius = glm::distance(node->boundingSphere.position, glm::make_vec3(&positionBuffer[v * 3]));
+					if (newRadius >= radius)
+					{
+						radius = newRadius;
+					}
+				}
+
+				node->boundingSphere.radius = radius;
 			}
 
 			// Indices
@@ -427,12 +446,19 @@ void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout p
 			currentParent = currentParent->parent;
 		}
 
+		BoundingSphere tempSphere;
+		tempSphere.position = glm::vec4(node->boundingSphere.position, 1.0f) * sceneValues;
+		tempSphere.radius = node->boundingSphere.radius;
+
+		if (sphereInFrustum(tempSphere, *playerCamera)) return;
+
 		for (GLTFStaticModel::Primitive& primitive : node->mesh.primitives)
 		{
 			PushConstants pushConstants;
 			pushConstants.baseColor = materials[primitive.materialIndex].baseColorFactor * baseColor;
 			pushConstants.model = sceneValues * nodeMatrix;
 			pushConstants.timer = timer;
+
 			vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstants), &pushConstants);
 
 			if (primitive.indexCount > 0)
@@ -542,6 +568,30 @@ void GLTFStaticModel::cleanupResourses(VkDevice newLogicalDevice)
 
 	vkDestroyBuffer(newLogicalDevice, indices.buffer, nullptr);
 	vkFreeMemory(newLogicalDevice, indices.memory, nullptr);
+}
+
+bool GLTFStaticModel::sphereInFrustum(const BoundingSphere& sphere, const Camera& camera)
+{
+	glm::mat4 viewMatrix = glm::lookAt(camera.getEye(), camera.getEye() + camera.getFront(), camera.getUp());
+
+	// Calculate the projection matrix using camera parameters
+	glm::mat4 projectionMatrix = glm::perspective(camera.getFov(), camera.getAspect(), camera.getNearPlane(), camera.getFarPlane());
+
+	// Check against near and far planes
+	if (sphere.position.z - sphere.radius > -camera.getNearPlane() && sphere.position.z + sphere.radius < -camera.getFarPlane()) {
+		float sphereRadiusProjected = sphere.radius / -sphere.position.z;
+		float sphereXProjected = sphere.position.x / -sphere.position.z;
+		float halfWidthProjected = tan(camera.getFov() / 2) * sphere.position.z;
+		if (sphereXProjected - sphereRadiusProjected > -halfWidthProjected && sphereXProjected + sphereRadiusProjected < halfWidthProjected) {
+			float halfHeightProjected = halfWidthProjected / camera.getAspect();
+			float sphereYProjected = sphere.position.y / -sphere.position.z;
+			if (sphereYProjected - sphereRadiusProjected > -halfHeightProjected && sphereYProjected + sphereRadiusProjected < halfHeightProjected) {
+				return true;
+			}
+		}
+	}
+
+	return false;
 }
 
 void GLTFStaticModel::createVertexBuffer(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, std::vector<GLTFStaticModel::Vertex>* vertices)

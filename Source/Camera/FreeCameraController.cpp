@@ -71,6 +71,9 @@ void FreeCameraController::Update(GLFWwindow* window, float deltaTime)
 		angleX += MOUSESPEED * deltaTime * float(width * 0.5 - xpos);
 		angleY += MOUSESPEED * deltaTime * float(height * 0.5 - ypos - 0.5);
 
+		if (glm::degrees(angleY) >= 89.5) angleY = glm::radians(89.5);
+		if (glm::degrees(angleY) <= -89.5) angleY = glm::radians(-89.5);
+
 		glm::vec3 front = glm::vec3(
 			cosf(angleY) * sin(angleX),
 			sinf(angleY),

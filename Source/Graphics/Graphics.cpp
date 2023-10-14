@@ -10,6 +10,8 @@ ImageBuffer dummyBasicMetalness;
 ImageBuffer dummyBasicRoughness;
 ImageBuffer dummyBasicAO;
 
+Camera* playerCamera;
+
 void Graphics::init()
 {
 	initWindow();
@@ -197,6 +199,8 @@ void Graphics::drawFrame(HighResolutionTimer timer, float elapsedTime)
 void Graphics::update(HighResolutionTimer timer, float elapsedTime, Camera* camera)
 {
 	ActorManager::Instance().loadFiles(physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout);
+
+	playerCamera = camera;
 
 	// Update camera values in shader
 	updateUniformBuffer(timer, elapsedTime, currentFrame, camera);

@@ -34,6 +34,8 @@ Framework::Framework()
 		0.1f,
 		1000.0f);
 
+	camera->setAspect(thisApp.getExtent().width, thisApp.getExtent().height);
+
 	freeCameraController = new FreeCameraController();
 	lockCameraController = new LockCameraController();
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Camera.h"
+#include "../Graphics/Utilities.h"
 
 // TPV camera
 

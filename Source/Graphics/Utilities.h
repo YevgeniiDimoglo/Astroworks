@@ -34,6 +34,7 @@
 #include <unordered_map>
 
 #include "../Misc/HighResolutionTimer.h"
+#include "../Camera/Camera.h"
 
 #define DISCRETE
 
@@ -148,6 +149,8 @@ extern ImageBuffer dummyBasicNormal;
 extern ImageBuffer dummyBasicMetalness;
 extern ImageBuffer dummyBasicRoughness;
 extern ImageBuffer dummyBasicAO;
+
+extern Camera* playerCamera;
 
 static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 	VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
