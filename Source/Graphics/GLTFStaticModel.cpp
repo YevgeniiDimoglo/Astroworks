@@ -141,14 +141,7 @@ void GLTFStaticModel::loadNode(const tinygltf::Node& inputNode, const tinygltf::
 
 	if (inputNode.translation.size() == 3)
 	{
-		if (nodes.size() <= 1)
-		{
-			node->matrix = glm::translate(node->matrix, glm::vec3(0.f, 0.f, 0.f));
-		}
-		else
-		{
-			node->matrix = glm::translate(node->matrix, glm::vec3(glm::make_vec3(inputNode.translation.data())));
-		}
+		node->matrix = glm::translate(node->matrix, glm::vec3(glm::make_vec3(inputNode.translation.data())));
 	}
 	if (inputNode.rotation.size() == 4)
 	{
@@ -440,16 +433,8 @@ void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout p
 			if (primitive.indexCount > 0)
 			{
 				// Create dummy texture
-				if (dummyTextureImages.empty())
-				{
-					GLTFStaticModel::Material& material = materials[primitive.materialIndex];
-					vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &material.descriptorSet, 0, nullptr);
-				}
-				else
-				{
-					//GLTFStaticModel::Texture texture = GLTFStaticModel::Texture{ 0 };
-					//vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &dummyTextureImages[texture.imageIndex].descriptorSet, 0, nullptr);
-				}
+				GLTFStaticModel::Material& material = materials[primitive.materialIndex];
+				vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &material.descriptorSet, 0, nullptr);
 
 				vkCmdDrawIndexed(commandBuffer, primitive.indexCount, 1, primitive.firstIndex, 0, 0);
 			}
@@ -539,12 +524,12 @@ void GLTFStaticModel::cleanupResourses(VkDevice newLogicalDevice)
 		vkDestroySampler(newLogicalDevice, images[i].sampler, nullptr);
 	}
 
-	for (auto i = 0; i < dummyTextureImages.size(); i++)
+	for (auto i = 0; i < textures.size(); i++)
 	{
-		vkDestroyImageView(newLogicalDevice, dummyTextureImages[i].view, nullptr);
-		vkDestroyImage(newLogicalDevice, dummyTextureImages[i].image, nullptr);
-		vkFreeMemory(newLogicalDevice, dummyTextureImages[i].deviceMemory, nullptr);
-		vkDestroySampler(newLogicalDevice, dummyTextureImages[i].sampler, nullptr);
+		vkDestroyImageView(newLogicalDevice, textures[i].image.view, nullptr);
+		vkDestroyImage(newLogicalDevice, textures[i].image.image, nullptr);
+		vkFreeMemory(newLogicalDevice, textures[i].image.deviceMemory, nullptr);
+		vkDestroySampler(newLogicalDevice, textures[i].image.sampler, nullptr);
 	}
 
 	vkDestroyBuffer(newLogicalDevice, vertices.buffer, nullptr);
@@ -753,137 +738,4 @@ GLTFStaticModel::Image GLTFStaticModel::createTextureFromBuffer(void* buffer, Vk
 	image.descriptorSet = descriptorSet;
 
 	return image;
-}
-
-void GLTFStaticModel::createDummyTextures(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkCommandPool transferCommandPool, VkQueue transferQueue)
-{
-	for (size_t i = 0; i < DUMMIES; i++)
-	{
-		int texWidth, texHeight, texChannels;
-		stbi_uc* pixels = nullptr;
-		if (i == 0) pixels = stbi_load("./Data/Textures/Dummy.png", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
-		if (i == 1) pixels = stbi_load("./Data/Textures/DummyNormal.png", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
-
-		VkDeviceSize imageSize = texWidth * texHeight * 4;
-
-		if (!pixels)
-		{
-			throw std::runtime_error("failed to load texture image");
-		}
-
-		VkBuffer stagingBuffer;
-		VkDeviceMemory stagingBufferMemory;
-		createBuffer(newPhysicalDevice, newLogicalDevice, imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
-
-		void* data;
-		vkMapMemory(newLogicalDevice, stagingBufferMemory, 0, imageSize, 0, &data);
-		memcpy(data, pixels, static_cast<size_t>(imageSize));
-		vkUnmapMemory(newLogicalDevice, stagingBufferMemory);
-
-		stbi_image_free(pixels);
-
-		VkImageLayout imageLayout{};
-
-		VkImage texImage;
-		VkDeviceMemory texImageMemory;
-		texImage = createImage(newPhysicalDevice, newLogicalDevice, texWidth, texHeight, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, texImageMemory);
-		transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue, texImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
-		copyBufferToImage(newLogicalDevice, transferCommandPool, transferQueue, stagingBuffer, texImage, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight));
-		transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue, texImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
-
-		vkDestroyBuffer(newLogicalDevice, stagingBuffer, nullptr);
-		vkFreeMemory(newLogicalDevice, stagingBufferMemory, nullptr);
-
-		VkSamplerCreateInfo samplerInfo{};
-		samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
-		samplerInfo.magFilter = VK_FILTER_LINEAR;
-		samplerInfo.minFilter = VK_FILTER_LINEAR;
-
-		samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-		samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-		samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-
-		samplerInfo.anisotropyEnable = VK_TRUE;
-		samplerInfo.maxAnisotropy = 1.0f;
-		samplerInfo.borderColor = VK_BORDER_COLOR_INT_OPAQUE_BLACK;
-		samplerInfo.unnormalizedCoordinates = VK_FALSE;
-		samplerInfo.compareEnable = VK_FALSE;
-		samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
-
-		samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
-		samplerInfo.mipLodBias = 0.0f;
-		samplerInfo.minLod = 0.0f;
-		samplerInfo.maxLod = 0.0f;
-
-		VkSampler imageSampler;
-		if (vkCreateSampler(newLogicalDevice, &samplerInfo, nullptr, &imageSampler) != VK_SUCCESS)
-		{
-			throw std::runtime_error("Failed to create texture sampler");
-		}
-
-		VkImageViewCreateInfo viewInfo{};
-		viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-		viewInfo.image = texImage;
-		viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-		viewInfo.format = VK_FORMAT_R8G8B8A8_UNORM;
-		viewInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-		viewInfo.subresourceRange.baseMipLevel = 0;
-		viewInfo.subresourceRange.levelCount = 1;
-		viewInfo.subresourceRange.baseArrayLayer = 0;
-		viewInfo.subresourceRange.layerCount = 1;
-
-		VkImageView imageView;
-		if (vkCreateImageView(newLogicalDevice, &viewInfo, nullptr, &imageView) != VK_SUCCESS)
-		{
-			throw std::runtime_error("Failed to create texture image view");
-		}
-
-		VkDescriptorSet descriptorSet;
-
-		// Descriptor set allocation info
-		VkDescriptorSetAllocateInfo setAllocInfo = {};
-		setAllocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-		setAllocInfo.descriptorPool = samplerDescriptorPool;
-		setAllocInfo.descriptorSetCount = 1;
-		setAllocInfo.pSetLayouts = &samplerSetLayout;
-
-		// Allocate descriptor sets
-		VkResult result = vkAllocateDescriptorSets(newLogicalDevice, &setAllocInfo, &descriptorSet);
-		if (result != VK_SUCCESS)
-		{
-			throw std::runtime_error("Failed to allocate texture descriptor sets");
-		}
-
-		// Texture image info
-		VkDescriptorImageInfo imageInfo = {};
-		imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;							// Image layout when image in use
-		imageInfo.imageView = imageView;															// Image to bind to set
-		imageInfo.sampler = imageSampler;															// Sampler to use for set
-
-		// Descriptor write info
-		VkWriteDescriptorSet descriptorWrite = {};
-		descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-		descriptorWrite.dstSet = descriptorSet;
-		descriptorWrite.dstBinding = 0;
-		descriptorWrite.dstArrayElement = 0;
-		descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-		descriptorWrite.descriptorCount = 1;
-		descriptorWrite.pImageInfo = &imageInfo;
-
-		// Update new descriptor set
-		vkUpdateDescriptorSets(newLogicalDevice, 1, &descriptorWrite, 0, nullptr);
-
-		Image dummyImage;
-		dummyImage.image = texImage;
-		dummyImage.imageLayout = imageLayout;
-		dummyImage.deviceMemory = texImageMemory;
-		dummyImage.view = imageView;
-		dummyImage.width = texWidth;
-		dummyImage.height = texHeight;
-		dummyImage.descriptor = imageInfo;
-		dummyImage.sampler = imageSampler;
-		dummyImage.descriptorSet = descriptorSet;
-
-		dummyTextureImages.push_back(dummyImage);
-	}
 }

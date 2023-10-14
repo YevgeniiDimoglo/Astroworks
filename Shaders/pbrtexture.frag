@@ -14,9 +14,9 @@ layout(location = 8) in vec4 timerConstants;
 
 layout(set = 1, binding = 0) uniform sampler2D albedoMap;
 layout(set = 1, binding = 1) uniform sampler2D normalMap;
-layout(set = 1, binding = 2) uniform sampler2D aoMap;
+layout(set = 1, binding = 2) uniform sampler2D roughnessMap;
 layout(set = 1, binding = 3) uniform sampler2D metallicMap;
-layout(set = 1, binding = 4) uniform sampler2D roughnessMap;
+layout(set = 1, binding = 4) uniform sampler2D AoMap;
 
 layout(location = 0) out vec4 outColor;
 
@@ -141,7 +141,7 @@ void main()
 	vec3 V = normalize(cameraPos.xyz - vertPos);
 	vec3 R = reflect(-V, N); 
 
-	float metallic = texture(metallicMap, fragTexCoord).r;
+	float metallic = texture(roughnessMap, fragTexCoord).g;
 	float roughness = texture(roughnessMap, fragTexCoord).r;
 
 	vec3 F0 = vec3(0.04); 
@@ -168,7 +168,7 @@ void main()
 	// Ambient part
 	vec3 kD = 1.0 - F;
 	kD *= 1.0 - metallic;	  
-	vec3 ambient = (kD * diffuse) * texture(aoMap, fragTexCoord).rrr;
+	vec3 ambient = (kD * diffuse) * texture(AoMap, fragTexCoord).rrr;
 	
 	vec3 color = ambient;
 

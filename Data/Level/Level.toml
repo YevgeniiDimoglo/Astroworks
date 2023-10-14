@@ -1,10 +1,10 @@
 [[ActorsOnScreen]]
 name = "Terrain"
-position = [0.0,0.0,0.0]
+position = [0.0,-50.0,0.0]
 rotation = [-0.0,-0.0,1.0,-0.0]
 euler = [0.0,0.0,0.0]
-scale = [500.0,500.0,500.0]
-path = "./Data/Primitives/death_valley_-_terrain.glb"
+scale = [1.0,1.0,1.0]
+path = "./Data/Primitives/Village.glb"
 type = "Terrian"
 typeName = "Basic"
 controller = "None"

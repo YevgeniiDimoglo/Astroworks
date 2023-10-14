@@ -1,6 +1,8 @@
 #include "FreeCameraController.h"
 #include "../Graphics/Graphics.h"
 
+#define CAMERA_SPEED 10.0f;
+
 static float MOUSESPEED = 0.05f;
 
 void FreeCameraController::SyncCameraToController(Camera* camera)
@@ -87,13 +89,13 @@ void FreeCameraController::Update(GLFWwindow* window, float deltaTime)
 		{
 			glm::vec3 forwardCamera = front;
 			glm::normalize(forwardCamera);
-			eye += forwardCamera * 0.05f;
+			eye += forwardCamera * 0.05f * CAMERA_SPEED;
 		}
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		{
 			glm::vec3 forwardCamera = front;
 			glm::normalize(forwardCamera);
-			eye -= forwardCamera * 0.05f;
+			eye -= forwardCamera * 0.05f * CAMERA_SPEED;
 		}
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		{
@@ -101,7 +103,7 @@ void FreeCameraController::Update(GLFWwindow* window, float deltaTime)
 			glm::normalize(forwardCamera);
 			glm::vec3 leftCamera = glm::cross(up, forwardCamera);
 			glm::normalize(leftCamera);
-			eye += leftCamera * 0.05f;
+			eye += leftCamera * 0.05f * CAMERA_SPEED;
 		}
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		{
@@ -109,7 +111,7 @@ void FreeCameraController::Update(GLFWwindow* window, float deltaTime)
 			glm::normalize(forwardCamera);
 			glm::vec3 rightCamera = glm::cross(forwardCamera, up);
 			glm::normalize(rightCamera);
-			eye += rightCamera * 0.05f;
+			eye += rightCamera * 0.05f * CAMERA_SPEED;
 		}
 
 		this->right = right;

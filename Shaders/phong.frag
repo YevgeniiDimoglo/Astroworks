@@ -10,7 +10,7 @@ layout(location = 6) in vec4 baseColor;
 layout(location = 7) in vec4 timerConstants;
 
 layout(set = 1, binding = 0) uniform sampler2D samplerColorMap;
-layout (set = 1, binding = 1) uniform sampler2D samplerNormalMap;
+layout(set = 1, binding = 1) uniform sampler2D samplerNormalMap;
 layout(set = 1, binding = 2) uniform sampler2D aoMap;
 layout(set = 1, binding = 3) uniform sampler2D metallicMap;
 layout(set = 1, binding = 4) uniform sampler2D roughnessMap;

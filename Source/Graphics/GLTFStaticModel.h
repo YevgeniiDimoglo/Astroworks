@@ -159,7 +159,6 @@ public:
 public:
 
 	std::vector<GLTFStaticModel::Image> getImages() const { return images; }
-	std::vector<GLTFStaticModel::Image> getDummyImages() const { return dummyTextureImages; }
 
 	void loadImages(tinygltf::Model& input);
 	GLTFStaticModel::Image loadImage(tinygltf::Image& gltfimage);
@@ -185,7 +184,6 @@ private:
 	void createVertexBuffer(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, std::vector<Vertex>* vertices);
 	void createIndexBuffer(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, std::vector<uint32_t>* indices);
 	Image createTextureFromBuffer(void* buffer, VkDeviceSize bufferSize, VkFormat format, uint32_t texWidth, uint32_t texHeight, VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkCommandPool transferCommandPool, VkQueue transferQueue);
-	void createDummyTextures(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkCommandPool transferCommandPool, VkQueue transferQueue);
 
 	VkPhysicalDevice newPhysicalDevice;
 	VkDevice newLogicalDevice;
@@ -197,7 +195,6 @@ private:
 	// Model Data
 
 	std::vector<Image>		images;
-	std::vector<Image>		dummyTextureImages;
 	std::vector<Texture>	textures;
 	std::vector<Material>	materials;
 	std::vector<Node*>		nodes;

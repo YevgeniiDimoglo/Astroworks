@@ -1,20 +1,20 @@
 [[ActorsOnScreen]]
 name = "Terrain"
-position = [0.0,0.0,30.0]
-rotation = [-0.0,-0.0,1.0,-0.0]
-euler = [0.0,3.1,0.0]
-scale = [10.0,10.0,10.0]
-path = "./Data/Primitives/death_valley_-_terrain.glb"
+position = [0.0,0.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/Primitives/Asian_Village_Demo.glb"
 type = "Terrian"
-typeName = "Simple"
+typeName = "Basic"
 controller = "None"
 
 [[ActorsOnScreen]]
 name = "SkyDome"
-position = [0.0,0.0,0.0]
-rotation = [-0.0,-0.0,1.0,-0.0]
-euler = [0.0,3.1,0.0]
-scale = [100.0,100.0,100.0]
+position = [0.0,-200.0,0.0]
+rotation = [1.0,0.0,0.0,0.0]
+euler = [0.0,0.1,0.0]
+scale = [1000.0,1000.0,1000.0]
 path = "./Data/Primitives/NaraSkyDome.glb"
 type = "Terrian"
 typeName = "Simple"
@@ -28,6 +28,6 @@ euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
 path = "./Data/Primitives/DamagedHelmet.glb"
 type = "Terrian"
-typeName = "Simple"
+typeName = "PBR"
 controller = "None"
 

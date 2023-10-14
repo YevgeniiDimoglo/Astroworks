@@ -227,6 +227,31 @@ void Graphics::cleanup()
 		vkDestroyImage(device, offscreen.offscreenDepthAttachment.image, nullptr);
 		vkFreeMemory(device, offscreen.offscreenDepthAttachment.mem, nullptr);
 
+		vkDestroyImageView(device, dummyBasicAO.view, nullptr);
+		vkDestroyImage(device, dummyBasicAO.image, nullptr);
+		vkFreeMemory(device, dummyBasicAO.deviceMemory, nullptr);
+		vkDestroySampler(device, dummyBasicAO.sampler, nullptr);
+
+		vkDestroyImageView(device, dummyBasicRoughness.view, nullptr);
+		vkDestroyImage(device, dummyBasicRoughness.image, nullptr);
+		vkFreeMemory(device, dummyBasicRoughness.deviceMemory, nullptr);
+		vkDestroySampler(device, dummyBasicRoughness.sampler, nullptr);
+
+		vkDestroyImageView(device, dummyBasicMetalness.view, nullptr);
+		vkDestroyImage(device, dummyBasicMetalness.image, nullptr);
+		vkFreeMemory(device, dummyBasicMetalness.deviceMemory, nullptr);
+		vkDestroySampler(device, dummyBasicMetalness.sampler, nullptr);
+
+		vkDestroyImageView(device, dummyBasicNormal.view, nullptr);
+		vkDestroyImage(device, dummyBasicNormal.image, nullptr);
+		vkFreeMemory(device, dummyBasicNormal.deviceMemory, nullptr);
+		vkDestroySampler(device, dummyBasicNormal.sampler, nullptr);
+
+		vkDestroyImageView(device, dummyBasicColor.view, nullptr);
+		vkDestroyImage(device, dummyBasicColor.image, nullptr);
+		vkFreeMemory(device, dummyBasicColor.deviceMemory, nullptr);
+		vkDestroySampler(device, dummyBasicColor.sampler, nullptr);
+
 		vkDestroyImageView(device, dissolveImage.view, nullptr);
 		vkDestroyImage(device, dissolveImage.image, nullptr);
 		vkFreeMemory(device, dissolveImage.deviceMemory, nullptr);
@@ -1199,16 +1224,17 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 
 	if (!wireframe)
 	{
-		// -- Model Pipeline
-		//
-		// Bind specific pipeline
+		// -- Model Pipeline: Phong Shader
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::ModelPipeline)]);
 
 		// Bind camera descriptor
 		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)],
 			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
+		// -- Model Pipeline: PBR Shader
 		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)], static_cast<int>(ShaderType::Phong));
+
+		//--------------------------
 
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::PBRModelPipeline)]);
 
@@ -1218,9 +1244,9 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 
 		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::PBRModelPipeline)], static_cast<int>(ShaderType::PBR));
 
-		// -- Unlit Pipeline
-		//
-		// Bind specific pipeline
+		//--------------------------
+
+		// -- Model Pipeline: Flat Shader
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::UnlitPipeline)]);
 
 		// Bind camera descriptor
@@ -1228,6 +1254,8 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
 		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::UnlitPipeline)], static_cast<int>(ShaderType::Flat));
+
+		//--------------------------
 
 		// -- Dissolve Pipeline
 		//
@@ -1245,13 +1273,17 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	}
 	else
 	{
-		//vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::DebugDrawingPipeline)]);
+		// -- Model Pipeline: Phong Shader
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::DebugDrawingPipeline)]);
 
-		//// Bind descriptors
-		//vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)],
-		//	0, 1, &descriptorSets[currentFrame], 0, nullptr);
+		// Bind camera descriptor
+		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)],
+			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
-		//ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(Pipelines::ModelPipeline));
+		// -- Model Pipeline: PBR Shader
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], 0);
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], 1);
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], 4);
 	}
 
 	// --
@@ -1695,7 +1727,7 @@ bool Graphics::isDeviceSuitable(VkPhysicalDevice device)
 #else
 	return (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) && indices.isComplete() && extensionsSupported && swapChainAdequate && deviceFeatures.samplerAnisotropy;
 #endif // DISCRETE
-}
+	}
 
 QueueFamilyIndices Graphics::findQueueFamilies(VkPhysicalDevice device)
 {
