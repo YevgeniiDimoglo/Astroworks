@@ -31,43 +31,40 @@ vec3 DiffuseBRDF(vec3 diffuseReflectance)
     return diffuseReflectance / PI;
 }
 
-vec3 CalcFresnel(vec3 F0, float VdotH)
+vec3 CalcFresnel(float HdotV, vec3 F0)
 {
-    return F0 + (1.0f - F0) * pow(clamp(1.0 - VdotH, 0.0, 1.0), 5.0);
+    return F0 + (1.0f - F0) * pow(1.0f - HdotV, 5.0);
 }
 
-float CalcNormalDistributionFunction(float NdotH, float roughness)
+float CalcdistributuionGGX(float NdotH, float roughness)
 {
-    float roughnessSq = roughness * roughness;
-	float f = (NdotH * roughnessSq - NdotH) * NdotH + 1.0;
+    float a = roughness * roughness;
+	float a2 = a * a;
+    float denom = NdotH * NdotH * (a2 - 1.0f) + 1.0f;
+    denom = PI * denom * denom;
 
-	return roughnessSq / (PI * f * f);
+	return a2 / max(denom, 0.0000001);
 }
 
-float CalcGeometryFunction(float NdotV, float k)
+float CalcGeometryFunction(float NdotV, float NdotL, float roughness)
 {
-    return NdotV / (NdotV * (1.0 - k) + k);
+	float r = roughness + 1.0f;
+    float k = (r * r) / 8.0f;
+    float ggx1 = NdotV / (NdotV * (1.0f - k) + k);
+    float ggx2 = NdotL / (NdotL * (1.0f - k) + k);
+
+	return ggx1 * ggx2;
 }
 
-float CalcGeometryFunction(float NdotL, float NdotV, float roughness)
+vec3 SpecularBRDF(float NdotV, float NdotL, float NdotH, float HdotV, vec3 fresnelF0, float roughness)
 {
-	float r = roughness * 0.5f;
-
-	float attenuationL = 2.0 * NdotL / (NdotL + sqrt(r * r + (1.0 - r * r) * (NdotL * NdotL)));
-	float attenuationV = 2.0 * NdotV / (NdotV + sqrt(r * r + (1.0 - r * r) * (NdotV * NdotV)));
-
-	return attenuationL * attenuationV;
-}
-
-vec3 SpecularBRDF(float NdotV, float NdotL, float NdotH, float VdotH, vec3 fresnelF0, float roughness)
-{
-    float D = CalcNormalDistributionFunction(NdotH, roughness);
+    float D = CalcdistributuionGGX(NdotH, roughness);
     
-    float G = CalcGeometryFunction(NdotL, NdotV, roughness);
+    float G = CalcGeometryFunction(NdotV, NdotL, roughness);
     
-    vec3 F = CalcFresnel(fresnelF0, VdotH);
+    vec3 F = CalcFresnel(HdotV, fresnelF0);
     
-    return F * G * D / (4.0 * NdotL * NdotV);
+    return D * G * F / (4.0 * NdotV * NdotL);
 }
 
 void DirectBDRF(vec3 diffuseReflectance,
@@ -83,13 +80,12 @@ void DirectBDRF(vec3 diffuseReflectance,
     vec3 N = normal;
     vec3 L = lightVector;
     vec3 V = eyeVector;
-    vec3 H = normalize(L + V);
+    vec3 H = normalize(V + L);
     
-    float NdotL = clamp(dot(N, L), 0.001, 1.0);
-	float NdotV = clamp(abs(dot(N, V)), 0.001, 1.0);
-	float NdotH = clamp(dot(N, H), 0.0, 1.0);
-	float LdotH = clamp(dot(L, H), 0.0, 1.0);
-	float VdotH = clamp(dot(V, H), 0.0, 1.0);
+    float NdotV = max(dot(N, V), 0.0000001);
+    float NdotL = max(dot(N, L), 0.0000001);
+    float HdotV = max(dot(N, V), 0.0);
+    float NdotH = max(dot(N, H), 0.0);
     
     vec3 irradiance = lightColor * NdotL;
     
@@ -97,7 +93,7 @@ void DirectBDRF(vec3 diffuseReflectance,
     
     outDiffuse = DiffuseBRDF(diffuseReflectance) * irradiance;
     
-    outSpecular = SpecularBRDF(NdotV, NdotL, NdotH ,VdotH, F0, roughness) * irradiance;
+    outSpecular = SpecularBRDF(NdotV, NdotL, NdotH, HdotV, F0, roughness) * irradiance;
 }
 
 vec3 EnvBRDFApprox(vec3 F0, float roughness, float NdotV)
@@ -108,6 +104,23 @@ vec3 EnvBRDFApprox(vec3 F0, float roughness, float NdotV)
     float a004 = min(r.x * r.x, exp2(-9.28f * NdotV)) * r.x + r.y;
     vec2 AB = vec2(-1.04f, 1.04f) * a004 + r.zw;
     return F0 * AB.x + AB.y;
+}
+
+vec3 getNormal()
+{
+	vec3 tangentNormal = texture(normalMap, inUV).xyz * 2.0 - 1.0;
+
+	vec3 q1 = dFdx(vertPos);
+	vec3 q2 = dFdy(vertPos);
+	vec2 st1 = dFdx(inUV);
+	vec2 st2 = dFdy(inUV);
+
+	vec3 N = normalize(normalInterp);
+	vec3 T = normalize(q1 * st2.t - q2 * st1.t);
+	vec3 B = -normalize(cross(N, T));
+	mat3 TBN = mat3(T, B, N);
+
+	return normalize(TBN * tangentNormal);
 }
 
 void main() 
@@ -128,33 +141,20 @@ void main()
 	vec3 D0 = vec3(0.02f);
 	vec3 diffuseReflectance = mix(albedoColor.rgb, D0, metallic);
 
-	vec3 F0 = vec3(0.04f);
-	vec3 specularColor = mix(F0, albedoColor.rgb, metallic);
-	float reflectance = max(max(specularColor.r, specularColor.g), specularColor.b);
+	vec3 F0 = mix(vec3(0.04f), albedoColor.rgb, metallic);
 
-	vec3 N = normalize(normalInterp);
-    vec3 T = normalize(tangent.xyz);
-    vec3 B = cross(normalInterp, tangent.xyz) * tangent.w;
+    vec3 N = getNormal();
 
-    if(tangent.x == 0 && tangent.y == 0 && tangent.z == 0)
-    {
-        T = cross(normalInterp, vec3(0, 1, 0));
-        B = cross(normalInterp, T);
-    }
+	vec3 V = normalize(cameraPos.xyz - vertPos.xyz);
 
-    mat3 TBN = mat3(T, B, N);
-	vec3 normal = normalize(texture(normalMap, inUV)).xyz * 2.0 - vec3(1.0);
-	N = normalize(TBN * normal);
-
-	vec3 E = normalize(cameraPos.xyz - vertPos.xyz);
-
+    vec3 directAmbient = vec3(0.03) * albedoColor.rgb;
 	vec3 directDiffuse = vec3(0.f);
 	vec3 directSpecular = vec3(0.f);
 	
-    DirectBDRF(diffuseReflectance, specularColor, N, E, lightDirection,
+    DirectBDRF(diffuseReflectance, F0, N, V, lightDirection,
                    lightColor.rgb, roughness,
                     directDiffuse, directSpecular);
 	
 
-	outColor = vec4(directDiffuse + directSpecular, albedoColor.a);
+	outColor = vec4(directAmbient + directDiffuse + directSpecular, albedoColor.a);
 }

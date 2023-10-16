@@ -43,7 +43,6 @@ void main()
     gl_Position = uboScene.projection * uboScene.view * primitive.model * vec4(inPos, 1.0);
     
     vec4 vertPos4 = primitive.model * vec4(inPos, 1.0);
-    vertPos4.y = -vertPos4.y;
     outVertPos = vertPos4.xyz / vertPos4.w;
     
     outLightDirection = vec3(uboScene.lightDirection);

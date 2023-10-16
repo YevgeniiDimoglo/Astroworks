@@ -1411,7 +1411,7 @@ void Graphics::updateUniformBuffer(HighResolutionTimer timer, float elapsedTime,
 	ubo.proj[1][1] *= -1;
 	ubo.model = glm::mat4(1.0f);
 
-	ubo.lightDirection = { 0, 1, 0 , 1 };
+	ubo.lightDirection = { 0.5, 1, 0 , 1 };
 	ubo.lightColor = { 1, 1, 1, 1 };
 	ubo.cameraPosition = glm::vec4(camera->getEye().x, camera->getEye().y, camera->getEye().z, 1.f);
 	ubo.timeConstants.r = elapsedTime;

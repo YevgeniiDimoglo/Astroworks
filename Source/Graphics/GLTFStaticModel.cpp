@@ -416,8 +416,8 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	std::vector<VkDescriptorImageInfo> imageDescriptors = {
 		colorInfo,
 		normalInfo,
-		metalliclInfo,
 		roughnesslInfo,
+		metalliclInfo,
 		AOInfo,
 	};
 
@@ -438,16 +438,19 @@ void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout p
 {
 	if (node->mesh.primitives.size() > 0)
 	{
+		BoundingSphere tempSphere;
+		tempSphere.position = glm::vec4(node->boundingSphere.position, 1.0f);
 		glm::mat4 nodeMatrix = node->matrix;
+
 		GLTFStaticModel::Node* currentParent = node->parent;
 		while (currentParent)
 		{
 			nodeMatrix = currentParent->matrix * nodeMatrix;
+			tempSphere.position = currentParent->matrix * glm::vec4(tempSphere.position, 1.0f);
 			currentParent = currentParent->parent;
 		}
 
-		BoundingSphere tempSphere;
-		tempSphere.position = glm::vec4(node->boundingSphere.position, 1.0f) * sceneValues;
+		tempSphere.position = glm::vec4(tempSphere.position, 1.0f) * sceneValues;
 		tempSphere.radius = node->boundingSphere.radius;
 
 		if (sphereInFrustum(tempSphere, *playerCamera)) return;
