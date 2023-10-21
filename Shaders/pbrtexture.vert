@@ -1,10 +1,11 @@
 #version 450
 
-layout(binding = 0) uniform UBOScene
+layout(set = 0, binding = 0) uniform UBOScene
 {
     mat4 model;
     mat4 view;
     mat4 projection;
+    mat4 lightMVP;
     vec4 lightDirection;
     vec4 lightColor;
     vec4 viewPos;

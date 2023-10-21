@@ -225,27 +225,7 @@ void GLTFStaticModel::loadNode(const tinygltf::Node& inputNode, const tinygltf::
 					vertexBuffer.push_back(vert);
 				}
 
-				for (size_t v = 0; v < vertexCount; v++)
-				{
-					node->boundingSphere.position += glm::vec3(glm::make_vec3(&positionBuffer[v * 3]));
-				}
-
-				node->boundingSphere.position.x /= vertexCount;
-				node->boundingSphere.position.y /= vertexCount;
-				node->boundingSphere.position.z /= vertexCount;
-
-				float radius = 0.f;
-				float newRadius = 0.f;
-				for (size_t v = 0; v < vertexCount; v++)
-				{
-					newRadius = glm::distance(node->boundingSphere.position, glm::make_vec3(&positionBuffer[v * 3]));
-					if (newRadius >= radius)
-					{
-						radius = newRadius;
-					}
-				}
-
-				node->boundingSphere.radius = radius;
+				CalculateBoundingSphere(node->boundingSphere, vertexBuffer, vertexStart, vertexCount);
 			}
 
 			// Indices
@@ -446,31 +426,32 @@ void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout p
 		while (currentParent)
 		{
 			nodeMatrix = currentParent->matrix * nodeMatrix;
-			tempSphere.position = currentParent->matrix * glm::vec4(tempSphere.position, 1.0f);
+			//tempSphere.position = currentParent->matrix * glm::vec4(tempSphere.position, 1.0f);
 			currentParent = currentParent->parent;
 		}
 
-		tempSphere.position = glm::vec4(tempSphere.position, 1.0f) * sceneValues;
 		tempSphere.radius = node->boundingSphere.radius;
 
-		if (sphereInFrustum(tempSphere, *playerCamera)) return;
-
-		for (GLTFStaticModel::Primitive& primitive : node->mesh.primitives)
+		//if (sphereInFrustum(tempSphere, *playerCamera))
+		if (true)
 		{
-			PushConstants pushConstants;
-			pushConstants.baseColor = materials[primitive.materialIndex].baseColorFactor * baseColor;
-			pushConstants.model = sceneValues * nodeMatrix;
-			pushConstants.timer = timer;
-
-			vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstants), &pushConstants);
-
-			if (primitive.indexCount > 0)
+			for (GLTFStaticModel::Primitive& primitive : node->mesh.primitives)
 			{
-				// Create dummy texture
-				GLTFStaticModel::Material& material = materials[primitive.materialIndex];
-				vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &material.descriptorSet, 0, nullptr);
+				PushConstants pushConstants;
+				pushConstants.baseColor = materials[primitive.materialIndex].baseColorFactor * baseColor;
+				pushConstants.model = sceneValues * nodeMatrix;
+				pushConstants.timer = timer;
 
-				vkCmdDrawIndexed(commandBuffer, primitive.indexCount, 1, primitive.firstIndex, 0, 0);
+				vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstants), &pushConstants);
+
+				if (primitive.indexCount > 0)
+				{
+					// Create dummy texture
+					GLTFStaticModel::Material& material = materials[primitive.materialIndex];
+					vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &material.descriptorSet, 0, nullptr);
+
+					vkCmdDrawIndexed(commandBuffer, primitive.indexCount, 1, primitive.firstIndex, 0, 0);
+				}
 			}
 		}
 	}
@@ -573,28 +554,95 @@ void GLTFStaticModel::cleanupResourses(VkDevice newLogicalDevice)
 	vkFreeMemory(newLogicalDevice, indices.memory, nullptr);
 }
 
-bool GLTFStaticModel::sphereInFrustum(const BoundingSphere& sphere, const Camera& camera)
+void GLTFStaticModel::CalculateBoundingSphere(BoundingSphere& sphere, const std::vector<Vertex>& vertices, int vertexStart, int vertexCount)
 {
-	glm::mat4 viewMatrix = glm::lookAt(camera.getEye(), camera.getEye() + camera.getFront(), camera.getUp());
+	if (vertices.empty()) {
+		sphere.position = glm::vec3(0.0f);
+		sphere.radius = float(0.f);
+		return;
+	}
 
-	// Calculate the projection matrix using camera parameters
-	glm::mat4 projectionMatrix = glm::perspective(camera.getFov(), camera.getAspect(), camera.getNearPlane(), camera.getFarPlane());
-
-	// Check against near and far planes
-	if (sphere.position.z - sphere.radius > -camera.getNearPlane() && sphere.position.z + sphere.radius < -camera.getFarPlane()) {
-		float sphereRadiusProjected = sphere.radius / -sphere.position.z;
-		float sphereXProjected = sphere.position.x / -sphere.position.z;
-		float halfWidthProjected = tan(camera.getFov() / 2) * sphere.position.z;
-		if (sphereXProjected - sphereRadiusProjected > -halfWidthProjected && sphereXProjected + sphereRadiusProjected < halfWidthProjected) {
-			float halfHeightProjected = halfWidthProjected / camera.getAspect();
-			float sphereYProjected = sphere.position.y / -sphere.position.z;
-			if (sphereYProjected - sphereRadiusProjected > -halfHeightProjected && sphereYProjected + sphereRadiusProjected < halfHeightProjected) {
-				return true;
-			}
+	// Find the point with the maximum x-coordinate (maximum along any axis)
+	glm::vec3 maxX = vertices[0].pos;
+	for (size_t i = vertexStart; i < vertexStart + vertexCount; i++)
+	{
+		if (vertices[i].pos.x > maxX.x) {
+			maxX = vertices[i].pos;
 		}
 	}
 
-	return false;
+	// Find the point with the maximum distance from the point maxX
+	glm::vec3 farthestPoint = maxX;
+	float maxDistance = 0.0f;
+	for (size_t i = vertexStart; i < vertexStart + vertexCount; i++)
+	{
+		float dist = glm::distance(maxX, vertices[i].pos);
+		if (dist > maxDistance) {
+			maxDistance = dist;
+			farthestPoint = vertices[i].pos;
+		}
+	}
+
+	// Calculate the initial bounding sphere with maxX and farthestPoint as diametric points
+	sphere.position = 0.5f * (maxX + farthestPoint);
+	sphere.radius = 0.5f * maxDistance;
+
+	// Refine the sphere by checking if any points are outside it
+	for (size_t i = vertexStart; i < vertexStart + vertexCount; i++)
+	{
+		float dist = glm::distance(sphere.position, vertices[i].pos);
+		if (dist > sphere.radius) {
+			float distance = dist;
+			float newRadius = 0.5f * (sphere.radius + distance);
+			float k = (newRadius - sphere.radius) / distance;
+			sphere.radius = newRadius;
+			sphere.position = sphere.position + k * (vertices[i].pos - sphere.position);
+		}
+	}
+}
+
+bool GLTFStaticModel::sphereInFrustum(const BoundingSphere& sphere, const Camera& camera)
+{
+	glm::mat4 view = glm::lookAt(camera.getEye(), camera.getFocus(), camera.getUp());
+	glm::mat4 proj = camera.getProjection();
+	glm::mat4 viewProjection = proj * view;
+	glm::vec3 newPosition = viewProjection * glm::vec4(sphere.position, 1.0f);
+
+	// Right plane
+	glm::vec4 rightPlane = glm::row(viewProjection, 3) - glm::row(viewProjection, 0);
+
+	// Left plane
+	glm::vec4 leftPlane = glm::row(viewProjection, 3) + glm::row(viewProjection, 0);
+
+	// Bottom plane
+	glm::vec4 bottomPlane = glm::row(viewProjection, 3) + glm::row(viewProjection, 1);
+
+	// Top plane
+	glm::vec4 topPlane = glm::row(viewProjection, 3) - glm::row(viewProjection, 1);
+
+	// Near plane
+	glm::vec4 nearPlane = glm::row(viewProjection, 3) + glm::row(viewProjection, 2);
+
+	// Far plane
+	glm::vec4 farPlane = glm::row(viewProjection, 3) - glm::row(viewProjection, 2);
+
+	// Calculate the distance between the sphere center and the frustum planes
+	float distanceRight = glm::dot(rightPlane, glm::vec4(newPosition, 1.0f));
+	float distanceLeft = glm::dot(leftPlane, glm::vec4(newPosition, 1.0f));
+	float distanceBottom = glm::dot(bottomPlane, glm::vec4(newPosition, 1.0f));
+	float distanceTop = glm::dot(topPlane, glm::vec4(newPosition, 1.0f));
+	float distanceNear = glm::dot(nearPlane, glm::vec4(newPosition, 1.0f));
+	float distanceFar = glm::dot(farPlane, glm::vec4(newPosition, 1.0f));
+
+	// Check for intersection
+	if (distanceRight > sphere.radius || distanceLeft > sphere.radius ||
+		distanceBottom > sphere.radius || distanceTop > sphere.radius ||
+		distanceNear > sphere.radius || distanceFar > sphere.radius) {
+		// The sphere is outside the frustum
+		return false;
+	}
+
+	return true;
 }
 
 void GLTFStaticModel::createVertexBuffer(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, std::vector<GLTFStaticModel::Vertex>* vertices)

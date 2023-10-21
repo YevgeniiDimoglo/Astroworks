@@ -190,6 +190,7 @@ public:
 
 	void cleanupResourses(VkDevice newLogicalDevice);
 
+	void CalculateBoundingSphere(BoundingSphere& sphere, const std::vector<Vertex>& vertices, int vertexStart, int vertexCount);
 	bool sphereInFrustum(const BoundingSphere& sphere, const Camera& camera);
 
 private:

@@ -18,12 +18,12 @@ void Graphics::init()
 
 	initVulkan();
 
-	dissolveImage = createTexture(physicalDevice, device, commandPool, graphicsQueue, dissolveSamplerDescriptorPool, dissolveSamplerSetLayout, "./Data/Textures/dissolve_animation.png");
-	dummyBasicColor = createTexture(physicalDevice, device, commandPool, graphicsQueue, dissolveSamplerDescriptorPool, dissolveSamplerSetLayout, "./Data/Textures/Dummy.png");
-	dummyBasicNormal = createTexture(physicalDevice, device, commandPool, graphicsQueue, dissolveSamplerDescriptorPool, dissolveSamplerSetLayout, "./Data/Textures/DummyNormal.png");
-	dummyBasicMetalness = createTexture(physicalDevice, device, commandPool, graphicsQueue, dissolveSamplerDescriptorPool, dissolveSamplerSetLayout, "./Data/Textures/DummyMetalness.png");
-	dummyBasicRoughness = createTexture(physicalDevice, device, commandPool, graphicsQueue, dissolveSamplerDescriptorPool, dissolveSamplerSetLayout, "./Data/Textures/DummyRoughness.png");
-	dummyBasicAO = createTexture(physicalDevice, device, commandPool, graphicsQueue, dissolveSamplerDescriptorPool, dissolveSamplerSetLayout, "./Data/Textures/DummyAO.png");
+	dynamicTexture = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/dissolve_animation.png");
+	dummyBasicColor = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/Dummy.png");
+	dummyBasicNormal = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyNormal.png");
+	dummyBasicMetalness = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyMetalness.png");
+	dummyBasicRoughness = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyRoughness.png");
+	dummyBasicAO = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyAO.png");
 
 	initModels();
 
@@ -256,19 +256,20 @@ void Graphics::cleanup()
 		vkFreeMemory(device, dummyBasicColor.deviceMemory, nullptr);
 		vkDestroySampler(device, dummyBasicColor.sampler, nullptr);
 
-		vkDestroyImageView(device, dissolveImage.view, nullptr);
-		vkDestroyImage(device, dissolveImage.image, nullptr);
-		vkFreeMemory(device, dissolveImage.deviceMemory, nullptr);
-		vkDestroySampler(device, dissolveImage.sampler, nullptr);
+		vkDestroyImageView(device, dynamicTexture.view, nullptr);
+		vkDestroyImage(device, dynamicTexture.image, nullptr);
+		vkFreeMemory(device, dynamicTexture.deviceMemory, nullptr);
+		vkDestroySampler(device, dynamicTexture.sampler, nullptr);
 
 		vkDestroySampler(device, offscreen.sampler, nullptr);
+		vkDestroySampler(device, depthSampler, nullptr);
 	}
 
 	vkDestroyDescriptorPool(device, descriptorPool, nullptr);
 	vkDestroyDescriptorSetLayout(device, descriptorSetLayout, nullptr);
 
-	vkDestroyDescriptorPool(device, dissolveSamplerDescriptorPool, nullptr);
-	vkDestroyDescriptorSetLayout(device, dissolveSamplerSetLayout, nullptr);
+	vkDestroyDescriptorPool(device, dynamicTextureSamplerDescriptorPool, nullptr);
+	vkDestroyDescriptorSetLayout(device, dynamicTextureSamplerSetLayout, nullptr);
 
 	vkDestroyDescriptorPool(device, samplerDescriptorPool, nullptr);
 	vkDestroyDescriptorSetLayout(device, samplerSetLayout, nullptr);
@@ -522,23 +523,16 @@ void Graphics::createDescriptorSetLayout()
 {
 	// Uniform values descriptor set layout
 	// UboViewProjection Binding Info
-	VkDescriptorSetLayoutBinding uboLayoutBinding{};
-	uboLayoutBinding.binding = 0;
-	uboLayoutBinding.descriptorCount = 1;
-	uboLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-	uboLayoutBinding.pImmutableSamplers = nullptr;
-	uboLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-
-	// Create Descriptor Set Layout with given bindings
-	std::array<VkDescriptorSetLayoutBinding, 1> bindings = {
-		uboLayoutBinding,
+	std::vector<VkDescriptorSetLayoutBinding> uboLayoutBindings = {
+				{ 0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT, nullptr },
+				{ 1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
 	};
 
 	// Create Descriptor Set Layout
 	VkDescriptorSetLayoutCreateInfo layoutInfo{};
 	layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-	layoutInfo.bindingCount = static_cast<uint32_t>(bindings.size());
-	layoutInfo.pBindings = bindings.data();
+	layoutInfo.bindingCount = static_cast<uint32_t>(uboLayoutBindings.size());
+	layoutInfo.pBindings = uboLayoutBindings.data();
 
 	if (vkCreateDescriptorSetLayout(device, &layoutInfo, nullptr, &descriptorSetLayout) != VK_SUCCESS)
 	{
@@ -576,7 +570,7 @@ void Graphics::createDescriptorSetLayout()
 	dissolveTextureLayoutCreateInfo.pBindings = &dissolveSamplerLayoutBinding;
 
 	// Create Descriptor set layout
-	if (vkCreateDescriptorSetLayout(device, &dissolveTextureLayoutCreateInfo, nullptr, &dissolveSamplerSetLayout) != VK_SUCCESS)
+	if (vkCreateDescriptorSetLayout(device, &dissolveTextureLayoutCreateInfo, nullptr, &dynamicTextureSamplerSetLayout) != VK_SUCCESS)
 	{
 		throw std::runtime_error("failed to create a texture descriptor set layout");
 	}
@@ -615,12 +609,6 @@ void Graphics::createGraphicsPipelines()
 			fragShaderCode = readFile("Shaders/spritePS.spv");
 		}
 
-		/*if (pipelineName == Pipelines::DissolvePipeline)
-		{
-			vertShaderCode = readFile("Shaders/phongVS.spv");
-			fragShaderCode = readFile("Shaders/dissolvePS.spv");
-		}*/
-
 		if (pipelineName == Pipelines::Offscreen)
 		{
 			vertShaderCode = readFile("Shaders/quadVS.spv");
@@ -631,6 +619,12 @@ void Graphics::createGraphicsPipelines()
 		{
 			vertShaderCode = readFile("Shaders/pbrtextureVS.spv");
 			fragShaderCode = readFile("Shaders/pbrtexturePS.spv");
+		}
+
+		if (pipelineName == Pipelines::ShadowMapPipeline)
+		{
+			vertShaderCode = readFile("Shaders/shadowMapCasterVS.spv");
+			fragShaderCode = readFile("Shaders/shadowMapCasterPS.spv");
 		}
 
 		// Build shader modules to link to Graphics Pipeline
@@ -780,7 +774,8 @@ void Graphics::createGraphicsPipelines()
 		if (pipelineName == Pipelines::Offscreen)
 		{
 			// Pipeline layout
-			std::array<VkDescriptorSetLayout, 1> descriptorSetLayouts = { dissolveSamplerSetLayout };
+			// TODO : Change to offscreen pool
+			std::array<VkDescriptorSetLayout, 1> descriptorSetLayouts = { dynamicTextureSamplerSetLayout };
 
 			// Define push constant values
 			VkPushConstantRange pushConstantRange{};
@@ -804,7 +799,7 @@ void Graphics::createGraphicsPipelines()
 		else
 		{
 			// Pipeline layout
-			std::array<VkDescriptorSetLayout, 3> descriptorSetLayouts = { descriptorSetLayout, samplerSetLayout, dissolveSamplerSetLayout };
+			std::array<VkDescriptorSetLayout, 3> descriptorSetLayouts = { descriptorSetLayout, samplerSetLayout, dynamicTextureSamplerSetLayout };
 
 			// Define push constant values
 			VkPushConstantRange pushConstantRange{};
@@ -903,10 +898,33 @@ void Graphics::createCommandPool()
 
 void Graphics::createaDepthResources()
 {
+	VkSamplerCreateInfo samplerInfo = {};
+	samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+	samplerInfo.magFilter = VK_FILTER_NEAREST;
+	samplerInfo.minFilter = VK_FILTER_NEAREST;
+	samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+	samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+	samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+	samplerInfo.anisotropyEnable = VK_FALSE;
+	samplerInfo.maxAnisotropy = 1.0;
+	samplerInfo.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
+	samplerInfo.unnormalizedCoordinates = VK_FALSE;
+	samplerInfo.compareEnable = VK_FALSE;
+	samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
+	samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
+	samplerInfo.mipLodBias = 0.0;
+	samplerInfo.minLod = 0.0;
+	samplerInfo.maxLod = 1.0;
+
+	if (vkCreateSampler(device, &samplerInfo, nullptr, &depthSampler) != VK_SUCCESS)
+	{
+		throw std::runtime_error("Failed to create texture sampler");
+	}
+
 	// Create Depth buffer image
 	createImage(physicalDevice, device,
 		swapChainExtent.width, swapChainExtent.height,
-		depthFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
+		depthFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
 		depthImage, depthImageMemory);
 
 	// Create Depth buffer image view
@@ -980,8 +998,8 @@ void Graphics::createDescriptorPool()
 		throw std::runtime_error("failed to create a sampler descriptor pool");
 	}
 
-	// Create sampler descriptor pool
-	// Texture sampler pool
+	// Create dynamicc texture sampler descriptor pool
+	// Dynamic Texture sampler pool
 	VkDescriptorPoolSize dissolveSamplerPoolSize = {};
 	dissolveSamplerPoolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 	dissolveSamplerPoolSize.descriptorCount = 2;
@@ -992,7 +1010,7 @@ void Graphics::createDescriptorPool()
 	dissolveSamplerPoolCreateInfo.poolSizeCount = 1;
 	dissolveSamplerPoolCreateInfo.pPoolSizes = &dissolveSamplerPoolSize;
 
-	if (vkCreateDescriptorPool(device, &dissolveSamplerPoolCreateInfo, nullptr, &dissolveSamplerDescriptorPool) != VK_SUCCESS)
+	if (vkCreateDescriptorPool(device, &dissolveSamplerPoolCreateInfo, nullptr, &dynamicTextureSamplerDescriptorPool) != VK_SUCCESS)
 	{
 		throw std::runtime_error("failed to create a sampler descriptor pool");
 	}
@@ -1027,7 +1045,7 @@ void Graphics::createDescriptorSets()
 		bufferInfo.range = sizeof(UniformBufferObject);
 
 		// List of descriptor set writes
-		std::array<VkWriteDescriptorSet, 1> descriptorWrites{};
+		std::array<VkWriteDescriptorSet, 2> descriptorWrites{};
 		descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 		descriptorWrites[0].dstSet = descriptorSets[i];
 		descriptorWrites[0].dstBinding = 0;
@@ -1037,6 +1055,19 @@ void Graphics::createDescriptorSets()
 		descriptorWrites[0].pBufferInfo = &bufferInfo;
 		descriptorWrites[0].pImageInfo = nullptr;
 		descriptorWrites[0].pTexelBufferView = nullptr;
+
+		VkDescriptorImageInfo imageInfo = {};
+		imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+		imageInfo.imageView = depthImageView;
+		imageInfo.sampler = depthSampler;
+
+		descriptorWrites[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+		descriptorWrites[1].dstSet = descriptorSets[i];
+		descriptorWrites[1].dstBinding = 1;
+		descriptorWrites[1].dstArrayElement = 0;
+		descriptorWrites[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+		descriptorWrites[1].descriptorCount = 1;
+		descriptorWrites[1].pImageInfo = &imageInfo;
 
 		// Update the descriptor sets with new buffer / binding info
 		vkUpdateDescriptorSets(device, static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
@@ -1121,6 +1152,122 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		throw std::runtime_error("Failed to begin recording command buffer");
 	}
 
+	//\\\\\\\\\\
+
+	/////////////////////////////////////////////////////////////
+
+	// Synchronisation for images
+	const VkImageMemoryBarrier image_memory_barrier_prepass_start
+	{
+		.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
+		.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
+		.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
+		.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
+		.image = offscreen.offscreenColorAttachment.image,
+		.subresourceRange =
+		{
+			.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
+			.baseMipLevel = 0,
+			.levelCount = 1,
+			.baseArrayLayer = 0,
+			.layerCount = 1,
+		}
+	};
+
+	const VkImageMemoryBarrier image_memory_barrier_depth_prepass_start
+	{
+		.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
+		.dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT,
+		.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
+		.newLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+		.image = depthImage,
+		.subresourceRange =
+		{
+			.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT,
+			.baseMipLevel = 0,
+			.levelCount = 1,
+			.baseArrayLayer = 0,
+			.layerCount = 1,
+		}
+	};
+
+	// Pipeline barrier for color
+	vkCmdPipelineBarrier(commandBuffer,
+		VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
+		0, 0, nullptr, 0, nullptr, 1, &image_memory_barrier_prepass_start);
+
+	// Pipeline barrier for depth
+	vkCmdPipelineBarrier(commandBuffer,
+		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
+		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
+		0, 0, nullptr, 0, nullptr, 1, &image_memory_barrier_depth_prepass_start);
+
+	// New structures are used to define the attachments used in dynamic rendering
+
+	VkRenderingAttachmentInfoKHR colorAttachment{};
+	colorAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
+	colorAttachment.imageView = offscreen.offscreenColorAttachment.view;
+	colorAttachment.imageLayout = VK_IMAGE_LAYOUT_ATTACHMENT_OPTIMAL_KHR;
+	colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+	colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+	colorAttachment.clearValue.color = { 0.0f,0.0f,0.0f,0.0f };
+
+	VkRenderingAttachmentInfoKHR depthStencilAttachment{};
+	depthStencilAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
+	depthStencilAttachment.imageView = offscreen.offscreenDepthAttachment.view;
+	depthStencilAttachment.imageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+	depthStencilAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+	depthStencilAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+	depthStencilAttachment.clearValue.depthStencil = { 1.0f,  0 };
+
+	VkRenderingInfoKHR renderingInfo{};
+	renderingInfo.sType = VK_STRUCTURE_TYPE_RENDERING_INFO_KHR;
+	renderingInfo.renderArea = { 0, 0, swapChainExtent.width, swapChainExtent.height };
+	renderingInfo.layerCount = 1;
+	renderingInfo.colorAttachmentCount = 1;
+	renderingInfo.pColorAttachments = &colorAttachment;
+	renderingInfo.pDepthAttachment = &depthStencilAttachment;
+	renderingInfo.pStencilAttachment = nullptr;
+
+	// - Begin rendering
+	vkCmdBeginRendering(commandBuffer, &renderingInfo);
+
+	VkViewport viewport{};
+	viewport.x = 0.0f;
+	viewport.y = 0.0f;
+	viewport.width = static_cast<float>(swapChainExtent.width);
+	viewport.height = static_cast<float>(swapChainExtent.height);
+	viewport.minDepth = 0.0f;
+	viewport.maxDepth = 1.0f;
+	vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
+
+	VkRect2D scissor{};
+	scissor.offset = { 0, 0 };
+	scissor.extent = swapChainExtent;
+	vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
+
+	{
+		// -- Model Pipeline: Phong Shader
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::ShadowMapPipeline)]);
+
+		// Bind camera descriptor
+		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)],
+			0, 1, &descriptorSets[currentFrame], 0, nullptr);
+
+		// -- Model Pipeline: Shadow Shader
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], 0);
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], 1);
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], 4);
+	}
+
+	// --
+
+	// - End of rendering
+	vkCmdEndRendering(commandBuffer);
+
+	///////////////////////////////////////////////////////////
+
 	// Synchronisation for images
 	const VkImageMemoryBarrier image_memory_barrier_start
 	{
@@ -1170,7 +1317,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 
 	// New structures are used to define the attachments used in dynamic rendering
 
-	VkRenderingAttachmentInfoKHR colorAttachment{};
+	//VkRenderingAttachmentInfoKHR colorAttachment{};
 	colorAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
 	colorAttachment.imageView = offscreen.offscreenColorAttachment.view;
 	colorAttachment.imageLayout = VK_IMAGE_LAYOUT_ATTACHMENT_OPTIMAL_KHR;
@@ -1178,7 +1325,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
 	colorAttachment.clearValue.color = { 0.0f,0.0f,0.0f,0.0f };
 
-	VkRenderingAttachmentInfoKHR depthStencilAttachment{};
+	//VkRenderingAttachmentInfoKHR depthStencilAttachment{};
 	depthStencilAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
 	depthStencilAttachment.imageView = offscreen.offscreenDepthAttachment.view;
 	depthStencilAttachment.imageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
@@ -1186,7 +1333,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	depthStencilAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
 	depthStencilAttachment.clearValue.depthStencil = { 1.0f,  0 };
 
-	VkRenderingInfoKHR renderingInfo{};
+	//VkRenderingInfoKHR renderingInfo{};
 	renderingInfo.sType = VK_STRUCTURE_TYPE_RENDERING_INFO_KHR;
 	renderingInfo.renderArea = { 0, 0, swapChainExtent.width, swapChainExtent.height };
 	renderingInfo.layerCount = 1;
@@ -1198,7 +1345,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	// - Begin rendering
 	vkCmdBeginRendering(commandBuffer, &renderingInfo);
 
-	VkViewport viewport{};
+	//VkViewport viewport{};
 	viewport.x = 0.0f;
 	viewport.y = 0.0f;
 	viewport.width = static_cast<float>(swapChainExtent.width);
@@ -1207,7 +1354,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	viewport.maxDepth = 1.0f;
 	vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
 
-	VkRect2D scissor{};
+	//VkRect2D scissor{};
 	scissor.offset = { 0, 0 };
 	scissor.extent = swapChainExtent;
 	vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
@@ -1253,22 +1400,6 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
 		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::UnlitPipeline)], static_cast<int>(ShaderType::Flat));
-
-		//--------------------------
-
-		// -- Dissolve Pipeline
-		//
-		// Bind specific pipeline
-		//vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::DissolvePipeline)]);
-
-		//// Bind camera descriptor
-		//vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::DissolvePipeline)],
-		//	0, 1, &descriptorSets[currentFrame], 0, nullptr);
-		//// Bind image descriptor
-		//vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::DissolvePipeline)],
-		//	3, 1, &dissolveImage.descriptorSet, 0, nullptr);
-
-		//ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DissolvePipeline)], static_cast<int>(Pipelines::DissolvePipeline));
 	}
 	else
 	{
@@ -1298,6 +1429,8 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 
 	// - End of rendering
 	vkCmdEndRendering(commandBuffer);
+
+	////////////////////////////////////////////////////////////
 
 	// Present
 
@@ -1396,6 +1529,8 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
 		0, 0, nullptr, 0, nullptr, 1, &new_image_memory_barrier_end);
 
+	//\\\\\\\\\\
+
 	if (vkEndCommandBuffer(commandBuffer) != VK_SUCCESS)
 	{
 		throw std::runtime_error("Failed to record command buffer");
@@ -1406,14 +1541,37 @@ void Graphics::updateUniformBuffer(HighResolutionTimer timer, float elapsedTime,
 {
 	UniformBufferObject ubo{};
 
+	// Model Info
 	ubo.view = glm::lookAt(camera->getEye(), camera->getFocus(), glm::vec3(0.f, 1.f, 0.f));
 	ubo.proj = camera->getProjection();
 	ubo.proj[1][1] *= -1;
 	ubo.model = glm::mat4(1.0f);
 
+	// Light Info
+
 	ubo.lightDirection = { 0.5, 1, 0 , 1 };
 	ubo.lightColor = { 1, 1, 1, 1 };
+
+	float zNear = 0.1f;
+	float zFar = 1000.f;
+
+	// TODO : Fix parameters
+	// Perspective parameters
+	//glm::mat4 depthProjectionMatrix = glm::perspectiveFov(glm::radians(60.f), 1920.f, 1055.f, zNear, zFar);
+	//depthProjectionMatrix[1][1] *= -1;
+	//glm::mat4 depthViewMatrix = glm::lookAt(glm::vec3(0.f, 550.f, 0.f), glm::vec3(0.0f), glm::vec3(0, 0, 1));
+
+	glm::mat4 depthProjectionMatrix = glm::ortho(-500.f, 500.f, -500.f, 500.f, zNear, zFar);
+	depthProjectionMatrix[1][1] *= -1;
+
+	glm::mat4 depthViewMatrix = glm::lookAt(glm::vec3(0.f, 550.f, 0.f) + (glm::vec3(0.5f, 1.f, 0.f) * 20.f / 2.f), -glm::vec3(0.5f, 1.f, 0.f), glm::vec3(0, 1, 0));
+
+	ubo.lightMVP = depthProjectionMatrix * depthViewMatrix * ubo.model;
+
+	// Camera Info
 	ubo.cameraPosition = glm::vec4(camera->getEye().x, camera->getEye().y, camera->getEye().z, 1.f);
+
+	// Timer Info
 	ubo.timeConstants.r = elapsedTime;
 	ubo.timeConstants.g = timer.TimeStamp();
 
@@ -1526,11 +1684,12 @@ void Graphics::prepareOffscreen()
 	VkDescriptorSet descriptorSet;
 
 	// Descriptor set allocation info
+	// TODO : Change to offscreen pull
 	VkDescriptorSetAllocateInfo setAllocInfo = {};
 	setAllocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-	setAllocInfo.descriptorPool = dissolveSamplerDescriptorPool;
+	setAllocInfo.descriptorPool = dynamicTextureSamplerDescriptorPool;
 	setAllocInfo.descriptorSetCount = 1;
-	setAllocInfo.pSetLayouts = &dissolveSamplerSetLayout;
+	setAllocInfo.pSetLayouts = &dynamicTextureSamplerSetLayout;
 
 	// Allocate descriptor sets
 	VkResult result = vkAllocateDescriptorSets(device, &setAllocInfo, &descriptorSet);

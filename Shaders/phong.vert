@@ -1,10 +1,11 @@
 #version 450
 
-layout(binding = 0) uniform UBOScene
+layout(set = 0, binding = 0) uniform UBOScene
 {
     mat4 model;
     mat4 view;
     mat4 projection;
+    mat4 lightMVP;
     vec4 lightDirection;
     vec4 lightColor;
     vec4 viewPos;
@@ -30,9 +31,10 @@ layout(location = 3) out vec4 outTangent;
 layout(location = 4) out vec3 outLightDirection;
 layout(location = 5) out vec4 outLightColor;
 layout(location = 6) out vec4 outBaseColor;
+layout(location = 7) out vec4 outFragPosLightSpace;
 
-layout(location = 7) out vec4 outCameraPos;
-layout(location = 8) out vec4 outTimerConstants;
+layout(location = 8) out vec4 outCameraPos;
+layout(location = 9) out vec4 outTimerConstants;
 
 void main() 
 {
@@ -46,6 +48,7 @@ void main()
     outVertPos = vertPos4.xyz / vertPos4.w;
     outLightDirection = vec3(uboScene.lightDirection);
     outLightColor = uboScene.lightColor;
+    outFragPosLightSpace = uboScene.lightMVP * vec4(inPos, 1.0);
 
     outNormal = mat3(primitive.model) * inNormal;
 

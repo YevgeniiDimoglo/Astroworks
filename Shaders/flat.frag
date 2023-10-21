@@ -6,6 +6,8 @@ layout(location = 2) in vec3 vertPos;
 layout(location = 5) in vec4 baseColor;
 layout(location = 6) in vec4 timerConstants;
 
+layout(set = 0, binding = 1) uniform sampler2D shadowMap;
+
 layout(set = 1, binding = 0) uniform sampler2D texSampler;
 
 layout(location = 0) out vec4 outColor;

@@ -10,6 +10,7 @@
 #include <glm\glm.hpp>
 #include <glm\gtc\quaternion.hpp>
 #include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtc\matrix_access.hpp>
 #include <glm\gtc\type_ptr.hpp>
 
 #include <stb_image.h>
@@ -96,9 +97,12 @@ struct UniformBufferObject {
 	alignas(16) glm::mat4 model;
 	alignas(16) glm::mat4 view;
 	alignas(16) glm::mat4 proj;
+	alignas(16) glm::mat4 lightMVP;
 	alignas(16) glm::vec4 lightDirection;
 	alignas(16) glm::vec4 lightColor;
+
 	alignas(16) glm::vec4 cameraPosition;
+
 	alignas(16) glm::vec4 timeConstants;
 };
 

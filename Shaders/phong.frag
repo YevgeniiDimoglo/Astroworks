@@ -8,9 +8,12 @@ layout(location = 3) in vec4 inTangent;
 layout(location = 4) in vec3 lightDirection;
 layout(location = 5) in vec4 lightColor;
 layout(location = 6) in vec4 baseColor;
+layout(location = 7) in vec4 inFragPosLightSpace;
 
-layout(location = 7) in vec4 inCameraPos;
-layout(location = 8) in vec4 timerConstants;
+layout(location = 8) in vec4 inCameraPos;
+layout(location = 9) in vec4 timerConstants;
+
+layout(set = 0, binding = 1) uniform sampler2D shadowMap;
 
 layout(set = 1, binding = 0) uniform sampler2D samplerColorMap;
 layout(set = 1, binding = 1) uniform sampler2D samplerNormalMap;
@@ -39,6 +42,18 @@ vec3 CalcPhongSpecular(vec3 normal, vec3 lightVector, vec3 lightColor, vec3 eyeV
     d = pow(d, shininess);
     return lightColor * d * ks;
 }
+
+float ShadowCalculation(vec4 fragPosLightSpace)
+{
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+    projCoords = projCoords * 0.5 + 0.5;
+    float closestDepth = texture(shadowMap, projCoords.xy).r; 
+    float currentDepth = projCoords.z;
+    float bias = 0.005;
+    float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;  
+
+    return shadow;
+}  
 
 void main() 
 {
@@ -69,10 +84,9 @@ void main()
     vec3 ambient = diffuseColor.rgb * 0.2f;
     vec3 directionalDiffuse = CalcHalfLambert(normal, L, vec3(lightColor), kd);
     vec3 specular = CalcPhongSpecular(normal, L, vec3(lightColor), E, shineness, ks.rgb);
+    float shadow = ShadowCalculation(inFragPosLightSpace);    
 
-    vec4 color;
-    color.rgb = diffuseColor.rgb * (ambient + directionalDiffuse) + specular;
-    color.a = diffuseColor.a;
-    outColor = color;
+    vec3 lighting = (ambient + (1.0 - 0) * (directionalDiffuse + specular)) * diffuseColor.rgb; 
 
+    outColor = vec4(lighting, 1.0f);
 }

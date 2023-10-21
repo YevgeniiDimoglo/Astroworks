@@ -12,6 +12,7 @@ enum class Pipelines
 	ModelPipeline,
 	PBRModelPipeline,
 	UnlitPipeline,
+	ShadowMapPipeline,
 	//DissolvePipeline,
 	DebugDrawingPipeline,
 	UIPipeline,
@@ -197,16 +198,17 @@ private:
 	VkDescriptorPool samplerDescriptorPool;
 	VkDescriptorSetLayout samplerSetLayout;
 
-	VkDescriptorPool dissolveSamplerDescriptorPool;
-	VkDescriptorSetLayout dissolveSamplerSetLayout;
-	ImageBuffer dissolveImage;
+	VkDescriptorPool dynamicTextureSamplerDescriptorPool;
+	VkDescriptorSetLayout dynamicTextureSamplerSetLayout;
 
 	Offscreen offscreen;
+	ImageBuffer dynamicTexture;
 
 	VkImage depthImage;
 	VkDeviceMemory depthImageMemory;
 	VkImageView depthImageView;
 	VkFormat depthFormat;
+	VkSampler depthSampler;
 
 	uint32_t currentFrame = 0;
 	bool framebufferResized = false;
