@@ -13,7 +13,7 @@ layout(location = 7) in vec4 inFragPosLightSpace;
 layout(location = 8) in vec4 inCameraPos;
 layout(location = 9) in vec4 timerConstants;
 
-layout(set = 0, binding = 1) uniform sampler2D shadowMap;
+layout(binding = 1) uniform sampler2D shadowMap;
 
 layout(set = 1, binding = 0) uniform sampler2D samplerColorMap;
 layout(set = 1, binding = 1) uniform sampler2D samplerNormalMap;

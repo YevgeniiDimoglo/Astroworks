@@ -1057,9 +1057,9 @@ void Graphics::createDescriptorSets()
 		descriptorWrites[0].pTexelBufferView = nullptr;
 
 		VkDescriptorImageInfo imageInfo = {};
-		imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-		imageInfo.imageView = depthImageView;
 		imageInfo.sampler = depthSampler;
+		imageInfo.imageView = depthImageView;
+		imageInfo.imageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
 
 		descriptorWrites[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 		descriptorWrites[1].dstSet = descriptorSets[i];
@@ -1179,7 +1179,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
 		.dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT,
 		.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
-		.newLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+		.newLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL,
 		.image = depthImage,
 		.subresourceRange =
 		{
@@ -1292,7 +1292,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		.dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT,
 		.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
 		.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
-		.image = depthImage,
+		.image = offscreen.offscreenDepthAttachment.image,
 		.subresourceRange =
 		{
 			.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT,
@@ -1650,7 +1650,7 @@ void Graphics::prepareOffscreen()
 
 	// Depth stencil attachment
 	image.format = fbDepthFormat;
-	image.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+	image.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
 
 	vkCreateImage(device, &image, nullptr, &offscreen.offscreenDepthAttachment.image);
 	vkGetImageMemoryRequirements(device, offscreen.offscreenDepthAttachment.image, &memReqs);

@@ -12,7 +12,7 @@ layout(location = 6) in vec4 baseColor;
 layout(location = 7) in vec4 cameraPos;
 layout(location = 8) in vec4 timerConstants;
 
-layout(set = 0, binding = 1) uniform sampler2D shadowMap;
+layout(binding = 1) uniform sampler2D shadowMap;
 
 layout(set = 1, binding = 0) uniform sampler2D albedoMap;
 layout(set = 1, binding = 1) uniform sampler2D normalMap;
