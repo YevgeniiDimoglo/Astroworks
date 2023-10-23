@@ -1,9 +1,9 @@
 [[ActorsOnScreen]]
 name = "Terrain"
-position = [0.0,-100.0,0.0]
+position = [0.0,-50.0,0.0]
 rotation = [-0.0,-0.0,1.0,-0.0]
 euler = [0.0,0.0,0.0]
-scale = [0.5,0.5,0.5]
+scale = [1.0,1.0,1.0]
 path = "./Data/Primitives/terrain.glb"
 type = "Terrian"
 typeName = "Basic"
@@ -18,4 +18,15 @@ scale = [750.0,750.0,750.0]
 path = "./Data/Primitives/NaraSkyDome.glb"
 type = "Terrian"
 typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Chara"
+position = [0.0,-20.0,0.0]
+rotation = [-0.0,-0.0,1.0,-0.0]
+euler = [0.0,0.0,0.0]
+scale = [10.0,10.0,10.0]
+path = "./Data/Primitives/Chara.glb"
+type = "Terrian"
+typeName = "PBR"
 controller = "None"

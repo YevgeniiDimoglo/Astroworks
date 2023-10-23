@@ -1,0 +1,1 @@
+xcopy %~dp0../shadowMapCasterVS.spv %~dp0../Shaders/shadowMapCasterVS.spv 

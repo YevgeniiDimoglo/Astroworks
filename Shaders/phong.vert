@@ -36,6 +36,13 @@ layout(location = 7) out vec4 outFragPosLightSpace;
 layout(location = 8) out vec4 outCameraPos;
 layout(location = 9) out vec4 outTimerConstants;
 
+
+const mat4 biasMat = mat4( 
+	0.5, 0.0, 0.0, 0.0,
+	0.0, 0.5, 0.0, 0.0,
+	0.0, 0.0, 1.0, 0.0,
+	0.5, 0.5, 0.0, 1.0 );
+
 void main() 
 {
     outNormal = inNormal;
@@ -48,7 +55,7 @@ void main()
     outVertPos = vertPos4.xyz / vertPos4.w;
     outLightDirection = vec3(uboScene.lightDirection);
     outLightColor = uboScene.lightColor;
-    outFragPosLightSpace = uboScene.lightMVP * vec4(inPos, 1.0);
+    outFragPosLightSpace = biasMat * uboScene.lightMVP * vec4(inPos, 1.0);
 
     outNormal = mat3(primitive.model) * inNormal;
 

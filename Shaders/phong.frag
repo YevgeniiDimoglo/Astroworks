@@ -49,7 +49,7 @@ float ShadowCalculation(vec4 fragPosLightSpace)
     projCoords = projCoords * 0.5 + 0.5;
     float closestDepth = texture(shadowMap, projCoords.xy).r; 
     float currentDepth = projCoords.z;
-    float bias = 0.005;
+    float bias = 0.0005;
     float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;  
 
     return shadow;
@@ -84,9 +84,9 @@ void main()
     vec3 ambient = diffuseColor.rgb * 0.2f;
     vec3 directionalDiffuse = CalcHalfLambert(normal, L, vec3(lightColor), kd);
     vec3 specular = CalcPhongSpecular(normal, L, vec3(lightColor), E, shineness, ks.rgb);
-    float shadow = ShadowCalculation(inFragPosLightSpace);    
+    float shadow = ShadowCalculation(inFragPosLightSpace);  
 
-    vec3 lighting = (ambient + (1.0 - shadow) * (directionalDiffuse + specular)) * diffuseColor.rgb; 
+    vec3 lighting = (ambient + (1.0 - shadow * 0.1) * (directionalDiffuse + specular)) * diffuseColor.rgb; 
 
     outColor = vec4(lighting, 1.0f);
 }
