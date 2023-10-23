@@ -86,7 +86,7 @@ void main()
     vec3 specular = CalcPhongSpecular(normal, L, vec3(lightColor), E, shineness, ks.rgb);
     float shadow = ShadowCalculation(inFragPosLightSpace);    
 
-    vec3 lighting = (ambient + (1.0 - 0) * (directionalDiffuse + specular)) * diffuseColor.rgb; 
+    vec3 lighting = (ambient + (1.0 - shadow) * (directionalDiffuse + specular)) * diffuseColor.rgb; 
 
     outColor = vec4(lighting, 1.0f);
 }

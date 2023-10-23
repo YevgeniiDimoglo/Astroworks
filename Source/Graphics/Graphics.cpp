@@ -1215,7 +1215,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 
 	VkRenderingAttachmentInfoKHR depthStencilAttachment{};
 	depthStencilAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
-	depthStencilAttachment.imageView = offscreen.offscreenDepthAttachment.view;
+	depthStencilAttachment.imageView = depthImageView;
 	depthStencilAttachment.imageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 	depthStencilAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 	depthStencilAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
@@ -1291,7 +1291,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
 		.dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT,
 		.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
-		.newLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+		.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
 		.image = depthImage,
 		.subresourceRange =
 		{
