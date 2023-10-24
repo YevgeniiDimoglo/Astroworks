@@ -153,6 +153,7 @@ extern ImageBuffer dummyBasicNormal;
 extern ImageBuffer dummyBasicMetalness;
 extern ImageBuffer dummyBasicRoughness;
 extern ImageBuffer dummyBasicAO;
+extern ImageBuffer dummyBasicEmissive;
 
 extern Camera* playerCamera;
 

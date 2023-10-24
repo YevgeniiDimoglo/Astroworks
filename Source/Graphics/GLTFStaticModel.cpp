@@ -306,6 +306,7 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	GLTFStaticModel::Image* metallic = material.metallicRoughnessTexture;
 	GLTFStaticModel::Image* roughness = material.metallicRoughnessTexture;
 	GLTFStaticModel::Image* AO = material.ambientOcclusionTexture;
+	GLTFStaticModel::Image* emissive = material.emissiveTexture;
 
 	if (color == nullptr)
 	{
@@ -387,11 +388,28 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 		AO = &dummyAO;
 	}
 
+	if (emissive == nullptr)
+	{
+		GLTFStaticModel::Image dummyEmissive = {
+		dummyBasicEmissive.image,
+			dummyBasicEmissive.imageLayout,
+			dummyBasicEmissive.deviceMemory,
+			dummyBasicEmissive.view,
+			dummyBasicEmissive.width, dummyBasicColor.height,
+			dummyBasicEmissive.descriptor,
+			dummyBasicEmissive.sampler,
+			dummyBasicEmissive.descriptorSet,
+		};
+
+		emissive = &dummyEmissive;
+	}
+
 	VkDescriptorImageInfo colorInfo = color->descriptor;
 	VkDescriptorImageInfo normalInfo = normal->descriptor;
 	VkDescriptorImageInfo metalliclInfo = metallic->descriptor;
 	VkDescriptorImageInfo roughnesslInfo = roughness->descriptor;
 	VkDescriptorImageInfo AOInfo = AO->descriptor;
+	VkDescriptorImageInfo emissiveInfo = emissive->descriptor;
 
 	std::vector<VkDescriptorImageInfo> imageDescriptors = {
 		colorInfo,
@@ -399,9 +417,10 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 		roughnesslInfo,
 		metalliclInfo,
 		AOInfo,
+		emissiveInfo,
 	};
 
-	std::array<VkWriteDescriptorSet, 5> writeDescriptorSets{};
+	std::array<VkWriteDescriptorSet, 6> writeDescriptorSets{};
 	for (size_t i = 0; i < imageDescriptors.size(); i++) {
 		writeDescriptorSets[i].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 		writeDescriptorSets[i].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
@@ -515,7 +534,7 @@ void GLTFStaticModel::loadglTFFile(VkPhysicalDevice newPhysicalDevice, VkDevice 
 	}
 	else
 	{
-		throw std::runtime_error("Failed to open the glRF file");
+		throw std::runtime_error("Failed to open the gltf file");
 	}
 
 	indices.count = static_cast<uint32_t>(indexBuffer.size());

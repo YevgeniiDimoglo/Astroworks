@@ -18,7 +18,8 @@ layout(set = 1, binding = 0) uniform sampler2D albedoMap;
 layout(set = 1, binding = 1) uniform sampler2D normalMap;
 layout(set = 1, binding = 2) uniform sampler2D roughnessMap;
 layout(set = 1, binding = 3) uniform sampler2D metallicMap;
-layout(set = 1, binding = 4) uniform sampler2D AoMap;
+layout(set = 1, binding = 4) uniform sampler2D aoMap;
+layout(set = 1, binding = 5) uniform sampler2D emissiveMap;
 
 layout(location = 0) out vec4 outColor;
 
@@ -133,8 +134,6 @@ void main()
 
 	float roughness = texture(roughnessMap, inUV).g;
 
-	float ambientOcclusion = texture(AoMap, inUV).r;
-
 	metallic = clamp(metallic + adjustMetalness, 0.0, 1.0);
 	roughness = clamp(roughness + adjustSmoothness, 0.0, 1.0);
 
@@ -157,6 +156,15 @@ void main()
                    lightColor.rgb, roughness,
                     directDiffuse, directSpecular);
 	
+    vec3 color = (directAmbient + directDiffuse + directSpecular);
 
-	outColor = vec4(directAmbient + directDiffuse + directSpecular, albedoColor.a);
+    float u_OcclusionStrength = 1.0f;
+	float ao = texture(aoMap, inUV).r;
+	color = mix(color, color * ao, u_OcclusionStrength);
+
+	vec3 emissive = vec3(1.f);
+	emissive *= texture(emissiveMap, inUV).rgb;
+	color += emissive;
+
+	outColor = vec4(color, albedoColor.a);
 }

@@ -9,6 +9,7 @@ ImageBuffer dummyBasicNormal;
 ImageBuffer dummyBasicMetalness;
 ImageBuffer dummyBasicRoughness;
 ImageBuffer dummyBasicAO;
+ImageBuffer dummyBasicEmissive;
 
 Camera* playerCamera;
 
@@ -24,6 +25,7 @@ void Graphics::init()
 	dummyBasicMetalness = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyMetalness.png");
 	dummyBasicRoughness = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyRoughness.png");
 	dummyBasicAO = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyAO.png");
+	dummyBasicEmissive = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyEmissive.png");
 
 	initModels();
 
@@ -230,6 +232,11 @@ void Graphics::cleanup()
 		vkDestroyImageView(device, offscreen.offscreenDepthAttachment.view, nullptr);
 		vkDestroyImage(device, offscreen.offscreenDepthAttachment.image, nullptr);
 		vkFreeMemory(device, offscreen.offscreenDepthAttachment.mem, nullptr);
+
+		vkDestroyImageView(device, dummyBasicEmissive.view, nullptr);
+		vkDestroyImage(device, dummyBasicEmissive.image, nullptr);
+		vkFreeMemory(device, dummyBasicEmissive.deviceMemory, nullptr);
+		vkDestroySampler(device, dummyBasicEmissive.sampler, nullptr);
 
 		vkDestroyImageView(device, dummyBasicAO.view, nullptr);
 		vkDestroyImage(device, dummyBasicAO.image, nullptr);
@@ -545,6 +552,7 @@ void Graphics::createDescriptorSetLayout()
 				{ 2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
 				{ 3, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
 				{ 4, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
+				{ 5, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
 	};
 
 	VkDescriptorSetLayoutCreateInfo descriptorSetLayoutCI{};
@@ -985,11 +993,11 @@ void Graphics::createDescriptorPool()
 	// Texture sampler pool
 	VkDescriptorPoolSize samplerPoolSize = {};
 	samplerPoolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-	samplerPoolSize.descriptorCount = MAX_OBJECTS * 5;
+	samplerPoolSize.descriptorCount = MAX_OBJECTS * 6;
 
 	VkDescriptorPoolCreateInfo samplerPoolCreateInfo = {};
 	samplerPoolCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-	samplerPoolCreateInfo.maxSets = MAX_OBJECTS * 5;
+	samplerPoolCreateInfo.maxSets = MAX_OBJECTS * 6;
 	samplerPoolCreateInfo.poolSizeCount = 1;
 	samplerPoolCreateInfo.pPoolSizes = &samplerPoolSize;
 
@@ -1885,7 +1893,7 @@ bool Graphics::isDeviceSuitable(VkPhysicalDevice device)
 #else
 	return (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) && indices.isComplete() && extensionsSupported && swapChainAdequate && deviceFeatures.samplerAnisotropy;
 #endif // DISCRETE
-}
+	}
 
 QueueFamilyIndices Graphics::findQueueFamilies(VkPhysicalDevice device)
 {

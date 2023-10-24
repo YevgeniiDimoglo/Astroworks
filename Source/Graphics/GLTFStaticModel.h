@@ -138,7 +138,6 @@ public:
 
 	struct Material
 	{
-		glm::vec4	baseColorFactor = glm::vec4(1.0f);
 		uint32_t	baseColorTextureIndex;
 		uint32_t	normalTextureIndex;
 		GLTFStaticModel::Image* baseColorTexture;
@@ -151,6 +150,8 @@ public:
 		float alphaCutoff = 1.0f;
 		float metallicFactor = 1.0f;
 		float roughnessFactor = 1.0f;
+		glm::vec4 baseColorFactor = glm::vec4(1.0f);
+		glm::vec4 emissiveFactor = glm::vec4(0.0f);
 		int index = 0;
 		bool		doubleSided = false;
 		VkDescriptorSet descriptorSet = VK_NULL_HANDLE;
