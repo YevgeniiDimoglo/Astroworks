@@ -130,7 +130,7 @@ void main()
 {
 	vec4 albedoColor = texture(albedoMap, inUV) * baseColor;
 
-	float metallic = texture(roughnessMap, inUV).r;
+	float metallic = texture(roughnessMap, inUV).b;
 
 	float roughness = texture(roughnessMap, inUV).g;
 

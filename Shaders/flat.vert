@@ -30,8 +30,8 @@ layout(location = 6) out vec4 timerConstants;
 
 void main() {
 
-    gl_Position = ubo.proj * ubo.view * pushModel.model * vec4(inPosition, 1.0);
-    vec4 vertPos4 = pushModel.model * vec4(inPosition, 1.0);
+    vec4 vertPos4 = ubo.proj * ubo.view * pushModel.model * vec4(inPosition, 1.0);
+    gl_Position = vertPos4;
     vertPos = vec3(vertPos4) / vertPos4.w;
 
     normalInterp = inNormal;
