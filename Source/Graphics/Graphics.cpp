@@ -1170,7 +1170,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 
 	/////////////////////////////////////////////////////////////
 
-	// Synchronisation for images
+	//Synchronisation for images
 	const VkImageMemoryBarrier image_memory_barrier_prepass_start
 	{
 		.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
@@ -1217,7 +1217,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
 		0, 0, nullptr, 0, nullptr, 1, &image_memory_barrier_depth_prepass_start);
 
-	// New structures are used to define the attachments used in dynamic rendering
+	//// New structures are used to define the attachments used in dynamic rendering
 
 	VkRenderingAttachmentInfoKHR colorAttachment{};
 	colorAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
@@ -1278,57 +1278,6 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 
 	// - End of rendering
 	vkCmdEndRendering(commandBuffer);
-
-	///////////////////////////////////////////////////////////
-
-	// Synchronisation for images
-	const VkImageMemoryBarrier image_memory_barrier_start
-	{
-		.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
-		.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
-		.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
-		.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
-		.image = offscreen.offscreenColorAttachment.image,
-		.subresourceRange =
-		{
-			.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
-			.baseMipLevel = 0,
-			.levelCount = 1,
-			.baseArrayLayer = 0,
-			.layerCount = 1,
-		}
-	};
-
-	const VkImageMemoryBarrier image_memory_barrier_depth_start
-	{
-		.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
-		.dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT,
-		.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
-		.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
-		.image = offscreen.offscreenDepthAttachment.image,
-		.subresourceRange =
-		{
-			.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT,
-			.baseMipLevel = 0,
-			.levelCount = 1,
-			.baseArrayLayer = 0,
-			.layerCount = 1,
-		}
-	};
-
-	// Pipeline barrier for color
-	vkCmdPipelineBarrier(commandBuffer,
-		VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
-		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
-		0, 0, nullptr, 0, nullptr, 1, &image_memory_barrier_start);
-
-	// Pipeline barrier for depth
-	vkCmdPipelineBarrier(commandBuffer,
-		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
-		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
-		0, 0, nullptr, 0, nullptr, 1, &image_memory_barrier_depth_start);
-
-	// New structures are used to define the attachments used in dynamic rendering
 
 	//VkRenderingAttachmentInfoKHR colorAttachment{};
 	colorAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
@@ -1447,30 +1396,6 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 
 	// Present
 
-	// Synchronisation for images
-	const VkImageMemoryBarrier new_image_memory_barrier_start
-	{
-		.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
-		.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
-		.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
-		.newLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
-		.image = swapChainImages[imageIndex],
-		.subresourceRange =
-		{
-			.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
-			.baseMipLevel = 0,
-			.levelCount = 1,
-			.baseArrayLayer = 0,
-			.layerCount = 1,
-		}
-	};
-
-	//// Pipeline barrier for color
-	vkCmdPipelineBarrier(commandBuffer,
-		VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
-		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
-		0, 0, nullptr, 0, nullptr, 1, &new_image_memory_barrier_start);
-
 	// New structures are used to define the attachments used in dynamic rendering
 
 	colorAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
@@ -1542,7 +1467,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
 		0, 0, nullptr, 0, nullptr, 1, &new_image_memory_barrier_end);
 
-	//\\\\\\\\\\
+	////\\\\\\\\\\
 
 	if (vkEndCommandBuffer(commandBuffer) != VK_SUCCESS)
 	{
@@ -1567,12 +1492,6 @@ void Graphics::updateUniformBuffer(HighResolutionTimer timer, float elapsedTime,
 
 	float zNear = 0.1f;
 	float zFar = 1000.f;
-
-	// TODO : Fix parameters
-	// Perspective parameters
-	//glm::mat4 depthProjectionMatrix = glm::perspectiveFov(glm::radians(60.f), 1920.f, 1055.f, zNear, zFar);
-	//depthProjectionMatrix[1][1] *= -1;
-	//glm::mat4 depthViewMatrix = glm::lookAt(glm::vec3(0.f, 550.f, 0.f), glm::vec3(0.0f), glm::vec3(0, 0, 1));
 
 	glm::mat4 depthProjectionMatrix = glm::ortho(-500.f, 500.f, -500.f, 500.f, zNear, zFar);
 	depthProjectionMatrix[1][1] *= -1;
