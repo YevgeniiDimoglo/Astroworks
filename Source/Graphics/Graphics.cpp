@@ -635,6 +635,12 @@ void Graphics::createGraphicsPipelines()
 			fragShaderCode = readFile("Shaders/shadowMapCasterPS.spv");
 		}
 
+		if (pipelineName == Pipelines::WaterPipeline)
+		{
+			vertShaderCode = readFile("Shaders/waterVS.spv");
+			fragShaderCode = readFile("Shaders/waterPS.spv");
+		}
+
 		// Build shader modules to link to Graphics Pipeline
 		// Create Shader Modules
 		VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
@@ -1194,7 +1200,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		.dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT,
 		.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
 		.newLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL,
-		.image = depthImage,
+		.image = offscreen.offscreenDepthAttachment.image,
 		.subresourceRange =
 		{
 			.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT,
@@ -1346,10 +1352,6 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::PBRModelPipeline)]);
 
-		// Bind camera descriptor
-		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::PBRModelPipeline)],
-			0, 1, &descriptorSets[currentFrame], 0, nullptr);
-
 		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::PBRModelPipeline)], static_cast<int>(ShaderType::PBR));
 
 		//--------------------------
@@ -1357,20 +1359,19 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		// -- Model Pipeline: Flat Shader
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::UnlitPipeline)]);
 
-		// Bind camera descriptor
-		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::UnlitPipeline)],
-			0, 1, &descriptorSets[currentFrame], 0, nullptr);
-
 		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::UnlitPipeline)], static_cast<int>(ShaderType::Flat));
+
+		//--------------------------
+
+		// -- Model Pipeline: Water Shader
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::WaterPipeline)]);
+
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::WaterPipeline)], static_cast<int>(ShaderType::Water));
 	}
 	else
 	{
 		// -- Model Pipeline: Phong Shader
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::DebugDrawingPipeline)]);
-
-		// Bind camera descriptor
-		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)],
-			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
 		// -- Model Pipeline: PBR Shader
 		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], 0);
@@ -1811,14 +1812,14 @@ bool Graphics::isDeviceSuitable(VkPhysicalDevice device)
 	{
 		SwapChainSupportDetails swapChainSupport = querySwapChainSupport(device);
 		swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
-	}
+}
 
 #ifdef DISCRETE
 	return (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) && indices.isComplete() && extensionsSupported && swapChainAdequate && deviceFeatures.samplerAnisotropy;
 #else
 	return (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) && indices.isComplete() && extensionsSupported && swapChainAdequate && deviceFeatures.samplerAnisotropy;
 #endif // DISCRETE
-}
+	}
 
 QueueFamilyIndices Graphics::findQueueFamilies(VkPhysicalDevice device)
 {

@@ -56,6 +56,7 @@ enum class ShaderType
 	PhongTransparency,
 	Flat,
 	Sprite,
+	Water,
 
 	EnumCount
 };

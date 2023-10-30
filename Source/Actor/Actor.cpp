@@ -124,7 +124,7 @@ void ActorManager::deserializeActor()
 			Player::Instance().emplaceActor(actor);
 		}
 
-		if (actor->getName() == "SkyDome")
+		if (actor->getTypeName() == "Simple")
 		{
 			actor->setShaderType(ShaderType::Flat);
 		}
@@ -132,6 +132,11 @@ void ActorManager::deserializeActor()
 		if (actor->getTypeName() == "PBR")
 		{
 			actor->setShaderType(ShaderType::PBR);
+		}
+
+		if (actor->getTypeName() == "Water")
+		{
+			actor->setShaderType(ShaderType::Water);
 		}
 	}
 }

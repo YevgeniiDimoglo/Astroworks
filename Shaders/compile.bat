@@ -11,4 +11,6 @@
 %~dp0glslc.exe %~dp0pbrtexture.frag -o pbrtexturePS.spv
 %~dp0glslc.exe %~dp0shadowMapCaster.vert -o shadowMapCasterVS.spv
 %~dp0glslc.exe %~dp0shadowMapCaster.frag -o shadowMapCasterPS.spv
+%~dp0glslc.exe %~dp0water.vert -o waterVS.spv
+%~dp0glslc.exe %~dp0water.frag -o waterPS.spv
 pause
