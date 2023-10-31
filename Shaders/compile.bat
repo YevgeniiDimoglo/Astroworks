@@ -13,4 +13,6 @@
 %~dp0glslc.exe %~dp0shadowMapCaster.frag -o shadowMapCasterPS.spv
 %~dp0glslc.exe %~dp0water.vert -o waterVS.spv
 %~dp0glslc.exe %~dp0water.frag -o waterPS.spv
+%~dp0glslc.exe %~dp0billboard.vert -o billboardVS.spv
+%~dp0glslc.exe %~dp0fireball.frag -o fireballPS.spv
 pause

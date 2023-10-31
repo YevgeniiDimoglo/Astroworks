@@ -96,3 +96,14 @@ path = "./Data/Primitives/Water.glb"
 type = "Terrian"
 typeName = "Water"
 controller = "None"
+
+[[ActorsOnScreen]]
+name = "Fireball"
+position = [-70.0,-20.0,0.0]
+rotation = [-0.0,-0.0,1.0,-0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/Primitives/plane.glb"
+type = "Terrian"
+typeName = "Fireball"
+controller = "None"

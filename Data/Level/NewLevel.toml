@@ -4,7 +4,7 @@ position = [0.0,-50.0,0.0]
 rotation = [-0.0,-0.0,1.0,-0.0]
 euler = [0.0,0.0,0.0]
 scale = [1000.0,1000.0,1000.0]
-path = "./Data/Primitives/death_valley_-_terrain.glb"
+path = "./Data/ToImplementModels/death_valley_-_terrain.glb"
 type = "Terrian"
 typeName = "Basic"
 controller = "None"
@@ -21,23 +21,23 @@ typeName = "Simple"
 controller = "None"
 
 [[ActorsOnScreen]]
-name = "Village"
-position = [-30.0,-119.0,-20.0]
-rotation = [-0.0,-0.0,1.0,-0.0]
-euler = [0.0,180.0,0.0]
-scale = [1.0,1.0,1.0]
-path = "./Data/Primitives/Village.glb"
-type = "Terrian"
-typeName = "PBR"
-controller = "None"
-
-[[ActorsOnScreen]]
 name = "Helmet"
 position = [0.0,0.0,0.0]
 rotation = [-0.0,-0.0,1.0,-0.0]
 euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/Primitives/DamagedHelmet.glb"
+path = "./Data/ToImplementModels/DamagedHelmet.glb"
+type = "Terrian"
+typeName = "PBR"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Castle_MAT"
+position = [-30.0,-93.0,-20.0]
+rotation = [-0.0,-0.0,1.0,-0.0]
+euler = [0.0,180.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/ToImplementModels/Castle_MAT.glb"
 type = "Terrian"
 typeName = "PBR"
 controller = "None"

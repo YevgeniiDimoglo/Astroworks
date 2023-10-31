@@ -138,6 +138,11 @@ void ActorManager::deserializeActor()
 		{
 			actor->setShaderType(ShaderType::Water);
 		}
+
+		if (actor->getTypeName() == "Fireball")
+		{
+			actor->setShaderType(ShaderType::Fireball);
+		}
 	}
 }
 

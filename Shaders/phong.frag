@@ -44,17 +44,43 @@ vec3 CalcPhongSpecular(vec3 normal, vec3 lightVector, vec3 lightColor, vec3 eyeV
     return lightColor * d * ks;
 }
 
-float ShadowCalculation(vec4 fragPosLightSpace)
+float calculateShadow(vec4 shadowCoords, vec2 off)
 {
-    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
-    projCoords = projCoords * 0.5 + 0.5;
-    float closestDepth = texture(shadowMap, projCoords.xy).r; 
-    float currentDepth = projCoords.z;
-    float bias = 0.0005;
-    float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;  
+    return texture(shadowMap, shadowCoords.xy + off).r;  
+}
 
-    return shadow;
-}  
+vec3 filterPCF(vec4 shadowCoords)
+{
+   vec2 texelSize = textureSize(shadowMap, 0);
+   float scale = 1.5;
+   float dx = scale * 1.0 / float(texelSize.x);
+   float dy = scale * 1.0 / float(texelSize.y);
+
+   float shadow = 0.0;
+   int count = 0;
+   int range = 10;
+
+   for (int x = -range; x <= range; x++)
+   {
+      for (int y = -range; y <= range; y++)
+      {
+         shadow += calculateShadow(
+               shadowCoords,
+               vec2(dx * x, dy * y)
+         );
+         count++;
+      }
+   }
+
+   return mix(vec3(0.2, 0.2, 0.2), vec3(1.f), count / (range * range));
+}
+
+vec3 CalcShadowColor()
+{
+    float depth = texture(shadowMap, inFragPosLightSpace.xy).r;
+
+	return mix(vec3(0.2, 0.2, 0.2), vec3(1.f), step(inFragPosLightSpace.z - depth, 0.01));
+}
 
 void main() 
 {
@@ -85,9 +111,13 @@ void main()
     vec3 ambient = diffuseColor.rgb * 0.2f;
     vec3 directionalDiffuse = CalcHalfLambert(normal, L, vec3(lightColor), kd);
     vec3 specular = CalcPhongSpecular(normal, L, vec3(lightColor), E, shineness, ks.rgb);
-    float shadow = ShadowCalculation(inFragPosLightSpace);  
 
-    vec3 lighting = (ambient + (1.0 - shadow * 0.1) * (directionalDiffuse + specular)) * diffuseColor.rgb; 
+    vec3 shadow = CalcShadowColor();
+
+    directionalDiffuse *= shadow;
+    specular *= shadow;
+
+    vec3 lighting = (ambient + directionalDiffuse + specular ) * diffuseColor.rgb; 
 
     outColor = vec4(lighting, 1.0f);
 }

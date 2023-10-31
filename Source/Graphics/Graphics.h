@@ -17,6 +17,7 @@ enum class Pipelines
 	DebugDrawingPipeline,
 	UIPipeline,
 	WaterPipeline,
+	FirePipeline,
 	Offscreen,
 
 	EnumCount

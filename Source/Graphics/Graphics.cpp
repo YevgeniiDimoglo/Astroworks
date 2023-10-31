@@ -641,6 +641,12 @@ void Graphics::createGraphicsPipelines()
 			fragShaderCode = readFile("Shaders/waterPS.spv");
 		}
 
+		if (pipelineName == Pipelines::FirePipeline)
+		{
+			vertShaderCode = readFile("Shaders/waterVS.spv");
+			fragShaderCode = readFile("Shaders/fireballPS.spv");
+		}
+
 		// Build shader modules to link to Graphics Pipeline
 		// Create Shader Modules
 		VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
@@ -1367,6 +1373,13 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::WaterPipeline)]);
 
 		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::WaterPipeline)], static_cast<int>(ShaderType::Water));
+
+		//--------------------------
+
+		// -- Model Pipeline: Water Shader
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::FirePipeline)]);
+
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::FirePipeline)], static_cast<int>(ShaderType::Fireball));
 	}
 	else
 	{
@@ -1497,7 +1510,7 @@ void Graphics::updateUniformBuffer(HighResolutionTimer timer, float elapsedTime,
 	glm::mat4 depthProjectionMatrix = glm::ortho(-500.f, 500.f, -500.f, 500.f, zNear, zFar);
 	depthProjectionMatrix[1][1] *= -1;
 
-	glm::mat4 depthViewMatrix = glm::lookAt(glm::vec3(0.f, 550.f, 0.f) + (glm::vec3(0.5f, 1.f, 0.f) * 20.f / 2.f), -glm::vec3(0.5f, 1.f, 0.f), glm::vec3(0, 1, 0));
+	glm::mat4 depthViewMatrix = glm::lookAt(glm::vec3(100.f, 570.f, 200.f) + (glm::vec3(0.5f, 1.f, 0.f) * 20.f / 2.f), -glm::vec3(0.5f, 1.f, 0.f), glm::vec3(0, 1, 0));
 
 	ubo.lightMVP = depthProjectionMatrix * depthViewMatrix * ubo.model;
 
@@ -1812,14 +1825,14 @@ bool Graphics::isDeviceSuitable(VkPhysicalDevice device)
 	{
 		SwapChainSupportDetails swapChainSupport = querySwapChainSupport(device);
 		swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
-}
+	}
 
 #ifdef DISCRETE
 	return (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) && indices.isComplete() && extensionsSupported && swapChainAdequate && deviceFeatures.samplerAnisotropy;
 #else
 	return (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) && indices.isComplete() && extensionsSupported && swapChainAdequate && deviceFeatures.samplerAnisotropy;
 #endif // DISCRETE
-	}
+}
 
 QueueFamilyIndices Graphics::findQueueFamilies(VkPhysicalDevice device)
 {

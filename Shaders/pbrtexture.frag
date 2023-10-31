@@ -1,16 +1,17 @@
 #version 450
 
-layout(location = 0) in vec3 normalInterp;
+layout(location = 0) in vec3 inNormal;
 layout(location = 1) in vec2 inUV;
 layout(location = 2) in vec3 vertPos;
-layout(location = 3) in vec4 tangent;
+layout(location = 3) in vec4 inTangent;
 
 layout(location = 4) in vec3 lightDirection;
 layout(location = 5) in vec4 lightColor;
 layout(location = 6) in vec4 baseColor;
+layout(location = 7) in vec4 inFragPosLightSpace;
 
-layout(location = 7) in vec4 cameraPos;
-layout(location = 8) in vec4 timerConstants;
+layout(location = 8) in vec4 inCameraPos;
+layout(location = 9) in vec4 timerConstants;
 
 layout(binding = 1) uniform sampler2D shadowMap;
 
@@ -24,6 +25,9 @@ layout(set = 1, binding = 5) uniform sampler2D emissiveMap;
 layout(location = 0) out vec4 outColor;
 
 #define PI 3.1415926535
+
+#define ShadowBias 0.001
+#define ShadowColor vec3(0.2, 0.2, 0.2)
 
 const float Dielectric = 0.04f;
 const float adjustMetalness = 0.0f;
@@ -118,12 +122,51 @@ vec3 getNormal()
 	vec2 st1 = dFdx(inUV);
 	vec2 st2 = dFdy(inUV);
 
-	vec3 N = normalize(normalInterp);
+	vec3 N = normalize(inNormal);
 	vec3 T = normalize(q1 * st2.t - q2 * st1.t);
 	vec3 B = -normalize(cross(N, T));
 	mat3 TBN = mat3(T, B, N);
 
 	return normalize(TBN * tangentNormal);
+}
+
+float calculateShadow(vec4 shadowCoords, vec2 off)
+{
+    return texture(shadowMap, shadowCoords.xy + off).r;
+}
+
+vec3 filterPCF(vec4 shadowCoords)
+{
+   vec2 texelSize = textureSize(shadowMap, 0);
+   float scale = 1.5;
+   float dx = scale * 1.0 / float(texelSize.x);
+   float dy = scale * 1.0 / float(texelSize.y);
+
+   float shadow = 0.0;
+   int count = 0;
+   int range = 10;
+
+   for (int x = -range; x <= range; x++)
+   {
+      for (int y = -range; y <= range; y++)
+      {
+         shadow += calculateShadow(
+               shadowCoords,
+               vec2(dx * x, dy * y)
+         );
+         count++;
+      }
+   }
+
+   return mix(vec3(0.2, 0.2, 0.2), vec3(1.f), count / (range * range));
+}
+
+vec3 CalcShadowColor()
+{
+	float depth = 0.f;
+    depth = texture(shadowMap, inFragPosLightSpace.xy).r;
+
+	return mix(vec3(0.2, 0.2, 0.2), vec3(1.f), step(inFragPosLightSpace.z - depth, 0.01));
 }
 
 void main() 
@@ -146,7 +189,7 @@ void main()
 
     vec3 N = getNormal();
 
-	vec3 V = normalize(cameraPos.xyz - vertPos.xyz);
+	vec3 V = normalize(inCameraPos.xyz - vertPos.xyz);
 
     vec3 directAmbient = vec3(0.03) * albedoColor.rgb;
 	vec3 directDiffuse = vec3(0.f);
@@ -155,7 +198,12 @@ void main()
     DirectBDRF(diffuseReflectance, F0, N, V, lightDirection,
                    lightColor.rgb, roughness,
                     directDiffuse, directSpecular);
+
+    vec3 shadow = CalcShadowColor();
 	
+    directDiffuse *= shadow;
+    directSpecular *= shadow;
+
     vec3 color = (directAmbient + directDiffuse + directSpecular);
 
     float u_OcclusionStrength = 1.0f;

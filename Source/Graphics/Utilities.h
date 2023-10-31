@@ -57,6 +57,7 @@ enum class ShaderType
 	Flat,
 	Sprite,
 	Water,
+	Fireball,
 
 	EnumCount
 };
