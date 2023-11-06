@@ -18,6 +18,9 @@ enum class Pipelines
 	UIPipeline,
 	WaterPipeline,
 	FirePipeline,
+	OITColorAccum,
+	OITColorReveal,
+	OITResult,
 	Offscreen,
 
 	EnumCount
@@ -104,6 +107,9 @@ private:
 	// -- Prepare Functions
 
 	void prepareOffscreen();
+	void prepareOITColorAccum();
+	void prepareOITColorReveal();
+	void prepareOITResult();
 
 	// -- Cleanup Function
 
@@ -203,7 +209,14 @@ private:
 	VkDescriptorPool dynamicTextureSamplerDescriptorPool;
 	VkDescriptorSetLayout dynamicTextureSamplerSetLayout;
 
+	VkDescriptorPool OITDescriptorPool;
+	VkDescriptorSetLayout OITDescriptorSetLayout;
+	VkDescriptorSet OITDescriptor;
+
 	Offscreen offscreen;
+	Offscreen OITColorAccum;
+	Offscreen OITColorReveal;
+	Offscreen OITResult;
 	ImageBuffer dynamicTexture;
 
 	VkImage depthImage;

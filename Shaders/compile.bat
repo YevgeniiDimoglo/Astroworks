@@ -15,4 +15,7 @@
 %~dp0glslc.exe %~dp0water.frag -o waterPS.spv
 %~dp0glslc.exe %~dp0billboard.vert -o billboardVS.spv
 %~dp0glslc.exe %~dp0fireball.frag -o fireballPS.spv
+%~dp0glslc.exe %~dp0OITColor.frag -o OITColorPS.spv
+%~dp0glslc.exe %~dp0OITReveal.frag -o OITRevealPS.spv
+%~dp0glslc.exe %~dp0OITResult.frag -o OITResult.spv
 pause

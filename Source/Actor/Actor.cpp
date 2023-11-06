@@ -143,6 +143,11 @@ void ActorManager::deserializeActor()
 		{
 			actor->setShaderType(ShaderType::Fireball);
 		}
+
+		if (actor->getTypeName() == "Transparent")
+		{
+			actor->setShaderType(ShaderType::OITColorAccum);
+		}
 	}
 }
 

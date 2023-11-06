@@ -58,7 +58,9 @@ enum class ShaderType
 	Sprite,
 	Water,
 	Fireball,
-
+	OITColorAccum,
+	OITColorReveal,
+	OITResult,
 	EnumCount
 };
 

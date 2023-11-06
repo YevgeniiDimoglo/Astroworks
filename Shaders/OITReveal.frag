@@ -82,8 +82,7 @@ vec3 CalcShadowColor()
 	return mix(vec3(0.2, 0.2, 0.2), vec3(1.f), step(inFragPosLightSpace.z - depth, 0.01));
 }
 
-void main() 
-{
+void main() {
     vec4 diffuseColor = texture(albedoMap, inUV) * baseColor;
     
     vec3 N = normalize(inNormal);
@@ -117,7 +116,7 @@ void main()
     directionalDiffuse *= shadow;
     specular *= shadow;
 
-    vec3 lighting = (ambient + directionalDiffuse + specular ) * diffuseColor.rgb; 
+    vec3 color = (ambient + directionalDiffuse + specular ) * diffuseColor.rgb;
 
-    outColor = vec4(lighting, diffuseColor.a);
+    outColor = vec4(color, diffuseColor.a);
 }
