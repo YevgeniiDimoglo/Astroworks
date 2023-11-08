@@ -180,8 +180,8 @@ public:
 
 	void updateDescriptors(GLTFStaticModel::Material& material);
 
-	void drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, GLTFStaticModel::Node* node);
-	void draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout);
+	void drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, std::string pipelineName, GLTFStaticModel::Node* node);
+	void draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, std::string pipelineName);
 
 	void setSceneValues(glm::mat4x4 matrixTansform) { this->sceneValues = matrixTansform; }
 	void setBaseColor(glm::vec4 baseColor) { this->baseColor = baseColor; }

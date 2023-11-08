@@ -10,7 +10,7 @@ public:
 	OverlayGame() {}
 	~OverlayGame() override {}
 
-	void initialize() override;
+	void initialize(GLFWwindow* window) override;
 
 	void finalize() override;
 

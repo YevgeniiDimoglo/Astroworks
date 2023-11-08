@@ -165,7 +165,7 @@ public:
 
 	void updateTransform();
 
-	void render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, int pipelineNumber);
+	void render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, int pipelineNumber, bool special = false);
 
 	void cleanup(VkDevice newLogicalDevice);
 

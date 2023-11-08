@@ -3,7 +3,7 @@
 #include "UI.h"
 #include "../Player/Player.h"
 
-void OverlayComplete::initialize()
+void OverlayComplete::initialize(GLFWwindow* window)
 {
 	std::shared_ptr<Widget> imageBackScreen = std::make_shared<Image>("titlebg");
 	imageBackScreen->setImageValues(0.f, 0.f, 1.f, 1.f, 1.f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);

@@ -286,6 +286,9 @@ void Graphics::cleanup()
 		vkDestroySampler(device, dynamicTexture.sampler, nullptr);
 
 		vkDestroySampler(device, offscreen.sampler, nullptr);
+		vkDestroySampler(device, OITColorAccum.sampler, nullptr);
+		vkDestroySampler(device, OITColorReveal.sampler, nullptr);
+		vkDestroySampler(device, OITResult.sampler, nullptr);
 		vkDestroySampler(device, depthSampler, nullptr);
 	}
 
@@ -297,6 +300,9 @@ void Graphics::cleanup()
 
 	vkDestroyDescriptorPool(device, samplerDescriptorPool, nullptr);
 	vkDestroyDescriptorSetLayout(device, samplerSetLayout, nullptr);
+
+	vkDestroyDescriptorPool(device, OITDescriptorPool, nullptr);
+	vkDestroyDescriptorSetLayout(device, OITDescriptorSetLayout, nullptr);
 
 	for (Pipelines pipelineName = Pipelines::ModelPipeline;
 		pipelineName != Pipelines::EnumCount;
@@ -971,7 +977,16 @@ void Graphics::createGraphicsPipelines()
 		VkPipelineRenderingCreateInfoKHR pipelineRenderingCreateInfo{};
 		pipelineRenderingCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO_KHR;
 		pipelineRenderingCreateInfo.colorAttachmentCount = 1;
-		pipelineRenderingCreateInfo.pColorAttachmentFormats = &swapChainImageFormat;
+		VkFormat pipelineColorAttachmentFormat = swapChainImageFormat;
+		if (pipelineName == Pipelines::OITColorAccum)
+		{
+			pipelineColorAttachmentFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
+		}
+		if (pipelineName == Pipelines::OITColorReveal)
+		{
+			pipelineColorAttachmentFormat = VK_FORMAT_R16_SFLOAT;
+		}
+		pipelineRenderingCreateInfo.pColorAttachmentFormats = &pipelineColorAttachmentFormat;
 		depthFormat = findDepthFormat();
 		pipelineRenderingCreateInfo.depthAttachmentFormat = depthFormat;
 		// Chain into the pipeline creat einfo
@@ -1321,7 +1336,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		.dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT,
 		.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
 		.newLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL,
-		.image = offscreen.offscreenDepthAttachment.image,
+		.image = depthImage,
 		.subresourceRange =
 		{
 			.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT,
@@ -1473,7 +1488,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
 		// -- Model Pipeline: Shadow Shader
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::OITColorAccum)], 8);
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::OITColorAccum)], 8, true);
 	}
 
 	// - End of rendering
@@ -1546,7 +1561,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
 		// -- Model Pipeline: Shadow Shader
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::OITColorReveal)], 8);
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::OITColorReveal)], 8, true);
 	}
 
 	// - End of rendering
@@ -1669,13 +1684,14 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::PBRModelPipeline)]);
 
 		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::PBRModelPipeline)], static_cast<int>(ShaderType::PBR));
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::PBRModelPipeline)], 8);
 
 		//--------------------------
 
 		// -- Model Pipeline: Flat Shader
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::UnlitPipeline)]);
 
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::UnlitPipeline)], static_cast<int>(ShaderType::Flat));
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::UnlitPipeline)], static_cast<int>(ShaderType::Flat), true);
 
 		//--------------------------
 
@@ -1690,6 +1706,8 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::FirePipeline)]);
 
 		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::FirePipeline)], static_cast<int>(ShaderType::Fireball));
+
+		//--------------------------
 
 		//--Model Pipeline : OIT
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITResult)]);
@@ -1751,7 +1769,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	{
 		.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
 		.dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT,
-		.oldLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL,
+		.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
 		.newLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
 		.image = offscreen.offscreenDepthAttachment.image,
 		.subresourceRange =
@@ -2694,7 +2712,7 @@ VkSurfaceFormatKHR Graphics::chooseSwapSurfaceFormat(const std::vector<VkSurface
 {
 	for (const auto& availableFormat : availableFormats)
 	{
-		if (availableFormat.format == VK_FORMAT_R8G8B8A8_UNORM && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
+		if (availableFormat.format == VK_FORMAT_B8G8R8A8_UNORM && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
 		{
 			return availableFormat;
 		}

@@ -43,7 +43,7 @@ void UI::update(HighResolutionTimer timer, float elapsedTime, GLFWwindow* window
 
 		if (currentOverlay->isReady())
 		{
-			currentOverlay->initialize();
+			currentOverlay->initialize(window);
 		}
 	}
 
@@ -54,7 +54,7 @@ void UI::update(HighResolutionTimer timer, float elapsedTime, GLFWwindow* window
 
 	if (Player::Instance().getInGameTimer().TimeStamp() >= 10 * 60)
 	{
-		UI::Instance().changeOverlay(std::make_unique<OverlayComplete>());
+		//UI::Instance().changeOverlay(std::make_unique<OverlayComplete>());
 	}
 }
 

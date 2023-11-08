@@ -216,7 +216,7 @@ void ActorManager::updateTransform()
 {
 }
 
-void ActorManager::render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, int pipelineNumber)
+void ActorManager::render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, int pipelineNumber, bool special)
 {
 	// TODO: Move updateTransform to update function
 	// Render actor models
@@ -229,7 +229,14 @@ void ActorManager::render(VkCommandBuffer commandBuffer, VkPipelineLayout pipeli
 			if (model != nullptr)
 			{
 				actor->updateTransform();
-				model->draw(commandBuffer, pipelineLayout);
+				if (special && (pipelineNumber == 8 || pipelineNumber == 9 || pipelineNumber == 10 || pipelineNumber == 4))
+				{
+					model->draw(commandBuffer, pipelineLayout, "BLEND");
+				}
+				else
+				{
+					model->draw(commandBuffer, pipelineLayout, "OPAQUE");
+				}
 			}
 		}
 	}

@@ -8,7 +8,7 @@ public:
 	Overlay() {}
 	virtual ~Overlay() {}
 
-	virtual void initialize() = 0;
+	virtual void initialize(GLFWwindow* window) = 0;
 
 	virtual void finalize() = 0;
 

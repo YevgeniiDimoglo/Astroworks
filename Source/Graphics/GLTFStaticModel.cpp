@@ -104,7 +104,7 @@ void GLTFStaticModel::loadMaterials(tinygltf::Model& input)
 {
 	for (tinygltf::Material& mat : input.materials) {
 		GLTFStaticModel::Material material{};
-
+		material.doubleSided = mat.doubleSided;
 		if (mat.values.find("baseColorTexture") != mat.values.end()) {
 			material.baseColorTexture = &textures[mat.values["baseColorTexture"].TextureIndex()].image;
 		}
@@ -128,6 +128,22 @@ void GLTFStaticModel::loadMaterials(tinygltf::Model& input)
 		}
 		if (mat.additionalValues.find("occlusionTexture") != mat.additionalValues.end()) {
 			material.ambientOcclusionTexture = &textures[mat.additionalValues["occlusionTexture"].TextureIndex()].image;
+		}
+		if (mat.additionalValues.find("alphaMode") != mat.additionalValues.end()) {
+			tinygltf::Parameter param = mat.additionalValues["alphaMode"];
+			if (param.string_value == "BLEND") {
+				material.alphaMode = "BLEND";
+			}
+			if (param.string_value == "MASK") {
+				material.alphaCutoff = 0.5f;
+				material.alphaMode = "MASK";
+			}
+		}
+		if (mat.additionalValues.find("alphaCutoff") != mat.additionalValues.end()) {
+			material.alphaCutoff = static_cast<float>(mat.additionalValues["alphaCutoff"].Factor());
+		}
+		if (mat.additionalValues.find("emissiveFactor") != mat.additionalValues.end()) {
+			material.emissiveFactor = glm::vec4(glm::make_vec3(mat.additionalValues["emissiveFactor"].ColorFactor().data()), 1.0);
 		}
 
 		material.index = static_cast<uint32_t>(materials.size());
@@ -433,7 +449,7 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	vkUpdateDescriptorSets(newLogicalDevice, static_cast<uint32_t>(writeDescriptorSets.size()), writeDescriptorSets.data(), 0, NULL);
 }
 
-void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, GLTFStaticModel::Node* node)
+void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, std::string pipelineName, GLTFStaticModel::Node* node)
 {
 	if (node->mesh.primitives.size() > 0)
 	{
@@ -467,9 +483,11 @@ void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout p
 				{
 					// Create dummy texture
 					GLTFStaticModel::Material& material = materials[primitive.materialIndex];
-					vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &material.descriptorSet, 0, nullptr);
-
-					vkCmdDrawIndexed(commandBuffer, primitive.indexCount, 1, primitive.firstIndex, 0, 0);
+					if (material.alphaMode == pipelineName)
+					{
+						vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &material.descriptorSet, 0, nullptr);
+						vkCmdDrawIndexed(commandBuffer, primitive.indexCount, 1, primitive.firstIndex, 0, 0);
+					}
 				}
 			}
 		}
@@ -477,11 +495,11 @@ void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout p
 
 	for (auto& child : node->children)
 	{
-		drawNode(commandBuffer, pipelineLayout, child);
+		drawNode(commandBuffer, pipelineLayout, pipelineName, child);
 	}
 }
 
-void GLTFStaticModel::draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout)
+void GLTFStaticModel::draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, std::string pipelineName)
 {
 	VkDeviceSize offsets[1] = { 0 };
 	vkCmdBindVertexBuffers(commandBuffer, 0, 1, &vertices.buffer, offsets);
@@ -489,7 +507,7 @@ void GLTFStaticModel::draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipel
 
 	for (auto& node : nodes)
 	{
-		drawNode(commandBuffer, pipelineLayout, node);
+		drawNode(commandBuffer, pipelineLayout, pipelineName, node);
 	}
 }
 

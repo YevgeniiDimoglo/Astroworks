@@ -52,7 +52,7 @@ void Timer::update(float elapsedTime, GLFWwindow* window)
 	if (minutes == 0)
 	{
 		std::shared_ptr<Image> tempImage = std::make_shared<Image>("0d");
-		tempImage->setImageValues(positionX - 0.17f * digits, positionY - 0.3f, positionZ, width, height, angle, r, g, b, a);
+		tempImage->setImageValues(positionX - 0.42f, positionY, positionZ, width, height, angle, r, g, b, a);
 		images.insert(images.begin(), tempImage);
 	}
 
@@ -60,7 +60,7 @@ void Timer::update(float elapsedTime, GLFWwindow* window)
 	{
 		int temp = minutes % 10;
 		std::shared_ptr<Image> tempImage = std::make_shared<Image>(std::to_string(temp) + "d");
-		tempImage->setImageValues(positionX - 0.17f * digits, positionY - 0.3f, positionZ, width, height, angle, r, g, b, a);
+		tempImage->setImageValues(positionX - 0.42f, positionY, positionZ, width, height, angle, r, g, b, a);
 		images.insert(images.begin(), tempImage);
 
 		digits++;

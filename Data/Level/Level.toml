@@ -32,6 +32,17 @@ typeName = "PBR"
 controller = "None"
 
 [[ActorsOnScreen]]
+name = "Temple"
+position = [-230.0,-40.0,0.0]
+rotation = [-0.0,-0.0,1.0,-0.0]
+euler = [0.0,90.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/Primitives/Temple.glb"
+type = "Terrian"
+typeName = "PBR"
+controller = "None"
+
+[[ActorsOnScreen]]
 name = "Rec1"
 position = [10.0,-20.0,0.0]
 rotation = [-0.0,-0.0,1.0,-0.0]
