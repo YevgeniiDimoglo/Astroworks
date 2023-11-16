@@ -1,0 +1,32 @@
+[[ActorsOnScreen]]
+name = "SkyDome"
+position = [0.0,-200.0,0.0]
+rotation = [-0.0,-0.0,1.0,-0.0]
+euler = [0.0,3.1,0.0]
+scale = [750.0,750.0,750.0]
+path = "./Data/Primitives/NaraSkyDome.glb"
+type = "Terrain"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Stage"
+position = [0.0,-5.0,0.0]
+rotation = [-0.0,-0.0,1.0,-0.0]
+euler = [0.0,0.0,0.0]
+scale = [3.0,3.0,3.0]
+path = "./Data/ToImplementModels/SimpleLevel.glb"
+type = "Terrain"
+typeName = "PBR"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Model"
+position = [0.0,0.0,0.0]
+rotation = [-0.0,-0.0,1.0,-0.0]
+euler = [0.0,0.0,0.0]
+scale = [0.02,0.02,0.02]
+path = "./Data/ToImplementModels/x-ray_tube.glb"
+type = "Terrain"
+typeName = "Transparent"
+controller = "None"

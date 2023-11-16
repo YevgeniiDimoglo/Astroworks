@@ -154,6 +154,7 @@
     <ClCompile Include="Source\Graphics\GLTFStaticModel.cpp" />
     <ClCompile Include="Source\Graphics\Graphics.cpp" />
     <ClCompile Include="Source\Graphics\Sprite.cpp" />
+    <ClCompile Include="Source\Graphics\Texture.cpp" />
     <ClCompile Include="Source\Player\Enemy.cpp" />
     <ClCompile Include="Source\Player\Player.cpp" />
     <ClCompile Include="Source\UI\Button.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Source\Graphics\Light.h" />
     <ClInclude Include="Source\Graphics\Macros.h" />
     <ClInclude Include="Source\Graphics\Sprite.h" />
+    <ClInclude Include="Source\Graphics\Texture.h" />
     <ClInclude Include="Source\Graphics\Utilities.h" />
     <ClInclude Include="Source\Misc\HighResolutionTimer.h" />
     <ClInclude Include="Source\Player\Enemy.h" />

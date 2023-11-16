@@ -27,6 +27,8 @@ void Graphics::init()
 	dummyBasicAO = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyAO.png");
 	dummyBasicEmissive = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyEmissive.png");
 
+	skybox.createCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/kloppenheim_02_puresky_4k.hdr");
+
 	initModels();
 
 	initSprites();
@@ -805,7 +807,7 @@ void Graphics::createGraphicsPipelines()
 			depthStencil.depthTestEnable = VK_FALSE;
 		}
 
-		if (pipelineName == Pipelines::OITColorAccum || pipelineName == Pipelines::OITColorReveal || pipelineName == Pipelines::OITResult)
+		if (pipelineName == Pipelines::OITColorAccum || pipelineName == Pipelines::OITColorReveal)
 		{
 			depthStencil.depthWriteEnable = VK_FALSE;
 		}
@@ -1413,7 +1415,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 
 		// -- Model Pipeline: Shadow Shader
 		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], 0);
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], 1);
+		//ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], 1);
 	}
 
 	// --

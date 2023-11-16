@@ -219,6 +219,8 @@ private:
 	Offscreen OITResult;
 	ImageBuffer dynamicTexture;
 
+	CubeMap skybox;
+
 	VkImage depthImage;
 	VkDeviceMemory depthImageMemory;
 	VkImageView depthImageView;

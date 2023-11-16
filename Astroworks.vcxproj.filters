@@ -126,6 +126,9 @@
     <ClCompile Include="Source\Player\Enemy.cpp">
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Graphics\Texture.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Actor\Actor.h">
@@ -228,6 +231,9 @@
       <Filter>ソース ファイル\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Graphics\Macros.h">
+      <Filter>ソース ファイル\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Texture.h">
       <Filter>ソース ファイル\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
