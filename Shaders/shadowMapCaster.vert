@@ -23,6 +23,8 @@ layout(location = 1) in vec3 inNormal;
 layout(location = 2) in vec2 inUV;
 layout(location = 3) in vec4 inTangent;
 
+layout(location = 0) out vec3 worldPos;
+
 out gl_PerVertex 
 {
     vec4 gl_Position;   
@@ -30,5 +32,6 @@ out gl_PerVertex
 
 void main() 
 {
+    worldPos = (primitive.model * vec4(inPos,1.0)).xyz;
     gl_Position =  uboScene.lightMVP * primitive.model * vec4(inPos, 1.0);
 }

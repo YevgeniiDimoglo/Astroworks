@@ -1415,7 +1415,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 
 		// -- Model Pipeline: Shadow Shader
 		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], 0);
-		//ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], 1);
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], 1);
 	}
 
 	// --

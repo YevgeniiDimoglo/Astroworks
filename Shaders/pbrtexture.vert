@@ -55,7 +55,7 @@ void main()
     
     outLightDirection = vec3(uboScene.lightDirection);
     outLightColor = uboScene.lightColor;
-    outFragPosLightSpace = biasMat * uboScene.lightMVP * primitive.model * vec4(inPos, 1.0);
+    outFragPosLightSpace = biasMat * uboScene.lightMVP * vec4(outVertPos, 1.0);
 
     outNormal = mat3(primitive.model) * inNormal;
 
