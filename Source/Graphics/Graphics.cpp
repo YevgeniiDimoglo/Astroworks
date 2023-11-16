@@ -1732,17 +1732,6 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], 4);
 	}
 
-	// --
-
-	// -- UI Pipeline
-
-	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::UIPipeline)]);
-
-	// UI rendering
-	UI::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::UIPipeline)]);
-
-	// --
-
 	// - End of rendering
 	vkCmdEndRendering(commandBuffer);
 
@@ -1839,6 +1828,17 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		0, 1, &offscreen.descriptorSet, 0, nullptr);
 
 	vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+
+	// --
+
+	// -- UI Pipeline
+
+	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::UIPipeline)]);
+
+	// UI rendering
+	UI::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::UIPipeline)]);
+
+	// --
 
 	// - End of rendering
 	vkCmdEndRendering(commandBuffer);

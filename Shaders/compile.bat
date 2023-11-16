@@ -18,4 +18,6 @@
 %~dp0glslc.exe %~dp0OITColor.frag -o OITColorPS.spv
 %~dp0glslc.exe %~dp0OITReveal.frag -o OITRevealPS.spv
 %~dp0glslc.exe %~dp0OITResult.frag -o OITResult.spv
+%~dp0glslc.exe %~dp0skybox.vert -o skyboxPS.spv
+%~dp0glslc.exe %~dp0skybox.frag -o skyboxVS.spv
 pause
