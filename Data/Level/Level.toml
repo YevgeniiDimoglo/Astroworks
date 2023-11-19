@@ -4,7 +4,7 @@ position = [0.0,-150.0,0.0]
 rotation = [-0.0,-0.0,1.0,-0.0]
 euler = [0.0,0.0,0.0]
 scale = [1000.0,1000.0,1000.0]
-path = "./Data/ToImplementModels/NewTerr.glb"
+path = "./Data/Primitives/NewTerr.glb"
 type = "Terrian"
 typeName = "Basic"
 controller = "None"
@@ -22,7 +22,7 @@ controller = "None"
 
 [[ActorsOnScreen]]
 name = "Chara"
-position = [0.0,-20.0,0.0]
+position = [-230.0,-47.0,-100.0]
 rotation = [-0.0,-0.0,1.0,-0.0]
 euler = [0.0,0.0,0.0]
 scale = [50.0,50.0,50.0]
@@ -33,18 +33,18 @@ controller = "None"
 
 [[ActorsOnScreen]]
 name = "Temple"
-position = [-230.0,-40.0,0.0]
+position = [-150.0,-82.8,10.0]
 rotation = [-0.0,-0.0,1.0,-0.0]
 euler = [0.0,90.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/Primitives/Temple.glb"
+path = "./Data/Primitives/Castle.glb"
 type = "Terrian"
 typeName = "PBR"
 controller = "None"
 
 [[ActorsOnScreen]]
 name = "Rec1"
-position = [10.0,-20.0,0.0]
+position = [-100.0,-45.0,-70.0]
 rotation = [-0.0,-0.0,1.0,-0.0]
 euler = [0.0,0.0,0.0]
 scale = [10.0,10.0,10.0]
@@ -55,7 +55,7 @@ controller = "None"
 
 [[ActorsOnScreen]]
 name = "Rec2"
-position = [20.0,-20.0,0.0]
+position = [-90.0,-45.0,-70.0]
 rotation = [-0.0,-0.0,1.0,-0.0]
 euler = [0.0,0.0,0.0]
 scale = [10.0,10.0,10.0]
@@ -66,7 +66,7 @@ controller = "None"
 
 [[ActorsOnScreen]]
 name = "Rec3"
-position = [30.0,-20.0,0.0]
+position = [-80.0,-45.0,-70.0]
 rotation = [-0.0,-0.0,1.0,-0.0]
 euler = [0.0,0.0,0.0]
 scale = [10.0,10.0,10.0]
@@ -77,7 +77,7 @@ controller = "None"
 
 [[ActorsOnScreen]]
 name = "Rec4"
-position = [40.0,-20.0,0.0]
+position = [-70.0,-45.0,-70.0]
 rotation = [-0.0,-0.0,1.0,-0.0]
 euler = [0.0,0.0,0.0]
 scale = [10.0,10.0,10.0]
@@ -88,7 +88,7 @@ controller = "None"
 
 [[ActorsOnScreen]]
 name = "Rec5"
-position = [50.0,-20.0,0.0]
+position = [-60.0,-45.0,-70.0]
 rotation = [-0.0,-0.0,1.0,-0.0]
 euler = [0.0,0.0,0.0]
 scale = [10.0,10.0,10.0]
@@ -99,10 +99,10 @@ controller = "None"
 
 [[ActorsOnScreen]]
 name = "Lake"
-position = [-50.0,-20.0,0.0]
+position = [-230.0,-47.0,-100.0]
 rotation = [-0.0,-0.0,1.0,-0.0]
 euler = [0.0,0.0,0.0]
-scale = [1.0,1.0,1.0]
+scale = [8.0,8.0,8.0]
 path = "./Data/Primitives/Water.glb"
 type = "Terrian"
 typeName = "Water"
@@ -110,10 +110,10 @@ controller = "None"
 
 [[ActorsOnScreen]]
 name = "Fireball"
-position = [-70.0,-20.0,0.0]
+position = [-70.0,-30.0,-350.0]
 rotation = [-0.0,-0.0,1.0,-0.0]
-euler = [0.0,0.0,0.0]
-scale = [1.0,1.0,1.0]
+euler = [90.0,0.0,0.0]
+scale = [5.0,5.0,5.0]
 path = "./Data/Primitives/plane.glb"
 type = "Terrian"
 typeName = "Fireball"

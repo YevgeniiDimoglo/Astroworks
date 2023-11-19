@@ -44,42 +44,28 @@ vec3 CalcPhongSpecular(vec3 normal, vec3 lightVector, vec3 lightColor, vec3 eyeV
     return lightColor * d * ks;
 }
 
-float calculateShadow(vec4 shadowCoords, vec2 off)
+float PCF(int kernelSize, vec2 shadowCoord, float depth)
 {
-    return texture(shadowMap, shadowCoords.xy + off).r;  
+	float size = 1.0 / float( textureSize(shadowMap, 0 ).x );
+	float shadow = 0.0;
+	int range = kernelSize / 2;
+	for ( int v=-range; v<=range; v++ ) for ( int u=-range; u<=range; u++ )
+		shadow += (depth >= texture( shadowMap, shadowCoord + size * vec2(u, v) ).r) ? 1.0 : 0.0;
+	return shadow / (kernelSize * kernelSize);
 }
 
-vec3 filterPCF(vec4 shadowCoords)
+float shadowFactor(vec4 shadowCoord)
 {
-   vec2 texelSize = textureSize(shadowMap, 0);
-   float scale = 1.5;
-   float dx = scale * 1.0 / float(texelSize.x);
-   float dy = scale * 1.0 / float(texelSize.y);
+	vec4 shadowCoords4 = shadowCoord / shadowCoord.w;
 
-   float shadow = 0.0;
-   int count = 0;
-   int range = 10;
+	if (shadowCoords4.z > -1.0 && shadowCoords4.z < 1.0)
+	{
+		float depthBias = -0.001;
+		float shadowSample = PCF( 13, shadowCoords4.xy, shadowCoords4.z + depthBias );
+		return mix(1.0, 0.3, shadowSample);
+	}
 
-   for (int x = -range; x <= range; x++)
-   {
-      for (int y = -range; y <= range; y++)
-      {
-         shadow += calculateShadow(
-               shadowCoords,
-               vec2(dx * x, dy * y)
-         );
-         count++;
-      }
-   }
-
-   return mix(vec3(0.2, 0.2, 0.2), vec3(1.f), count / (range * range));
-}
-
-vec3 CalcShadowColor()
-{
-    float depth = texture(shadowMap, inFragPosLightSpace.xy).r;
-
-	return mix(vec3(0.2, 0.2, 0.2), vec3(1.f), step(inFragPosLightSpace.z - depth, 0.01));
+	return 1.0; 
 }
 
 void main() 
@@ -112,10 +98,8 @@ void main()
     vec3 directionalDiffuse = CalcHalfLambert(normal, L, vec3(lightColor), kd);
     vec3 specular = CalcPhongSpecular(normal, L, vec3(lightColor), E, shineness, ks.rgb);
 
-    vec3 shadow = CalcShadowColor();
-
-    directionalDiffuse *= shadow;
-    specular *= shadow;
+    directionalDiffuse *= shadowFactor(inFragPosLightSpace);
+    specular *= shadowFactor(inFragPosLightSpace);
 
     vec3 lighting = (ambient + directionalDiffuse + specular ) * diffuseColor.rgb; 
 

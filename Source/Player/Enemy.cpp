@@ -91,5 +91,5 @@ void Enemy::spawn()
 
 void Enemy::update()
 {
-	spawn();
+	//spawn();
 }
