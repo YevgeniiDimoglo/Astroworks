@@ -146,7 +146,7 @@ float shadowFactor(vec4 shadowCoord)
 
 	if (shadowCoords4.z > -1.0 && shadowCoords4.z < 1.0)
 	{
-		float depthBias = -0.001;
+		float depthBias = -0.0055;
 		float shadowSample = PCF( 13, shadowCoords4.xy, shadowCoords4.z + depthBias );
 		return mix(1.0, 0.3, shadowSample);
 	}
@@ -184,7 +184,7 @@ void main()
                    lightColor.rgb, roughness,
                     directDiffuse, directSpecular);
 
-    vec3 color = (shadowFactor(inFragPosLightSpace) *(directAmbient + directDiffuse + directSpecular));
+    vec3 color = (directAmbient + directDiffuse + directSpecular);
 
     float u_OcclusionStrength = 1.0f;
 	float ao = texture(aoMap, inUV).r;
@@ -194,5 +194,5 @@ void main()
 	emissive *= texture(emissiveMap, inUV).rgb;
 	color += emissive;
 
-	outColor = vec4(color, albedoColor.a);
+	outColor = vec4(shadowFactor(inFragPosLightSpace) * color, albedoColor.a);
 }

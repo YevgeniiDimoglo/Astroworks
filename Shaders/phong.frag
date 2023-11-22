@@ -60,7 +60,7 @@ float shadowFactor(vec4 shadowCoord)
 
 	if (shadowCoords4.z > -1.0 && shadowCoords4.z < 1.0)
 	{
-		float depthBias = -0.001;
+		float depthBias = -0.0055;
 		float shadowSample = PCF( 13, shadowCoords4.xy, shadowCoords4.z + depthBias );
 		return mix(1.0, 0.3, shadowSample);
 	}
@@ -98,10 +98,7 @@ void main()
     vec3 directionalDiffuse = CalcHalfLambert(normal, L, vec3(lightColor), kd);
     vec3 specular = CalcPhongSpecular(normal, L, vec3(lightColor), E, shineness, ks.rgb);
 
-    directionalDiffuse *= shadowFactor(inFragPosLightSpace);
-    specular *= shadowFactor(inFragPosLightSpace);
-
     vec3 lighting = (ambient + directionalDiffuse + specular ) * diffuseColor.rgb; 
 
-    outColor = vec4(lighting, diffuseColor.a);
+    outColor = vec4(shadowFactor(inFragPosLightSpace) * lighting, diffuseColor.a);
 }
