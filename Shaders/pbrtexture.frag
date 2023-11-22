@@ -2,7 +2,7 @@
 
 layout(location = 0) in vec3 inNormal;
 layout(location = 1) in vec2 inUV;
-layout(location = 2) in vec3 vertPos;
+layout(location = 2) in vec3 inVertPos;
 layout(location = 3) in vec4 inTangent;
 
 layout(location = 4) in vec3 lightDirection;
@@ -33,101 +33,110 @@ const float Dielectric = 0.04f;
 const float adjustMetalness = 0.0f;
 const float adjustSmoothness = 0.0f;
 
-vec3 DiffuseBRDF(vec3 diffuseReflectance)
+struct PBRInfo
 {
-    return diffuseReflectance / PI;
+	float NdotL;                 
+	float NdotV;                 
+	float NdotH;                 
+	float LdotH;                  
+	float VdotH;                  
+	float perceptualRoughness;    
+	vec3 reflectance0;            
+	vec3 reflectance90;           
+	float alphaRoughness;         
+	vec3 diffuseColor;            
+	vec3 specularColor;          
+	vec3 n;								
+	vec3 v;								
+};
+
+vec3 diffuseBurley(PBRInfo pbrInputs)
+{
+	float f90 = 2.0 * pbrInputs.LdotH * pbrInputs.LdotH * pbrInputs.alphaRoughness - 0.5;
+
+	return (pbrInputs.diffuseColor / PI) * (1.0 + f90 * pow((1.0 - pbrInputs.NdotL), 5.0)) * (1.0 + f90 * pow((1.0 - pbrInputs.NdotV), 5.0));
 }
 
-vec3 CalcFresnel(float HdotV, vec3 F0)
+vec3 specularReflection(PBRInfo pbrInputs)
 {
-    return F0 + (1.0f - F0) * pow(1.0f - HdotV, 5.0);
+	return pbrInputs.reflectance0 + (pbrInputs.reflectance90 - pbrInputs.reflectance0) * pow(clamp(1.0 - pbrInputs.VdotH, 0.0, 1.0), 5.0);
 }
 
-float CalcdistributuionGGX(float NdotH, float roughness)
+float geometricOcclusion(PBRInfo pbrInputs)
 {
-    float a = roughness * roughness;
-	float a2 = a * a;
-    float denom = NdotH * NdotH * (a2 - 1.0f) + 1.0f;
-    denom = PI * denom * denom;
+	float NdotL = pbrInputs.NdotL;
+	float NdotV = pbrInputs.NdotV;
+	float rSqr = pbrInputs.alphaRoughness * pbrInputs.alphaRoughness;
 
-	return a2 / max(denom, 0.0000001);
+	float attenuationL = 2.0 * NdotL / (NdotL + sqrt(rSqr + (1.0 - rSqr) * (NdotL * NdotL)));
+	float attenuationV = 2.0 * NdotV / (NdotV + sqrt(rSqr + (1.0 - rSqr) * (NdotV * NdotV)));
+	return attenuationL * attenuationV;
 }
 
-float CalcGeometryFunction(float NdotV, float NdotL, float roughness)
-{
-	float r = roughness + 1.0f;
-    float k = (r * r) / 8.0f;
-    float ggx1 = NdotV / (NdotV * (1.0f - k) + k);
-    float ggx2 = NdotL / (NdotL * (1.0f - k) + k);
 
-	return ggx1 * ggx2;
+float microfacetDistribution(PBRInfo pbrInputs)
+{
+	float roughnessSq = pbrInputs.alphaRoughness * pbrInputs.alphaRoughness;
+	float f = (pbrInputs.NdotH * roughnessSq - pbrInputs.NdotH) * pbrInputs.NdotH + 1.0;
+	return roughnessSq / (PI * f * f);
 }
 
-vec3 SpecularBRDF(float NdotV, float NdotL, float NdotH, float HdotV, vec3 fresnelF0, float roughness)
+
+vec3 calculatePBRLightContribution( inout PBRInfo pbrInputs, vec3 lightDirection, vec3 lightColor )
 {
-    float D = CalcdistributuionGGX(NdotH, roughness);
-    
-    float G = CalcGeometryFunction(NdotV, NdotL, roughness);
-    
-    vec3 F = CalcFresnel(HdotV, fresnelF0);
-    
-    return D * G * F / (4.0 * NdotV * NdotL);
+	vec3 n = pbrInputs.n;
+	vec3 v = pbrInputs.v;
+	vec3 l = normalize(lightDirection);	
+	vec3 h = normalize(l+v);			
+
+	float NdotV = pbrInputs.NdotV;
+	float NdotL = clamp(dot(n, l), 0.001, 1.0);
+	float NdotH = clamp(dot(n, h), 0.0, 1.0);
+	float LdotH = clamp(dot(l, h), 0.0, 1.0);
+	float VdotH = clamp(dot(v, h), 0.0, 1.0);
+
+	pbrInputs.NdotL = NdotL;
+	pbrInputs.NdotH = NdotH;
+	pbrInputs.LdotH = LdotH;
+	pbrInputs.VdotH = VdotH;
+
+	vec3 F = specularReflection(pbrInputs);
+	float G = geometricOcclusion(pbrInputs);
+	float D = microfacetDistribution(pbrInputs);
+
+	vec3 diffuseContrib = (1.0 - F) * diffuseBurley(pbrInputs);
+	vec3 specContrib = F * G * D / (4.0 * NdotL * NdotV);
+	vec3 color = NdotL * lightColor * (diffuseContrib + specContrib);
+
+	return color;
 }
 
-void DirectBDRF(vec3 diffuseReflectance,
-                vec3 F0,
-                vec3 normal,
-                vec3 eyeVector,
-                vec3 lightVector,
-                vec3 lightColor,
-                float roughness,
-                out vec3 outDiffuse,
-                out vec3 outSpecular)
+mat3 cotangentFrame( vec3 N, vec3 p, vec2 uv )
 {
-    vec3 N = normal;
-    vec3 L = lightVector;
-    vec3 V = eyeVector;
-    vec3 H = normalize(V + L);
-    
-    float NdotV = max(dot(N, V), 0.0000001);
-    float NdotL = max(dot(N, L), 0.0000001);
-    float HdotV = max(dot(N, V), 0.0);
-    float NdotH = max(dot(N, H), 0.0);
-    
-    vec3 irradiance = lightColor * NdotL;
-    
-    irradiance *= PI;
-    
-    outDiffuse = DiffuseBRDF(diffuseReflectance) * irradiance;
-    
-    outSpecular = SpecularBRDF(NdotV, NdotL, NdotH, HdotV, F0, roughness) * irradiance;
+	vec3 dp1 = dFdx( p );
+	vec3 dp2 = dFdy( p );
+	vec2 duv1 = dFdx( uv );
+	vec2 duv2 = dFdy( uv );
+
+	vec3 dp2perp = cross( dp2, N );
+	vec3 dp1perp = cross( N, dp1 );
+	vec3 T = dp2perp * duv1.x + dp1perp * duv2.x;
+	vec3 B = dp2perp * duv1.y + dp1perp * duv2.y;
+
+	float invmax = inversesqrt( max( dot(T,T), dot(B,B) ) );
+
+	float w = (dot(cross(N, T), B) < 0.0) ? -1.0 : 1.0;
+
+	T = T * w;
+
+	return mat3( T * invmax, B * invmax, N );
 }
 
-vec3 EnvBRDFApprox(vec3 F0, float roughness, float NdotV)
+vec3 perturbNormal(vec3 n, vec3 v, vec3 normalSample, vec2 uv)
 {
-    const vec4 c0 = { -1.0f, -0.0275f, -0.572f, 0.022f };
-    const vec4 c1 = { 1.0f, 0.0425f, 1.04f, -0.04f };
-    vec4 r = roughness * c0 + c1;
-    float a004 = min(r.x * r.x, exp2(-9.28f * NdotV)) * r.x + r.y;
-    vec2 AB = vec2(-1.04f, 1.04f) * a004 + r.zw;
-    return F0 * AB.x + AB.y;
-}
-
-vec3 getNormal()
-{
-	vec3 tangentNormal = texture(normalMap, inUV).xyz * 2.0 - 1.0;
-
-	vec3 q1 = dFdx(vertPos);
-	vec3 q2 = dFdy(vertPos);
-	vec2 st1 = dFdx(inUV);
-	vec2 st2 = dFdy(inUV);
-
-	vec3 N = normalize(inNormal);
-	vec3 T = normalize(q1 * st2.t - q2 * st1.t);
-	vec3 B = -normalize(cross(N, T));
-	mat3 TBN = mat3(T, B, N);
-
-	return normalize(TBN * tangentNormal);
+	vec3 map = normalize( 2.0 * normalSample - vec3(1.0) );
+	mat3 TBN = cotangentFrame(n, v, uv);
+	return normalize(TBN * map);
 }
 
 float PCF(int kernelSize, vec2 shadowCoord, float depth)
@@ -158,41 +167,52 @@ void main()
 {
 	vec4 albedoColor = texture(albedoMap, inUV) * baseColor;
 
-	float metallic = texture(roughnessMap, inUV).b;
+	vec4 metallicRoughness = texture(roughnessMap, inUV);
 
-	float roughness = texture(roughnessMap, inUV).g;
+    vec3 N = normalize(inNormal);
+	vec3 normalSample = texture(normalMap, inUV).xyz;
+    vec3 v = normalize(inCameraPos.xyz - inVertPos);
+	vec3 n = perturbNormal(N, v, normalSample, inUV);
 
-	metallic = clamp(metallic + adjustMetalness, 0.0, 1.0);
-	roughness = clamp(roughness + adjustSmoothness, 0.0, 1.0);
 
-    roughness = 1.0f - roughness;
+    PBRInfo pbrInputs;
 
-	vec3 D0 = vec3(0.02f);
-	vec3 diffuseReflectance = mix(albedoColor.rgb, D0, metallic);
+    pbrInputs.NdotV = clamp(abs(dot(n, v)), 0.001, 1.0);
 
-	vec3 F0 = mix(vec3(0.04f), albedoColor.rgb, metallic);
+	float perceptualRoughness = metallicRoughness.g * 1.0f;
+    const float c_MinRoughness = 0.04;
+	perceptualRoughness = clamp(perceptualRoughness, c_MinRoughness, 1.0);
+    pbrInputs.perceptualRoughness = perceptualRoughness;
 
-    vec3 N = getNormal();
+    float metallic = metallicRoughness.b * 1.0f;
+    metallic = clamp(metallic, 0.0, 1.0);
 
-	vec3 V = normalize(inCameraPos.xyz - vertPos.xyz);
+    vec4 baseColor = albedoColor;
+	vec3 f0 = vec3(0.04);
+	vec3 diffuseColor = baseColor.rgb * (vec3(1.0) - f0);
+	diffuseColor *= 1.0 - metallic;
+	vec3 specularColor = mix(f0, baseColor.rgb, metallic);
 
-    vec3 directAmbient = vec3(0.03) * albedoColor.rgb;
-	vec3 directDiffuse = vec3(0.f);
-	vec3 directSpecular = vec3(0.f);
-	
-    DirectBDRF(diffuseReflectance, F0, N, V, lightDirection,
-                   lightColor.rgb, roughness,
-                    directDiffuse, directSpecular);
+    float reflectance = max(max(specularColor.r, specularColor.g), specularColor.b);
+    float reflectance90 = clamp(reflectance * 25.0, 0.0, 1.0);
 
-    vec3 color = (directAmbient + directDiffuse + directSpecular);
+	pbrInputs.reflectance0 = specularColor.rgb;
+	pbrInputs.reflectance90 = vec3(1.0, 1.0, 1.0) * reflectance90;
+
+    float alphaRoughness = perceptualRoughness * perceptualRoughness;
+	pbrInputs.alphaRoughness = alphaRoughness;
+
+	pbrInputs.diffuseColor = diffuseColor;
+	pbrInputs.specularColor = specularColor;
+	pbrInputs.n = n;
+	pbrInputs.v = v;
+
+	vec3 color = calculatePBRLightContribution(pbrInputs, normalize(lightDirection), lightColor.xyz);
 
     float u_OcclusionStrength = 1.0f;
-	float ao = texture(aoMap, inUV).r;
-	color = mix(color, color * ao, u_OcclusionStrength);
+	color = color * (texture(aoMap, inUV).r < 0.01 ? u_OcclusionStrength : texture(aoMap, inUV).r );
 
-	vec3 emissive = vec3(1.f);
-	emissive *= texture(emissiveMap, inUV).rgb;
-	color += emissive;
+    color = pow(texture(emissiveMap, inUV).rgb + color, vec3(1.0/2.2));
 
 	outColor = vec4(shadowFactor(inFragPosLightSpace) * color, albedoColor.a);
 }

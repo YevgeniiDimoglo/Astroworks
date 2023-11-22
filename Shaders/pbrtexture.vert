@@ -44,10 +44,10 @@ const mat4 biasMat = mat4(
 
 void main() 
 {
-    outNormal = inNormal;
     outBaseColor = primitive.baseColor;
     outUV = inUV;
     outTangent = inTangent;
+    
     gl_Position = uboScene.projection * uboScene.view * primitive.model * vec4(inPos, 1.0);
     
     vec4 vertPos4 = primitive.model * vec4(inPos, 1.0);
