@@ -75,43 +75,61 @@ void Graphics::initSprites()
 
 void Graphics::initVulkan()
 {
+	std::cout << "Initializaon of Vulkan" << std::endl;
 	// Instance for whole application
 	createInstance();
+	std::cout << "Instance created successfully" << std::endl;
 	// Debug messages in console
 	setupDebugMessenger();
+	std::cout << "DebugMessenger created successfully" << std::endl;
 	// Drawing canvas for rendering
 	createSurface();
+	std::cout << "Surface created successfully" << std::endl;
 	// Setup best suitable device
 	pickPhysicalDevice();
+	std::cout << "PhysicalDevice found successfully" << std::endl;
 	// Interface for physical device
 	createLogicalDevice();
+	std::cout << "LogicalDevice created successfully" << std::endl;
 	// Create swapchain
 	createSwapChain();
+	std::cout << "Spawchain created successfully" << std::endl;
 	// Create image for rendering
 	createImageViews();
+	std::cout << "ImageViews created successfully" << std::endl;
 	// Create input layout
 	createDescriptorSetLayout();
+	std::cout << "DescriptorLayouts created successfully" << std::endl;
 	// Create pipelines for different rendering
 	createGraphicsPipelines();
+	std::cout << "GraphicsPipelines created successfully" << std::endl;
 	// Create pools for commands
 	createCommandPool();
+	std::cout << "CommandPool created successfully" << std::endl;
 	// Create image for depth
 	createaDepthResources();
+	std::cout << "DepthResources created successfully" << std::endl;
 	// Create uniform buffers
 	createUniformBuffers();
+	std::cout << "UniformBuffers created successfully" << std::endl;
 	// Create description for descriptors
 	createDescriptorPool();
+	std::cout << "DescriptoPools created successfully" << std::endl;
 	// Create descriptors
 	createDescriptorSets();
+	std::cout << "DescriptorSets created successfully" << std::endl;
 	// Create offscreen buffers
 	prepareOffscreen();
 	prepareOITColorAccum();
 	prepareOITColorReveal();
 	prepareOITResult();
+	std::cout << "OffscreenBuffers created successfully" << std::endl;
 	// Create buffers for commands
 	createCommandBuffers();
+	std::cout << "CommandBuffers created successfully" << std::endl;
 	// Create synchronisation on GPU side
 	createSyncObjects();
+	std::cout << "SyncronizationObjects created successfully" << std::endl;
 }
 
 void Graphics::drawFrame(HighResolutionTimer timer, float elapsedTime)
@@ -1143,28 +1161,28 @@ void Graphics::createDescriptorPool()
 
 	// Create dynamicc texture sampler descriptor pool
 	// Dynamic Texture sampler pool
-	VkDescriptorPoolSize dissolveSamplerPoolSize = {};
-	dissolveSamplerPoolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-	dissolveSamplerPoolSize.descriptorCount = 2;
+	VkDescriptorPoolSize dynamicTextureSamplerPoolSize = {};
+	dynamicTextureSamplerPoolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+	dynamicTextureSamplerPoolSize.descriptorCount = MAX_OBJECTS;
 
-	VkDescriptorPoolCreateInfo dissolveSamplerPoolCreateInfo = {};
-	dissolveSamplerPoolCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-	dissolveSamplerPoolCreateInfo.maxSets = 20;
-	dissolveSamplerPoolCreateInfo.poolSizeCount = 1;
-	dissolveSamplerPoolCreateInfo.pPoolSizes = &dissolveSamplerPoolSize;
+	VkDescriptorPoolCreateInfo dynamicTexturePoolCreateInfo = {};
+	dynamicTexturePoolCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+	dynamicTexturePoolCreateInfo.maxSets = MAX_OBJECTS;
+	dynamicTexturePoolCreateInfo.poolSizeCount = 1;
+	dynamicTexturePoolCreateInfo.pPoolSizes = &dynamicTextureSamplerPoolSize;
 
-	if (vkCreateDescriptorPool(device, &dissolveSamplerPoolCreateInfo, nullptr, &dynamicTextureSamplerDescriptorPool) != VK_SUCCESS)
+	if (vkCreateDescriptorPool(device, &dynamicTexturePoolCreateInfo, nullptr, &dynamicTextureSamplerDescriptorPool) != VK_SUCCESS)
 	{
 		throw std::runtime_error("failed to create a sampler descriptor pool");
 	}
 
 	VkDescriptorPoolSize OITPoolSize = {};
 	OITPoolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-	OITPoolSize.descriptorCount = 2;
+	OITPoolSize.descriptorCount = MAX_OBJECTS;
 
 	VkDescriptorPoolCreateInfo OITSamplerPoolCreateInfo = {};
 	OITSamplerPoolCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-	OITSamplerPoolCreateInfo.maxSets = 10;
+	OITSamplerPoolCreateInfo.maxSets = MAX_OBJECTS;
 	OITSamplerPoolCreateInfo.poolSizeCount = 1;
 	OITSamplerPoolCreateInfo.pPoolSizes = &OITPoolSize;
 
@@ -2542,6 +2560,11 @@ void Graphics::pickPhysicalDevice()
 
 			break;
 		}
+	}
+
+	if (physicalDevice == VK_NULL_HANDLE)
+	{
+		physicalDevice = devices[0];
 	}
 
 	if (physicalDevice == VK_NULL_HANDLE)
