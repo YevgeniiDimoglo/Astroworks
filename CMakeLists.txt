@@ -4,6 +4,8 @@ set(CMAKE_SYSTEM_VERSION 10.0 CACHE STRING "" FORCE)
 
 project(Astroworks CXX)
 
+set (CMAKE_CXX_STANDARD 20)
+
 ################################################################################
 # Set target arch type if empty. Visual studio solution generator provides it.
 ################################################################################

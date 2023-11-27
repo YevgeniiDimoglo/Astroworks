@@ -19,15 +19,15 @@ void Graphics::init()
 
 	initVulkan();
 
-	dynamicTexture = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/dissolve_animation.png");
-	dummyBasicColor = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/Dummy.png");
-	dummyBasicNormal = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyNormal.png");
-	dummyBasicMetalness = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyMetalness.png");
-	dummyBasicRoughness = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyRoughness.png");
-	dummyBasicAO = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyAO.png");
-	dummyBasicEmissive = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyEmissive.png");
+	dynamicTexture = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./../Data/Textures/dissolve_animation.png");
+	dummyBasicColor = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./../Data/Textures/Dummy.png");
+	dummyBasicNormal = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./../Data/Textures/DummyNormal.png");
+	dummyBasicMetalness = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./../Data/Textures/DummyMetalness.png");
+	dummyBasicRoughness = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./../Data/Textures/DummyRoughness.png");
+	dummyBasicAO = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./../Data/Textures/DummyAO.png");
+	dummyBasicEmissive = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./../Data/Textures/DummyEmissive.png");
 
-	skybox.createCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/kloppenheim_02_puresky_4k.hdr");
+	skybox.createCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./../Data/HDRI/kloppenheim_02_puresky_4k.hdr");
 
 	initModels();
 
@@ -655,68 +655,68 @@ void Graphics::createGraphicsPipelines()
 
 		if (pipelineName == Pipelines::ModelPipeline || pipelineName == Pipelines::DebugDrawingPipeline)
 		{
-			vertShaderCode = readFile("Shaders/phongVS.spv");
-			fragShaderCode = readFile("Shaders/phongPS.spv");
+			vertShaderCode = readFile("./../Shaders/phongVS.spv");
+			fragShaderCode = readFile("./../Shaders/phongPS.spv");
 		}
 
 		if (pipelineName == Pipelines::UnlitPipeline)
 		{
-			vertShaderCode = readFile("Shaders/flatVS.spv");
-			fragShaderCode = readFile("Shaders/flatPS.spv");
+			vertShaderCode = readFile("./../Shaders/flatVS.spv");
+			fragShaderCode = readFile("./../Shaders/flatPS.spv");
 		}
 
 		if (pipelineName == Pipelines::UIPipeline)
 		{
-			vertShaderCode = readFile("Shaders/spriteVS.spv");
-			fragShaderCode = readFile("Shaders/spritePS.spv");
+			vertShaderCode = readFile("./../Shaders/spriteVS.spv");
+			fragShaderCode = readFile("./../Shaders/spritePS.spv");
 		}
 
 		if (pipelineName == Pipelines::Offscreen)
 		{
-			vertShaderCode = readFile("Shaders/quadVS.spv");
-			fragShaderCode = readFile("Shaders/quadPS.spv");
+			vertShaderCode = readFile("./../Shaders/quadVS.spv");
+			fragShaderCode = readFile("./../Shaders/quadPS.spv");
 		}
 
 		if (pipelineName == Pipelines::PBRModelPipeline)
 		{
-			vertShaderCode = readFile("Shaders/pbrtextureVS.spv");
-			fragShaderCode = readFile("Shaders/pbrtexturePS.spv");
+			vertShaderCode = readFile("./../Shaders/pbrtextureVS.spv");
+			fragShaderCode = readFile("./../Shaders/pbrtexturePS.spv");
 		}
 
 		if (pipelineName == Pipelines::ShadowMapPipeline)
 		{
-			vertShaderCode = readFile("Shaders/shadowMapCasterVS.spv");
-			fragShaderCode = readFile("Shaders/shadowMapCasterPS.spv");
+			vertShaderCode = readFile("./../Shaders/shadowMapCasterVS.spv");
+			fragShaderCode = readFile("./../Shaders/shadowMapCasterPS.spv");
 		}
 
 		if (pipelineName == Pipelines::WaterPipeline)
 		{
-			vertShaderCode = readFile("Shaders/waterVS.spv");
-			fragShaderCode = readFile("Shaders/waterPS.spv");
+			vertShaderCode = readFile("./../Shaders/waterVS.spv");
+			fragShaderCode = readFile("./../Shaders/waterPS.spv");
 		}
 
 		if (pipelineName == Pipelines::FirePipeline)
 		{
-			vertShaderCode = readFile("Shaders/waterVS.spv");
-			fragShaderCode = readFile("Shaders/fireballPS.spv");
+			vertShaderCode = readFile("./../Shaders/waterVS.spv");
+			fragShaderCode = readFile("./../Shaders/fireballPS.spv");
 		}
 
 		if (pipelineName == Pipelines::OITColorAccum)
 		{
-			vertShaderCode = readFile("Shaders/phongVS.spv");
-			fragShaderCode = readFile("Shaders/OITColorPS.spv");
+			vertShaderCode = readFile("./../Shaders/phongVS.spv");
+			fragShaderCode = readFile("./../Shaders/OITColorPS.spv");
 		}
 
 		if (pipelineName == Pipelines::OITColorReveal)
 		{
-			vertShaderCode = readFile("Shaders/phongVS.spv");
-			fragShaderCode = readFile("Shaders/OITRevealPS.spv");
+			vertShaderCode = readFile("./../Shaders/phongVS.spv");
+			fragShaderCode = readFile("./../Shaders/OITRevealPS.spv");
 		}
 
 		if (pipelineName == Pipelines::OITResult)
 		{
-			vertShaderCode = readFile("Shaders/quadVS.spv");
-			fragShaderCode = readFile("Shaders/OITResult.spv");
+			vertShaderCode = readFile("./../Shaders/quadVS.spv");
+			fragShaderCode = readFile("./../Shaders/OITResult.spv");
 		}
 
 		// Build shader modules to link to Graphics Pipeline

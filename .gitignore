@@ -26,6 +26,7 @@ Level.code-workspace
 
 # Builds
 x64/*
+build/*
 
 #Temp folders
 ToImplement*/
