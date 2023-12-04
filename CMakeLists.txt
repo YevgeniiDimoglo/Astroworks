@@ -363,3 +363,9 @@ if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
     )
 endif()
 
+
+################################################################################
+# Addition
+################################################################################
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Shaders/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Shaders/)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Data/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Data/)
