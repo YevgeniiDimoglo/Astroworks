@@ -67,6 +67,8 @@ private:
 	// - Main functions
 	void initWindow();
 
+	void initTextures();
+
 	void initModels();
 
 	void initSprites();

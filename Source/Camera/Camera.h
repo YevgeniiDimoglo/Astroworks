@@ -42,7 +42,7 @@ private:
 	glm::vec3 right;
 
 	float fov = glm::radians(60.0f);
-	float aspect = 1.7;
+	float aspect = 1.7f;
 	float nearPlane = 0.1f;
 	float farPlane = 1000.0f;
 };

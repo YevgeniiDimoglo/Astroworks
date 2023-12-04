@@ -15,23 +15,19 @@ Camera* playerCamera;
 
 void Graphics::init()
 {
+	LOG("Start of initializaion\n");
+
 	initWindow();
 
 	initVulkan();
 
-	dynamicTexture = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./../Data/Textures/dissolve_animation.png");
-	dummyBasicColor = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./../Data/Textures/Dummy.png");
-	dummyBasicNormal = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./../Data/Textures/DummyNormal.png");
-	dummyBasicMetalness = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./../Data/Textures/DummyMetalness.png");
-	dummyBasicRoughness = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./../Data/Textures/DummyRoughness.png");
-	dummyBasicAO = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./../Data/Textures/DummyAO.png");
-	dummyBasicEmissive = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./../Data/Textures/DummyEmissive.png");
-
-	skybox.createCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./../Data/HDRI/kloppenheim_02_puresky_4k.hdr");
+	initTextures();
 
 	initModels();
 
 	initSprites();
+
+	LOG("End of initialization\n");
 }
 
 void Graphics::draw(HighResolutionTimer timer, float elapsedTime)
@@ -48,6 +44,7 @@ void Graphics::finalize()
 
 void Graphics::initWindow()
 {
+	LOG("Initializaon of Window\n");
 	// TODO: Remove from graphics to own class
 	// Init library for handling window
 	glfwInit();
@@ -61,75 +58,93 @@ void Graphics::initWindow()
 	glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
 }
 
+void Graphics::initTextures()
+{
+	LOG("Initialization of Textures\n");
+
+	dynamicTexture = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, ".//Data/Textures/dissolve_animation.png");
+	dummyBasicColor = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/Dummy.png");
+	dummyBasicNormal = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyNormal.png");
+	dummyBasicMetalness = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyMetalness.png");
+	dummyBasicRoughness = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyRoughness.png");
+	dummyBasicAO = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyAO.png");
+	dummyBasicEmissive = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyEmissive.png");
+
+	skybox.createCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/kloppenheim_02_puresky_4k.hdr");
+}
+
 void Graphics::initModels()
 {
+	LOG("Initialization of Models\n");
 	// TODO: Change loading to loading on a fly
 	ActorManager::Instance().loadFiles(physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout);
 }
 
 void Graphics::initSprites()
 {
+	LOG("Initialization of Sprites\n");
 	// TODO: Change loading to loading on a fly
 	UI::Instance().loadFiles(physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout);
 }
 
 void Graphics::initVulkan()
 {
-	std::cout << "Initializaon of Vulkan" << std::endl;
+	LOG("Initialization of Vulkan\n");
 	// Instance for whole application
 	createInstance();
-	std::cout << "Instance created successfully" << std::endl;
+	LOG("Instance created successfully\n");
 	// Debug messages in console
 	setupDebugMessenger();
-	std::cout << "DebugMessenger created successfully" << std::endl;
+	LOG("DebugMessenger created successfully\n");
 	// Drawing canvas for rendering
 	createSurface();
-	std::cout << "Surface created successfully" << std::endl;
+	LOG("Surface created successfully\n");
 	// Setup best suitable device
 	pickPhysicalDevice();
-	std::cout << "PhysicalDevice found successfully" << std::endl;
+	LOG("PhysicalDevice found successfully\n");
 	// Interface for physical device
 	createLogicalDevice();
-	std::cout << "LogicalDevice created successfully" << std::endl;
+	LOG("LogicalDevice created successfully\n");
 	// Create swapchain
 	createSwapChain();
-	std::cout << "Spawchain created successfully" << std::endl;
+	LOG("Spawchain created successfully\n");
 	// Create image for rendering
 	createImageViews();
-	std::cout << "ImageViews created successfully" << std::endl;
+	LOG("ImageViews created successfully\n");
 	// Create input layout
 	createDescriptorSetLayout();
-	std::cout << "DescriptorLayouts created successfully" << std::endl;
+	LOG("DescriptorLayouts created successfully\n");
 	// Create pipelines for different rendering
 	createGraphicsPipelines();
-	std::cout << "GraphicsPipelines created successfully" << std::endl;
+	LOG("GraphicsPipelines created successfully\n");
 	// Create pools for commands
 	createCommandPool();
-	std::cout << "CommandPool created successfully" << std::endl;
+	LOG("CommandPool created successfully\n");
 	// Create image for depth
 	createaDepthResources();
-	std::cout << "DepthResources created successfully" << std::endl;
+	LOG("DepthResources created successfully\n");
 	// Create uniform buffers
 	createUniformBuffers();
-	std::cout << "UniformBuffers created successfully" << std::endl;
+	LOG("UniformBuffers created successfully\n");
 	// Create description for descriptors
 	createDescriptorPool();
-	std::cout << "DescriptoPools created successfully" << std::endl;
+	LOG("DescriptoPools created successfully\n");
 	// Create descriptors
 	createDescriptorSets();
-	std::cout << "DescriptorSets created successfully" << std::endl;
+	LOG("DescriptorSets created successfully\n");
 	// Create offscreen buffers
 	prepareOffscreen();
+	LOG("OffscreenBuffer created successfully\n");
 	prepareOITColorAccum();
 	prepareOITColorReveal();
 	prepareOITResult();
-	std::cout << "OffscreenBuffers created successfully" << std::endl;
+	LOG("OIT buffers created successfully\n");
 	// Create buffers for commands
 	createCommandBuffers();
-	std::cout << "CommandBuffers created successfully" << std::endl;
+	LOG("CommandBuffers created successfully\n");
 	// Create synchronisation on GPU side
 	createSyncObjects();
-	std::cout << "SyncronizationObjects created successfully" << std::endl;
+	LOG("SyncronizationObjects created successfully\n");
 }
 
 void Graphics::drawFrame(HighResolutionTimer timer, float elapsedTime)
@@ -408,19 +423,13 @@ void Graphics::createInstance()
 	}
 
 	// Create instance
-	if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to create instance!");
-	}
+	VK_CHECK(vkCreateInstance(&createInfo, nullptr, &instance));
 }
 
 void Graphics::createSurface()
 {
 	// Create a surface ( creating a surface, create info struct, runs the create surface function, returns result)
-	if (glfwCreateWindowSurface(instance, window, nullptr, &surface) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to create window surface");
-	}
+	VK_CHECK(glfwCreateWindowSurface(instance, window, nullptr, &surface));
 }
 
 void Graphics::createLogicalDevice()
@@ -473,10 +482,7 @@ void Graphics::createLogicalDevice()
 	}
 
 	// Create the logical device for the given physical device
-	if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &device) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to create a logical device");
-	}
+	VK_CHECK(vkCreateDevice(physicalDevice, &createInfo, nullptr, &device));
 	// From given logical devices, of given	Queue Family, of given Queue Index , place reference in given VkQueue
 	vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphicsQueue);
 	vkGetDeviceQueue(device, indices.presentFamily.value(), 0, &presentQueue);
@@ -545,10 +551,7 @@ void Graphics::createSwapChain()
 	createInfo.oldSwapchain = VK_NULL_HANDLE;
 
 	// Create Swapchain
-	if (vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapChain) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to create swap chain");
-	}
+	VK_CHECK(vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapChain));
 
 	// Get Swapchain images (first count, then values)
 	vkGetSwapchainImagesKHR(device, swapChain, &imageCount, nullptr);
@@ -584,10 +587,7 @@ void Graphics::createDescriptorSetLayout()
 	layoutInfo.bindingCount = static_cast<uint32_t>(uboLayoutBindings.size());
 	layoutInfo.pBindings = uboLayoutBindings.data();
 
-	if (vkCreateDescriptorSetLayout(device, &layoutInfo, nullptr, &descriptorSetLayout) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to create descriptor set layout");
-	}
+	VK_CHECK(vkCreateDescriptorSetLayout(device, &layoutInfo, nullptr, &descriptorSetLayout));
 
 	std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings = {
 				{ 0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
@@ -602,7 +602,8 @@ void Graphics::createDescriptorSetLayout()
 	descriptorSetLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
 	descriptorSetLayoutCreateInfo.pBindings = setLayoutBindings.data();
 	descriptorSetLayoutCreateInfo.bindingCount = static_cast<uint32_t>(setLayoutBindings.size());
-	vkCreateDescriptorSetLayout(device, &descriptorSetLayoutCreateInfo, nullptr, &samplerSetLayout);
+
+	VK_CHECK(vkCreateDescriptorSetLayout(device, &descriptorSetLayoutCreateInfo, nullptr, &samplerSetLayout));
 
 	VkDescriptorSetLayoutBinding dissolveSamplerLayoutBinding{};
 
@@ -621,10 +622,7 @@ void Graphics::createDescriptorSetLayout()
 	dissolveTextureLayoutCreateInfo.pBindings = &dissolveSamplerLayoutBinding;
 
 	// Create Descriptor set layout
-	if (vkCreateDescriptorSetLayout(device, &dissolveTextureLayoutCreateInfo, nullptr, &dynamicTextureSamplerSetLayout) != VK_SUCCESS)
-	{
-		throw std::runtime_error("failed to create a texture descriptor set layout");
-	}
+	VK_CHECK(vkCreateDescriptorSetLayout(device, &dissolveTextureLayoutCreateInfo, nullptr, &dynamicTextureSamplerSetLayout));
 
 	std::vector<VkDescriptorSetLayoutBinding> OITLayoutBindings = {
 				{ 0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
@@ -635,7 +633,8 @@ void Graphics::createDescriptorSetLayout()
 	OITdescriptorSetLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
 	OITdescriptorSetLayoutCreateInfo.pBindings = setLayoutBindings.data();
 	OITdescriptorSetLayoutCreateInfo.bindingCount = static_cast<uint32_t>(setLayoutBindings.size());
-	vkCreateDescriptorSetLayout(device, &OITdescriptorSetLayoutCreateInfo, nullptr, &OITDescriptorSetLayout);
+
+	VK_CHECK(vkCreateDescriptorSetLayout(device, &OITdescriptorSetLayoutCreateInfo, nullptr, &OITDescriptorSetLayout));
 }
 
 void Graphics::createGraphicsPipelines()
@@ -643,7 +642,6 @@ void Graphics::createGraphicsPipelines()
 	graphicsPipelines.resize(static_cast<int>(Pipelines::EnumCount));
 	pipelineLayouts.resize(static_cast<int>(Pipelines::EnumCount));
 
-	// TODO: rewrite to use multiple shaders
 	for (Pipelines pipelineName = Pipelines::ModelPipeline;
 		pipelineName != Pipelines::EnumCount;
 		pipelineName = static_cast<Pipelines>(static_cast<int>(pipelineName) + 1))
@@ -655,68 +653,68 @@ void Graphics::createGraphicsPipelines()
 
 		if (pipelineName == Pipelines::ModelPipeline || pipelineName == Pipelines::DebugDrawingPipeline)
 		{
-			vertShaderCode = readFile("./../Shaders/phongVS.spv");
-			fragShaderCode = readFile("./../Shaders/phongPS.spv");
+			vertShaderCode = readFile("./Shaders/phongVS.spv");
+			fragShaderCode = readFile("./Shaders/phongPS.spv");
 		}
 
 		if (pipelineName == Pipelines::UnlitPipeline)
 		{
-			vertShaderCode = readFile("./../Shaders/flatVS.spv");
-			fragShaderCode = readFile("./../Shaders/flatPS.spv");
+			vertShaderCode = readFile("./Shaders/flatVS.spv");
+			fragShaderCode = readFile("./Shaders/flatPS.spv");
 		}
 
 		if (pipelineName == Pipelines::UIPipeline)
 		{
-			vertShaderCode = readFile("./../Shaders/spriteVS.spv");
-			fragShaderCode = readFile("./../Shaders/spritePS.spv");
+			vertShaderCode = readFile("./Shaders/spriteVS.spv");
+			fragShaderCode = readFile("./Shaders/spritePS.spv");
 		}
 
 		if (pipelineName == Pipelines::Offscreen)
 		{
-			vertShaderCode = readFile("./../Shaders/quadVS.spv");
-			fragShaderCode = readFile("./../Shaders/quadPS.spv");
+			vertShaderCode = readFile("./Shaders/quadVS.spv");
+			fragShaderCode = readFile("./Shaders/quadPS.spv");
 		}
 
 		if (pipelineName == Pipelines::PBRModelPipeline)
 		{
-			vertShaderCode = readFile("./../Shaders/pbrtextureVS.spv");
-			fragShaderCode = readFile("./../Shaders/pbrtexturePS.spv");
+			vertShaderCode = readFile("./Shaders/pbrtextureVS.spv");
+			fragShaderCode = readFile("./Shaders/pbrtexturePS.spv");
 		}
 
 		if (pipelineName == Pipelines::ShadowMapPipeline)
 		{
-			vertShaderCode = readFile("./../Shaders/shadowMapCasterVS.spv");
-			fragShaderCode = readFile("./../Shaders/shadowMapCasterPS.spv");
+			vertShaderCode = readFile("./Shaders/shadowMapCasterVS.spv");
+			fragShaderCode = readFile("./Shaders/shadowMapCasterPS.spv");
 		}
 
 		if (pipelineName == Pipelines::WaterPipeline)
 		{
-			vertShaderCode = readFile("./../Shaders/waterVS.spv");
-			fragShaderCode = readFile("./../Shaders/waterPS.spv");
+			vertShaderCode = readFile("./Shaders/waterVS.spv");
+			fragShaderCode = readFile("./Shaders/waterPS.spv");
 		}
 
 		if (pipelineName == Pipelines::FirePipeline)
 		{
-			vertShaderCode = readFile("./../Shaders/waterVS.spv");
-			fragShaderCode = readFile("./../Shaders/fireballPS.spv");
+			vertShaderCode = readFile("./Shaders/waterVS.spv");
+			fragShaderCode = readFile("./Shaders/fireballPS.spv");
 		}
 
 		if (pipelineName == Pipelines::OITColorAccum)
 		{
-			vertShaderCode = readFile("./../Shaders/phongVS.spv");
-			fragShaderCode = readFile("./../Shaders/OITColorPS.spv");
+			vertShaderCode = readFile("./Shaders/phongVS.spv");
+			fragShaderCode = readFile("./Shaders/OITColorPS.spv");
 		}
 
 		if (pipelineName == Pipelines::OITColorReveal)
 		{
-			vertShaderCode = readFile("./../Shaders/phongVS.spv");
-			fragShaderCode = readFile("./../Shaders/OITRevealPS.spv");
+			vertShaderCode = readFile("./Shaders/phongVS.spv");
+			fragShaderCode = readFile("./Shaders/OITRevealPS.spv");
 		}
 
 		if (pipelineName == Pipelines::OITResult)
 		{
-			vertShaderCode = readFile("./../Shaders/quadVS.spv");
-			fragShaderCode = readFile("./../Shaders/OITResult.spv");
+			vertShaderCode = readFile("./Shaders/quadVS.spv");
+			fragShaderCode = readFile("./Shaders/OITResult.spv");
 		}
 
 		// Build shader modules to link to Graphics Pipeline
@@ -898,68 +896,48 @@ void Graphics::createGraphicsPipelines()
 		dynamicState.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
 		dynamicState.pDynamicStates = dynamicStates.data();
 
+		VkPushConstantRange pushConstantRange{};
+		pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+		pushConstantRange.offset = 0;
+		pushConstantRange.size = sizeof(PushConstants);
+
+		VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
+
 		if (pipelineName == Pipelines::Offscreen)
 		{
 			// Pipeline layout
 			// TODO : Change to offscreen pool
 			std::array<VkDescriptorSetLayout, 1> descriptorSetLayouts = { dynamicTextureSamplerSetLayout };
 
-			// Define push constant values
-			VkPushConstantRange pushConstantRange{};
-			pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-			pushConstantRange.offset = 0;
-			pushConstantRange.size = sizeof(PushConstants);
-
-			VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
 			pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 			pipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(descriptorSetLayouts.size());
 			pipelineLayoutInfo.pSetLayouts = descriptorSetLayouts.data();
+
 			pipelineLayoutInfo.pushConstantRangeCount = 1;
 			pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
 
-			// Create a pipeline layout
-			if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayouts[static_cast<int>(pipelineName)]) != VK_SUCCESS)
-			{
-				throw std::runtime_error("Failed to create pipeline layout");
-			}
+			VK_CHECK(vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayouts[static_cast<int>(pipelineName)]));
 		}
 		else if (pipelineName == Pipelines::OITResult)
 		{
 			// Pipeline layout
 			std::array<VkDescriptorSetLayout, 3> descriptorSetLayouts = { descriptorSetLayout, samplerSetLayout, OITDescriptorSetLayout };
 
-			// Define push constant values
-			VkPushConstantRange pushConstantRange{};
-			pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-			pushConstantRange.offset = 0;
-			pushConstantRange.size = sizeof(PushConstants);
-
-			VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
 			pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 			pipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(descriptorSetLayouts.size());
 			pipelineLayoutInfo.pSetLayouts = descriptorSetLayouts.data();
 
-			pipelineLayoutInfo.pushConstantRangeCount = 1;
-			pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
+			pipelineLayoutInfo.pushConstantRangeCount = 0;
+			pipelineLayoutInfo.pPushConstantRanges = nullptr;
 
 			// Create a pipeline layout
-			if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayouts[static_cast<int>(pipelineName)]) != VK_SUCCESS)
-			{
-				throw std::runtime_error("Failed to create pipeline layout");
-			}
+			VK_CHECK(vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayouts[static_cast<int>(pipelineName)]));
 		}
 		else
 		{
 			// Pipeline layout
 			std::array<VkDescriptorSetLayout, 3> descriptorSetLayouts = { descriptorSetLayout, samplerSetLayout, dynamicTextureSamplerSetLayout };
 
-			// Define push constant values
-			VkPushConstantRange pushConstantRange{};
-			pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-			pushConstantRange.offset = 0;
-			pushConstantRange.size = sizeof(PushConstants);
-
-			VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
 			pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 			pipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(descriptorSetLayouts.size());
 			pipelineLayoutInfo.pSetLayouts = descriptorSetLayouts.data();
@@ -968,10 +946,7 @@ void Graphics::createGraphicsPipelines()
 			pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
 
 			// Create a pipeline layout
-			if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayouts[static_cast<int>(pipelineName)]) != VK_SUCCESS)
-			{
-				throw std::runtime_error("Failed to create pipeline layout");
-			}
+			VK_CHECK(vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayouts[static_cast<int>(pipelineName)]));
 		}
 
 		// Create a graphics pipeline
@@ -1012,10 +987,7 @@ void Graphics::createGraphicsPipelines()
 		// Chain into the pipeline creat einfo
 		pipelineInfo.pNext = &pipelineRenderingCreateInfo;
 
-		if (vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipelines[static_cast<int>(pipelineName)]) != VK_SUCCESS)
-		{
-			throw std::runtime_error("Failed to create graphics pipeline");
-		}
+		VK_CHECK(vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipelines[static_cast<int>(pipelineName)]));
 
 		// Destroy Shder Modules, no longer	needed after Pipeline created
 		vkDestroyShaderModule(device, fragShaderModule, nullptr);
@@ -1032,10 +1004,7 @@ VkShaderModule Graphics::createShaderModule(const std::vector<char>& code)
 	createInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
 
 	VkShaderModule shaderModule;
-	if (vkCreateShaderModule(device, &createInfo, nullptr, &shaderModule) != VK_SUCCESS)
-	{
-		throw std::runtime_error("failed to create shader module!");
-	}
+	VK_CHECK(vkCreateShaderModule(device, &createInfo, nullptr, &shaderModule));
 
 	return shaderModule;
 }
@@ -1051,10 +1020,7 @@ void Graphics::createCommandPool()
 	poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
 
 	// Create a Graphics queue family command pool
-	if (vkCreateCommandPool(device, &poolInfo, nullptr, &commandPool) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to create command pool");
-	}
+	VK_CHECK(vkCreateCommandPool(device, &poolInfo, nullptr, &commandPool));
 }
 
 void Graphics::createaDepthResources()
@@ -1077,10 +1043,7 @@ void Graphics::createaDepthResources()
 	samplerInfo.minLod = 0.0;
 	samplerInfo.maxLod = 1.0;
 
-	if (vkCreateSampler(device, &samplerInfo, nullptr, &depthSampler) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to create texture sampler");
-	}
+	VK_CHECK(vkCreateSampler(device, &samplerInfo, nullptr, &depthSampler));
 
 	// Create Depth buffer image
 	createImage(physicalDevice, device,
@@ -1137,10 +1100,7 @@ void Graphics::createDescriptorPool()
 	poolInfo.maxSets = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 
 	// Create Descriptor Pool
-	if (vkCreateDescriptorPool(device, &poolInfo, nullptr, &descriptorPool) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to create descriptor pool");
-	}
+	VK_CHECK(vkCreateDescriptorPool(device, &poolInfo, nullptr, &descriptorPool));
 
 	// Create sampler descriptor pool
 	// Texture sampler pool
@@ -1154,10 +1114,7 @@ void Graphics::createDescriptorPool()
 	samplerPoolCreateInfo.poolSizeCount = 1;
 	samplerPoolCreateInfo.pPoolSizes = &samplerPoolSize;
 
-	if (vkCreateDescriptorPool(device, &samplerPoolCreateInfo, nullptr, &samplerDescriptorPool) != VK_SUCCESS)
-	{
-		throw std::runtime_error("failed to create a sampler descriptor pool");
-	}
+	VK_CHECK(vkCreateDescriptorPool(device, &samplerPoolCreateInfo, nullptr, &samplerDescriptorPool));
 
 	// Create dynamicc texture sampler descriptor pool
 	// Dynamic Texture sampler pool
@@ -1171,10 +1128,7 @@ void Graphics::createDescriptorPool()
 	dynamicTexturePoolCreateInfo.poolSizeCount = 1;
 	dynamicTexturePoolCreateInfo.pPoolSizes = &dynamicTextureSamplerPoolSize;
 
-	if (vkCreateDescriptorPool(device, &dynamicTexturePoolCreateInfo, nullptr, &dynamicTextureSamplerDescriptorPool) != VK_SUCCESS)
-	{
-		throw std::runtime_error("failed to create a sampler descriptor pool");
-	}
+	VK_CHECK(vkCreateDescriptorPool(device, &dynamicTexturePoolCreateInfo, nullptr, &dynamicTextureSamplerDescriptorPool));
 
 	VkDescriptorPoolSize OITPoolSize = {};
 	OITPoolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
@@ -1186,10 +1140,7 @@ void Graphics::createDescriptorPool()
 	OITSamplerPoolCreateInfo.poolSizeCount = 1;
 	OITSamplerPoolCreateInfo.pPoolSizes = &OITPoolSize;
 
-	if (vkCreateDescriptorPool(device, &OITSamplerPoolCreateInfo, nullptr, &OITDescriptorPool) != VK_SUCCESS)
-	{
-		throw std::runtime_error("failed to create a sampler descriptor pool");
-	}
+	VK_CHECK(vkCreateDescriptorPool(device, &OITSamplerPoolCreateInfo, nullptr, &OITDescriptorPool));
 }
 
 void Graphics::createDescriptorSets()
@@ -1207,10 +1158,7 @@ void Graphics::createDescriptorSets()
 	descriptorSets.resize(MAX_FRAMES_IN_FLIGHT);
 
 	// Allocate descriptor sets
-	if (vkAllocateDescriptorSets(device, &allocInfo, descriptorSets.data()) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to allocate descriptor sets");
-	}
+	VK_CHECK(vkAllocateDescriptorSets(device, &allocInfo, descriptorSets.data()));
 
 	// Update all of descriptor sets buffer bindings
 	for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
@@ -1262,10 +1210,7 @@ void Graphics::createCommandBuffers()
 	allocInfo.commandBufferCount = static_cast<uint32_t>(commandBuffers.size());
 
 	// Allocate command buffers and place handles in array of buffers
-	if (vkAllocateCommandBuffers(device, &allocInfo, commandBuffers.data()) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to allocate command buffers");
-	}
+	VK_CHECK(vkAllocateCommandBuffers(device, &allocInfo, commandBuffers.data()));
 }
 
 void Graphics::createSyncObjects()
@@ -1285,12 +1230,9 @@ void Graphics::createSyncObjects()
 
 	for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
 	{
-		if (vkCreateSemaphore(device, &semaphoreInfo, nullptr, &imageAvailableSemaphores[i]) != VK_SUCCESS ||
-			vkCreateSemaphore(device, &semaphoreInfo, nullptr, &renderFinishedSemaphores[i]) != VK_SUCCESS ||
-			vkCreateFence(device, &fenceInfo, nullptr, &inFlightFences[i]) != VK_SUCCESS)
-		{
-			throw std::runtime_error("Failed to create semaphores");
-		}
+		VK_CHECK(vkCreateSemaphore(device, &semaphoreInfo, nullptr, &imageAvailableSemaphores[i]));
+		VK_CHECK(vkCreateSemaphore(device, &semaphoreInfo, nullptr, &renderFinishedSemaphores[i]));
+		VK_CHECK(vkCreateFence(device, &fenceInfo, nullptr, &inFlightFences[i]));
 	}
 }
 
@@ -1953,12 +1895,11 @@ void Graphics::prepareOffscreen()
 	VkMemoryAllocateInfo memAlloc = {};
 	memAlloc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 	VkMemoryRequirements memReqs;
-
-	vkCreateImage(device, &image, nullptr, &offscreen.offscreenColorAttachment.image);
+	VK_CHECK(vkCreateImage(device, &image, nullptr, &offscreen.offscreenColorAttachment.image));
 	vkGetImageMemoryRequirements(device, offscreen.offscreenColorAttachment.image, &memReqs);
 	memAlloc.allocationSize = memReqs.size;
 	memAlloc.memoryTypeIndex = findMemoryType(physicalDevice, memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-	vkAllocateMemory(device, &memAlloc, nullptr, &offscreen.offscreenColorAttachment.mem);
+	VK_CHECK(vkAllocateMemory(device, &memAlloc, nullptr, &offscreen.offscreenColorAttachment.mem));
 	vkBindImageMemory(device, offscreen.offscreenColorAttachment.image, offscreen.offscreenColorAttachment.mem, 0);
 
 	VkImageViewCreateInfo colorImageView = {};
@@ -1971,7 +1912,7 @@ void Graphics::prepareOffscreen()
 	colorImageView.subresourceRange.baseArrayLayer = 0;
 	colorImageView.subresourceRange.layerCount = 1;
 	colorImageView.image = offscreen.offscreenColorAttachment.image;
-	vkCreateImageView(device, &colorImageView, nullptr, &offscreen.offscreenColorAttachment.view);
+	VK_CHECK(vkCreateImageView(device, &colorImageView, nullptr, &offscreen.offscreenColorAttachment.view));
 
 	// Create sampler to sample from the attachment in the fragment shader
 	VkSamplerCreateInfo samplerInfo = {};
@@ -1995,17 +1936,17 @@ void Graphics::prepareOffscreen()
 	samplerInfo.minLod = 0.0f;
 	samplerInfo.maxLod = 0.0f;
 
-	vkCreateSampler(device, &samplerInfo, nullptr, &offscreen.sampler);
+	VK_CHECK(vkCreateSampler(device, &samplerInfo, nullptr, &offscreen.sampler));
 
 	// Depth stencil attachment
 	image.format = fbDepthFormat;
 	image.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
 
-	vkCreateImage(device, &image, nullptr, &offscreen.offscreenDepthAttachment.image);
+	VK_CHECK(vkCreateImage(device, &image, nullptr, &offscreen.offscreenDepthAttachment.image));
 	vkGetImageMemoryRequirements(device, offscreen.offscreenDepthAttachment.image, &memReqs);
 	memAlloc.allocationSize = memReqs.size;
 	memAlloc.memoryTypeIndex = findMemoryType(physicalDevice, memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-	vkAllocateMemory(device, &memAlloc, nullptr, &offscreen.offscreenDepthAttachment.mem);
+	VK_CHECK(vkAllocateMemory(device, &memAlloc, nullptr, &offscreen.offscreenDepthAttachment.mem));
 	vkBindImageMemory(device, offscreen.offscreenDepthAttachment.image, offscreen.offscreenDepthAttachment.mem, 0);
 
 	VkImageViewCreateInfo depthStencilView = {};
@@ -2023,7 +1964,7 @@ void Graphics::prepareOffscreen()
 	depthStencilView.subresourceRange.baseArrayLayer = 0;
 	depthStencilView.subresourceRange.layerCount = 1;
 	depthStencilView.image = offscreen.offscreenDepthAttachment.image;
-	vkCreateImageView(device, &depthStencilView, nullptr, &offscreen.offscreenDepthAttachment.view);
+	VK_CHECK(vkCreateImageView(device, &depthStencilView, nullptr, &offscreen.offscreenDepthAttachment.view));
 
 	// Fill a descriptor for later use in a descriptor set
 	offscreen.descriptor.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
@@ -2041,11 +1982,7 @@ void Graphics::prepareOffscreen()
 	setAllocInfo.pSetLayouts = &dynamicTextureSamplerSetLayout;
 
 	// Allocate descriptor sets
-	VkResult result = vkAllocateDescriptorSets(device, &setAllocInfo, &descriptorSet);
-	if (result != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to allocate texture descriptor sets");
-	}
+	VK_CHECK(vkAllocateDescriptorSets(device, &setAllocInfo, &descriptorSet));
 
 	// Texture image info
 	VkDescriptorImageInfo imageInfo = {};
@@ -2093,11 +2030,11 @@ void Graphics::prepareOITColorAccum()
 	memAlloc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 	VkMemoryRequirements memReqs;
 
-	vkCreateImage(device, &image, nullptr, &OITColorAccum.offscreenColorAttachment.image);
+	VK_CHECK(vkCreateImage(device, &image, nullptr, &OITColorAccum.offscreenColorAttachment.image));
 	vkGetImageMemoryRequirements(device, OITColorAccum.offscreenColorAttachment.image, &memReqs);
 	memAlloc.allocationSize = memReqs.size;
 	memAlloc.memoryTypeIndex = findMemoryType(physicalDevice, memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-	vkAllocateMemory(device, &memAlloc, nullptr, &OITColorAccum.offscreenColorAttachment.mem);
+	VK_CHECK(vkAllocateMemory(device, &memAlloc, nullptr, &OITColorAccum.offscreenColorAttachment.mem));
 	vkBindImageMemory(device, OITColorAccum.offscreenColorAttachment.image, OITColorAccum.offscreenColorAttachment.mem, 0);
 
 	VkImageViewCreateInfo colorImageView = {};
@@ -2110,7 +2047,7 @@ void Graphics::prepareOITColorAccum()
 	colorImageView.subresourceRange.baseArrayLayer = 0;
 	colorImageView.subresourceRange.layerCount = 1;
 	colorImageView.image = OITColorAccum.offscreenColorAttachment.image;
-	vkCreateImageView(device, &colorImageView, nullptr, &OITColorAccum.offscreenColorAttachment.view);
+	VK_CHECK(vkCreateImageView(device, &colorImageView, nullptr, &OITColorAccum.offscreenColorAttachment.view));
 
 	// Create sampler to sample from the attachment in the fragment shader
 	VkSamplerCreateInfo samplerInfo = {};
@@ -2134,7 +2071,7 @@ void Graphics::prepareOITColorAccum()
 	samplerInfo.minLod = 0.0f;
 	samplerInfo.maxLod = 0.0f;
 
-	vkCreateSampler(device, &samplerInfo, nullptr, &OITColorAccum.sampler);
+	VK_CHECK(vkCreateSampler(device, &samplerInfo, nullptr, &OITColorAccum.sampler));
 
 	// Fill a descriptor for later use in a descriptor set
 	OITColorAccum.descriptor.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
@@ -2152,11 +2089,7 @@ void Graphics::prepareOITColorAccum()
 	setAllocInfo.pSetLayouts = &dynamicTextureSamplerSetLayout;
 
 	// Allocate descriptor sets
-	VkResult result = vkAllocateDescriptorSets(device, &setAllocInfo, &descriptorSet);
-	if (result != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to allocate texture descriptor sets");
-	}
+	VK_CHECK(vkAllocateDescriptorSets(device, &setAllocInfo, &descriptorSet));
 
 	// Texture image info
 	VkDescriptorImageInfo imageInfo = {};
@@ -2204,11 +2137,11 @@ void Graphics::prepareOITColorReveal()
 	memAlloc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 	VkMemoryRequirements memReqs;
 
-	vkCreateImage(device, &image, nullptr, &OITColorReveal.offscreenColorAttachment.image);
+	VK_CHECK(vkCreateImage(device, &image, nullptr, &OITColorReveal.offscreenColorAttachment.image));
 	vkGetImageMemoryRequirements(device, OITColorReveal.offscreenColorAttachment.image, &memReqs);
 	memAlloc.allocationSize = memReqs.size;
 	memAlloc.memoryTypeIndex = findMemoryType(physicalDevice, memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-	vkAllocateMemory(device, &memAlloc, nullptr, &OITColorReveal.offscreenColorAttachment.mem);
+	VK_CHECK(vkAllocateMemory(device, &memAlloc, nullptr, &OITColorReveal.offscreenColorAttachment.mem));
 	vkBindImageMemory(device, OITColorReveal.offscreenColorAttachment.image, OITColorReveal.offscreenColorAttachment.mem, 0);
 
 	VkImageViewCreateInfo colorImageView = {};
@@ -2221,7 +2154,7 @@ void Graphics::prepareOITColorReveal()
 	colorImageView.subresourceRange.baseArrayLayer = 0;
 	colorImageView.subresourceRange.layerCount = 1;
 	colorImageView.image = OITColorReveal.offscreenColorAttachment.image;
-	vkCreateImageView(device, &colorImageView, nullptr, &OITColorReveal.offscreenColorAttachment.view);
+	VK_CHECK(vkCreateImageView(device, &colorImageView, nullptr, &OITColorReveal.offscreenColorAttachment.view));
 
 	// Create sampler to sample from the attachment in the fragment shader
 	VkSamplerCreateInfo samplerInfo = {};
@@ -2245,7 +2178,7 @@ void Graphics::prepareOITColorReveal()
 	samplerInfo.minLod = 0.0f;
 	samplerInfo.maxLod = 0.0f;
 
-	vkCreateSampler(device, &samplerInfo, nullptr, &OITColorReveal.sampler);
+	VK_CHECK(vkCreateSampler(device, &samplerInfo, nullptr, &OITColorReveal.sampler));
 
 	// Fill a descriptor for later use in a descriptor set
 	OITColorReveal.descriptor.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
@@ -2263,11 +2196,7 @@ void Graphics::prepareOITColorReveal()
 	setAllocInfo.pSetLayouts = &dynamicTextureSamplerSetLayout;
 
 	// Allocate descriptor sets
-	VkResult result = vkAllocateDescriptorSets(device, &setAllocInfo, &descriptorSet);
-	if (result != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to allocate texture descriptor sets");
-	}
+	VK_CHECK(vkAllocateDescriptorSets(device, &setAllocInfo, &descriptorSet));
 
 	// Texture image info
 	VkDescriptorImageInfo imageInfo = {};
@@ -2318,11 +2247,11 @@ void Graphics::prepareOITResult()
 	memAlloc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 	VkMemoryRequirements memReqs;
 
-	vkCreateImage(device, &image, nullptr, &OITResult.offscreenColorAttachment.image);
+	VK_CHECK(vkCreateImage(device, &image, nullptr, &OITResult.offscreenColorAttachment.image));
 	vkGetImageMemoryRequirements(device, OITResult.offscreenColorAttachment.image, &memReqs);
 	memAlloc.allocationSize = memReqs.size;
 	memAlloc.memoryTypeIndex = findMemoryType(physicalDevice, memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-	vkAllocateMemory(device, &memAlloc, nullptr, &OITResult.offscreenColorAttachment.mem);
+	VK_CHECK(vkAllocateMemory(device, &memAlloc, nullptr, &OITResult.offscreenColorAttachment.mem));
 	vkBindImageMemory(device, OITResult.offscreenColorAttachment.image, OITResult.offscreenColorAttachment.mem, 0);
 
 	VkImageViewCreateInfo colorImageView = {};
@@ -2335,7 +2264,7 @@ void Graphics::prepareOITResult()
 	colorImageView.subresourceRange.baseArrayLayer = 0;
 	colorImageView.subresourceRange.layerCount = 1;
 	colorImageView.image = OITResult.offscreenColorAttachment.image;
-	vkCreateImageView(device, &colorImageView, nullptr, &OITResult.offscreenColorAttachment.view);
+	VK_CHECK(vkCreateImageView(device, &colorImageView, nullptr, &OITResult.offscreenColorAttachment.view));
 
 	// Create sampler to sample from the attachment in the fragment shader
 	VkSamplerCreateInfo samplerInfo = {};
@@ -2359,17 +2288,17 @@ void Graphics::prepareOITResult()
 	samplerInfo.minLod = 0.0f;
 	samplerInfo.maxLod = 0.0f;
 
-	vkCreateSampler(device, &samplerInfo, nullptr, &OITResult.sampler);
+	VK_CHECK(vkCreateSampler(device, &samplerInfo, nullptr, &OITResult.sampler));
 
 	// Depth stencil attachment
 	image.format = fbDepthFormat;
 	image.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
 
-	vkCreateImage(device, &image, nullptr, &OITResult.offscreenDepthAttachment.image);
+	VK_CHECK(vkCreateImage(device, &image, nullptr, &OITResult.offscreenDepthAttachment.image));
 	vkGetImageMemoryRequirements(device, OITResult.offscreenDepthAttachment.image, &memReqs);
 	memAlloc.allocationSize = memReqs.size;
 	memAlloc.memoryTypeIndex = findMemoryType(physicalDevice, memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-	vkAllocateMemory(device, &memAlloc, nullptr, &OITResult.offscreenDepthAttachment.mem);
+	VK_CHECK(vkAllocateMemory(device, &memAlloc, nullptr, &OITResult.offscreenDepthAttachment.mem));
 	vkBindImageMemory(device, OITResult.offscreenDepthAttachment.image, OITResult.offscreenDepthAttachment.mem, 0);
 
 	VkImageViewCreateInfo depthStencilView = {};
@@ -2387,7 +2316,7 @@ void Graphics::prepareOITResult()
 	depthStencilView.subresourceRange.baseArrayLayer = 0;
 	depthStencilView.subresourceRange.layerCount = 1;
 	depthStencilView.image = OITResult.offscreenDepthAttachment.image;
-	vkCreateImageView(device, &depthStencilView, nullptr, &OITResult.offscreenDepthAttachment.view);
+	VK_CHECK(vkCreateImageView(device, &depthStencilView, nullptr, &OITResult.offscreenDepthAttachment.view));
 
 	// Fill a descriptor for later use in a descriptor set
 	OITResult.descriptor.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
@@ -2405,11 +2334,7 @@ void Graphics::prepareOITResult()
 	setAllocInfo.pSetLayouts = &OITDescriptorSetLayout;
 
 	// Allocate descriptor sets
-	VkResult result = vkAllocateDescriptorSets(device, &setAllocInfo, &descriptorSet);
-	if (result != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to allocate texture descriptor sets");
-	}
+	VK_CHECK(vkAllocateDescriptorSets(device, &setAllocInfo, &descriptorSet));
 
 	VkDescriptorImageInfo colorAccum = OITColorAccum.descriptor;
 	VkDescriptorImageInfo colorReveal = OITColorReveal.descriptor;

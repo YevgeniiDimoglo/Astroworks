@@ -12,3 +12,9 @@
 			abort();													\
 		}																\
 	} while (0)
+
+template<typename ...Args>
+static void LOG(Args && ...args)
+{
+	(std::cout << ... << args);
+}

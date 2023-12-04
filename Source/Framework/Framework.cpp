@@ -18,11 +18,11 @@ Framework::Framework()
 {
 	thisApp = Graphics();
 
-	ResourceManager::Instance().loadFile("./../Data/Level/Level.toml");
+	ResourceManager::Instance().loadFile("./Data/Level/Level.toml");
 
 	ActorManager::Instance().deserializeActor();
 
-	UI::Instance().setFileNames(ResourceManager::Instance().loadFilePathes("./../Data/UI/"));
+	UI::Instance().setFileNames(ResourceManager::Instance().loadFilePathes("./Data/UI/"));
 	UI::Instance().changeOverlay(std::make_unique<OverlayTitle>());
 
 	thisApp.init();

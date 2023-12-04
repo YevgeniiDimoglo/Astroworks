@@ -1,5 +1,6 @@
 #include "ResourceManager.h"
 #include "../Actor/Actor.h"
+#include "../Graphics/Macros.h"
 
 std::shared_ptr<GLTFStaticModel> ResourceManager::LoadModel(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, VkDescriptorPool samplerDescriptorPool, VkDescriptorSetLayout samplerSetLayout, std::shared_ptr<GLTFStaticModel> model)
 {
@@ -17,6 +18,9 @@ std::shared_ptr<GLTFStaticModel> ResourceManager::LoadModel(VkPhysicalDevice new
 	model->loadglTFFile(newPhysicalDevice, newLogicalDevice, transferQueue, transferCommandPool, samplerDescriptorPool, samplerSetLayout);
 
 	models[model.get()->filePath] = model;
+
+	LOG("Loading model: " + model.get()->filePath + "\n");
+
 	return model;
 }
 

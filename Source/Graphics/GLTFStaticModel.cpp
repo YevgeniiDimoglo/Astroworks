@@ -1,6 +1,7 @@
 #include "GLTFStaticModel.h"
 
 #include "../Camera/Camera.h"
+#include "../Graphics/Macros.h"
 
 GLTFStaticModel::GLTFStaticModel(std::string filePath)
 {
@@ -526,6 +527,8 @@ void GLTFStaticModel::loadglTFFile(VkPhysicalDevice newPhysicalDevice, VkDevice 
 
 	bool fileLoaded = false;
 
+	LOG("Start loading model \n");
+
 	if (fileType == "glb")
 	{
 		fileLoaded = gltfContext.LoadBinaryFromFile(&glTFInput, &error, &warning, filePath);
@@ -815,10 +818,7 @@ GLTFStaticModel::Image GLTFStaticModel::createTextureFromBuffer(void* buffer, Vk
 	samplerInfo.maxLod = 0.0f;
 
 	VkSampler imageSampler;
-	if (vkCreateSampler(newLogicalDevice, &samplerInfo, nullptr, &imageSampler) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to create texture sampler");
-	}
+	VK_CHECK(vkCreateSampler(newLogicalDevice, &samplerInfo, nullptr, &imageSampler));
 
 	image.sampler = imageSampler;
 
@@ -834,10 +834,7 @@ GLTFStaticModel::Image GLTFStaticModel::createTextureFromBuffer(void* buffer, Vk
 	viewInfo.subresourceRange.layerCount = 1;
 
 	VkImageView imageView;
-	if (vkCreateImageView(newLogicalDevice, &viewInfo, nullptr, &imageView) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to create texture image view");
-	}
+	VK_CHECK(vkCreateImageView(newLogicalDevice, &viewInfo, nullptr, &imageView));
 
 	image.view = imageView;
 
@@ -851,11 +848,7 @@ GLTFStaticModel::Image GLTFStaticModel::createTextureFromBuffer(void* buffer, Vk
 	setAllocInfo.pSetLayouts = &samplerSetLayout;
 
 	// Allocate descriptor sets
-	VkResult result = vkAllocateDescriptorSets(newLogicalDevice, &setAllocInfo, &descriptorSet);
-	if (result != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to allocate texture descriptor sets");
-	}
+	VK_CHECK(vkAllocateDescriptorSets(newLogicalDevice, &setAllocInfo, &descriptorSet));
 
 	// Texture image info
 	VkDescriptorImageInfo imageInfo = {};

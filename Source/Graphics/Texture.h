@@ -7,6 +7,8 @@
 #include <stdexcept>
 #include <vector>
 
+#include "../Graphics/Macros.h"
+
 class CubeMap
 {
 public:
@@ -78,10 +80,7 @@ static void createBuffer(VkPhysicalDevice physicalDevice, VkDevice device, VkDev
 	bufferInfo.usage = usage;
 	bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-	if (vkCreateBuffer(device, &bufferInfo, nullptr, &buffer) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to create vertex buffer");
-	}
+	VK_CHECK(vkCreateBuffer(device, &bufferInfo, nullptr, &buffer));
 
 	VkMemoryRequirements memRequirements;
 	vkGetBufferMemoryRequirements(device, buffer, &memRequirements);
@@ -91,10 +90,7 @@ static void createBuffer(VkPhysicalDevice physicalDevice, VkDevice device, VkDev
 	allocInfo.allocationSize = memRequirements.size;
 	allocInfo.memoryTypeIndex = findMemoryType(physicalDevice, memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 
-	if (vkAllocateMemory(device, &allocInfo, nullptr, &bufferMemory) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to allocate vertex buffer memory");
-	}
+	VK_CHECK(vkAllocateMemory(device, &allocInfo, nullptr, &bufferMemory));
 
 	vkBindBufferMemory(device, buffer, bufferMemory, 0);
 };
@@ -166,10 +162,7 @@ static void createImage(VkPhysicalDevice physicalDevice, VkDevice device, uint32
 	imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 	imageInfo.flags = 0;
 
-	if (vkCreateImage(device, &imageInfo, nullptr, &image) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to create image");
-	}
+	VK_CHECK(vkCreateImage(device, &imageInfo, nullptr, &image));
 
 	VkMemoryRequirements memRequirements;
 	vkGetImageMemoryRequirements(device, image, &memRequirements);
@@ -206,10 +199,7 @@ static VkImage createImage(VkPhysicalDevice physicalDevice, VkDevice device, uin
 	imageInfo.flags = 0;
 
 	VkImage image;
-	if (vkCreateImage(device, &imageInfo, nullptr, &image) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to create image");
-	}
+	VK_CHECK(vkCreateImage(device, &imageInfo, nullptr, &image));
 
 	VkMemoryRequirements memRequirements;
 	vkGetImageMemoryRequirements(device, image, &memRequirements);
@@ -219,10 +209,7 @@ static VkImage createImage(VkPhysicalDevice physicalDevice, VkDevice device, uin
 	allocInfo.allocationSize = memRequirements.size;
 	allocInfo.memoryTypeIndex = findMemoryType(physicalDevice, memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
-	if (vkAllocateMemory(device, &allocInfo, nullptr, &imageMemory) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to allocate image memory");
-	}
+	VK_CHECK(vkAllocateMemory(device, &allocInfo, nullptr, &imageMemory));
 
 	vkBindImageMemory(device, image, imageMemory, 0);
 
@@ -243,11 +230,7 @@ static VkImageView createImageView(VkDevice device, VkImage image, VkFormat form
 	viewInfo.subresourceRange.layerCount = 1;
 
 	VkImageView imageView;
-	if (vkCreateImageView(device, &viewInfo, nullptr, &imageView) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to create texture image view");
-	}
-
+	VK_CHECK(vkCreateImageView(device, &viewInfo, nullptr, &imageView));
 	return imageView;
 }
 
@@ -398,10 +381,7 @@ static ImageBuffer createTexture(VkPhysicalDevice newPhysicalDevice, VkDevice ne
 	samplerInfo.maxLod = 0.0f;
 
 	VkSampler imageSampler;
-	if (vkCreateSampler(newLogicalDevice, &samplerInfo, nullptr, &imageSampler) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to create texture sampler");
-	}
+	VK_CHECK(vkCreateSampler(newLogicalDevice, &samplerInfo, nullptr, &imageSampler));
 
 	VkImageViewCreateInfo viewInfo{};
 	viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
@@ -415,10 +395,7 @@ static ImageBuffer createTexture(VkPhysicalDevice newPhysicalDevice, VkDevice ne
 	viewInfo.subresourceRange.layerCount = 1;
 
 	VkImageView imageView;
-	if (vkCreateImageView(newLogicalDevice, &viewInfo, nullptr, &imageView) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to create texture image view");
-	}
+	VK_CHECK(vkCreateImageView(newLogicalDevice, &viewInfo, nullptr, &imageView));
 
 	VkDescriptorSet descriptorSet;
 

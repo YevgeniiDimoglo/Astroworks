@@ -1,5 +1,7 @@
 #include "Sprite.h"
 
+#include "../Graphics/Macros.h"
+
 Sprite::Sprite(std::string filePath)
 {
 	std::size_t found = filePath.find_last_of("/\\");
@@ -47,6 +49,8 @@ void Sprite::loadFile(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDev
 	// Load pixel data for image
 	std::string fileLoc = filePath;
 	stbi_uc* image = stbi_load(fileLoc.c_str(), &width, &height, &channels, STBI_rgb_alpha);
+
+	LOG("Loading sprite: " + filePath + "\n");
 
 	imageSize = width * height * 4;
 
@@ -232,10 +236,7 @@ Sprite::Image Sprite::createTextureFromBuffer(void* buffer, VkDeviceSize bufferS
 	samplerInfo.maxLod = 0.0f;
 
 	VkSampler imageSampler;
-	if (vkCreateSampler(newLogicalDevice, &samplerInfo, nullptr, &imageSampler) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to create texture sampler");
-	}
+	VK_CHECK(vkCreateSampler(newLogicalDevice, &samplerInfo, nullptr, &imageSampler));
 
 	image.sampler = imageSampler;
 
@@ -251,10 +252,7 @@ Sprite::Image Sprite::createTextureFromBuffer(void* buffer, VkDeviceSize bufferS
 	viewInfo.subresourceRange.layerCount = 1;
 
 	VkImageView imageView;
-	if (vkCreateImageView(newLogicalDevice, &viewInfo, nullptr, &imageView) != VK_SUCCESS)
-	{
-		throw std::runtime_error("Failed to create texture image view");
-	}
+	VK_CHECK(vkCreateImageView(newLogicalDevice, &viewInfo, nullptr, &imageView));
 
 	image.view = imageView;
 
