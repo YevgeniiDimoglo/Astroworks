@@ -11,7 +11,7 @@ layout(location = 6) in vec4 baseColor;
 layout(location = 7) in vec4 inFragPosLightSpace;
 
 layout(location = 8) in vec4 inCameraPos;
-layout(location = 9) in vec4 timerConstants;
+layout(location = 9) in mat4 projectionMatrix;
 
 layout(binding = 1) uniform sampler2D shadowMap;
 
@@ -119,11 +119,12 @@ void main() {
 
     vec3 color = (ambient + directionalDiffuse + specular ) * diffuseColor.rgb; 
 
-    float weight =
-    max(min(1.0, max(max(color.r, color.g), color.b) * diffuseColor.a), diffuseColor.a) *
-    clamp(0.03 / (1e-5 + pow(gl_FragCoord.z / 200, 4.0)), 1e-2, 3e3);
+    // weight function
+    float weight = clamp(pow(min(1.0, diffuseColor.a * 10.0) + 0.01, 3.0) * 1e8 * 
+                         pow(1.0 - gl_FragCoord.z * 0.9, 3.0), 1e-2, 3e3);
 
+    // store pixel color accumulation
     vec4 accum = vec4(color.rgb * diffuseColor.a, diffuseColor.a) * weight;
-
+    
     outColor = accum;
 }

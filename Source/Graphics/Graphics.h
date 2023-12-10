@@ -22,6 +22,8 @@ enum class Pipelines
 	OITColorReveal,
 	OITResult,
 	Offscreen,
+	Luminance,
+	Blur,
 
 	EnumCount
 };
@@ -109,9 +111,12 @@ private:
 	// -- Prepare Functions
 
 	void prepareOffscreen();
+	void prepareFinalTexture();
 	void prepareOITColorAccum();
 	void prepareOITColorReveal();
 	void prepareOITResult();
+	void prepareLuminance();
+	void prepareBlur();
 
 	// -- Cleanup Function
 
@@ -215,11 +220,17 @@ private:
 	VkDescriptorSetLayout OITDescriptorSetLayout;
 	VkDescriptorSet OITDescriptor;
 
-	Offscreen offscreen;
+	VkDescriptorPool postEffectPool;
+	VkDescriptorSetLayout postEffectSetLayout;
+
+	ImageBuffer dynamicTexture;
+	Offscreen FinalTexture;
+	Offscreen Luminance;
+	Offscreen Blur;
 	Offscreen OITColorAccum;
 	Offscreen OITColorReveal;
 	Offscreen OITResult;
-	ImageBuffer dynamicTexture;
+	Offscreen offscreen;
 
 	CubeMap skybox;
 

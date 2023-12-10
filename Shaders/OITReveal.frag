@@ -11,7 +11,7 @@ layout(location = 6) in vec4 baseColor;
 layout(location = 7) in vec4 inFragPosLightSpace;
 
 layout(location = 8) in vec4 inCameraPos;
-layout(location = 9) in vec4 timerConstants;
+layout(location = 9) in mat4 projectionMatrix;
 
 layout(binding = 1) uniform sampler2D shadowMap;
 
@@ -118,5 +118,5 @@ void main() {
 
     vec3 color = (ambient + directionalDiffuse + specular ) * diffuseColor.rgb;
 
-    outColor = vec4(color, diffuseColor.a);
+    outColor = vec4(diffuseColor.a, 0.f, 0.f, 0.f);
 }
