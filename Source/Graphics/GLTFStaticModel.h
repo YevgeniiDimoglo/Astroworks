@@ -146,6 +146,7 @@ public:
 		GLTFStaticModel::Image* occlussionTexture;
 		GLTFStaticModel::Image* emissiveTexture;
 		GLTFStaticModel::Image* ambientOcclusionTexture;
+		GLTFStaticModel::Image* additionalTexture;
 		std::string alphaMode = "OPAQUE";
 		float alphaCutoff = 1.0f;
 		float metallicFactor = 1.0f;
@@ -170,7 +171,8 @@ public:
 
 public:
 
-	std::vector<GLTFStaticModel::Image> getImages() const { return images; }
+	std::vector<GLTFStaticModel::Image> getImages() const { return this->images; }
+	std::vector<GLTFStaticModel::Material> getMaterials() const { return this->materials; }
 
 	void loadImages(tinygltf::Model& input);
 	GLTFStaticModel::Image loadImage(tinygltf::Image& gltfimage);

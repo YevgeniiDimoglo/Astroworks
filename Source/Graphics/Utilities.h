@@ -63,6 +63,21 @@ enum class ShaderType
 	EnumCount
 };
 
+enum class TextureType
+{
+	Albedo = 0,
+	Normal,
+	Metalness,
+	Roughness,
+	AmbientOcclussion,
+	Emissive,
+	GlobalTexture1,
+	NoiseTexture1,
+	EnumCount
+};
+
+extern std::vector<ImageBuffer>& getGlobalVector();
+
 struct PushConstants {
 	glm::mat4 model;
 	glm::vec4 baseColor;
@@ -123,13 +138,6 @@ static const std::vector<const char*> deviceExtensions = {
 		VK_KHR_CREATE_RENDERPASS_2_EXTENSION_NAME,
 		VK_KHR_DEPTH_STENCIL_RESOLVE_EXTENSION_NAME
 };
-
-extern ImageBuffer dummyBasicColor;
-extern ImageBuffer dummyBasicNormal;
-extern ImageBuffer dummyBasicMetalness;
-extern ImageBuffer dummyBasicRoughness;
-extern ImageBuffer dummyBasicAO;
-extern ImageBuffer dummyBasicEmissive;
 
 extern Camera* playerCamera;
 

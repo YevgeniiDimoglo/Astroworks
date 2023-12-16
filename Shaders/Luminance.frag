@@ -7,8 +7,8 @@ layout (location = 1) in vec4 timer;
 
 layout (location = 0) out vec4 outFragColor;
 
-const float threshold = 0.5f;
-const float intensity = 1.0f;
+const float threshold = 0.3f;
+const float intensity = 2.0f;
 
 void main() 
 {

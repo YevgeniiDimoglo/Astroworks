@@ -67,6 +67,10 @@ public:
 	void setUnPause(bool unpause) { isPaused = unpause; }
 	bool getIsPaused() const { return isPaused; }
 
+	static GLTFStaticModel::Image currentImage;
+
+public:
+
 	void input(GLFWwindow* window, Camera* camera);
 
 	void update();

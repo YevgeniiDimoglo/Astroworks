@@ -25,6 +25,10 @@
 %~dp0glslc.exe %~dp0OITColor.frag -o OITColorPS.spv
 %~dp0glslc.exe %~dp0OITReveal.frag -o OITRevealPS.spv
 %~dp0glslc.exe %~dp0OITResult.frag -o OITResult.spv
+%~dp0glslc.exe %~dp0DemoOIT.vert -o DemoOITVS.spv
+%~dp0glslc.exe %~dp0DemoOITColor.frag -o DemoOITColorPS.spv
+%~dp0glslc.exe %~dp0DemoOITReveal.frag -o DemoOITRevealPS.spv
+%~dp0glslc.exe %~dp0DemoOITResult.frag -o DemoOITResult.spv
 %~dp0glslc.exe %~dp0skybox.vert -o skyboxPS.spv
 %~dp0glslc.exe %~dp0skybox.frag -o skyboxVS.spv
 pause

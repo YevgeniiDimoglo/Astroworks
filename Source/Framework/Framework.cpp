@@ -18,7 +18,7 @@ Framework::Framework()
 {
 	thisApp = Graphics();
 
-	ResourceManager::Instance().loadFile("./Data/Level/Level.toml");
+	ResourceManager::Instance().loadFile("./Data/Level/Demo.toml");
 
 	ActorManager::Instance().deserializeActor();
 

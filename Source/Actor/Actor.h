@@ -17,6 +17,8 @@ public:
 
 	virtual void updateTransform();
 
+	virtual void updateMaterials(GLTFStaticModel::Image newTexture);
+
 	void setName(std::string name) { this->name = name; }
 	const std::string getName() const { return name; }
 

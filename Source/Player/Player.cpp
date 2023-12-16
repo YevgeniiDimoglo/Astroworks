@@ -6,6 +6,8 @@
 
 #include "../Actor/Building.h"
 
+GLTFStaticModel::Image Player::currentImage;
+
 std::string Player::getSelectedActor(GLFWwindow* window, Camera* camera)
 {
 	selectedActors.clear();
@@ -327,6 +329,11 @@ void Player::notify(std::string widgetName, int widgetAction)
 
 void Player::input(GLFWwindow* window, Camera* camera)
 {
+	if (Player::currentImage.width != 0)
+	{
+		currentImage = {};
+	}
+
 	calculateScreenToWorldCoords(window, camera);
 
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
@@ -406,6 +413,34 @@ void Player::input(GLFWwindow* window, Camera* camera)
 		ActorManager::Instance().remove(prebuildActor);
 		prebuildActor.reset();
 		buildingMode = false;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
+	{
+		currentImage = {
+		getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].image,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].imageLayout,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].deviceMemory,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].view,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].width, getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].height,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].descriptor,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].sampler,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].descriptorSet,
+		};
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
+	{
+		currentImage = {
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].image,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].imageLayout,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].deviceMemory,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].view,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].width, getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].height,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].descriptor,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].sampler,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].descriptorSet,
+		};
 	}
 
 	if (closeApp)

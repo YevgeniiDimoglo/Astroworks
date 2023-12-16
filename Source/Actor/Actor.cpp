@@ -44,6 +44,16 @@ void Actor::updateTransform()
 	model->setTimer(timer);
 }
 
+void Actor::updateMaterials(GLTFStaticModel::Image newTexture)
+{
+	std::vector<GLTFStaticModel::Material> materials = model->getMaterials();
+	for (auto it : materials)
+	{
+		it.additionalTexture = &newTexture;
+		model->updateDescriptors(it);
+	}
+}
+
 void Actor::loadModel(std::string filename)
 {
 	// TODO: merge loading model and loading file
@@ -229,6 +239,10 @@ void ActorManager::render(VkCommandBuffer commandBuffer, VkPipelineLayout pipeli
 			if (model != nullptr)
 			{
 				actor->updateTransform();
+				if (Player::currentImage.width != 0)
+				{
+					actor->updateMaterials(Player::currentImage);
+				}
 				if (special && (pipelineNumber == 8 || pipelineNumber == 9 || pipelineNumber == 10 || pipelineNumber == 4))
 				{
 					model->draw(commandBuffer, pipelineLayout, "BLEND");

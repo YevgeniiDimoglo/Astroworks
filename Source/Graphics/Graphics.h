@@ -24,6 +24,9 @@ enum class Pipelines
 	Offscreen,
 	Luminance,
 	Blur,
+	DemoOITColorAccum,
+	DemoOITColorReveal,
+	DemoOITResult,
 
 	EnumCount
 };
@@ -223,7 +226,6 @@ private:
 	VkDescriptorPool postEffectPool;
 	VkDescriptorSetLayout postEffectSetLayout;
 
-	ImageBuffer dynamicTexture;
 	Offscreen FinalTexture;
 	Offscreen Luminance;
 	Offscreen Blur;

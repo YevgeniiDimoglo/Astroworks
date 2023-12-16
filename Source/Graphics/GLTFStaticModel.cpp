@@ -3,6 +3,12 @@
 #include "../Camera/Camera.h"
 #include "../Graphics/Macros.h"
 
+std::vector<ImageBuffer>& getGlobalVector()
+{
+	static std::vector<ImageBuffer> dynamicTextures;
+	return dynamicTextures;
+}
+
 GLTFStaticModel::GLTFStaticModel(std::string filePath)
 {
 	std::size_t found = filePath.find_last_of("/\\");
@@ -316,7 +322,10 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	descriptorSetAllocInfo.descriptorPool = samplerDescriptorPool;
 	descriptorSetAllocInfo.pSetLayouts = &samplerSetLayout;
 	descriptorSetAllocInfo.descriptorSetCount = 1;
-	vkAllocateDescriptorSets(newLogicalDevice, &descriptorSetAllocInfo, &material.descriptorSet);
+	if (material.descriptorSet == nullptr)
+	{
+		vkAllocateDescriptorSets(newLogicalDevice, &descriptorSetAllocInfo, &material.descriptorSet);
+	}
 
 	GLTFStaticModel::Image* color = material.baseColorTexture;
 	GLTFStaticModel::Image* normal = material.normalTexture;
@@ -324,18 +333,19 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	GLTFStaticModel::Image* roughness = material.metallicRoughnessTexture;
 	GLTFStaticModel::Image* AO = material.ambientOcclusionTexture;
 	GLTFStaticModel::Image* emissive = material.emissiveTexture;
+	GLTFStaticModel::Image* additional = material.additionalTexture;
 
 	if (color == nullptr)
 	{
 		GLTFStaticModel::Image dummyColor = {
-		dummyBasicColor.image,
-			dummyBasicColor.imageLayout,
-			dummyBasicColor.deviceMemory,
-			dummyBasicColor.view,
-			dummyBasicColor.width, dummyBasicColor.height,
-			dummyBasicColor.descriptor,
-			dummyBasicColor.sampler,
-			dummyBasicColor.descriptorSet,
+		getGlobalVector()[static_cast<int>(TextureType::Albedo)].image,
+			getGlobalVector()[static_cast<int>(TextureType::Albedo)].imageLayout,
+			getGlobalVector()[static_cast<int>(TextureType::Albedo)].deviceMemory,
+			getGlobalVector()[static_cast<int>(TextureType::Albedo)].view,
+			getGlobalVector()[static_cast<int>(TextureType::Albedo)].width, getGlobalVector()[static_cast<int>(TextureType::Albedo)].height,
+			getGlobalVector()[static_cast<int>(TextureType::Albedo)].descriptor,
+			getGlobalVector()[static_cast<int>(TextureType::Albedo)].sampler,
+			getGlobalVector()[static_cast<int>(TextureType::Albedo)].descriptorSet,
 		};
 
 		color = &dummyColor;
@@ -344,14 +354,14 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	if (normal == nullptr)
 	{
 		GLTFStaticModel::Image dummyNormal = {
-		dummyBasicNormal.image,
-			dummyBasicNormal.imageLayout,
-			dummyBasicNormal.deviceMemory,
-			dummyBasicNormal.view,
-			dummyBasicNormal.width, dummyBasicColor.height,
-			dummyBasicNormal.descriptor,
-			dummyBasicNormal.sampler,
-			dummyBasicNormal.descriptorSet,
+		getGlobalVector()[static_cast<int>(TextureType::Normal)].image,
+			getGlobalVector()[static_cast<int>(TextureType::Normal)].imageLayout,
+			getGlobalVector()[static_cast<int>(TextureType::Normal)].deviceMemory,
+			getGlobalVector()[static_cast<int>(TextureType::Normal)].view,
+			getGlobalVector()[static_cast<int>(TextureType::Normal)].width, getGlobalVector()[static_cast<int>(TextureType::Normal)].height,
+			getGlobalVector()[static_cast<int>(TextureType::Normal)].descriptor,
+			getGlobalVector()[static_cast<int>(TextureType::Normal)].sampler,
+			getGlobalVector()[static_cast<int>(TextureType::Normal)].descriptorSet,
 		};
 
 		normal = &dummyNormal;
@@ -360,14 +370,14 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	if (metallic == nullptr)
 	{
 		GLTFStaticModel::Image dummyMetallic = {
-		dummyBasicMetalness.image,
-			dummyBasicMetalness.imageLayout,
-			dummyBasicMetalness.deviceMemory,
-			dummyBasicMetalness.view,
-			dummyBasicMetalness.width, dummyBasicColor.height,
-			dummyBasicMetalness.descriptor,
-			dummyBasicMetalness.sampler,
-			dummyBasicMetalness.descriptorSet,
+		getGlobalVector()[static_cast<int>(TextureType::Metalness)].image,
+			getGlobalVector()[static_cast<int>(TextureType::Metalness)].imageLayout,
+			getGlobalVector()[static_cast<int>(TextureType::Metalness)].deviceMemory,
+			getGlobalVector()[static_cast<int>(TextureType::Metalness)].view,
+			getGlobalVector()[static_cast<int>(TextureType::Metalness)].width, getGlobalVector()[static_cast<int>(TextureType::Metalness)].height,
+			getGlobalVector()[static_cast<int>(TextureType::Metalness)].descriptor,
+			getGlobalVector()[static_cast<int>(TextureType::Metalness)].sampler,
+			getGlobalVector()[static_cast<int>(TextureType::Metalness)].descriptorSet,
 		};
 
 		metallic = &dummyMetallic;
@@ -376,14 +386,14 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	if (roughness == nullptr)
 	{
 		GLTFStaticModel::Image dummyRoughness = {
-		dummyBasicRoughness.image,
-			dummyBasicRoughness.imageLayout,
-			dummyBasicRoughness.deviceMemory,
-			dummyBasicRoughness.view,
-			dummyBasicRoughness.width, dummyBasicColor.height,
-			dummyBasicRoughness.descriptor,
-			dummyBasicRoughness.sampler,
-			dummyBasicRoughness.descriptorSet,
+		getGlobalVector()[static_cast<int>(TextureType::Roughness)].image,
+			getGlobalVector()[static_cast<int>(TextureType::Roughness)].imageLayout,
+			getGlobalVector()[static_cast<int>(TextureType::Roughness)].deviceMemory,
+			getGlobalVector()[static_cast<int>(TextureType::Roughness)].view,
+			getGlobalVector()[static_cast<int>(TextureType::Roughness)].width, getGlobalVector()[static_cast<int>(TextureType::Roughness)].height,
+			getGlobalVector()[static_cast<int>(TextureType::Roughness)].descriptor,
+			getGlobalVector()[static_cast<int>(TextureType::Roughness)].sampler,
+			getGlobalVector()[static_cast<int>(TextureType::Roughness)].descriptorSet,
 		};
 
 		roughness = &dummyRoughness;
@@ -392,14 +402,14 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	if (AO == nullptr)
 	{
 		GLTFStaticModel::Image dummyAO = {
-		dummyBasicAO.image,
-			dummyBasicAO.imageLayout,
-			dummyBasicAO.deviceMemory,
-			dummyBasicAO.view,
-			dummyBasicAO.width, dummyBasicColor.height,
-			dummyBasicAO.descriptor,
-			dummyBasicAO.sampler,
-			dummyBasicAO.descriptorSet,
+		getGlobalVector()[static_cast<int>(TextureType::AmbientOcclussion)].image,
+			getGlobalVector()[static_cast<int>(TextureType::AmbientOcclussion)].imageLayout,
+			getGlobalVector()[static_cast<int>(TextureType::AmbientOcclussion)].deviceMemory,
+			getGlobalVector()[static_cast<int>(TextureType::AmbientOcclussion)].view,
+			getGlobalVector()[static_cast<int>(TextureType::AmbientOcclussion)].width, getGlobalVector()[static_cast<int>(TextureType::AmbientOcclussion)].height,
+			getGlobalVector()[static_cast<int>(TextureType::AmbientOcclussion)].descriptor,
+			getGlobalVector()[static_cast<int>(TextureType::AmbientOcclussion)].sampler,
+			getGlobalVector()[static_cast<int>(TextureType::AmbientOcclussion)].descriptorSet,
 		};
 
 		AO = &dummyAO;
@@ -408,17 +418,33 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	if (emissive == nullptr)
 	{
 		GLTFStaticModel::Image dummyEmissive = {
-		dummyBasicEmissive.image,
-			dummyBasicEmissive.imageLayout,
-			dummyBasicEmissive.deviceMemory,
-			dummyBasicEmissive.view,
-			dummyBasicEmissive.width, dummyBasicColor.height,
-			dummyBasicEmissive.descriptor,
-			dummyBasicEmissive.sampler,
-			dummyBasicEmissive.descriptorSet,
+		getGlobalVector()[static_cast<int>(TextureType::Emissive)].image,
+			getGlobalVector()[static_cast<int>(TextureType::Emissive)].imageLayout,
+			getGlobalVector()[static_cast<int>(TextureType::Emissive)].deviceMemory,
+			getGlobalVector()[static_cast<int>(TextureType::Emissive)].view,
+			getGlobalVector()[static_cast<int>(TextureType::Emissive)].width, getGlobalVector()[static_cast<int>(TextureType::Emissive)].height,
+			getGlobalVector()[static_cast<int>(TextureType::Emissive)].descriptor,
+			getGlobalVector()[static_cast<int>(TextureType::Emissive)].sampler,
+			getGlobalVector()[static_cast<int>(TextureType::Emissive)].descriptorSet,
 		};
 
 		emissive = &dummyEmissive;
+	}
+
+	if (additional == nullptr)
+	{
+		GLTFStaticModel::Image dummyAdditional = {
+		getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].image,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].imageLayout,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].deviceMemory,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].view,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].width, getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].height,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].descriptor,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].sampler,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].descriptorSet,
+		};
+
+		additional = &dummyAdditional;
 	}
 
 	VkDescriptorImageInfo colorInfo = color->descriptor;
@@ -427,6 +453,7 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	VkDescriptorImageInfo roughnesslInfo = roughness->descriptor;
 	VkDescriptorImageInfo AOInfo = AO->descriptor;
 	VkDescriptorImageInfo emissiveInfo = emissive->descriptor;
+	VkDescriptorImageInfo additionalInfo = additional->descriptor;
 
 	std::vector<VkDescriptorImageInfo> imageDescriptors = {
 		colorInfo,
@@ -435,9 +462,10 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 		metalliclInfo,
 		AOInfo,
 		emissiveInfo,
+		additionalInfo,
 	};
 
-	std::array<VkWriteDescriptorSet, 6> writeDescriptorSets{};
+	std::array<VkWriteDescriptorSet, 7> writeDescriptorSets{};
 	for (size_t i = 0; i < imageDescriptors.size(); i++) {
 		writeDescriptorSets[i].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 		writeDescriptorSets[i].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
@@ -484,6 +512,7 @@ void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout p
 				{
 					// Create dummy texture
 					GLTFStaticModel::Material& material = materials[primitive.materialIndex];
+					material.alphaMode = "BLEND";
 					if (material.alphaMode == pipelineName)
 					{
 						vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &material.descriptorSet, 0, nullptr);
