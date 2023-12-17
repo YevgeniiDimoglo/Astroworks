@@ -478,6 +478,10 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	vkUpdateDescriptorSets(newLogicalDevice, static_cast<uint32_t>(writeDescriptorSets.size()), writeDescriptorSets.data(), 0, NULL);
 }
 
+void GLTFStaticModel::updateValues(GLTFStaticModel::Material& material)
+{
+}
+
 void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, std::string pipelineName, GLTFStaticModel::Node* node)
 {
 	if (node->mesh.primitives.size() > 0)
@@ -502,9 +506,13 @@ void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout p
 			for (GLTFStaticModel::Primitive& primitive : node->mesh.primitives)
 			{
 				PushConstants pushConstants;
-				pushConstants.baseColor = materials[primitive.materialIndex].baseColorFactor * baseColor;
+				pushConstants.baseColor = materials[primitive.materialIndex].baseColorFactor * this->baseColor;
 				pushConstants.model = sceneValues * nodeMatrix;
 				pushConstants.timer = timer;
+				pushConstants.additionalValues.x = materials[primitive.materialIndex].UVShift.x;
+				pushConstants.additionalValues.y = materials[primitive.materialIndex].UVShift.y;
+				pushConstants.additionalValues.z = BloomValues.x;
+				pushConstants.additionalValues.w = BloomValues.y;
 
 				vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstants), &pushConstants);
 

@@ -6,7 +6,10 @@
 
 #include "../Actor/Building.h"
 
-GLTFStaticModel::Image Player::currentImage;
+GLTFStaticModel::Material Player::currentMaterial;
+GLTFStaticModel::Image Player::currentTexture;
+glm::vec2 BloomValues = { 0.5f, 2.0f };
+glm::vec4 Player::currentColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 std::string Player::getSelectedActor(GLFWwindow* window, Camera* camera)
 {
@@ -329,10 +332,12 @@ void Player::notify(std::string widgetName, int widgetAction)
 
 void Player::input(GLFWwindow* window, Camera* camera)
 {
-	if (Player::currentImage.width != 0)
+	if (Player::currentMaterial.index == -1)
 	{
-		currentImage = {};
+		currentMaterial.index = -1;
 	}
+
+	std::vector<std::shared_ptr<Actor>> actors = ActorManager::Instance().getUpdateActors();
 
 	calculateScreenToWorldCoords(window, camera);
 
@@ -417,7 +422,10 @@ void Player::input(GLFWwindow* window, Camera* camera)
 
 	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
 	{
-		currentImage = {
+		currentMaterial.index = 9999;
+		currentMaterial.baseColorFactor = currentColor;
+
+		currentTexture = {
 		getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].image,
 			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].imageLayout,
 			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].deviceMemory,
@@ -427,11 +435,16 @@ void Player::input(GLFWwindow* window, Camera* camera)
 			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].sampler,
 			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].descriptorSet,
 		};
+
+		currentMaterial.additionalTexture = &currentTexture;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
 	{
-		currentImage = {
+		currentMaterial.index = 9999;
+		currentMaterial.baseColorFactor = currentColor;
+
+		currentTexture = {
 		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].image,
 		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].imageLayout,
 		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].deviceMemory,
@@ -441,7 +454,123 @@ void Player::input(GLFWwindow* window, Camera* camera)
 		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].sampler,
 		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].descriptorSet,
 		};
+
+		currentMaterial.additionalTexture = &currentTexture;
 	}
+
+	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
+	{
+		currentMaterial.index = 9999;
+		currentMaterial.baseColorFactor = currentColor;
+
+		currentTexture = {
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].image,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].imageLayout,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].deviceMemory,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].view,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].width, getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].height,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].descriptor,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].sampler,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].descriptorSet,
+		};
+
+		currentMaterial.additionalTexture = &currentTexture;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
+	{
+		selectedActorName = actors[0]->getName();
+	}
+	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS)
+	{
+		selectedActorName = actors[1]->getName();
+	}
+	if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS)
+	{
+		selectedActorName = actors[2]->getName();
+	}
+	if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS)
+	{
+		selectedActorName = actors[3]->getName();
+	}
+
+	////
+
+	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
+	{
+		BloomValues.x -= 0.01f;
+		glm::clamp(BloomValues.x, 0.0f, 1.0f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
+	{
+		BloomValues.x += 0.01f;
+		glm::clamp(BloomValues.x, 0.0f, 1.0f);
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
+	{
+		BloomValues.y -= 0.01f;
+		glm::clamp(BloomValues.y, 0.0f, 10.0f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
+	{
+		BloomValues.y += 0.01f;
+		glm::clamp(BloomValues.y, 0.0f, 10.0f);
+	}
+
+	////
+
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+	{
+		currentColor.x -= 0.01f;
+		glm::clamp(currentColor.x, 0.0f, 1.0f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+	{
+		currentColor.x += 0.01f;
+		glm::clamp(currentColor.x, 0.0f, 1.0f);
+	}
+
+	//
+
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+	{
+		currentColor.y -= 0.01f;
+		glm::clamp(currentColor.y, 0.0f, 1.0f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS)
+	{
+		currentColor.y += 0.01f;
+		glm::clamp(currentColor.y, 0.0f, 1.0f);
+	}
+
+	//
+
+	if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)
+	{
+		currentColor.z -= 0.01f;
+		glm::clamp(currentColor.z, 0.0f, 1.0f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
+	{
+		currentColor.z += 0.01f;
+		glm::clamp(currentColor.z, 0.0f, 1.0f);
+	}
+
+	//
+
+	if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)
+	{
+		currentColor.w -= 0.01f;
+		glm::clamp(currentColor.w, 0.0f, 1.0f);
+	}
+	if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
+	{
+		currentColor.w += 0.01f;
+		glm::clamp(currentColor.w, 0.0f, 1.0f);
+	}
+
+	////
 
 	if (closeApp)
 	{

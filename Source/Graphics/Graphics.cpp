@@ -64,7 +64,8 @@ void Graphics::initTextures()
 
 	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/Fire_alpha.png"));
 
-	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, ".//Data/Textures/dissolve_animation.png"));
+	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, ".//Data/Textures/TextureNoise.png"));
+	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, ".//Data/Textures/TextureNoise2.png"));
 
 	skybox.createCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/kloppenheim_02_puresky_4k.hdr");
 }

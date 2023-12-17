@@ -59,6 +59,8 @@ void Framework::update(HighResolutionTimer timer, float elapsedTime)
 
 	ActorManager::Instance().update(elapsedTime);
 
+	ActorManager::Instance().updateMaterials(Player::Instance().getSeceltedActorByName());
+
 	UI::Instance().update(timer, elapsedTime, thisApp.getWindow());
 
 	if (!Player::Instance().getIsPaused())

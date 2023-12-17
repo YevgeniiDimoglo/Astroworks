@@ -40,17 +40,17 @@ void Actor::updateTransform()
 
 	glm::mat4x4 transform = translate * rotate * scale;
 	model->setSceneValues(transform);
-	model->setBaseColor(baseColor);
 	model->setTimer(timer);
 }
 
-void Actor::updateMaterials(GLTFStaticModel::Image newTexture)
+void Actor::updateMaterials(GLTFStaticModel::Material newMaterial)
 {
 	std::vector<GLTFStaticModel::Material> materials = model->getMaterials();
 	for (auto it : materials)
 	{
-		it.additionalTexture = &newTexture;
+		it.additionalTexture = newMaterial.additionalTexture;
 		model->updateDescriptors(it);
+		model->setBaseColor(newMaterial.baseColorFactor);
 	}
 }
 
@@ -222,6 +222,31 @@ void ActorManager::update(float elapsedTime)
 	removeActors.clear();
 }
 
+void ActorManager::updateMaterials()
+{
+	for (std::shared_ptr<Actor>& actor : updateActors)
+	{
+		if (Player::currentMaterial.index != -1)
+		{
+			actor->updateMaterials(Player::currentMaterial);
+		}
+	}
+}
+
+void ActorManager::updateMaterials(std::string actorName)
+{
+	for (std::shared_ptr<Actor>& actor : updateActors)
+	{
+		if (actor->getName() == actorName)
+		{
+			if (Player::currentMaterial.index != -1)
+			{
+				actor->updateMaterials(Player::currentMaterial);
+			}
+		}
+	}
+}
+
 void ActorManager::updateTransform()
 {
 }
@@ -239,10 +264,6 @@ void ActorManager::render(VkCommandBuffer commandBuffer, VkPipelineLayout pipeli
 			if (model != nullptr)
 			{
 				actor->updateTransform();
-				if (Player::currentImage.width != 0)
-				{
-					actor->updateMaterials(Player::currentImage);
-				}
 				if (special && (pipelineNumber == 8 || pipelineNumber == 9 || pipelineNumber == 10 || pipelineNumber == 4))
 				{
 					model->draw(commandBuffer, pipelineLayout, "BLEND");

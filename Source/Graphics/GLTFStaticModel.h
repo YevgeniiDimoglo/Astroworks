@@ -148,12 +148,13 @@ public:
 		GLTFStaticModel::Image* ambientOcclusionTexture;
 		GLTFStaticModel::Image* additionalTexture;
 		std::string alphaMode = "OPAQUE";
+		glm::vec2 UVShift = { 0.0f, 0.0f };
 		float alphaCutoff = 1.0f;
 		float metallicFactor = 1.0f;
 		float roughnessFactor = 1.0f;
 		glm::vec4 baseColorFactor = glm::vec4(1.0f);
 		glm::vec4 emissiveFactor = glm::vec4(0.0f);
-		int index = 0;
+		int index = -1;
 		bool		doubleSided = false;
 		VkDescriptorSet descriptorSet = VK_NULL_HANDLE;
 	};
@@ -181,6 +182,7 @@ public:
 	void loadNode(const tinygltf::Node& inputNode, const tinygltf::Model& input, GLTFStaticModel::Node* parent, std::vector<uint32_t>& indexBuffer, std::vector<GLTFStaticModel::Vertex>& vertexBuffer);
 
 	void updateDescriptors(GLTFStaticModel::Material& material);
+	void updateValues(GLTFStaticModel::Material& material);
 
 	void drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, std::string pipelineName, GLTFStaticModel::Node* node);
 	void draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, std::string pipelineName);

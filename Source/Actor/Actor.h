@@ -17,7 +17,7 @@ public:
 
 	virtual void updateTransform();
 
-	virtual void updateMaterials(GLTFStaticModel::Image newTexture);
+	virtual void updateMaterials(GLTFStaticModel::Material newMaterial);
 
 	void setName(std::string name) { this->name = name; }
 	const std::string getName() const { return name; }
@@ -166,6 +166,9 @@ public:
 	void update(float elapsedTime);
 
 	void updateTransform();
+
+	void updateMaterials();
+	void updateMaterials(std::string actorName);
 
 	void render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, int pipelineNumber, bool special = false);
 

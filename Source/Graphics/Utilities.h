@@ -73,15 +73,18 @@ enum class TextureType
 	Emissive,
 	GlobalTexture1,
 	NoiseTexture1,
+	NoiseTexture2,
 	EnumCount
 };
 
 extern std::vector<ImageBuffer>& getGlobalVector();
+extern glm::vec2 BloomValues;
 
 struct PushConstants {
 	glm::mat4 model;
 	glm::vec4 baseColor;
 	glm::vec4 timer;
+	glm::vec4 additionalValues;
 };
 
 struct UniformBufferObject {

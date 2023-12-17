@@ -42,6 +42,7 @@ public:
 
 	std::string getSelectedActor(GLFWwindow* window, Camera* camera);
 	std::string getTargetActor(GLFWwindow* window, Camera* camera);
+	std::string getSeceltedActorByName() { return selectedActorName; }
 
 	bool checkSupplyAvailability(int additionalValue);
 	bool checkResourceAvailability(int additionalValue);
@@ -67,7 +68,9 @@ public:
 	void setUnPause(bool unpause) { isPaused = unpause; }
 	bool getIsPaused() const { return isPaused; }
 
-	static GLTFStaticModel::Image currentImage;
+	static GLTFStaticModel::Material currentMaterial;
+	static GLTFStaticModel::Image currentTexture;
+	static glm::vec4 currentColor;
 
 public:
 
