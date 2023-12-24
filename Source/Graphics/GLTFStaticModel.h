@@ -122,6 +122,7 @@ public:
 
 	glm::mat4 sceneValues = glm::mat4(1.0f);
 	glm::vec4 baseColor = glm::vec4(1.0f);
+	std::string alphaMode = "OPAQUE";
 	glm::vec4 timer;
 
 	struct Image
@@ -146,13 +147,15 @@ public:
 		GLTFStaticModel::Image* occlussionTexture;
 		GLTFStaticModel::Image* emissiveTexture;
 		GLTFStaticModel::Image* ambientOcclusionTexture;
+		GLTFStaticModel::Image* additionalTexture;
 		std::string alphaMode = "OPAQUE";
+		glm::vec2 UVShift = { 0.0f, 0.0f };
 		float alphaCutoff = 1.0f;
 		float metallicFactor = 1.0f;
 		float roughnessFactor = 1.0f;
 		glm::vec4 baseColorFactor = glm::vec4(1.0f);
 		glm::vec4 emissiveFactor = glm::vec4(0.0f);
-		int index = 0;
+		int index = -1;
 		bool		doubleSided = false;
 		VkDescriptorSet descriptorSet = VK_NULL_HANDLE;
 	};
@@ -170,7 +173,8 @@ public:
 
 public:
 
-	std::vector<GLTFStaticModel::Image> getImages() const { return images; }
+	std::vector<GLTFStaticModel::Image> getImages() const { return this->images; }
+	std::vector<GLTFStaticModel::Material> getMaterials() const { return this->materials; }
 
 	void loadImages(tinygltf::Model& input);
 	GLTFStaticModel::Image loadImage(tinygltf::Image& gltfimage);
@@ -179,12 +183,19 @@ public:
 	void loadNode(const tinygltf::Node& inputNode, const tinygltf::Model& input, GLTFStaticModel::Node* parent, std::vector<uint32_t>& indexBuffer, std::vector<GLTFStaticModel::Vertex>& vertexBuffer);
 
 	void updateDescriptors(GLTFStaticModel::Material& material);
+	void updateValues(GLTFStaticModel::Material& material);
 
-	void drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, std::string pipelineName, GLTFStaticModel::Node* node);
-	void draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, std::string pipelineName);
+	void drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, GLTFStaticModel::Node* node);
+	void draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout);
 
 	void setSceneValues(glm::mat4x4 matrixTansform) { this->sceneValues = matrixTansform; }
 	void setBaseColor(glm::vec4 baseColor) { this->baseColor = baseColor; }
+	void setAlphaMode(std::string alphaMode) {
+		for (auto it : materials)
+		{
+			it.alphaMode = alphaMode;
+		}
+	}
 	void setTimer(glm::vec4 timer) { this->timer = timer; }
 
 	void loadglTFFile(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, VkDescriptorPool samplerDescriptorPool, VkDescriptorSetLayout samplerSetLayout);

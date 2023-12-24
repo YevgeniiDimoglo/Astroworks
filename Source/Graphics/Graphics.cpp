@@ -4,13 +4,6 @@
 #include "../Actor/Actor.h"
 #include "../Camera/Camera.h"
 
-ImageBuffer dummyBasicColor;
-ImageBuffer dummyBasicNormal;
-ImageBuffer dummyBasicMetalness;
-ImageBuffer dummyBasicRoughness;
-ImageBuffer dummyBasicAO;
-ImageBuffer dummyBasicEmissive;
-
 Camera* playerCamera;
 
 void Graphics::init()
@@ -62,13 +55,17 @@ void Graphics::initTextures()
 {
 	LOG("Initialization of Textures\n");
 
-	dynamicTexture = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, ".//Data/Textures/dissolve_animation.png");
-	dummyBasicColor = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/Dummy.png");
-	dummyBasicNormal = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyNormal.png");
-	dummyBasicMetalness = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyMetalness.png");
-	dummyBasicRoughness = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyRoughness.png");
-	dummyBasicAO = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyAO.png");
-	dummyBasicEmissive = createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyEmissive.png");
+	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/Dummy.png"));
+	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyNormal.png"));
+	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyMetalness.png"));
+	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyRoughness.png"));
+	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyAO.png"));
+	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyEmissive.png"));
+
+	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/Fire_alpha.png"));
+
+	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, ".//Data/Textures/TextureNoise.png"));
+	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, ".//Data/Textures/TextureNoise2.png"));
 
 	skybox.createCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/kloppenheim_02_puresky_4k.hdr");
 }
@@ -317,40 +314,13 @@ void Graphics::cleanup()
 		vkDestroyImage(device, offscreen.offscreenDepthAttachment.image, nullptr);
 		vkFreeMemory(device, offscreen.offscreenDepthAttachment.mem, nullptr);
 
-		vkDestroyImageView(device, dummyBasicEmissive.view, nullptr);
-		vkDestroyImage(device, dummyBasicEmissive.image, nullptr);
-		vkFreeMemory(device, dummyBasicEmissive.deviceMemory, nullptr);
-		vkDestroySampler(device, dummyBasicEmissive.sampler, nullptr);
-
-		vkDestroyImageView(device, dummyBasicAO.view, nullptr);
-		vkDestroyImage(device, dummyBasicAO.image, nullptr);
-		vkFreeMemory(device, dummyBasicAO.deviceMemory, nullptr);
-		vkDestroySampler(device, dummyBasicAO.sampler, nullptr);
-
-		vkDestroyImageView(device, dummyBasicRoughness.view, nullptr);
-		vkDestroyImage(device, dummyBasicRoughness.image, nullptr);
-		vkFreeMemory(device, dummyBasicRoughness.deviceMemory, nullptr);
-		vkDestroySampler(device, dummyBasicRoughness.sampler, nullptr);
-
-		vkDestroyImageView(device, dummyBasicMetalness.view, nullptr);
-		vkDestroyImage(device, dummyBasicMetalness.image, nullptr);
-		vkFreeMemory(device, dummyBasicMetalness.deviceMemory, nullptr);
-		vkDestroySampler(device, dummyBasicMetalness.sampler, nullptr);
-
-		vkDestroyImageView(device, dummyBasicNormal.view, nullptr);
-		vkDestroyImage(device, dummyBasicNormal.image, nullptr);
-		vkFreeMemory(device, dummyBasicNormal.deviceMemory, nullptr);
-		vkDestroySampler(device, dummyBasicNormal.sampler, nullptr);
-
-		vkDestroyImageView(device, dummyBasicColor.view, nullptr);
-		vkDestroyImage(device, dummyBasicColor.image, nullptr);
-		vkFreeMemory(device, dummyBasicColor.deviceMemory, nullptr);
-		vkDestroySampler(device, dummyBasicColor.sampler, nullptr);
-
-		vkDestroyImageView(device, dynamicTexture.view, nullptr);
-		vkDestroyImage(device, dynamicTexture.image, nullptr);
-		vkFreeMemory(device, dynamicTexture.deviceMemory, nullptr);
-		vkDestroySampler(device, dynamicTexture.sampler, nullptr);
+		for (auto it : getGlobalVector())
+		{
+			vkDestroyImageView(device, it.view, nullptr);
+			vkDestroyImage(device, it.image, nullptr);
+			vkFreeMemory(device, it.deviceMemory, nullptr);
+			vkDestroySampler(device, it.sampler, nullptr);
+		}
 
 		vkDestroySampler(device, offscreen.sampler, nullptr);
 		vkDestroySampler(device, Luminance.sampler, nullptr);
@@ -636,6 +606,7 @@ void Graphics::createDescriptorSetLayout()
 				{ 3, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
 				{ 4, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
 				{ 5, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
+				{ 6, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
 	};
 
 	VkDescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo{};
@@ -705,87 +676,183 @@ void Graphics::createGraphicsPipelines()
 		pipelineName != Pipelines::EnumCount;
 		pipelineName = static_cast<Pipelines>(static_cast<int>(pipelineName) + 1))
 	{
-		// Read in SPIR-V code of shaders
+		// -- Pipeline constants
 
+		// - Shaders
 		std::vector<char> vertShaderCode;
 		std::vector<char> fragShaderCode;
 
-		if (pipelineName == Pipelines::ModelPipeline || pipelineName == Pipelines::DebugDrawingPipeline)
+		// - Rasetrizer
+		VkCullModeFlagBits cullingFlag = VK_CULL_MODE_BACK_BIT;
+		VkPolygonMode polygonMode = VK_POLYGON_MODE_FILL;
+
+		// - DepthStencil
+		auto depthWrite = VK_TRUE;
+		auto depthTest = VK_TRUE;
+
+		// - ColorAttachment
+		VkFormat pipelineColorAttachmentFormat = swapChainImageFormat;
+
+		// - Blend Mode
+		VkPipelineColorBlendAttachmentState colorBlendAttachment{};
+		colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
+			VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+		colorBlendAttachment.blendEnable = VK_TRUE;
+		colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+		colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+		colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+		colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+		colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+		colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+
+		switch (pipelineName)
 		{
+		case Pipelines::ModelPipeline:
 			vertShaderCode = readFile("./Shaders/phongVS.spv");
 			fragShaderCode = readFile("./Shaders/phongPS.spv");
-		}
-
-		if (pipelineName == Pipelines::UnlitPipeline)
-		{
-			vertShaderCode = readFile("./Shaders/flatVS.spv");
-			fragShaderCode = readFile("./Shaders/flatPS.spv");
-		}
-
-		if (pipelineName == Pipelines::UIPipeline)
-		{
-			vertShaderCode = readFile("./Shaders/spriteVS.spv");
-			fragShaderCode = readFile("./Shaders/spritePS.spv");
-		}
-
-		if (pipelineName == Pipelines::Offscreen)
-		{
-			vertShaderCode = readFile("./Shaders/postEffectVS.spv");
-			fragShaderCode = readFile("./Shaders/postEffectPS.spv");
-		}
-
-		if (pipelineName == Pipelines::PBRModelPipeline)
-		{
+			break;
+		case Pipelines::PBRModelPipeline:
 			vertShaderCode = readFile("./Shaders/pbrtextureVS.spv");
 			fragShaderCode = readFile("./Shaders/pbrtexturePS.spv");
-		}
-
-		if (pipelineName == Pipelines::ShadowMapPipeline)
-		{
+			break;
+		case Pipelines::UnlitPipeline:
+			vertShaderCode = readFile("./Shaders/flatVS.spv");
+			fragShaderCode = readFile("./Shaders/flatPS.spv");
+			break;
+		case Pipelines::ShadowMapPipeline:
 			vertShaderCode = readFile("./Shaders/shadowMapCasterVS.spv");
 			fragShaderCode = readFile("./Shaders/shadowMapCasterPS.spv");
-		}
+			break;
+		case Pipelines::DebugDrawingPipeline:
+			vertShaderCode = readFile("./Shaders/phongVS.spv");
+			fragShaderCode = readFile("./Shaders/phongPS.spv");
 
-		if (pipelineName == Pipelines::WaterPipeline)
-		{
+			polygonMode = VK_POLYGON_MODE_LINE;
+			break;
+		case Pipelines::UIPipeline:
+			vertShaderCode = readFile("./Shaders/spriteVS.spv");
+			fragShaderCode = readFile("./Shaders/spritePS.spv");
+
+			cullingFlag = VK_CULL_MODE_NONE;
+
+			depthTest = VK_FALSE;
+			break;
+		case Pipelines::WaterPipeline:
 			vertShaderCode = readFile("./Shaders/waterVS.spv");
 			fragShaderCode = readFile("./Shaders/waterPS.spv");
-		}
-
-		if (pipelineName == Pipelines::FirePipeline)
-		{
+			break;
+		case Pipelines::FirePipeline:
 			vertShaderCode = readFile("./Shaders/waterVS.spv");
 			fragShaderCode = readFile("./Shaders/fireballPS.spv");
-		}
-
-		if (pipelineName == Pipelines::OITColorAccum)
-		{
+			break;
+		case Pipelines::OITColorAccum:
 			vertShaderCode = readFile("./Shaders/OITVS.spv");
 			fragShaderCode = readFile("./Shaders/OITColorPS.spv");
-		}
 
-		if (pipelineName == Pipelines::OITColorReveal)
-		{
+			depthWrite = VK_FALSE;
+
+			pipelineColorAttachmentFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
+
+			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
+				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+			colorBlendAttachment.blendEnable = VK_TRUE;
+			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+			break;
+		case Pipelines::OITColorReveal:
 			vertShaderCode = readFile("./Shaders/OITVS.spv");
 			fragShaderCode = readFile("./Shaders/OITRevealPS.spv");
-		}
 
-		if (pipelineName == Pipelines::OITResult)
-		{
+			depthWrite = VK_FALSE;
+
+			pipelineColorAttachmentFormat = VK_FORMAT_R16_SFLOAT;
+
+			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
+				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+			colorBlendAttachment.blendEnable = VK_TRUE;
+			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR;
+			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+			break;
+		case Pipelines::OITResult:
 			vertShaderCode = readFile("./Shaders/quadVS.spv");
 			fragShaderCode = readFile("./Shaders/OITResult.spv");
-		}
 
-		if (pipelineName == Pipelines::Luminance)
-		{
+			cullingFlag = VK_CULL_MODE_NONE;
+			break;
+		case Pipelines::Offscreen:
+			vertShaderCode = readFile("./Shaders/postEffectVS.spv");
+			fragShaderCode = readFile("./Shaders/postEffectPS.spv");
+
+			cullingFlag = VK_CULL_MODE_NONE;
+
+			colorBlendAttachment.blendEnable = VK_FALSE;
+			break;
+		case Pipelines::Luminance:
 			vertShaderCode = readFile("./Shaders/LuminanceVS.spv");
 			fragShaderCode = readFile("./Shaders/LuminancePS.spv");
-		}
 
-		if (pipelineName == Pipelines::Blur)
-		{
+			cullingFlag = VK_CULL_MODE_NONE;
+			break;
+		case Pipelines::Blur:
 			vertShaderCode = readFile("./Shaders/BlurVS.spv");
 			fragShaderCode = readFile("./Shaders/BlurPS.spv");
+
+			cullingFlag = VK_CULL_MODE_NONE;
+			break;
+		case Pipelines::DemoOITColorAccum:
+			vertShaderCode = readFile("./Shaders/DemoOITVS.spv");
+			fragShaderCode = readFile("./Shaders/DemoOITColorPS.spv");
+
+			depthWrite = VK_FALSE;
+
+			pipelineColorAttachmentFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
+
+			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
+				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+			colorBlendAttachment.blendEnable = VK_TRUE;
+			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+			break;
+		case Pipelines::DemoOITColorReveal:
+			vertShaderCode = readFile("./Shaders/DemoOITVS.spv");
+			fragShaderCode = readFile("./Shaders/DemoOITRevealPS.spv");
+
+			depthWrite = VK_FALSE;
+
+			pipelineColorAttachmentFormat = VK_FORMAT_R16_SFLOAT;
+
+			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
+				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+			colorBlendAttachment.blendEnable = VK_TRUE;
+			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR;
+			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+			break;
+		case Pipelines::DemoOITResult:
+			vertShaderCode = readFile("./Shaders/quadVS.spv");
+			fragShaderCode = readFile("./Shaders/DemoOITResult.spv");
+
+			cullingFlag = VK_CULL_MODE_NONE;
+			break;
+		case Pipelines::EnumCount:
+			break;
+		default:
+			break;
 		}
 
 		// Build shader modules to link to Graphics Pipeline
@@ -844,27 +911,15 @@ void Graphics::createGraphicsPipelines()
 		rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
 		rasterizer.depthClampEnable = VK_FALSE;
 		rasterizer.rasterizerDiscardEnable = VK_FALSE;
-		rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
+		rasterizer.polygonMode = polygonMode;
 		rasterizer.lineWidth = 1.0f;
-		rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;
-
-		if (pipelineName == Pipelines::Offscreen || pipelineName == Pipelines::UIPipeline || pipelineName == Pipelines::OITResult ||
-			pipelineName == Pipelines::Luminance || pipelineName == Pipelines::Blur)
-		{
-			rasterizer.cullMode = VK_CULL_MODE_NONE;
-		}
+		rasterizer.cullMode = cullingFlag;
 
 		rasterizer.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
 		rasterizer.depthBiasEnable = VK_FALSE;
 		rasterizer.depthBiasConstantFactor = 0.0f;
 		rasterizer.depthBiasClamp = 0.0f;
 		rasterizer.depthBiasSlopeFactor = 0.0f;
-
-		if (pipelineName == Pipelines::DebugDrawingPipeline)
-		{
-			rasterizer.polygonMode = VK_POLYGON_MODE_LINE;
-			rasterizer.lineWidth = 1.0f;
-		}
 
 		// Create a multisampling
 		VkPipelineMultisampleStateCreateInfo multisampling{};
@@ -880,8 +935,8 @@ void Graphics::createGraphicsPipelines()
 		// Create a depth and stencil
 		VkPipelineDepthStencilStateCreateInfo depthStencil{};
 		depthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
-		depthStencil.depthTestEnable = VK_TRUE;
-		depthStencil.depthWriteEnable = VK_TRUE;
+		depthStencil.depthTestEnable = depthTest;
+		depthStencil.depthWriteEnable = depthWrite;
 		depthStencil.depthCompareOp = VK_COMPARE_OP_LESS;
 		depthStencil.depthBoundsTestEnable = VK_FALSE;
 		depthStencil.minDepthBounds = 0.0f;
@@ -890,61 +945,7 @@ void Graphics::createGraphicsPipelines()
 		depthStencil.front = {};
 		depthStencil.back = {};
 
-		if (pipelineName == Pipelines::UIPipeline)
-		{
-			depthStencil.depthTestEnable = VK_FALSE;
-		}
-
-		if (pipelineName == Pipelines::OITColorAccum || pipelineName == Pipelines::OITColorReveal)
-		{
-			depthStencil.depthWriteEnable = VK_FALSE;
-		}
-
 		// Blend attachment state (how blending is handle)
-		VkPipelineColorBlendAttachmentState colorBlendAttachment{};
-
-		if (pipelineName == Pipelines::Offscreen)
-		{
-			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
-				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-			colorBlendAttachment.blendEnable = VK_FALSE;
-		}
-		else if (pipelineName == Pipelines::OITColorAccum)
-		{
-			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
-				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-			colorBlendAttachment.blendEnable = VK_TRUE;
-			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE;
-			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE;
-			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
-		}
-		else if (pipelineName == Pipelines::OITColorReveal)
-		{
-			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
-				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-			colorBlendAttachment.blendEnable = VK_TRUE;
-			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR;
-			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
-			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
-		}
-		else
-		{
-			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
-				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-			colorBlendAttachment.blendEnable = VK_TRUE;
-			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
-			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
-			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
-		}
 
 		VkPipelineColorBlendStateCreateInfo colorBlending{};
 		colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
@@ -1002,7 +1003,8 @@ void Graphics::createGraphicsPipelines()
 
 			VK_CHECK(vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayouts[static_cast<int>(pipelineName)]));
 		}
-		else if (pipelineName == Pipelines::OITResult)
+		else if (pipelineName == Pipelines::OITResult ||
+			pipelineName == Pipelines::DemoOITResult)
 		{
 			// Pipeline layout
 			std::array<VkDescriptorSetLayout, 3> descriptorSetLayouts = { descriptorSetLayout, samplerSetLayout, OITDescriptorSetLayout };
@@ -1056,15 +1058,7 @@ void Graphics::createGraphicsPipelines()
 		VkPipelineRenderingCreateInfoKHR pipelineRenderingCreateInfo{};
 		pipelineRenderingCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO_KHR;
 		pipelineRenderingCreateInfo.colorAttachmentCount = 1;
-		VkFormat pipelineColorAttachmentFormat = swapChainImageFormat;
-		if (pipelineName == Pipelines::OITColorAccum)
-		{
-			pipelineColorAttachmentFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
-		}
-		if (pipelineName == Pipelines::OITColorReveal)
-		{
-			pipelineColorAttachmentFormat = VK_FORMAT_R16_SFLOAT;
-		}
+
 		pipelineRenderingCreateInfo.pColorAttachmentFormats = &pipelineColorAttachmentFormat;
 		depthFormat = findDepthFormat();
 		pipelineRenderingCreateInfo.depthAttachmentFormat = depthFormat;
@@ -1190,11 +1184,11 @@ void Graphics::createDescriptorPool()
 	// Texture sampler pool
 	VkDescriptorPoolSize samplerPoolSize = {};
 	samplerPoolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-	samplerPoolSize.descriptorCount = MAX_OBJECTS * 6;
+	samplerPoolSize.descriptorCount = MAX_OBJECTS * 7;
 
 	VkDescriptorPoolCreateInfo samplerPoolCreateInfo = {};
 	samplerPoolCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-	samplerPoolCreateInfo.maxSets = MAX_OBJECTS * 6;
+	samplerPoolCreateInfo.maxSets = MAX_OBJECTS * 7;
 	samplerPoolCreateInfo.poolSizeCount = 1;
 	samplerPoolCreateInfo.pPoolSizes = &samplerPoolSize;
 
@@ -1540,15 +1534,25 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
 	{
+		//// -- Model Pipeline: Phong Shader
+		//vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITColorAccum)]);
+
+		//// Bind camera descriptor
+		//vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::OITColorAccum)],
+		//	0, 1, &descriptorSets[currentFrame], 0, nullptr);
+
+		//// -- Model Pipeline: Shadow Shader
+		//ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::OITColorAccum)], 8, true);
+
 		// -- Model Pipeline: Phong Shader
-		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITColorAccum)]);
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::DemoOITColorAccum)]);
 
 		// Bind camera descriptor
-		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::OITColorAccum)],
+		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::DemoOITColorAccum)],
 			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
 		// -- Model Pipeline: Shadow Shader
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::OITColorAccum)], 8, true);
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DemoOITColorAccum)], 8, true);
 	}
 
 	// - End of rendering
@@ -1613,15 +1617,25 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
 	{
+		//// -- Model Pipeline: Phong Shader
+		//vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITColorReveal)]);
+
+		//// Bind camera descriptor
+		//vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::OITColorReveal)],
+		//	0, 1, &descriptorSets[currentFrame], 0, nullptr);
+
+		//// -- Model Pipeline: Shadow Shader
+		//ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::OITColorReveal)], 8, true);
+
 		// -- Model Pipeline: Phong Shader
-		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITColorReveal)]);
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::DemoOITColorReveal)]);
 
 		// Bind camera descriptor
-		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::OITColorReveal)],
+		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::DemoOITColorReveal)],
 			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
 		// -- Model Pipeline: Shadow Shader
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::OITColorReveal)], 8, true);
+		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DemoOITColorReveal)], 8, true);
 	}
 
 	// - End of rendering
@@ -1744,7 +1758,6 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::PBRModelPipeline)]);
 
 		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::PBRModelPipeline)], static_cast<int>(ShaderType::PBR));
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::PBRModelPipeline)], 8);
 
 		//--------------------------
 
@@ -1780,10 +1793,19 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], 4);
 	}
 
-	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITResult)]);
+	//vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITResult)]);
+
+	//// Bind camera descriptor
+	//vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::OITResult)],
+	//	2, 1, &OITResult.descriptorSet, 0, nullptr);
+
+	//// -- Model Pipeline: OIT
+	//vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+
+	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::DemoOITResult)]);
 
 	// Bind camera descriptor
-	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::OITResult)],
+	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::DemoOITResult)],
 		2, 1, &OITResult.descriptorSet, 0, nullptr);
 
 	// -- Model Pipeline: OIT

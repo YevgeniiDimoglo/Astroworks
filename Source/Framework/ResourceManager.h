@@ -24,16 +24,19 @@ public:
 		return newFilePathes;
 	}
 
-	std::vector<ActorOnScreen> getActorsOnScreen() const { return actorsOnScreen; }
+	std::map<std::string, std::vector<ActorOnScreen>> getActorsOnLevel() const { return actorsOnLevel; }
+	std::vector<ActorOnScreen> getActorsOnScreen(std::string LevelName) { return actorsOnLevel[LevelName]; }
 
 	std::shared_ptr<GLTFStaticModel> LoadModel(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, VkDescriptorPool samplerDescriptorPool, VkDescriptorSetLayout samplerSetLayout, std::shared_ptr<GLTFStaticModel> model);
 
 	void loadFile(std::string filepath);
+	void loadFiles(std::string filepath);
 	void saveFile(std::string filepath);
 
 private:
 
 	std::vector<std::string> filePathes;
+	std::map<std::string, std::vector<ActorOnScreen>> actorsOnLevel;
 	std::vector<ActorOnScreen> actorsOnScreen;
 
 	using ModelMap = std::map<std::string, std::weak_ptr<GLTFStaticModel>>;

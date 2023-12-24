@@ -17,6 +17,8 @@ public:
 
 	virtual void updateTransform();
 
+	virtual void updateMaterials(GLTFStaticModel::Material newMaterial);
+
 	void setName(std::string name) { this->name = name; }
 	const std::string getName() const { return name; }
 
@@ -153,6 +155,9 @@ public:
 
 	std::vector<std::shared_ptr<Actor>> getUpdateActors() const { return updateActors; }
 
+	std::string getCurrentLevelName() const { return currentLevelName; }
+	void setCurrentLevelName(std::string newCurrentLevelName) { this->currentLevelName = newCurrentLevelName; }
+
 	std::shared_ptr<Actor> create();
 
 	void deserializeActor();
@@ -163,7 +168,12 @@ public:
 
 	void update(float elapsedTime);
 
+	void switchLevel(std::string newLevelName);
+
 	void updateTransform();
+
+	void updateMaterials();
+	void updateMaterials(std::string actorName);
 
 	void render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, int pipelineNumber, bool special = false);
 
@@ -171,10 +181,13 @@ public:
 
 private:
 
+	std::string currentLevelName = "TEMP";
+
 	std::vector<std::shared_ptr<Actor>> startActors;
 	std::vector<std::shared_ptr<Actor>> updateActors;
 	std::set<std::shared_ptr<Actor>>	selectionActors;
 	std::set<std::shared_ptr<Actor>>	removeActors;
+	std::set<std::shared_ptr<Actor>>	deletedActors;
 
 	bool hiddenLister = false;
 	bool hiddenDetail = false;

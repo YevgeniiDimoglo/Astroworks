@@ -4,6 +4,7 @@ layout(push_constant) uniform PushModel{
       mat4 model;
       vec4 baseColor;
       vec4 timer;
+	  vec4 additionalValues;
 } pushModel;
 
 layout(location = 0) in vec2 inPosition;
@@ -18,10 +19,12 @@ out gl_PerVertex
 
 layout (location = 0) out vec2 outUV;
 layout (location = 1) out vec4 time;
+layout (location = 2) out vec4 additionalValues;
 
 void main() 
 {
 	outUV = vec2((gl_VertexIndex << 1) & 2, gl_VertexIndex & 2);
 	time = pushModel.timer;
+	additionalValues = pushModel.additionalValues;
 	gl_Position = vec4(outUV * 2.0f - 1.0f, 0.0f, 1.0f);
 }

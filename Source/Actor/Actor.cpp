@@ -40,8 +40,18 @@ void Actor::updateTransform()
 
 	glm::mat4x4 transform = translate * rotate * scale;
 	model->setSceneValues(transform);
-	model->setBaseColor(baseColor);
 	model->setTimer(timer);
+}
+
+void Actor::updateMaterials(GLTFStaticModel::Material newMaterial)
+{
+	std::vector<GLTFStaticModel::Material> materials = model->getMaterials();
+	for (auto it : materials)
+	{
+		it.additionalTexture = newMaterial.additionalTexture;
+		model->updateDescriptors(it);
+		model->setBaseColor(newMaterial.baseColorFactor);
+	}
 }
 
 void Actor::loadModel(std::string filename)
@@ -83,7 +93,7 @@ std::shared_ptr<Actor> ActorManager::create()
 
 void ActorManager::deserializeActor()
 {
-	for (auto it : ResourceManager::Instance().getActorsOnScreen())
+	for (auto it : ResourceManager::Instance().getActorsOnScreen(currentLevelName))
 	{
 		std::shared_ptr<Actor> actor = ActorManager::Instance().create();
 		actor->loadModel(it.filePath);
@@ -212,6 +222,45 @@ void ActorManager::update(float elapsedTime)
 	removeActors.clear();
 }
 
+void ActorManager::switchLevel(std::string newLevelName)
+{
+	currentLevelName = newLevelName;
+
+	for (std::shared_ptr<Actor>& actor : updateActors)
+	{
+		deletedActors.insert(actor);
+	}
+
+	updateActors.clear();
+
+	deserializeActor();
+}
+
+void ActorManager::updateMaterials()
+{
+	for (std::shared_ptr<Actor>& actor : updateActors)
+	{
+		if (Player::currentMaterial.index != -1)
+		{
+			actor->updateMaterials(Player::currentMaterial);
+		}
+	}
+}
+
+void ActorManager::updateMaterials(std::string actorName)
+{
+	for (std::shared_ptr<Actor>& actor : updateActors)
+	{
+		if (actor->getName() == actorName)
+		{
+			if (Player::currentMaterial.index != -1)
+			{
+				actor->updateMaterials(Player::currentMaterial);
+			}
+		}
+	}
+}
+
 void ActorManager::updateTransform()
 {
 }
@@ -229,14 +278,8 @@ void ActorManager::render(VkCommandBuffer commandBuffer, VkPipelineLayout pipeli
 			if (model != nullptr)
 			{
 				actor->updateTransform();
-				if (special && (pipelineNumber == 8 || pipelineNumber == 9 || pipelineNumber == 10 || pipelineNumber == 4))
-				{
-					model->draw(commandBuffer, pipelineLayout, "BLEND");
-				}
-				else
-				{
-					model->draw(commandBuffer, pipelineLayout, "OPAQUE");
-				}
+
+				model->draw(commandBuffer, pipelineLayout);
 			}
 		}
 	}
@@ -249,6 +292,12 @@ void ActorManager::cleanup(VkDevice newLogicalDevice)
 	{
 		actor->destroy(newLogicalDevice);
 		actor.reset();
+	}
+
+	for (auto it : deletedActors)
+	{
+		it->destroy(newLogicalDevice);
+		it.reset();
 	}
 
 	removeActors.clear();

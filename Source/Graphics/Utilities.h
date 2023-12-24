@@ -33,14 +33,16 @@
 #include <unordered_map>
 
 #include "../Misc/HighResolutionTimer.h"
+#include "../Misc/Math.h";
+
 #include "../Graphics/Texture.h"
+
 #include "../Camera/Camera.h"
 
 #define DISCRETE
 
 static const int MAX_FRAMES_IN_FLIGHT = 2;
 static const int MAX_OBJECTS = 2048;
-static const int DUMMIES = 2;
 
 static const uint32_t WIDTH = 1920;
 static const uint32_t HEIGHT = 1080;
@@ -63,10 +65,30 @@ enum class ShaderType
 	EnumCount
 };
 
+enum class TextureType
+{
+	Albedo = 0,
+	Normal,
+	Metalness,
+	Roughness,
+	AmbientOcclussion,
+	Emissive,
+	GlobalTexture1,
+	NoiseTexture1,
+	NoiseTexture2,
+	EnumCount
+};
+
+extern Camera* playerCamera;
+
+extern std::vector<ImageBuffer>& getGlobalVector();
+extern glm::vec2 BloomValues;
+
 struct PushConstants {
 	glm::mat4 model;
 	glm::vec4 baseColor;
 	glm::vec4 timer;
+	glm::vec4 additionalValues;
 };
 
 struct UniformBufferObject {
@@ -124,15 +146,6 @@ static const std::vector<const char*> deviceExtensions = {
 		VK_KHR_DEPTH_STENCIL_RESOLVE_EXTENSION_NAME
 };
 
-extern ImageBuffer dummyBasicColor;
-extern ImageBuffer dummyBasicNormal;
-extern ImageBuffer dummyBasicMetalness;
-extern ImageBuffer dummyBasicRoughness;
-extern ImageBuffer dummyBasicAO;
-extern ImageBuffer dummyBasicEmissive;
-
-extern Camera* playerCamera;
-
 static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 	VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 	VkDebugUtilsMessageTypeFlagsEXT messageType,
@@ -143,13 +156,3 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 
 	return VK_FALSE;
 };
-
-static float Lerp(float a, float b, float t)
-{
-	return a * (1.0f - t) + (b * t);
-}
-
-static float RandomRange(float min, float max)
-{
-	return min + (max - min) * (rand() / static_cast<float>(RAND_MAX));
-}
