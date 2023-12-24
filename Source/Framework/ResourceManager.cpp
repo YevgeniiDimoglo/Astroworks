@@ -64,6 +64,62 @@ void ResourceManager::loadFile(std::string filepath)
 
 		actorsOnScreen.push_back(tempActor);
 	}
+
+	actorsOnLevel["TEMP"] = actorsOnScreen;
+}
+
+void ResourceManager::loadFiles(std::string filepath)
+{
+	std::vector<std::string> newFilePathes = loadFilePathes(filepath);
+
+	for (auto it : newFilePathes)
+	{
+		actorsOnScreen.clear();
+
+		std::filesystem::path filePath(it);
+		std::string fileName = filePath.stem().string();
+
+		// Parsing actor values
+		toml::table tbl;
+		try
+		{
+			tbl = toml::parse_file(it);
+		}
+		catch (const toml::parse_error& err)
+		{
+			std::cout
+				<< "Error parsing file '" << *err.source().path
+				<< "':\n" << err.description()
+				<< "\n  (" << err.source().begin << ")\n";
+		}
+
+		auto actors = tbl["ActorsOnScreen"];
+
+		for (size_t i = 0; i < actors.as_array()->size(); i++)
+		{
+			auto position = actors[i]["position"];
+			auto rotation = actors[i]["rotation"];
+			auto euler = actors[i]["euler"];
+			auto scale = actors[i]["scale"];
+
+			ActorOnScreen tempActor =
+			{
+				actors[i]["name"].value<std::string>().value(),
+				{position[0].value<float>().value(), position[1].value<float>().value(), position[2].value<float>().value()},
+				{rotation[0].value<float>().value(), rotation[1].value<float>().value(), rotation[2].value<float>().value(), rotation[3].value<float>().value()},
+				{glm::radians(euler[0].value<float>().value()), glm::radians(euler[1].value<float>().value()), glm::radians(euler[2].value<float>().value())},
+				{scale[0].value<float>().value(), scale[1].value<float>().value(), scale[2].value<float>().value()},
+				actors[i]["path"].value<std::string>().value(),
+				actors[i]["type"].value<std::string>().value(),
+				actors[i]["typeName"].value<std::string>().value(),
+				actors[i]["controller"].value<std::string>().value()
+			};
+
+			actorsOnScreen.push_back(tempActor);
+		}
+
+		actorsOnLevel[fileName] = actorsOnScreen;
+	}
 }
 
 void ResourceManager::saveFile(std::string filepath)

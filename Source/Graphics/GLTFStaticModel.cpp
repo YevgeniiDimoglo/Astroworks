@@ -482,7 +482,7 @@ void GLTFStaticModel::updateValues(GLTFStaticModel::Material& material)
 {
 }
 
-void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, std::string pipelineName, GLTFStaticModel::Node* node)
+void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, GLTFStaticModel::Node* node)
 {
 	if (node->mesh.primitives.size() > 0)
 	{
@@ -518,14 +518,9 @@ void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout p
 
 				if (primitive.indexCount > 0)
 				{
-					// Create dummy texture
 					GLTFStaticModel::Material& material = materials[primitive.materialIndex];
-					material.alphaMode = "BLEND";
-					if (material.alphaMode == pipelineName)
-					{
-						vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &material.descriptorSet, 0, nullptr);
-						vkCmdDrawIndexed(commandBuffer, primitive.indexCount, 1, primitive.firstIndex, 0, 0);
-					}
+					vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &material.descriptorSet, 0, nullptr);
+					vkCmdDrawIndexed(commandBuffer, primitive.indexCount, 1, primitive.firstIndex, 0, 0);
 				}
 			}
 		}
@@ -533,11 +528,11 @@ void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout p
 
 	for (auto& child : node->children)
 	{
-		drawNode(commandBuffer, pipelineLayout, pipelineName, child);
+		drawNode(commandBuffer, pipelineLayout, child);
 	}
 }
 
-void GLTFStaticModel::draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, std::string pipelineName)
+void GLTFStaticModel::draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout)
 {
 	VkDeviceSize offsets[1] = { 0 };
 	vkCmdBindVertexBuffers(commandBuffer, 0, 1, &vertices.buffer, offsets);
@@ -545,7 +540,7 @@ void GLTFStaticModel::draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipel
 
 	for (auto& node : nodes)
 	{
-		drawNode(commandBuffer, pipelineLayout, pipelineName, node);
+		drawNode(commandBuffer, pipelineLayout, node);
 	}
 }
 
@@ -563,8 +558,6 @@ void GLTFStaticModel::loadglTFFile(VkPhysicalDevice newPhysicalDevice, VkDevice 
 	std::string error, warning;
 
 	bool fileLoaded = false;
-
-	LOG("Start loading model \n");
 
 	if (fileType == "glb")
 	{

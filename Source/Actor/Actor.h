@@ -155,6 +155,9 @@ public:
 
 	std::vector<std::shared_ptr<Actor>> getUpdateActors() const { return updateActors; }
 
+	std::string getCurrentLevelName() const { return currentLevelName; }
+	void setCurrentLevelName(std::string newCurrentLevelName) { this->currentLevelName = newCurrentLevelName; }
+
 	std::shared_ptr<Actor> create();
 
 	void deserializeActor();
@@ -164,6 +167,8 @@ public:
 	void remove(std::shared_ptr<Actor> actor);
 
 	void update(float elapsedTime);
+
+	void switchLevel(std::string newLevelName);
 
 	void updateTransform();
 
@@ -176,10 +181,13 @@ public:
 
 private:
 
+	std::string currentLevelName = "TEMP";
+
 	std::vector<std::shared_ptr<Actor>> startActors;
 	std::vector<std::shared_ptr<Actor>> updateActors;
 	std::set<std::shared_ptr<Actor>>	selectionActors;
 	std::set<std::shared_ptr<Actor>>	removeActors;
+	std::set<std::shared_ptr<Actor>>	deletedActors;
 
 	bool hiddenLister = false;
 	bool hiddenDetail = false;

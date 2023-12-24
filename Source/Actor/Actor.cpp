@@ -93,7 +93,7 @@ std::shared_ptr<Actor> ActorManager::create()
 
 void ActorManager::deserializeActor()
 {
-	for (auto it : ResourceManager::Instance().getActorsOnScreen())
+	for (auto it : ResourceManager::Instance().getActorsOnScreen(currentLevelName))
 	{
 		std::shared_ptr<Actor> actor = ActorManager::Instance().create();
 		actor->loadModel(it.filePath);
@@ -222,6 +222,20 @@ void ActorManager::update(float elapsedTime)
 	removeActors.clear();
 }
 
+void ActorManager::switchLevel(std::string newLevelName)
+{
+	currentLevelName = newLevelName;
+
+	for (std::shared_ptr<Actor>& actor : updateActors)
+	{
+		deletedActors.insert(actor);
+	}
+
+	updateActors.clear();
+
+	deserializeActor();
+}
+
 void ActorManager::updateMaterials()
 {
 	for (std::shared_ptr<Actor>& actor : updateActors)
@@ -264,14 +278,8 @@ void ActorManager::render(VkCommandBuffer commandBuffer, VkPipelineLayout pipeli
 			if (model != nullptr)
 			{
 				actor->updateTransform();
-				if (special && (pipelineNumber == 8 || pipelineNumber == 9 || pipelineNumber == 10 || pipelineNumber == 4))
-				{
-					model->draw(commandBuffer, pipelineLayout, "BLEND");
-				}
-				else
-				{
-					model->draw(commandBuffer, pipelineLayout, "OPAQUE");
-				}
+
+				model->draw(commandBuffer, pipelineLayout);
 			}
 		}
 	}
@@ -284,6 +292,12 @@ void ActorManager::cleanup(VkDevice newLogicalDevice)
 	{
 		actor->destroy(newLogicalDevice);
 		actor.reset();
+	}
+
+	for (auto it : deletedActors)
+	{
+		it->destroy(newLogicalDevice);
+		it.reset();
 	}
 
 	removeActors.clear();

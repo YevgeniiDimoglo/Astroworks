@@ -122,6 +122,7 @@ public:
 
 	glm::mat4 sceneValues = glm::mat4(1.0f);
 	glm::vec4 baseColor = glm::vec4(1.0f);
+	std::string alphaMode = "OPAQUE";
 	glm::vec4 timer;
 
 	struct Image
@@ -184,11 +185,17 @@ public:
 	void updateDescriptors(GLTFStaticModel::Material& material);
 	void updateValues(GLTFStaticModel::Material& material);
 
-	void drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, std::string pipelineName, GLTFStaticModel::Node* node);
-	void draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, std::string pipelineName);
+	void drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, GLTFStaticModel::Node* node);
+	void draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout);
 
 	void setSceneValues(glm::mat4x4 matrixTansform) { this->sceneValues = matrixTansform; }
 	void setBaseColor(glm::vec4 baseColor) { this->baseColor = baseColor; }
+	void setAlphaMode(std::string alphaMode) {
+		for (auto it : materials)
+		{
+			it.alphaMode = alphaMode;
+		}
+	}
 	void setTimer(glm::vec4 timer) { this->timer = timer; }
 
 	void loadglTFFile(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, VkDescriptorPool samplerDescriptorPool, VkDescriptorSetLayout samplerSetLayout);

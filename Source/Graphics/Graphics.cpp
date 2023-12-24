@@ -676,105 +676,183 @@ void Graphics::createGraphicsPipelines()
 		pipelineName != Pipelines::EnumCount;
 		pipelineName = static_cast<Pipelines>(static_cast<int>(pipelineName) + 1))
 	{
-		// Read in SPIR-V code of shaders
+		// -- Pipeline constants
 
+		// - Shaders
 		std::vector<char> vertShaderCode;
 		std::vector<char> fragShaderCode;
 
-		if (pipelineName == Pipelines::ModelPipeline || pipelineName == Pipelines::DebugDrawingPipeline)
+		// - Rasetrizer
+		VkCullModeFlagBits cullingFlag = VK_CULL_MODE_BACK_BIT;
+		VkPolygonMode polygonMode = VK_POLYGON_MODE_FILL;
+
+		// - DepthStencil
+		auto depthWrite = VK_TRUE;
+		auto depthTest = VK_TRUE;
+
+		// - ColorAttachment
+		VkFormat pipelineColorAttachmentFormat = swapChainImageFormat;
+
+		// - Blend Mode
+		VkPipelineColorBlendAttachmentState colorBlendAttachment{};
+		colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
+			VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+		colorBlendAttachment.blendEnable = VK_TRUE;
+		colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+		colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+		colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+		colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+		colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+		colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+
+		switch (pipelineName)
 		{
+		case Pipelines::ModelPipeline:
 			vertShaderCode = readFile("./Shaders/phongVS.spv");
 			fragShaderCode = readFile("./Shaders/phongPS.spv");
-		}
-
-		if (pipelineName == Pipelines::UnlitPipeline)
-		{
-			vertShaderCode = readFile("./Shaders/flatVS.spv");
-			fragShaderCode = readFile("./Shaders/flatPS.spv");
-		}
-
-		if (pipelineName == Pipelines::UIPipeline)
-		{
-			vertShaderCode = readFile("./Shaders/spriteVS.spv");
-			fragShaderCode = readFile("./Shaders/spritePS.spv");
-		}
-
-		if (pipelineName == Pipelines::Offscreen)
-		{
-			vertShaderCode = readFile("./Shaders/postEffectVS.spv");
-			fragShaderCode = readFile("./Shaders/postEffectPS.spv");
-		}
-
-		if (pipelineName == Pipelines::PBRModelPipeline)
-		{
+			break;
+		case Pipelines::PBRModelPipeline:
 			vertShaderCode = readFile("./Shaders/pbrtextureVS.spv");
 			fragShaderCode = readFile("./Shaders/pbrtexturePS.spv");
-		}
-
-		if (pipelineName == Pipelines::ShadowMapPipeline)
-		{
+			break;
+		case Pipelines::UnlitPipeline:
+			vertShaderCode = readFile("./Shaders/flatVS.spv");
+			fragShaderCode = readFile("./Shaders/flatPS.spv");
+			break;
+		case Pipelines::ShadowMapPipeline:
 			vertShaderCode = readFile("./Shaders/shadowMapCasterVS.spv");
 			fragShaderCode = readFile("./Shaders/shadowMapCasterPS.spv");
-		}
+			break;
+		case Pipelines::DebugDrawingPipeline:
+			vertShaderCode = readFile("./Shaders/phongVS.spv");
+			fragShaderCode = readFile("./Shaders/phongPS.spv");
 
-		if (pipelineName == Pipelines::WaterPipeline)
-		{
+			polygonMode = VK_POLYGON_MODE_LINE;
+			break;
+		case Pipelines::UIPipeline:
+			vertShaderCode = readFile("./Shaders/spriteVS.spv");
+			fragShaderCode = readFile("./Shaders/spritePS.spv");
+
+			cullingFlag = VK_CULL_MODE_NONE;
+
+			depthTest = VK_FALSE;
+			break;
+		case Pipelines::WaterPipeline:
 			vertShaderCode = readFile("./Shaders/waterVS.spv");
 			fragShaderCode = readFile("./Shaders/waterPS.spv");
-		}
-
-		if (pipelineName == Pipelines::FirePipeline)
-		{
+			break;
+		case Pipelines::FirePipeline:
 			vertShaderCode = readFile("./Shaders/waterVS.spv");
 			fragShaderCode = readFile("./Shaders/fireballPS.spv");
-		}
-
-		if (pipelineName == Pipelines::OITColorAccum)
-		{
+			break;
+		case Pipelines::OITColorAccum:
 			vertShaderCode = readFile("./Shaders/OITVS.spv");
 			fragShaderCode = readFile("./Shaders/OITColorPS.spv");
-		}
 
-		if (pipelineName == Pipelines::OITColorReveal)
-		{
+			depthWrite = VK_FALSE;
+
+			pipelineColorAttachmentFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
+
+			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
+				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+			colorBlendAttachment.blendEnable = VK_TRUE;
+			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+			break;
+		case Pipelines::OITColorReveal:
 			vertShaderCode = readFile("./Shaders/OITVS.spv");
 			fragShaderCode = readFile("./Shaders/OITRevealPS.spv");
-		}
 
-		if (pipelineName == Pipelines::OITResult)
-		{
+			depthWrite = VK_FALSE;
+
+			pipelineColorAttachmentFormat = VK_FORMAT_R16_SFLOAT;
+
+			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
+				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+			colorBlendAttachment.blendEnable = VK_TRUE;
+			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR;
+			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+			break;
+		case Pipelines::OITResult:
 			vertShaderCode = readFile("./Shaders/quadVS.spv");
 			fragShaderCode = readFile("./Shaders/OITResult.spv");
-		}
 
-		if (pipelineName == Pipelines::DemoOITColorAccum)
-		{
-			vertShaderCode = readFile("./Shaders/DemoOITVS.spv");
-			fragShaderCode = readFile("./Shaders/DemoOITColorPS.spv");
-		}
+			cullingFlag = VK_CULL_MODE_NONE;
+			break;
+		case Pipelines::Offscreen:
+			vertShaderCode = readFile("./Shaders/postEffectVS.spv");
+			fragShaderCode = readFile("./Shaders/postEffectPS.spv");
 
-		if (pipelineName == Pipelines::DemoOITColorReveal)
-		{
-			vertShaderCode = readFile("./Shaders/DemoOITVS.spv");
-			fragShaderCode = readFile("./Shaders/DemoOITRevealPS.spv");
-		}
+			cullingFlag = VK_CULL_MODE_NONE;
 
-		if (pipelineName == Pipelines::DemoOITResult)
-		{
-			vertShaderCode = readFile("./Shaders/quadVS.spv");
-			fragShaderCode = readFile("./Shaders/DemoOITResult.spv");
-		}
-
-		if (pipelineName == Pipelines::Luminance)
-		{
+			colorBlendAttachment.blendEnable = VK_FALSE;
+			break;
+		case Pipelines::Luminance:
 			vertShaderCode = readFile("./Shaders/LuminanceVS.spv");
 			fragShaderCode = readFile("./Shaders/LuminancePS.spv");
-		}
 
-		if (pipelineName == Pipelines::Blur)
-		{
+			cullingFlag = VK_CULL_MODE_NONE;
+			break;
+		case Pipelines::Blur:
 			vertShaderCode = readFile("./Shaders/BlurVS.spv");
 			fragShaderCode = readFile("./Shaders/BlurPS.spv");
+
+			cullingFlag = VK_CULL_MODE_NONE;
+			break;
+		case Pipelines::DemoOITColorAccum:
+			vertShaderCode = readFile("./Shaders/DemoOITVS.spv");
+			fragShaderCode = readFile("./Shaders/DemoOITColorPS.spv");
+
+			depthWrite = VK_FALSE;
+
+			pipelineColorAttachmentFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
+
+			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
+				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+			colorBlendAttachment.blendEnable = VK_TRUE;
+			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+			break;
+		case Pipelines::DemoOITColorReveal:
+			vertShaderCode = readFile("./Shaders/DemoOITVS.spv");
+			fragShaderCode = readFile("./Shaders/DemoOITRevealPS.spv");
+
+			depthWrite = VK_FALSE;
+
+			pipelineColorAttachmentFormat = VK_FORMAT_R16_SFLOAT;
+
+			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
+				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+			colorBlendAttachment.blendEnable = VK_TRUE;
+			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR;
+			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+			break;
+		case Pipelines::DemoOITResult:
+			vertShaderCode = readFile("./Shaders/quadVS.spv");
+			fragShaderCode = readFile("./Shaders/DemoOITResult.spv");
+
+			cullingFlag = VK_CULL_MODE_NONE;
+			break;
+		case Pipelines::EnumCount:
+			break;
+		default:
+			break;
 		}
 
 		// Build shader modules to link to Graphics Pipeline
@@ -833,29 +911,15 @@ void Graphics::createGraphicsPipelines()
 		rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
 		rasterizer.depthClampEnable = VK_FALSE;
 		rasterizer.rasterizerDiscardEnable = VK_FALSE;
-		rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
+		rasterizer.polygonMode = polygonMode;
 		rasterizer.lineWidth = 1.0f;
-		rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;
-
-		if (pipelineName == Pipelines::Offscreen ||
-			pipelineName == Pipelines::UIPipeline ||
-			pipelineName == Pipelines::OITResult || pipelineName == Pipelines::DemoOITResult ||
-			pipelineName == Pipelines::Luminance || pipelineName == Pipelines::Blur)
-		{
-			rasterizer.cullMode = VK_CULL_MODE_NONE;
-		}
+		rasterizer.cullMode = cullingFlag;
 
 		rasterizer.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
 		rasterizer.depthBiasEnable = VK_FALSE;
 		rasterizer.depthBiasConstantFactor = 0.0f;
 		rasterizer.depthBiasClamp = 0.0f;
 		rasterizer.depthBiasSlopeFactor = 0.0f;
-
-		if (pipelineName == Pipelines::DebugDrawingPipeline)
-		{
-			rasterizer.polygonMode = VK_POLYGON_MODE_LINE;
-			rasterizer.lineWidth = 1.0f;
-		}
 
 		// Create a multisampling
 		VkPipelineMultisampleStateCreateInfo multisampling{};
@@ -871,8 +935,8 @@ void Graphics::createGraphicsPipelines()
 		// Create a depth and stencil
 		VkPipelineDepthStencilStateCreateInfo depthStencil{};
 		depthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
-		depthStencil.depthTestEnable = VK_TRUE;
-		depthStencil.depthWriteEnable = VK_TRUE;
+		depthStencil.depthTestEnable = depthTest;
+		depthStencil.depthWriteEnable = depthWrite;
 		depthStencil.depthCompareOp = VK_COMPARE_OP_LESS;
 		depthStencil.depthBoundsTestEnable = VK_FALSE;
 		depthStencil.minDepthBounds = 0.0f;
@@ -881,64 +945,7 @@ void Graphics::createGraphicsPipelines()
 		depthStencil.front = {};
 		depthStencil.back = {};
 
-		if (pipelineName == Pipelines::UIPipeline)
-		{
-			depthStencil.depthTestEnable = VK_FALSE;
-		}
-
-		if (pipelineName == Pipelines::OITColorAccum || pipelineName == Pipelines::OITColorReveal ||
-			pipelineName == Pipelines::DemoOITColorAccum || pipelineName == Pipelines::DemoOITColorReveal)
-		{
-			depthStencil.depthWriteEnable = VK_FALSE;
-		}
-
 		// Blend attachment state (how blending is handle)
-		VkPipelineColorBlendAttachmentState colorBlendAttachment{};
-
-		if (pipelineName == Pipelines::Offscreen)
-		{
-			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
-				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-			colorBlendAttachment.blendEnable = VK_FALSE;
-		}
-		else if (pipelineName == Pipelines::OITColorAccum ||
-			pipelineName == Pipelines::DemoOITColorAccum)
-		{
-			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
-				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-			colorBlendAttachment.blendEnable = VK_TRUE;
-			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE;
-			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE;
-			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
-		}
-		else if (pipelineName == Pipelines::OITColorReveal ||
-			pipelineName == Pipelines::DemoOITColorReveal)
-		{
-			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
-				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-			colorBlendAttachment.blendEnable = VK_TRUE;
-			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR;
-			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
-			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
-		}
-		else
-		{
-			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
-				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-			colorBlendAttachment.blendEnable = VK_TRUE;
-			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
-			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
-			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
-		}
 
 		VkPipelineColorBlendStateCreateInfo colorBlending{};
 		colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
@@ -1051,17 +1058,7 @@ void Graphics::createGraphicsPipelines()
 		VkPipelineRenderingCreateInfoKHR pipelineRenderingCreateInfo{};
 		pipelineRenderingCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO_KHR;
 		pipelineRenderingCreateInfo.colorAttachmentCount = 1;
-		VkFormat pipelineColorAttachmentFormat = swapChainImageFormat;
-		if (pipelineName == Pipelines::OITColorAccum ||
-			pipelineName == Pipelines::DemoOITColorAccum)
-		{
-			pipelineColorAttachmentFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
-		}
-		if (pipelineName == Pipelines::OITColorReveal ||
-			pipelineName == Pipelines::DemoOITColorReveal)
-		{
-			pipelineColorAttachmentFormat = VK_FORMAT_R16_SFLOAT;
-		}
+
 		pipelineRenderingCreateInfo.pColorAttachmentFormats = &pipelineColorAttachmentFormat;
 		depthFormat = findDepthFormat();
 		pipelineRenderingCreateInfo.depthAttachmentFormat = depthFormat;
@@ -1761,7 +1758,6 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::PBRModelPipeline)]);
 
 		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::PBRModelPipeline)], static_cast<int>(ShaderType::PBR));
-		//ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::PBRModelPipeline)], 8);
 
 		//--------------------------
 

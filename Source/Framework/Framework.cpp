@@ -18,7 +18,9 @@ Framework::Framework()
 {
 	thisApp = Graphics();
 
-	ResourceManager::Instance().loadFile("./Data/Level/Demo.toml");
+	ActorManager::Instance().setCurrentLevelName("Level");
+
+	ResourceManager::Instance().loadFiles("./Data/Level/");
 
 	ActorManager::Instance().deserializeActor();
 
@@ -78,6 +80,16 @@ void Framework::update(HighResolutionTimer timer, float elapsedTime)
 	}
 
 	thisApp.update(timer, elapsedTime, camera);
+
+	if (glfwGetKey(thisApp.getWindow(), GLFW_KEY_F1) == GLFW_PRESS)
+	{
+		ActorManager::Instance().switchLevel("Level");
+	}
+
+	if (glfwGetKey(thisApp.getWindow(), GLFW_KEY_F2) == GLFW_PRESS)
+	{
+		ActorManager::Instance().switchLevel("Demo");
+	}
 
 	if (glfwGetKey(thisApp.getWindow(), GLFW_KEY_F11) == GLFW_PRESS)
 	{
