@@ -6,6 +6,7 @@
 
 #include "../UI/UI.h"
 #include "../UI/OverlayTitle.h"
+#include "../UI/OverlayEffectDemo.h"
 
 #include "../Player/Player.h"
 #include "../Player/Enemy.h"
@@ -84,6 +85,7 @@ void Framework::update(HighResolutionTimer timer, float elapsedTime)
 	if (glfwGetKey(thisApp.getWindow(), GLFW_KEY_F1) == GLFW_PRESS)
 	{
 		ActorManager::Instance().switchLevel("Level");
+		UI::Instance().changeOverlay(std::make_unique<OverlayEffectDemo>());
 	}
 
 	if (glfwGetKey(thisApp.getWindow(), GLFW_KEY_F2) == GLFW_PRESS)
