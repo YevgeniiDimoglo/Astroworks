@@ -88,13 +88,14 @@ void Button::update(float elapsedTime, GLFWwindow* window)
 			if (!inputLock)
 			{
 				notifyObservers(buttonNormal->fileName, 0);
+				state = Button::State::Clicked;
 				inputLock = true;
 			}
 		}
 	}
 	else
 	{
-		state = Button::State::Normal;
+		state = previousState;
 	}
 
 	switch (state)

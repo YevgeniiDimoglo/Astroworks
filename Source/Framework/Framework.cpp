@@ -85,12 +85,12 @@ void Framework::update(HighResolutionTimer timer, float elapsedTime)
 	if (glfwGetKey(thisApp.getWindow(), GLFW_KEY_F1) == GLFW_PRESS)
 	{
 		ActorManager::Instance().switchLevel("Level");
-		UI::Instance().changeOverlay(std::make_unique<OverlayEffectDemo>());
 	}
 
 	if (glfwGetKey(thisApp.getWindow(), GLFW_KEY_F2) == GLFW_PRESS)
 	{
 		ActorManager::Instance().switchLevel("Demo");
+		UI::Instance().changeOverlay(std::make_unique<OverlayEffectDemo>());
 	}
 
 	if (glfwGetKey(thisApp.getWindow(), GLFW_KEY_F11) == GLFW_PRESS)
