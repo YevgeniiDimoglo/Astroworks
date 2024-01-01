@@ -16,13 +16,17 @@ public:
 		switch (newState)
 		{
 		case 0:
-			state = State::Normal;
+			previousState = State::Normal;
+			break;
 		case 1:
-			state = State::Hovered;
+			previousState = State::Hovered;
+			break;
 		case 2:
-			state = State::Clicked;
+			previousState = State::Clicked;
+			break;
 		case 3:
-			state = State::Disabled;
+			previousState = State::Disabled;
+			break;
 		default:
 			break;
 		}

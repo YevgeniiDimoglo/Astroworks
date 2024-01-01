@@ -11,6 +11,10 @@ void OverlayEffectDemo::initialize(GLFWwindow* window)
 	minimapArea->setImageValues(-0.55f, 0.8f, 0.f, 0.45f, 0.1f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	backendWidgets["minimapArea"] = minimapArea;
 
+	std::shared_ptr<Widget> background = std::make_shared<Image>("window_transparent");
+	background->setImageValues(-0.7f, -0.2f, 0.f, 0.25f, 0.9f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	backendWidgets["background"] = background;
+
 	std::vector<std::string> torusButtonNames = {
 	"Torus",
 	"TorusPressed",
@@ -19,7 +23,7 @@ void OverlayEffectDemo::initialize(GLFWwindow* window)
 	};
 
 	std::shared_ptr<Widget> buttonTorus = std::make_shared<Button>(torusButtonNames);
-	buttonTorus->setImageValues(-0.9f, -0.9f, 0.f, 0.05f, 0.085f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	buttonTorus->setImageValues(-0.9f, -0.85f, 0.f, 0.05f, 0.085f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 
 	std::vector<std::string> cicleInButtonNames = {
 	"CircleIn",
@@ -29,7 +33,7 @@ void OverlayEffectDemo::initialize(GLFWwindow* window)
 	};
 
 	std::shared_ptr<Widget> buttonCircleIn = std::make_shared<Button>(cicleInButtonNames);
-	buttonCircleIn->setImageValues(-0.8f, -0.9f, 0.f, 0.05f, 0.085f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	buttonCircleIn->setImageValues(-0.8f, -0.85f, 0.f, 0.05f, 0.085f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 
 	std::vector<std::string> circleButtonNames = {
 	"Circle",
@@ -39,7 +43,7 @@ void OverlayEffectDemo::initialize(GLFWwindow* window)
 	};
 
 	std::shared_ptr<Widget> buttonCircle = std::make_shared<Button>(circleButtonNames);
-	buttonCircle->setImageValues(-0.7f, -0.9f, 0.f, 0.05f, 0.085f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	buttonCircle->setImageValues(-0.7f, -0.85f, 0.f, 0.05f, 0.085f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 
 	std::vector<std::string> hyperButtonNames = {
 	"Hyper",
@@ -49,7 +53,7 @@ void OverlayEffectDemo::initialize(GLFWwindow* window)
 	};
 
 	std::shared_ptr<Widget> buttonHyper = std::make_shared<Button>(hyperButtonNames);
-	buttonHyper->setImageValues(-0.6f, -0.9f, 0.f, 0.05f, 0.085f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	buttonHyper->setImageValues(-0.6f, -0.85f, 0.f, 0.05f, 0.085f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 
 	std::vector<std::shared_ptr<Widget>> shapeButtons = { buttonTorus, buttonCircleIn, buttonCircle, buttonHyper };
 

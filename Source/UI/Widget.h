@@ -6,7 +6,7 @@ class Widget
 {
 public:
 	Widget() = default;
-	Widget(std::string name) {};
+	Widget(std::string name) { widgetUniqueName = name; };
 
 	void registerObserver(IObserver* observer) {
 		observers.push_back(observer);
@@ -28,6 +28,8 @@ public:
 	virtual void draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout) = 0;
 
 	virtual void update(float elapsedTime, GLFWwindow* window) = 0;
+
+	std::string widgetUniqueName;
 
 protected:
 	std::list<IObserver*> observers;
