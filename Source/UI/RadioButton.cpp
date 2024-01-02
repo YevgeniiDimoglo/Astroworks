@@ -67,7 +67,7 @@ void RadioButton::update(float elapsedTime, GLFWwindow* window)
 
 				index++;
 			}
-			notifyObservers(buttons[selectedButtonIndex]->widgetUniqueName, 0);
+			if (selectedButtonIndex != -1) notifyObservers(buttons[selectedButtonIndex]->widgetUniqueName, 0);
 			inputLock = true;
 		}
 	}
