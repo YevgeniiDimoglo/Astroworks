@@ -12,6 +12,8 @@ Image::Image(std::string name)
 			image = it;
 		}
 	}
+
+	widgetUniqueName = name;
 }
 
 void Image::setImageValues(float positionX, float positionY, float positionZ, float width, float height, float angle, float r, float g, float b, float a)

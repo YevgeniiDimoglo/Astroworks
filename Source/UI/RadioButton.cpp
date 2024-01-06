@@ -5,6 +5,8 @@
 RadioButton::RadioButton(std::vector<std::shared_ptr<Widget>> buttonNames)
 {
 	buttons = buttonNames;
+
+	widgetUniqueName = buttonNames[0]->widgetUniqueName;
 }
 
 void RadioButton::setImageValues(float positionX, float positionY, float positionZ, float width, float height, float angle, float r, float g, float b, float a)

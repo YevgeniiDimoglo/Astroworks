@@ -61,7 +61,7 @@ void OverlayEffectDemo::initialize(GLFWwindow* window)
 
 	std::shared_ptr<Widget> radioButtonShape = std::make_shared<RadioButton>(shapeButtons);
 	radioButtonShape->registerObserver(&UI::Instance());
-	radioButtonShape->registerObserver(&UI::Instance());
+	radioButtonShape->registerObserver(&Player::Instance());
 	frontendWidgets["radioButtonShape"] = radioButtonShape;
 
 	// Texture selector
@@ -99,8 +99,24 @@ void OverlayEffectDemo::initialize(GLFWwindow* window)
 
 	std::shared_ptr<Widget> radioButtonTexture = std::make_shared<RadioButton>(textureButtons);
 	radioButtonTexture->registerObserver(&UI::Instance());
-	radioButtonTexture->registerObserver(&UI::Instance());
+	radioButtonTexture->registerObserver(&Player::Instance());
 	frontendWidgets["radioButtonTexture"] = radioButtonTexture;
+
+	std::shared_ptr<Widget> redChannel = std::make_shared<Counter>("redChannel");
+	redChannel->setImageValues(-0.65f, -0.5f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	frontendWidgets["redChannel"] = redChannel;
+
+	std::shared_ptr<Widget> blueChannel = std::make_shared<Counter>("blueChannel");
+	blueChannel->setImageValues(-0.65f, -0.4f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	frontendWidgets["blueChannel"] = blueChannel;
+
+	std::shared_ptr<Widget> greenChannel = std::make_shared<Counter>("greenChannel");
+	greenChannel->setImageValues(-0.65f, -0.3f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	frontendWidgets["greenChannel"] = greenChannel;
+
+	std::shared_ptr<Widget> alphaChannel = std::make_shared<Counter>("alphaChannel");
+	alphaChannel->setImageValues(-0.65f, -0.2f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	frontendWidgets["alphaChannel"] = alphaChannel;
 
 	// Timer
 	std::shared_ptr<Widget> inGameTimer = std::make_shared<Timer>("inGameTimer");
@@ -126,6 +142,23 @@ void OverlayEffectDemo::update(float elapsedTime, GLFWwindow* window)
 		if (it.first == "inGameTimer")
 		{
 			it.second->updateValues(Player::Instance().getInGameTimer().TimeStamp(), 0);
+		}
+
+		if (it.first == "redChannel")
+		{
+			it.second->updateValues(0, Player::currentColor.r * 255);
+		}
+		if (it.first == "blueChannel")
+		{
+			it.second->updateValues(0, Player::currentColor.g * 255);
+		}
+		if (it.first == "greenChannel")
+		{
+			it.second->updateValues(0, Player::currentColor.b * 255);
+		}
+		if (it.first == "alphaChannel")
+		{
+			it.second->updateValues(0, Player::currentColor.a * 255);
 		}
 	}
 }

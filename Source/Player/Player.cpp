@@ -141,6 +141,8 @@ std::string Player::getTargetActor(GLFWwindow* window, Camera* camera)
 
 void Player::notify(std::string widgetName, int widgetAction)
 {
+	std::vector<std::shared_ptr<Actor>> actors = ActorManager::Instance().getUpdateActors();
+
 	// Change widget name to unique widget name
 
 	if (widgetName == "start" && widgetAction == 0)
@@ -328,6 +330,79 @@ void Player::notify(std::string widgetName, int widgetAction)
 			}
 		}
 	}
+	if (widgetName == "Torus" && widgetAction == 0)
+	{
+		selectedActorName = actors[0]->getName();
+	}
+	if (widgetName == "CircleIn" && widgetAction == 0)
+	{
+		selectedActorName = actors[1]->getName();
+	}
+	if (widgetName == "Circle" && widgetAction == 0)
+	{
+		selectedActorName = actors[2]->getName();
+	}
+	if (widgetName == "Hyper" && widgetAction == 0)
+	{
+		selectedActorName = actors[3]->getName();
+	}
+
+	if (widgetName == "Texture1" && widgetAction == 0)
+	{
+		currentMaterial.index = 9999;
+		currentMaterial.baseColorFactor = currentColor;
+
+		currentTexture = {
+		getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].image,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].imageLayout,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].deviceMemory,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].view,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].width, getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].height,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].descriptor,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].sampler,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].descriptorSet,
+		};
+
+		currentMaterial.additionalTexture = &currentTexture;
+	}
+
+	if (widgetName == "Texture2" && widgetAction == 0)
+	{
+		currentMaterial.index = 9999;
+		currentMaterial.baseColorFactor = currentColor;
+
+		currentTexture = {
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].image,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].imageLayout,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].deviceMemory,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].view,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].width, getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].height,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].descriptor,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].sampler,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].descriptorSet,
+		};
+
+		currentMaterial.additionalTexture = &currentTexture;
+	}
+
+	if (widgetName == "Texture3" && widgetAction == 0)
+	{
+		currentMaterial.index = 9999;
+		currentMaterial.baseColorFactor = currentColor;
+
+		currentTexture = {
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].image,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].imageLayout,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].deviceMemory,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].view,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].width, getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].height,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].descriptor,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].sampler,
+		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].descriptorSet,
+		};
+
+		currentMaterial.additionalTexture = &currentTexture;
+	}
 }
 
 void Player::input(GLFWwindow* window, Camera* camera)
@@ -418,80 +493,6 @@ void Player::input(GLFWwindow* window, Camera* camera)
 		ActorManager::Instance().remove(prebuildActor);
 		prebuildActor.reset();
 		buildingMode = false;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
-	{
-		currentMaterial.index = 9999;
-		currentMaterial.baseColorFactor = currentColor;
-
-		currentTexture = {
-		getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].image,
-			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].imageLayout,
-			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].deviceMemory,
-			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].view,
-			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].width, getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].height,
-			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].descriptor,
-			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].sampler,
-			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].descriptorSet,
-		};
-
-		currentMaterial.additionalTexture = &currentTexture;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
-	{
-		currentMaterial.index = 9999;
-		currentMaterial.baseColorFactor = currentColor;
-
-		currentTexture = {
-		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].image,
-		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].imageLayout,
-		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].deviceMemory,
-		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].view,
-		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].width, getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].height,
-		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].descriptor,
-		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].sampler,
-		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].descriptorSet,
-		};
-
-		currentMaterial.additionalTexture = &currentTexture;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
-	{
-		currentMaterial.index = 9999;
-		currentMaterial.baseColorFactor = currentColor;
-
-		currentTexture = {
-		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].image,
-		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].imageLayout,
-		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].deviceMemory,
-		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].view,
-		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].width, getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].height,
-		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].descriptor,
-		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].sampler,
-		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].descriptorSet,
-		};
-
-		currentMaterial.additionalTexture = &currentTexture;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
-	{
-		selectedActorName = actors[0]->getName();
-	}
-	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS)
-	{
-		selectedActorName = actors[1]->getName();
-	}
-	if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS)
-	{
-		selectedActorName = actors[2]->getName();
-	}
-	if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS)
-	{
-		selectedActorName = actors[3]->getName();
 	}
 
 	////

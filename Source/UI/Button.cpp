@@ -24,6 +24,8 @@ Button::Button(std::vector<std::string> buttonNames)
 			buttonDisabled = it;
 		}
 	}
+
+	widgetUniqueName = buttonNames[0];
 }
 
 void Button::setImageValues(float positionX, float positionY, float positionZ, float width, float height, float angle, float r, float g, float b, float a)
