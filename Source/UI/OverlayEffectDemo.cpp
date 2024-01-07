@@ -118,6 +118,17 @@ void OverlayEffectDemo::initialize(GLFWwindow* window)
 	alphaChannel->setImageValues(-0.65f, -0.2f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	frontendWidgets["alphaChannel"] = alphaChannel;
 
+	// Slider
+
+	std::vector<std::string> sliderButtonNames = {
+		"progress_bar_background",
+		"joystick",
+	};
+
+	std::shared_ptr<Widget> sliderBloom = std::make_shared<Slider>(sliderButtonNames, 0.f, 10.f);
+	sliderBloom->setImageValues(-0.0f, -0.0f, 0.f, 0.005f, 0.005f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	frontendWidgets["sliderBloom"] = sliderBloom;
+
 	// Timer
 	std::shared_ptr<Widget> inGameTimer = std::make_shared<Timer>("inGameTimer");
 	inGameTimer->setImageValues(-0.28f, 0.81f, 0.f, 0.08f, 0.08f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
