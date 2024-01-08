@@ -350,7 +350,7 @@ void Player::notify(std::string widgetName, int widgetAction)
 	if (widgetName == "Texture1" && widgetAction == 0)
 	{
 		currentMaterial.index = 9999;
-		currentMaterial.baseColorFactor = currentColor;
+		currentMaterial.baseColorFactor = currentColor * (1 / 255.f);;
 
 		currentTexture = {
 		getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].image,
@@ -369,7 +369,7 @@ void Player::notify(std::string widgetName, int widgetAction)
 	if (widgetName == "Texture2" && widgetAction == 0)
 	{
 		currentMaterial.index = 9999;
-		currentMaterial.baseColorFactor = currentColor;
+		currentMaterial.baseColorFactor = currentColor * (1 / 255.f);;
 
 		currentTexture = {
 		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].image,
@@ -388,7 +388,7 @@ void Player::notify(std::string widgetName, int widgetAction)
 	if (widgetName == "Texture3" && widgetAction == 0)
 	{
 		currentMaterial.index = 9999;
-		currentMaterial.baseColorFactor = currentColor;
+		currentMaterial.baseColorFactor = currentColor * (1 / 255.f);;
 
 		currentTexture = {
 		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].image,
@@ -402,6 +402,13 @@ void Player::notify(std::string widgetName, int widgetAction)
 		};
 
 		currentMaterial.additionalTexture = &currentTexture;
+	}
+
+	if (widgetName == "sliderRedChannel" || widgetName == "sliderGreenChannel" || widgetName == "sliderBlueChannel" ||
+		widgetName == "sliderAlphaChannel"
+		&& widgetAction == 0)
+	{
+		currentMaterial.baseColorFactor = currentColor * (1 / 255.f);
 	}
 }
 
@@ -494,84 +501,6 @@ void Player::input(GLFWwindow* window, Camera* camera)
 		prebuildActor.reset();
 		buildingMode = false;
 	}
-
-	////
-
-	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
-	{
-		BloomValues.x -= 0.01f;
-		glm::clamp(BloomValues.x, 0.0f, 1.0f);
-	}
-	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
-	{
-		BloomValues.x += 0.01f;
-		glm::clamp(BloomValues.x, 0.0f, 1.0f);
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
-	{
-		BloomValues.y -= 0.01f;
-		glm::clamp(BloomValues.y, 0.0f, 10.0f);
-	}
-	if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
-	{
-		BloomValues.y += 0.01f;
-		glm::clamp(BloomValues.y, 0.0f, 10.0f);
-	}
-
-	////
-
-	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-	{
-		currentColor.x -= 0.01f;
-		glm::clamp(currentColor.x, 0.0f, 1.0f);
-	}
-	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
-	{
-		currentColor.x += 0.01f;
-		glm::clamp(currentColor.x, 0.0f, 1.0f);
-	}
-
-	//
-
-	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
-	{
-		currentColor.y -= 0.01f;
-		glm::clamp(currentColor.y, 0.0f, 1.0f);
-	}
-	if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS)
-	{
-		currentColor.y += 0.01f;
-		glm::clamp(currentColor.y, 0.0f, 1.0f);
-	}
-
-	//
-
-	if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)
-	{
-		currentColor.z -= 0.01f;
-		glm::clamp(currentColor.z, 0.0f, 1.0f);
-	}
-	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
-	{
-		currentColor.z += 0.01f;
-		glm::clamp(currentColor.z, 0.0f, 1.0f);
-	}
-
-	//
-
-	if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)
-	{
-		currentColor.w -= 0.01f;
-		glm::clamp(currentColor.w, 0.0f, 1.0f);
-	}
-	if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
-	{
-		currentColor.w += 0.01f;
-		glm::clamp(currentColor.w, 0.0f, 1.0f);
-	}
-
-	////
 
 	if (closeApp)
 	{

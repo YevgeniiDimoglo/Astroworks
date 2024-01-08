@@ -35,6 +35,10 @@ void Image::updateSpriteValues()
 	image->setSpriteValues(positionX, positionY, positionZ, width, height, angle, r, g, b, a);
 }
 
+void Image::changeValue(float& value)
+{
+}
+
 void Image::updateValues(float timer, int value)
 {
 }

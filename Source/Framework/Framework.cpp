@@ -91,6 +91,7 @@ void Framework::update(HighResolutionTimer timer, float elapsedTime)
 	{
 		ActorManager::Instance().switchLevel("Demo");
 		UI::Instance().changeOverlay(std::make_unique<OverlayEffectDemo>());
+		glfwSetInputMode(thisApp.getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 
 	if (glfwGetKey(thisApp.getWindow(), GLFW_KEY_F11) == GLFW_PRESS)

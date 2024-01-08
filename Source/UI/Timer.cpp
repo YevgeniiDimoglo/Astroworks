@@ -25,6 +25,10 @@ void Timer::updateSpriteValues()
 {
 }
 
+void Timer::changeValue(float& value)
+{
+}
+
 void Timer::updateValues(float timer, int value)
 {
 	this->timer = timer;

@@ -22,6 +22,8 @@ public:
 
 	virtual void updateSpriteValues() = 0;
 
+	virtual void changeValue(float& value) = 0;
+
 	// Change to pointer function
 	virtual void updateValues(float timer, int value) = 0;
 

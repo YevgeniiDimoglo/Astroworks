@@ -25,6 +25,10 @@ void Counter::updateSpriteValues()
 {
 }
 
+void Counter::changeValue(float& value)
+{
+}
+
 void Counter::updateValues(float timer, int value)
 {
 	this->timer = timer;

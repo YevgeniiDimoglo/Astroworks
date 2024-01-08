@@ -17,6 +17,10 @@ void RadioButton::updateSpriteValues()
 {
 }
 
+void RadioButton::changeValue(float& value)
+{
+}
+
 void RadioButton::updateValues(float timer, int value)
 {
 }

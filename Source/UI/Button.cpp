@@ -40,6 +40,10 @@ void Button::updateSpriteValues()
 {
 }
 
+void Button::changeValue(float& value)
+{
+}
+
 void Button::updateValues(float timer, int value)
 {
 }

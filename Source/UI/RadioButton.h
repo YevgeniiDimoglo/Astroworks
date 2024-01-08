@@ -18,6 +18,8 @@ public:
 
 	void updateSpriteValues() override;
 
+	void changeValue(float& value) override;
+
 	void updateValues(float timer, int value) override;
 
 	void draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout) override;
