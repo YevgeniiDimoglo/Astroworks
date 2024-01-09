@@ -2,6 +2,8 @@
 
 #include "../Graphics/Utilities.h"
 
+class Widget;
+
 class Overlay
 {
 public:
@@ -16,9 +18,15 @@ public:
 
 	virtual void render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout) = 0;
 
+	virtual std::map<std::string, std::shared_ptr<Widget>> getWidgets() { return frontWidgets; }
+
 	bool isReady() const { return ready; }
 
 	void setReady() { ready = true; }
+
+protected:
+	std::map<std::string, std::shared_ptr<Widget>> frontWidgets;
+	std::map<std::string, std::shared_ptr<Widget>> backWidgets;
 
 private:
 	bool ready = true;

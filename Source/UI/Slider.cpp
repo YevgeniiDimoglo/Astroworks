@@ -71,6 +71,8 @@ void Slider::changeValue(float& value)
 
 void Slider::updateValues(float timer, int value)
 {
+	float ratio = (value - minValue) / (maxValue - minValue);
+	currentPosition = ratio * (maxPosition - minPosition) + minPosition;
 }
 
 void Slider::draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout)

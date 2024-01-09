@@ -59,6 +59,7 @@ void RadioButton::update(float elapsedTime, GLFWwindow* window)
 				{
 					selectedButtonIndex = index;
 					static_cast<Button*>(buttons[selectedButtonIndex].get())->setState(2);
+					notifyObservers(buttons[selectedButtonIndex]->widgetUniqueName, 0);
 
 					for (size_t i = 0; i < buttons.size(); i++)
 					{
@@ -73,7 +74,6 @@ void RadioButton::update(float elapsedTime, GLFWwindow* window)
 
 				index++;
 			}
-			if (selectedButtonIndex != -1) notifyObservers(buttons[selectedButtonIndex]->widgetUniqueName, 0);
 			inputLock = true;
 		}
 	}

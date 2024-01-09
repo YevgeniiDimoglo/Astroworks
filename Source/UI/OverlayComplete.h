@@ -17,8 +17,4 @@ public:
 	void update(float elapsedTime, GLFWwindow* window) override;
 
 	void render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout) override;
-
-private:
-	std::map<std::string, std::shared_ptr<Widget>> widgets;
-	std::map<std::string, std::shared_ptr<Widget>> bgWidgets;
 };

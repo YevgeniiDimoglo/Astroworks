@@ -17,7 +17,4 @@ public:
 	void update(float elapsedTime, GLFWwindow* window) override;
 
 	void render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout) override;
-
-private:
-	std::vector<std::shared_ptr<Widget>> widgets;
 };

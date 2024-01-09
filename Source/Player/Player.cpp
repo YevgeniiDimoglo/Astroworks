@@ -1,5 +1,7 @@
 #include "Player.h"
 
+#include "../UI/UI.h"
+
 #include "../Actor/Worker.h"
 #include "../Actor/Marine.h"
 #include "../Actor/Tank.h"
@@ -142,8 +144,6 @@ std::string Player::getTargetActor(GLFWwindow* window, Camera* camera)
 void Player::notify(std::string widgetName, int widgetAction)
 {
 	std::vector<std::shared_ptr<Actor>> actors = ActorManager::Instance().getUpdateActors();
-
-	// Change widget name to unique widget name
 
 	if (widgetName == "start" && widgetAction == 0)
 	{
@@ -333,6 +333,14 @@ void Player::notify(std::string widgetName, int widgetAction)
 	if (widgetName == "Torus" && widgetAction == 0)
 	{
 		selectedActorName = actors[0]->getName();
+		//auto widgets = UI::Instance().getCurrentOverlay().getWidgets();
+		//for (auto it : widgets)
+		//{
+		//	if (it.first == "sliderRedChannel") it.second->updateValues(0, 128);
+		//	if (it.first == "sliderGreenChannel")it.second->updateValues(0, 128);
+		//	if (it.first == "sliderBlueChannel")it.second->updateValues(0, 128);
+		//	if (it.first == "sliderAlphaChannel")it.second->updateValues(0, 128);
+		//}
 	}
 	if (widgetName == "CircleIn" && widgetAction == 0)
 	{
@@ -453,7 +461,7 @@ void Player::input(GLFWwindow* window, Camera* camera)
 				}
 				else
 				{
-					selectedActorName = getSelectedActor(window, camera);
+					//selectedActorName = getSelectedActor(window, camera);
 					inputLockLMB = true;
 				}
 			}

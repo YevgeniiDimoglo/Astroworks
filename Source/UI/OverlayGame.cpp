@@ -32,7 +32,7 @@ void OverlayGame::initialize(GLFWwindow* window)
 
 	std::shared_ptr<Widget> minimapArea = std::make_shared<Image>("window_transparent");
 	minimapArea->setImageValues(-0.55f, 0.8f, 0.f, 0.45f, 0.1f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
-	backendWidgets["minimapArea"] = minimapArea;
+	backWidgets["minimapArea"] = minimapArea;
 
 	//std::shared_ptr<Widget> mainViewArea = std::make_shared<Image>("window_transparent");
 	//mainViewArea->setImageValues(0.0f, 0.7f, 0.f, 0.5f, 0.3f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
@@ -44,7 +44,7 @@ void OverlayGame::initialize(GLFWwindow* window)
 
 	std::shared_ptr<Widget> inGameTimer = std::make_shared<Timer>("inGameTimer");
 	inGameTimer->setImageValues(-0.28f, 0.81f, 0.f, 0.08f, 0.08f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
-	frontendWidgets["inGameTimer"] = inGameTimer;
+	frontWidgets["inGameTimer"] = inGameTimer;
 }
 
 void OverlayGame::finalize()
@@ -55,16 +55,16 @@ void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 {
 	std::shared_ptr<Widget> selectedUnit;
 
-	frontendWidgets.erase("selectedUnit");
+	frontWidgets.erase("selectedUnit");
 
-	frontendWidgets.erase("baseIcon");
-	frontendWidgets.erase("supplyIcon");
-	frontendWidgets.erase("hangarIcon");
-	frontendWidgets.erase("turretIcon");
+	frontWidgets.erase("baseIcon");
+	frontWidgets.erase("supplyIcon");
+	frontWidgets.erase("hangarIcon");
+	frontWidgets.erase("turretIcon");
 
-	frontendWidgets.erase("workerIcon");
-	frontendWidgets.erase("soldierIcon");
-	frontendWidgets.erase("tankIcon");
+	frontWidgets.erase("workerIcon");
+	frontWidgets.erase("soldierIcon");
+	frontWidgets.erase("tankIcon");
 
 	switch (Player::Instance().getSelectedActorIndex())
 	{
@@ -91,7 +91,7 @@ void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 		baseIcon->registerObserver(&UI::Instance());
 		baseIcon->registerObserver(&Player::Instance());
 
-		frontendWidgets["baseIcon"] = baseIcon;
+		frontWidgets["baseIcon"] = baseIcon;
 
 		std::vector<std::string> supplyButtonNames = {
 		"machine_barrelLarge",
@@ -105,7 +105,7 @@ void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 		supplyIcon->registerObserver(&UI::Instance());
 		supplyIcon->registerObserver(&Player::Instance());
 
-		frontendWidgets["supplyIcon"] = supplyIcon;
+		frontWidgets["supplyIcon"] = supplyIcon;
 
 		std::vector<std::string> hangarButtonNames = {
 		"hangar_smallB",
@@ -119,7 +119,7 @@ void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 		hangarIcon->registerObserver(&UI::Instance());
 		hangarIcon->registerObserver(&Player::Instance());
 
-		frontendWidgets["hangarIcon"] = hangarIcon;
+		frontWidgets["hangarIcon"] = hangarIcon;
 
 		std::vector<std::string> turretButtonNames = {
 		"turret_double",
@@ -133,7 +133,7 @@ void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 		turretIcon->registerObserver(&UI::Instance());
 		turretIcon->registerObserver(&Player::Instance());
 
-		frontendWidgets["turretIcon"] = turretIcon;
+		frontWidgets["turretIcon"] = turretIcon;
 		break;
 	}
 	case 2:
@@ -161,7 +161,7 @@ void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 			workerIcon->registerObserver(&UI::Instance());
 			workerIcon->registerObserver(&Player::Instance());
 
-			frontendWidgets["workerIcon"] = workerIcon;
+			frontWidgets["workerIcon"] = workerIcon;
 		}
 
 		break;
@@ -185,7 +185,7 @@ void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 			soldierIcon->registerObserver(&UI::Instance());
 			soldierIcon->registerObserver(&Player::Instance());
 
-			frontendWidgets["soldierIcon"] = soldierIcon;
+			frontWidgets["soldierIcon"] = soldierIcon;
 
 			std::vector<std::string> tankButtonNames = {
 			"craft_miner",
@@ -199,7 +199,7 @@ void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 			tankIcon->registerObserver(&UI::Instance());
 			tankIcon->registerObserver(&Player::Instance());
 
-			frontendWidgets["tankIcon"] = tankIcon;
+			frontWidgets["tankIcon"] = tankIcon;
 		}
 		break;
 	}
@@ -229,14 +229,14 @@ void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 	}
 	}
 
-	frontendWidgets["selectedUnit"] = selectedUnit;
+	frontWidgets["selectedUnit"] = selectedUnit;
 
-	for (auto it : backendWidgets)
+	for (auto it : backWidgets)
 	{
 		it.second->update(elapsedTime, window);
 	}
 
-	for (auto it : frontendWidgets)
+	for (auto it : frontWidgets)
 	{
 		if (it.first == "mineralCounter")
 		{
@@ -264,12 +264,12 @@ void OverlayGame::update(float elapsedTime, GLFWwindow* window)
 
 void OverlayGame::render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout)
 {
-	for (auto it : backendWidgets)
+	for (auto it : backWidgets)
 	{
 		it.second->draw(commandBuffer, pipelineLayout);
 	}
 
-	for (auto it : frontendWidgets)
+	for (auto it : frontWidgets)
 	{
 		it.second->draw(commandBuffer, pipelineLayout);
 	}

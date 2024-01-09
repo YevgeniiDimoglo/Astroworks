@@ -20,12 +20,13 @@ public:
 		return instance;
 	}
 
-	// TODO: class enum widgetActions
 	void notify(std::string widgetName, int widgetAction) override;
 
 	void setFileNames(std::vector<std::string> filePathes) { fileNames = filePathes; }
 
 	std::vector<std::shared_ptr<Sprite>> getSprites() const { return sprites; }
+
+	Overlay& getCurrentOverlay() const { return *this->currentOverlay; }
 
 	void loadFiles(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, VkDescriptorPool samplerDescriptorPool, VkDescriptorSetLayout samplerSetLayout);
 

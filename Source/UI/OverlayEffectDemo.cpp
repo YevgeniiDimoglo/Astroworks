@@ -10,11 +10,11 @@ void OverlayEffectDemo::initialize(GLFWwindow* window)
 	// Background images
 	std::shared_ptr<Widget> minimapArea = std::make_shared<Image>("window_transparent");
 	minimapArea->setImageValues(-0.55f, 0.8f, 0.f, 0.45f, 0.1f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
-	backendWidgets["minimapArea"] = minimapArea;
+	backWidgets["minimapArea"] = minimapArea;
 
 	std::shared_ptr<Widget> background = std::make_shared<Image>("window_transparent");
 	background->setImageValues(-0.76f, -0.2f, 0.f, 0.27f, 0.95f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
-	backendWidgets["background"] = background;
+	backWidgets["background"] = background;
 
 	// Shape selector
 	std::vector<std::string> torusButtonNames = {
@@ -62,7 +62,7 @@ void OverlayEffectDemo::initialize(GLFWwindow* window)
 	std::shared_ptr<Widget> radioButtonShape = std::make_shared<RadioButton>(shapeButtons);
 	radioButtonShape->registerObserver(&UI::Instance());
 	radioButtonShape->registerObserver(&Player::Instance());
-	frontendWidgets["radioButtonShape"] = radioButtonShape;
+	frontWidgets["radioButtonShape"] = radioButtonShape;
 
 	// Texture selector
 	std::vector<std::string> textureOneButtonNames = {
@@ -100,31 +100,31 @@ void OverlayEffectDemo::initialize(GLFWwindow* window)
 	std::shared_ptr<Widget> radioButtonTexture = std::make_shared<RadioButton>(textureButtons);
 	radioButtonTexture->registerObserver(&UI::Instance());
 	radioButtonTexture->registerObserver(&Player::Instance());
-	frontendWidgets["radioButtonTexture"] = radioButtonTexture;
+	frontWidgets["radioButtonTexture"] = radioButtonTexture;
 
 	std::shared_ptr<Widget> redChannel = std::make_shared<Counter>("redChannel");
 	redChannel->setImageValues(-0.65f, -0.45f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
-	frontendWidgets["redChannel"] = redChannel;
+	frontWidgets["redChannel"] = redChannel;
 
 	std::shared_ptr<Widget> blueChannel = std::make_shared<Counter>("blueChannel");
 	blueChannel->setImageValues(-0.65f, -0.25f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
-	frontendWidgets["blueChannel"] = blueChannel;
+	frontWidgets["blueChannel"] = blueChannel;
 
 	std::shared_ptr<Widget> greenChannel = std::make_shared<Counter>("greenChannel");
 	greenChannel->setImageValues(-0.65f, -0.05f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
-	frontendWidgets["greenChannel"] = greenChannel;
+	frontWidgets["greenChannel"] = greenChannel;
 
 	std::shared_ptr<Widget> alphaChannel = std::make_shared<Counter>("alphaChannel");
 	alphaChannel->setImageValues(-0.65f, 0.15f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
-	frontendWidgets["alphaChannel"] = alphaChannel;
+	frontWidgets["alphaChannel"] = alphaChannel;
 
 	std::shared_ptr<Widget> bloom = std::make_shared<Counter>("bloom");
 	bloom->setImageValues(-0.65f, 0.35f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
-	frontendWidgets["bloom"] = bloom;
+	frontWidgets["bloom"] = bloom;
 
 	std::shared_ptr<Widget> bloom2 = std::make_shared<Counter>("bloom2");
 	bloom2->setImageValues(-0.65f, 0.5f, 0.f, 0.05f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
-	frontendWidgets["bloom2"] = bloom2;
+	frontWidgets["bloom2"] = bloom2;
 
 	// Sliders
 
@@ -139,42 +139,42 @@ void OverlayEffectDemo::initialize(GLFWwindow* window)
 	sliderRedChannel->setImageValues(-0.75f, -0.4f, 0.f, 0.2f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	sliderRedChannel->registerObserver(&UI::Instance());
 	sliderRedChannel->registerObserver(&Player::Instance());
-	frontendWidgets["sliderRedChannel"] = sliderRedChannel;
+	frontWidgets["sliderRedChannel"] = sliderRedChannel;
 
 	std::shared_ptr<Widget> sliderGreenChannel = std::make_shared<Slider>(sliderButtonNames, "sliderGreenChannel", 0.f, 255.f, 255.f);
 	sliderGreenChannel->setImageValues(-0.75f, -0.2f, 0.f, 0.2f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	sliderGreenChannel->registerObserver(&UI::Instance());
 	sliderGreenChannel->registerObserver(&Player::Instance());
-	frontendWidgets["sliderGreenChannel"] = sliderGreenChannel;
+	frontWidgets["sliderGreenChannel"] = sliderGreenChannel;
 
 	std::shared_ptr<Widget> sliderBlueChannel = std::make_shared<Slider>(sliderButtonNames, "sliderBlueChannel", 0.f, 255.f, 255.f);
 	sliderBlueChannel->setImageValues(-0.75f, 0.0f, 0.f, 0.2f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	sliderBlueChannel->registerObserver(&UI::Instance());
 	sliderBlueChannel->registerObserver(&Player::Instance());
-	frontendWidgets["sliderBlueChannel"] = sliderBlueChannel;
+	frontWidgets["sliderBlueChannel"] = sliderBlueChannel;
 
 	std::shared_ptr<Widget> sliderAlphaChannel = std::make_shared<Slider>(sliderButtonNames, "sliderAlphaChannel", 0.f, 255.f, 255.f);
 	sliderAlphaChannel->setImageValues(-0.75f, 0.2f, 0.f, 0.2f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	sliderAlphaChannel->registerObserver(&UI::Instance());
 	sliderAlphaChannel->registerObserver(&Player::Instance());
-	frontendWidgets["sliderAlphaChannel"] = sliderAlphaChannel;
+	frontWidgets["sliderAlphaChannel"] = sliderAlphaChannel;
 
 	std::shared_ptr<Widget> sliderBloom = std::make_shared<Slider>(sliderButtonNames, "sliderBloom", 0.f, 2.f);
 	sliderBloom->setImageValues(-0.75f, 0.4f, 0.f, 0.2f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	sliderBloom->registerObserver(&UI::Instance());
 	sliderBloom->registerObserver(&Player::Instance());
-	frontendWidgets["sliderBloom"] = sliderBloom;
+	frontWidgets["sliderBloom"] = sliderBloom;
 
 	std::shared_ptr<Widget> sliderBloom2 = std::make_shared<Slider>(sliderButtonNames, "sliderBloom2", 0.f, 10.f);
 	sliderBloom2->setImageValues(-0.75f, 0.55f, 0.f, 0.2f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	sliderBloom2->registerObserver(&UI::Instance());
 	sliderBloom2->registerObserver(&Player::Instance());
-	frontendWidgets["sliderBloom2"] = sliderBloom2;
+	frontWidgets["sliderBloom2"] = sliderBloom2;
 
 	// Timer
 	std::shared_ptr<Widget> inGameTimer = std::make_shared<Timer>("inGameTimer");
 	inGameTimer->setImageValues(-0.28f, 0.81f, 0.f, 0.08f, 0.08f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
-	frontendWidgets["inGameTimer"] = inGameTimer;
+	frontWidgets["inGameTimer"] = inGameTimer;
 }
 
 void OverlayEffectDemo::finalize()
@@ -183,12 +183,12 @@ void OverlayEffectDemo::finalize()
 
 void OverlayEffectDemo::update(float elapsedTime, GLFWwindow* window)
 {
-	for (auto it : backendWidgets)
+	for (auto it : backWidgets)
 	{
 		it.second->update(elapsedTime, window);
 	}
 
-	for (auto it : frontendWidgets)
+	for (auto it : frontWidgets)
 	{
 		it.second->update(elapsedTime, window);
 
@@ -212,6 +212,14 @@ void OverlayEffectDemo::update(float elapsedTime, GLFWwindow* window)
 		if (it.first == "alphaChannel")
 		{
 			it.second->updateValues(0, Player::currentColor.a);
+		}
+		if (it.first == "bloom")
+		{
+			it.second->updateValues(0, BloomValues.x);
+		}
+		if (it.first == "bloom2")
+		{
+			it.second->updateValues(0, BloomValues.y);
 		}
 
 		if (it.first == "sliderRedChannel")
@@ -248,12 +256,12 @@ void OverlayEffectDemo::update(float elapsedTime, GLFWwindow* window)
 
 void OverlayEffectDemo::render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout)
 {
-	for (auto it : backendWidgets)
+	for (auto it : backWidgets)
 	{
 		it.second->draw(commandBuffer, pipelineLayout);
 	}
 
-	for (auto it : frontendWidgets)
+	for (auto it : frontWidgets)
 	{
 		it.second->draw(commandBuffer, pipelineLayout);
 	}
