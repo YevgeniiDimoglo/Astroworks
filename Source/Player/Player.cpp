@@ -12,6 +12,7 @@ GLTFStaticModel::Material Player::currentMaterial;
 GLTFStaticModel::Image Player::currentTexture;
 glm::vec2 BloomValues = { 0.5f, 2.0f };
 glm::vec4 Player::currentColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+std::vector<int> Player::textureIndex(4, 0);
 
 std::string Player::getSelectedActor(GLFWwindow* window, Camera* camera)
 {
@@ -330,35 +331,90 @@ void Player::notify(std::string widgetName, int widgetAction)
 			}
 		}
 	}
+	auto widgets = UI::Instance().getCurrentOverlay().getWidgets();
+
 	if (widgetName == "Torus" && widgetAction == 0)
 	{
 		selectedActorName = actors[0]->getName();
-		//auto widgets = UI::Instance().getCurrentOverlay().getWidgets();
-		//for (auto it : widgets)
-		//{
-		//	if (it.first == "sliderRedChannel") it.second->updateValues(0, 128);
-		//	if (it.first == "sliderGreenChannel")it.second->updateValues(0, 128);
-		//	if (it.first == "sliderBlueChannel")it.second->updateValues(0, 128);
-		//	if (it.first == "sliderAlphaChannel")it.second->updateValues(0, 128);
-		//}
+		currentMaterial = objectMaterials[0];
+		currentMaterial.index = 0;
+		currentTextureIndex = textureIndex[0];
+		if (objectMaterials[0].additionalTexture != nullptr)
+		{
+			currentTexture = *objectMaterials[0].additionalTexture;
+		}
+
+		currentColor = currentMaterial.baseColorFactor;
+
+		widgets["sliderRedChannel"].get()->updateValues(0, currentColor.r * 255);
+		widgets["sliderGreenChannel"].get()->updateValues(0, currentColor.g * 255);
+		widgets["sliderBlueChannel"].get()->updateValues(0, currentColor.b * 255);
+		widgets["sliderAlphaChannel"].get()->updateValues(0, currentColor.a * 255);
+		widgets["radioButtonTexture"].get()->updateValues(0, currentTextureIndex);
 	}
 	if (widgetName == "CircleIn" && widgetAction == 0)
 	{
 		selectedActorName = actors[1]->getName();
+		currentMaterial = objectMaterials[1];
+		currentMaterial.index = 1;
+		currentTextureIndex = textureIndex[1];
+		if (objectMaterials[1].additionalTexture != nullptr)
+		{
+			currentTexture = *objectMaterials[1].additionalTexture;
+		}
+
+		currentColor = currentMaterial.baseColorFactor;
+
+		widgets["sliderRedChannel"].get()->updateValues(0, currentColor.r * 255);
+		widgets["sliderGreenChannel"].get()->updateValues(0, currentColor.g * 255);
+		widgets["sliderBlueChannel"].get()->updateValues(0, currentColor.b * 255);
+		widgets["sliderAlphaChannel"].get()->updateValues(0, currentColor.a * 255);
+		widgets["radioButtonTexture"].get()->updateValues(0, currentTextureIndex);
 	}
 	if (widgetName == "Circle" && widgetAction == 0)
 	{
 		selectedActorName = actors[2]->getName();
+		currentMaterial = objectMaterials[2];
+		currentMaterial.index = 2;
+		currentTextureIndex = textureIndex[2];
+		if (objectMaterials[2].additionalTexture != nullptr)
+		{
+			currentTexture = *objectMaterials[2].additionalTexture;
+		}
+
+		currentColor = currentMaterial.baseColorFactor;
+
+		widgets["sliderRedChannel"].get()->updateValues(0, currentColor.r * 255);
+		widgets["sliderGreenChannel"].get()->updateValues(0, currentColor.g * 255);
+		widgets["sliderBlueChannel"].get()->updateValues(0, currentColor.b * 255);
+		widgets["sliderAlphaChannel"].get()->updateValues(0, currentColor.a * 255);
+		widgets["radioButtonTexture"].get()->updateValues(0, currentTextureIndex);
 	}
 	if (widgetName == "Hyper" && widgetAction == 0)
 	{
 		selectedActorName = actors[3]->getName();
+		currentMaterial = objectMaterials[3];
+		currentMaterial.index = 3;
+		currentTextureIndex = textureIndex[3];
+		if (objectMaterials[3].additionalTexture != nullptr)
+		{
+			currentTexture = *objectMaterials[3].additionalTexture;
+		}
+
+		currentColor = currentMaterial.baseColorFactor;
+
+		widgets["sliderRedChannel"].get()->updateValues(0, currentColor.r * 255);
+		widgets["sliderGreenChannel"].get()->updateValues(0, currentColor.g * 255);
+		widgets["sliderBlueChannel"].get()->updateValues(0, currentColor.b * 255);
+		widgets["sliderAlphaChannel"].get()->updateValues(0, currentColor.a * 255);
+		widgets["radioButtonTexture"].get()->updateValues(0, currentTextureIndex);
 	}
 
 	if (widgetName == "Texture1" && widgetAction == 0)
 	{
-		currentMaterial.index = 9999;
-		currentMaterial.baseColorFactor = currentColor * (1 / 255.f);;
+		currentTextureIndex = 0;
+
+		currentMaterial.baseColorFactor = currentColor * (1 / 255.f);
 
 		currentTexture = {
 		getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].image,
@@ -376,8 +432,9 @@ void Player::notify(std::string widgetName, int widgetAction)
 
 	if (widgetName == "Texture2" && widgetAction == 0)
 	{
-		currentMaterial.index = 9999;
-		currentMaterial.baseColorFactor = currentColor * (1 / 255.f);;
+		currentTextureIndex = 1;
+
+		currentMaterial.baseColorFactor = currentColor * (1 / 255.f);
 
 		currentTexture = {
 		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture1)].image,
@@ -395,8 +452,9 @@ void Player::notify(std::string widgetName, int widgetAction)
 
 	if (widgetName == "Texture3" && widgetAction == 0)
 	{
-		currentMaterial.index = 9999;
-		currentMaterial.baseColorFactor = currentColor * (1 / 255.f);;
+		currentTextureIndex = 2;
+
+		currentMaterial.baseColorFactor = currentColor * (1 / 255.f);
 
 		currentTexture = {
 		getGlobalVector()[static_cast<int>(TextureType::NoiseTexture2)].image,
@@ -422,11 +480,6 @@ void Player::notify(std::string widgetName, int widgetAction)
 
 void Player::input(GLFWwindow* window, Camera* camera)
 {
-	if (Player::currentMaterial.index == -1)
-	{
-		currentMaterial.index = -1;
-	}
-
 	std::vector<std::shared_ptr<Actor>> actors = ActorManager::Instance().getUpdateActors();
 
 	calculateScreenToWorldCoords(window, camera);
@@ -529,6 +582,28 @@ void Player::update()
 	}
 
 	inGameTimer.Tick();
+
+	if (currentMaterial.index != -1)
+	{
+		objectMaterials[currentMaterial.index] = currentMaterial;
+		if (currentTexture.image == nullptr)
+		{
+			currentTexture = {
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].image,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].imageLayout,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].deviceMemory,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].view,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].width, getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].height,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].descriptor,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].sampler,
+			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].descriptorSet,
+			};
+		}
+		else
+		{
+			textureIndex[currentMaterial.index] = currentTextureIndex;
+		}
+	}
 
 	if (prebuildActor != nullptr)
 	{

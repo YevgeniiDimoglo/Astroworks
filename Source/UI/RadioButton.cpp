@@ -23,6 +23,15 @@ void RadioButton::changeValue(float& value)
 
 void RadioButton::updateValues(float timer, int value)
 {
+	selectedButtonIndex = value;
+	static_cast<Button*>(buttons[selectedButtonIndex].get())->setState(2);
+	for (size_t i = 0; i < buttons.size(); i++)
+	{
+		if (i != selectedButtonIndex)
+		{
+			static_cast<Button*>(buttons[i].get())->setState(0);
+		}
+	}
 }
 
 void RadioButton::draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout)
