@@ -2,8 +2,6 @@
 
 #include "../UI/UI.h"
 #include "../Actor/Actor.h"
-#include "../Camera/Camera.h"
-#include "../Graphics/Light.h"
 
 Camera* playerCamera;
 
@@ -20,6 +18,8 @@ void Graphics::init()
 	initModels();
 
 	initSprites();
+
+	initLights();
 
 	LOG("End of initialization\n");
 }
@@ -87,6 +87,9 @@ void Graphics::initSprites()
 
 void Graphics::initLights()
 {
+	std::unique_ptr<Light> sun = std::make_unique<DirectionalLight>();
+	static_cast<DirectionalLight*>(sun.get())->InitLight(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.5f, 1.0f, 0.0f);
+	sceneLights.push_back(std::move(sun));
 }
 
 void Graphics::initVulkan()
@@ -2172,8 +2175,8 @@ void Graphics::updateUniformBuffer(HighResolutionTimer timer, float elapsedTime,
 
 	// Light Info
 
-	ubo.lightDirection = { 0.5, 1, 0 , 1 };
-	ubo.lightColor = { 1, 1, 1, 1 };
+	ubo.lightDirection = { static_cast<DirectionalLight*>(sceneLights[0].get())->GetDirection(), 1.0f };
+	ubo.lightColor = static_cast<DirectionalLight*>(sceneLights[0].get())->GetColor();
 
 	float zNear = 0.1f;
 	float zFar = 1000.f;

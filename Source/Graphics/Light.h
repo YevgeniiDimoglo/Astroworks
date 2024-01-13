@@ -1,13 +1,21 @@
 #pragma once
 
-#include "Utilities.h"
-
 enum class LightType
 {
 	Directional,
 	Point,
 	Spot,
-	Areal,
+	Area,
+};
+
+class Test
+{
+public:
+	Test();
+	virtual ~Test() = default;
+
+private:
+	int member;
 };
 
 class Light
@@ -16,12 +24,12 @@ public:
 	Light();
 	Light(LightType lightType) : lightType(lightType) {};
 
+	virtual ~Light() = default;
+
 	LightType GetLightType() { return lightType; }
 
 	glm::vec3 GetPosition() { return position; }
 	void SetPosition(glm::vec3 position) { this->position = position; }
-
-	void InitLight(float red, float green, float blue, float aIntensity, float dIntensity) {};
 
 	glm::vec4 GetColor() { return color; }
 	void SetColor(glm::vec4) { this->color = color; }
@@ -44,11 +52,19 @@ class DirectionalLight : public Light
 public:
 
 	DirectionalLight() : Light(LightType::Directional) {};
-	~DirectionalLight();
 
-	void initLight(float red, float green, float blue,
+	void InitLight(float red, float green, float blue,
 		float aIntensity, float dIntensity,
-		float xDir, float yDir, float zDir);
+		float xDir, float yDir, float zDir)
+	{
+		color.r = red;
+		color.b = blue;
+		color.g = green;
+		ambientIntensity = aIntensity;
+		diffuseIntensity = dIntensity;
+
+		direction = { xDir, yDir, zDir };
+	};
 
 	glm::vec3 GetDirection() { return direction; }
 	void SetDirection(glm::vec3 direction) { this->direction = direction; }
@@ -61,13 +77,23 @@ class PointLight : public Light
 {
 public:
 	PointLight() : Light(LightType::Point) {};
-	~PointLight();
 
-	void initLight(float near, float far,
+	void InitLight(float near, float far,
 		float red, float green, float blue,
 		float aIntensity, float dIntensity,
 		float xPos, float yPos, float zPos,
-		float con, float lin, float exp);
+		float con, float lin, float exp)
+	{
+		color.r = red;
+		color.b = blue;
+		color.g = green;
+		ambientIntensity = aIntensity;
+		diffuseIntensity = dIntensity;
+
+		constant = con;
+		linear = lin;
+		exponent = exp;
+	};
 
 	void SetRange(float range) { this->range = range; }
 
@@ -87,20 +113,27 @@ class SpotLight : public Light
 public:
 
 	SpotLight() : Light(LightType::Spot) {};
-	~SpotLight(GLfloat shadowWidth, GLfloat shadowHeight,
-		GLfloat near, GLfloat far,
-		GLfloat red, GLfloat green, GLfloat blue,
-		GLfloat aIntensity, GLfloat dIntensity,
-		GLfloat xPos, GLfloat yPos, GLfloat zPos,
-		GLfloat xDir, GLfloat yDir, GLfloat zDir,
-		GLfloat con, GLfloat lin, GLfloat exp,
-		GLfloat edg);
 
-	void initLight();
+	void InitLight(float near, float far,
+		float red, float green, float blue,
+		float aIntensity, float dIntensity,
+		float xPos, float yPos, float zPos,
+		float xDir, float yDir, float zDir,
+		float con, float lin, float exp,
+		float edge)
+	{
+		color.r = red;
+		color.b = blue;
+		color.g = green;
+		ambientIntensity = aIntensity;
+		diffuseIntensity = dIntensity;
 
-	void Set
+		constant = con;
+		linear = lin;
+		exponent = exp;
+	};
 
-		void SetRange(float range) { this->range = range; }
+	void SetRange(float range) { this->range = range; }
 
 	float GetInnerCorner() { return innerCorner; }
 	void SetInnerCorner(float innerCorner) { this->innerCorner = innerCorner; }
@@ -112,4 +145,5 @@ private:
 	float range = 20.0f;
 	float innerCorner = 0.99f;
 	float outerCorner = 0.9f;
+	float constant, linear, exponent;
 };

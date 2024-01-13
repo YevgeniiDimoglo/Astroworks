@@ -38,6 +38,7 @@
 #include "../Graphics/Texture.h"
 
 #include "../Camera/Camera.h"
+#include "../Graphics/Light.h"
 
 #define DISCRETE
 
@@ -48,6 +49,30 @@ static const uint32_t WIDTH = 1920;
 static const uint32_t HEIGHT = 1080;
 
 static const int syncInterval = 0;
+
+enum class Pipelines
+{
+	ModelPipeline,
+	PBRModelPipeline,
+	UnlitPipeline,
+	ShadowMapPipeline,
+	//DissolvePipeline,
+	DebugDrawingPipeline,
+	UIPipeline,
+	WaterPipeline,
+	FirePipeline,
+	OITColorAccum,
+	OITColorReveal,
+	OITResult,
+	Offscreen,
+	Luminance,
+	Blur,
+	DemoOITColorAccum,
+	DemoOITColorReveal,
+	DemoOITResult,
+
+	EnumCount
+};
 
 enum class ShaderType
 {

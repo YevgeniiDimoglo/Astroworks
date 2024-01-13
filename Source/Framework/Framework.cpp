@@ -18,7 +18,7 @@
 
 Framework::Framework()
 {
-	thisApp = Graphics();
+	thisApp = std::make_unique<Graphics>();
 
 	ActorManager::Instance().setCurrentLevelName("Level");
 
@@ -29,16 +29,16 @@ Framework::Framework()
 	UI::Instance().setFileNames(ResourceManager::Instance().loadFilePathes("./Data/UI/"));
 	UI::Instance().changeOverlay(std::make_unique<OverlayTitle>());
 
-	thisApp.init();
+	thisApp->init();
 
 	camera = new Camera();
 	camera->setPerspectiveFov(
 		glm::radians(60.f),
-		thisApp.getExtent().width, thisApp.getExtent().height,
+		thisApp->getExtent().width, thisApp->getExtent().height,
 		0.1f,
 		1000.0f);
 
-	camera->setAspect(thisApp.getExtent().width, thisApp.getExtent().height);
+	camera->setAspect(thisApp->getExtent().width, thisApp->getExtent().height);
 
 	freeCameraController = new FreeCameraController();
 	lockCameraController = new LockCameraController();
@@ -50,12 +50,12 @@ Framework::~Framework()
 	delete lockCameraController;
 	delete camera;
 
-	thisApp.finalize();
+	thisApp->finalize();
 }
 
 void Framework::update(HighResolutionTimer timer, float elapsedTime)
 {
-	Player::Instance().input(thisApp.getWindow(), camera);
+	Player::Instance().input(thisApp->getWindow(), camera);
 
 	Player::Instance().update();
 
@@ -65,38 +65,38 @@ void Framework::update(HighResolutionTimer timer, float elapsedTime)
 
 	ActorManager::Instance().updateMaterials(Player::Instance().getSeceltedActorByName());
 
-	UI::Instance().update(timer, elapsedTime, thisApp.getWindow());
+	UI::Instance().update(timer, elapsedTime, thisApp->getWindow());
 
 	if (!Player::Instance().getIsPaused())
 	{
 		if (isFreeCameraController)
 		{
-			freeCameraController->Update(thisApp.getWindow(), elapsedTime);
+			freeCameraController->Update(thisApp->getWindow(), elapsedTime);
 			freeCameraController->SyncControllerToCamera(camera);
 		}
 		else
 		{
-			lockCameraController->Update(thisApp.getWindow(), elapsedTime);
+			lockCameraController->Update(thisApp->getWindow(), elapsedTime);
 			lockCameraController->SyncControllerToCamera(camera);
 		}
 	}
 
-	thisApp.update(timer, elapsedTime, camera);
+	thisApp->update(timer, elapsedTime, camera);
 
-	if (glfwGetKey(thisApp.getWindow(), GLFW_KEY_F1) == GLFW_PRESS)
+	if (glfwGetKey(thisApp->getWindow(), GLFW_KEY_F1) == GLFW_PRESS)
 	{
 		UI::Instance().changeOverlay(std::make_unique<OverlayGame>());
 		ActorManager::Instance().switchLevel("Level");
 	}
 
-	if (glfwGetKey(thisApp.getWindow(), GLFW_KEY_F2) == GLFW_PRESS)
+	if (glfwGetKey(thisApp->getWindow(), GLFW_KEY_F2) == GLFW_PRESS)
 	{
 		ActorManager::Instance().switchLevel("Demo");
 		UI::Instance().changeOverlay(std::make_unique<OverlayEffectDemo>());
-		glfwSetInputMode(thisApp.getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		glfwSetInputMode(thisApp->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 
-	if (glfwGetKey(thisApp.getWindow(), GLFW_KEY_F11) == GLFW_PRESS)
+	if (glfwGetKey(thisApp->getWindow(), GLFW_KEY_F11) == GLFW_PRESS)
 	{
 		ResourceManager::Instance().saveFile("./Data/Level/NewLevel.toml");
 	}
@@ -104,12 +104,12 @@ void Framework::update(HighResolutionTimer timer, float elapsedTime)
 
 void Framework::render(HighResolutionTimer timer, float elapsedTime)
 {
-	thisApp.draw(timer, elapsedTime);
+	thisApp->draw(timer, elapsedTime);
 }
 
 void Framework::run()
 {
-	while (!glfwWindowShouldClose(thisApp.getWindow()))
+	while (!glfwWindowShouldClose(thisApp->getWindow()))
 	{
 		glfwPollEvents();
 
@@ -142,7 +142,7 @@ void Framework::calculateFrameStats()
 		std::ostringstream outs;
 		outs.precision(6);
 		outs << "FPS : " << fps << " / " << "Frame Time : " << mspf << " (ms)";
-		glfwSetWindowTitle(thisApp.getWindow(), outs.str().c_str());
+		glfwSetWindowTitle(thisApp->getWindow(), outs.str().c_str());
 
 		// Reset for next average.
 		frames = 0;

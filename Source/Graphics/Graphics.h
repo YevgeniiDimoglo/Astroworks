@@ -5,33 +5,6 @@
 #include "Utilities.h"
 #include "Macros.h"
 
-class Camera;
-class Light;
-
-enum class Pipelines
-{
-	ModelPipeline,
-	PBRModelPipeline,
-	UnlitPipeline,
-	ShadowMapPipeline,
-	//DissolvePipeline,
-	DebugDrawingPipeline,
-	UIPipeline,
-	WaterPipeline,
-	FirePipeline,
-	OITColorAccum,
-	OITColorReveal,
-	OITResult,
-	Offscreen,
-	Luminance,
-	Blur,
-	DemoOITColorAccum,
-	DemoOITColorReveal,
-	DemoOITResult,
-
-	EnumCount
-};
-
 // - Vulkan structs
 struct QueueFamilyIndices
 {
@@ -55,6 +28,9 @@ class Graphics
 public:
 	Graphics() {}
 	~Graphics() {}
+
+	Graphics(const Graphics&) = delete;
+	Graphics& operator =(const Graphics&) = delete;
 
 public:
 

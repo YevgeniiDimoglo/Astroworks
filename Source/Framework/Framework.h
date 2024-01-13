@@ -26,7 +26,7 @@ private:
 
 	HighResolutionTimer timer;
 
-	Graphics thisApp;
+	std::unique_ptr<Graphics> thisApp;
 
 	Camera* camera;
 	FreeCameraController* freeCameraController;
