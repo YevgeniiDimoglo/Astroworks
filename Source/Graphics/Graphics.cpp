@@ -3,6 +3,7 @@
 #include "../UI/UI.h"
 #include "../Actor/Actor.h"
 #include "../Camera/Camera.h"
+#include "../Graphics/Light.h"
 
 Camera* playerCamera;
 
@@ -64,8 +65,8 @@ void Graphics::initTextures()
 
 	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/Fire_alpha.png"));
 
-	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, ".//Data/Textures/TextureNoise.png"));
-	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, ".//Data/Textures/TextureNoise2.png"));
+	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/TextureNoise.png"));
+	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/TextureNoise2.png"));
 
 	skybox.createCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/kloppenheim_02_puresky_4k.hdr");
 }
@@ -82,6 +83,10 @@ void Graphics::initSprites()
 	LOG("Initialization of Sprites\n");
 	// TODO: Change loading to loading on a fly
 	UI::Instance().loadFiles(physicalDevice, device, graphicsQueue, commandPool, samplerDescriptorPool, samplerSetLayout);
+}
+
+void Graphics::initLights()
+{
 }
 
 void Graphics::initVulkan()

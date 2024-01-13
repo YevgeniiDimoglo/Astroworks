@@ -6,6 +6,7 @@
 #include "Macros.h"
 
 class Camera;
+class Light;
 
 enum class Pipelines
 {
@@ -77,6 +78,8 @@ private:
 	void initModels();
 
 	void initSprites();
+
+	void initLights();
 
 	void initVulkan();
 
@@ -241,6 +244,8 @@ private:
 	VkImageView depthImageView;
 	VkFormat depthFormat;
 	VkSampler depthSampler;
+
+	std::vector<std::unique_ptr<Light>> sceneLights;
 
 	uint32_t currentFrame = 0;
 	bool framebufferResized = false;
