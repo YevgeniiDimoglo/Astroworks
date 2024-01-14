@@ -1,17 +1,26 @@
 #version 450
 
+layout(set = 0, binding = 0) uniform UBOScene
+{
+    mat4 model;
+    mat4 view;
+    mat4 projection;
+    mat4 lightMVP;
+    vec4 lightDirection;
+    vec4 lightColor;
+    vec4 viewPos;
+    vec4 timerConstants;
+} uboScene;
+
 layout(location = 0) in vec3 inNormal;
 layout(location = 1) in vec2 inUV;
 layout(location = 2) in vec3 inVertPos;
 layout(location = 3) in vec4 inTangent;
 
-layout(location = 4) in vec3 lightDirection;
-layout(location = 5) in vec4 lightColor;
-layout(location = 6) in vec4 baseColor;
-layout(location = 7) in vec4 inFragPosLightSpace;
+layout(location = 4) in vec4 inBaseColor;
+layout(location = 5) in vec4 inFragPosLightSpace;
 
-layout(location = 8) in vec4 inCameraPos;
-layout(location = 9) in vec4 timerConstants;
+layout(location = 6) in vec4 timerConstants;
 
 layout(binding = 1) uniform sampler2D shadowMap;
 
@@ -165,15 +174,14 @@ float shadowFactor(vec4 shadowCoord)
 
 void main() 
 {
-	vec4 albedoColor = texture(albedoMap, inUV) * baseColor;
+	vec4 albedoColor = texture(albedoMap, inUV) * inBaseColor;
 
 	vec4 metallicRoughness = texture(roughnessMap, inUV);
 
     vec3 N = normalize(inNormal);
 	vec3 normalSample = texture(normalMap, inUV).xyz;
-    vec3 v = normalize(inCameraPos.xyz - inVertPos);
+    vec3 v = normalize(uboScene.viewPos.xyz - inVertPos);
 	vec3 n = perturbNormal(N, v, normalSample, inUV);
-
 
     PBRInfo pbrInputs;
 
@@ -207,7 +215,9 @@ void main()
 	pbrInputs.n = n;
 	pbrInputs.v = v;
 
-	vec3 color = calculatePBRLightContribution(pbrInputs, normalize(lightDirection), lightColor.xyz);
+	vec3 lightDir = uboScene.lightDirection.xyz;
+
+	vec3 color = calculatePBRLightContribution(pbrInputs, normalize(lightDir), uboScene.lightColor.xyz);
 
     float u_OcclusionStrength = 1.0f;
 	color = color * (texture(aoMap, inUV).r < 0.01 ? u_OcclusionStrength : texture(aoMap, inUV).r );

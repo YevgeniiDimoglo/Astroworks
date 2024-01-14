@@ -593,7 +593,7 @@ void Graphics::createDescriptorSetLayout()
 	// Uniform values descriptor set layout
 	// UboViewProjection Binding Info
 	std::vector<VkDescriptorSetLayoutBinding> uboLayoutBindings = {
-				{ 0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT, nullptr },
+				{ 0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
 				{ 1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
 	};
 
@@ -2167,9 +2167,12 @@ void Graphics::updateUniformBuffer(HighResolutionTimer timer, float elapsedTime,
 {
 	UniformBufferObject ubo{};
 
+	float zNear = 0.1f;
+	float zFar = 1000.f;
+
 	// Model Info
 	ubo.view = glm::lookAt(camera->getEye(), camera->getFocus(), glm::vec3(0.f, 1.f, 0.f));
-	ubo.proj = camera->getProjection();
+	ubo.proj = glm::perspectiveFov(glm::radians(60.0f), (float)swapChainExtent.width, (float)swapChainExtent.height, zNear, zFar);
 	ubo.proj[1][1] *= -1;
 	ubo.model = glm::mat4(1.0f);
 
@@ -2178,10 +2181,7 @@ void Graphics::updateUniformBuffer(HighResolutionTimer timer, float elapsedTime,
 	ubo.lightDirection = { static_cast<DirectionalLight*>(sceneLights[0].get())->GetDirection(), 1.0f };
 	ubo.lightColor = static_cast<DirectionalLight*>(sceneLights[0].get())->GetColor();
 
-	float zNear = 0.1f;
-	float zFar = 1000.f;
-
-	glm::mat4 depthProjectionMatrix = glm::ortho(-500.f, 500.f, -500.f, 500.f, zNear, zFar);
+	glm::mat4 depthProjectionMatrix = glm::ortho(-2048.f, 2048.f, -2048.f, 2048.f, zNear, zFar);
 	depthProjectionMatrix[1][1] *= -1;
 
 	glm::mat4 depthViewMatrix = glm::lookAt(glm::vec3(100.f, 570.f, 200.f) + (glm::vec3(0.5f, 1.f, 0.f) * 20.f / 2.f), -glm::vec3(0.5f, 1.f, 0.f), glm::vec3(0, 1, 0));

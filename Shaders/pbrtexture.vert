@@ -28,13 +28,10 @@ layout(location = 1) out vec2 outUV;
 layout(location = 2) out vec3 outVertPos;
 layout(location = 3) out vec4 outTangent;
 
-layout(location = 4) out vec3 outLightDirection;
-layout(location = 5) out vec4 outLightColor;
-layout(location = 6) out vec4 outBaseColor;
-layout(location = 7) out vec4 outFragPosLightSpace;
+layout(location = 4) out vec4 outBaseColor;
+layout(location = 5) out vec4 outFragPosLightSpace;
 
-layout(location = 8) out vec4 outCameraPos;
-layout(location = 9) out vec4 outTimerConstants;
+layout(location = 6) out vec4 outTimerConstants;
 
 const mat4 biasMat = mat4( 
 	0.5, 0.0, 0.0, 0.0,
@@ -53,12 +50,9 @@ void main()
     vec4 vertPos4 = primitive.model * vec4(inPos, 1.0);
     outVertPos = vertPos4.xyz / vertPos4.w;
     
-    outLightDirection = vec3(uboScene.lightDirection);
-    outLightColor = uboScene.lightColor;
     outFragPosLightSpace = biasMat * uboScene.lightMVP * vec4(outVertPos, 1.0);
 
     outNormal = mat3(primitive.model) * inNormal;
 
-    outCameraPos = uboScene.viewPos;
     outTimerConstants = primitive.timer;
 }
