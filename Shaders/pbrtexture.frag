@@ -23,6 +23,7 @@ layout(location = 5) in vec4 inFragPosLightSpace;
 layout(location = 6) in vec4 timerConstants;
 
 layout(binding = 1) uniform sampler2D shadowMap;
+layout(binding = 2) uniform samplerCube samplerCubeMap;
 
 layout(set = 1, binding = 0) uniform sampler2D albedoMap;
 layout(set = 1, binding = 1) uniform sampler2D normalMap;
@@ -57,6 +58,13 @@ struct PBRInfo
 	vec3 specularColor;          
 	vec3 n;								
 	vec3 v;								
+};
+
+struct IBLinfo
+{
+   vec3 diffuseLight;
+   vec3 specularLight;
+   vec3 brdf;
 };
 
 vec3 diffuseBurley(PBRInfo pbrInputs)

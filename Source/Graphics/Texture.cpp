@@ -33,24 +33,21 @@ void CubeMap::CreateCubeMap(VkPhysicalDevice newPhysicalDevice, VkDevice newLogi
 
 	uint8_t* data = cubemap.data_.data();
 
-	//uint32_t cubeimageSize = (
-	//	cubemap.w_ *
-	//	cubemap.h_ *
-	//	4 *
-	//	Bitmap::getBytesPerComponent(cubemap.fmt_) *
-	//	6
-	//	);
-
-	VkDeviceSize layerSize = cubemap.w_ * cubemap.h_ * 4;
-	VkDeviceSize imageSize = layerSize * 6;
+	uint32_t cubeimageSize = (
+		cubemap.w_ *
+		cubemap.h_ *
+		4 *
+		Bitmap::getBytesPerComponent(cubemap.fmt_) *
+		6
+		);
 
 	VkBuffer imageStagingBuffer;
 	VkDeviceMemory imageStagingBufferMemory;
-	createBuffer(newPhysicalDevice, newLogicalDevice, imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, imageStagingBuffer, imageStagingBufferMemory);
+	createBuffer(newPhysicalDevice, newLogicalDevice, cubeimageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, imageStagingBuffer, imageStagingBufferMemory);
 
 	void* bufferdata;
-	vkMapMemory(newLogicalDevice, imageStagingBufferMemory, 0, imageSize, 0, &bufferdata);
-	memcpy(bufferdata, data, static_cast<size_t>(imageSize));
+	vkMapMemory(newLogicalDevice, imageStagingBufferMemory, 0, cubeimageSize, 0, &bufferdata);
+	memcpy(bufferdata, data, static_cast<size_t>(cubeimageSize));
 	vkUnmapMemory(newLogicalDevice, imageStagingBufferMemory);
 
 	VkImageCreateInfo imageInfo{};
@@ -85,7 +82,7 @@ void CubeMap::CreateCubeMap(VkPhysicalDevice newPhysicalDevice, VkDevice newLogi
 	vkBindImageMemory(newLogicalDevice, image, deviceMemory, 0);
 
 	transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue, image, VK_FORMAT_R32G32B32A32_SFLOAT, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 6);
-	copyBufferToImage(newLogicalDevice, transferCommandPool, transferQueue, imageStagingBuffer, image, static_cast<uint32_t>(width), static_cast<uint32_t>(height), 6);
+	copyBufferToImage(newLogicalDevice, transferCommandPool, transferQueue, imageStagingBuffer, image, static_cast<uint32_t>(cubemap.w_), static_cast<uint32_t>(cubemap.h_), 6);
 	transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue, image, VK_FORMAT_R32G32B32A32_SFLOAT, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, 6);
 
 	vkDestroyBuffer(newLogicalDevice, imageStagingBuffer, nullptr);
