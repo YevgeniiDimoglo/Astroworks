@@ -6,14 +6,22 @@
 #include <stb_image.h>
 #include <stdexcept>
 #include <vector>
+#include <algorithm>
 
+#include "../Graphics/Bitmap.h"
 #include "../Graphics/Macros.h"
+#include "../Misc/Math.h"
 
 class CubeMap
 {
 public:
-	void createCubeMap(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkCommandPool transferCommandPool, VkQueue transferQueue, std::string filePath);
-private:
+	void CreateCubeMap(VkPhysicalDevice newPhysicalDevice, VkDevice newLogicalDevice, VkCommandPool transferCommandPool, VkQueue transferQueue, std::string filePath);
+
+	glm::vec3 FaceCoordsToXYZ(int i, int j, int faceID, int faceSize);
+
+	Bitmap ConvertEquirectangularMapToVerticalCross(const Bitmap& bp);
+	Bitmap ConvertVerticalCrossToCubeMapFaces(const Bitmap& bp);
+
 	VkImage					image;
 	VkImageLayout			imageLayout;
 	VkDeviceMemory			deviceMemory;
@@ -234,7 +242,7 @@ static VkImageView createImageView(VkDevice device, VkImage image, VkFormat form
 	return imageView;
 }
 
-static void copyBufferToImage(VkDevice device, VkCommandPool commandPool, VkQueue graphicsQueue, VkBuffer buffer, VkImage image, uint32_t width, uint32_t height)
+static void copyBufferToImage(VkDevice device, VkCommandPool commandPool, VkQueue graphicsQueue, VkBuffer buffer, VkImage image, uint32_t width, uint32_t height, uint32_t layerCount)
 {
 	VkCommandBuffer commandBuffer = beginSingleTimeCommands(device, commandPool);
 
@@ -246,7 +254,7 @@ static void copyBufferToImage(VkDevice device, VkCommandPool commandPool, VkQueu
 	region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 	region.imageSubresource.mipLevel = 0;
 	region.imageSubresource.baseArrayLayer = 0;
-	region.imageSubresource.layerCount = 1;
+	region.imageSubresource.layerCount = layerCount;
 
 	region.imageOffset = { 0, 0, 0 };
 	region.imageExtent = { width, height, 1 };
@@ -256,7 +264,7 @@ static void copyBufferToImage(VkDevice device, VkCommandPool commandPool, VkQueu
 	endSingleTimeCommands(device, commandPool, graphicsQueue, commandBuffer);
 }
 
-static void transitionImageLayout(VkDevice device, VkCommandPool commandPool, VkQueue graphicsQueue, VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout)
+static void transitionImageLayout(VkDevice device, VkCommandPool commandPool, VkQueue graphicsQueue, VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout, uint32_t layerCount)
 {
 	VkCommandBuffer commandBuffer = beginSingleTimeCommands(device, commandPool);
 
@@ -272,7 +280,7 @@ static void transitionImageLayout(VkDevice device, VkCommandPool commandPool, Vk
 	barrier.subresourceRange.baseMipLevel = 0;
 	barrier.subresourceRange.levelCount = 1;
 	barrier.subresourceRange.baseArrayLayer = 0;
-	barrier.subresourceRange.layerCount = 1;
+	barrier.subresourceRange.layerCount = layerCount;
 
 	VkPipelineStageFlags sourceStage;
 	VkPipelineStageFlags destinationStage;
@@ -352,9 +360,9 @@ static ImageBuffer createTexture(VkPhysicalDevice newPhysicalDevice, VkDevice ne
 	VkImage texImage;
 	VkDeviceMemory texImageMemory;
 	texImage = createImage(newPhysicalDevice, newLogicalDevice, texWidth, texHeight, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, texImageMemory);
-	transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue, texImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
-	copyBufferToImage(newLogicalDevice, transferCommandPool, transferQueue, stagingBuffer, texImage, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight));
-	transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue, texImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+	transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue, texImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1);
+	copyBufferToImage(newLogicalDevice, transferCommandPool, transferQueue, stagingBuffer, texImage, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight), 1);
+	transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue, texImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, 1);
 
 	vkDestroyBuffer(newLogicalDevice, stagingBuffer, nullptr);
 	vkFreeMemory(newLogicalDevice, stagingBufferMemory, nullptr);

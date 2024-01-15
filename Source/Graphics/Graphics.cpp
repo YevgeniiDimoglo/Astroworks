@@ -67,8 +67,6 @@ void Graphics::initTextures()
 
 	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/TextureNoise.png"));
 	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/TextureNoise2.png"));
-
-	skybox.createCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/kloppenheim_02_puresky_4k.hdr");
 }
 
 void Graphics::initModels()
@@ -88,7 +86,7 @@ void Graphics::initSprites()
 void Graphics::initLights()
 {
 	std::unique_ptr<Light> sun = std::make_unique<DirectionalLight>();
-	static_cast<DirectionalLight*>(sun.get())->InitLight(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.5f, 1.0f, 0.0f);
+	static_cast<DirectionalLight*>(sun.get())->InitLight(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
 	sceneLights.push_back(std::move(sun));
 }
 
@@ -135,6 +133,7 @@ void Graphics::initVulkan()
 	createDescriptorPool();
 	LOG("DescriptoPools created successfully\n");
 	// Create descriptors
+	skybox.CreateCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/kloppenheim_02_puresky_4k.hdr");
 	createDescriptorSets();
 	LOG("DescriptorSets created successfully\n");
 	// Create offscreen buffers
@@ -595,6 +594,7 @@ void Graphics::createDescriptorSetLayout()
 	std::vector<VkDescriptorSetLayoutBinding> uboLayoutBindings = {
 				{ 0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
 				{ 1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
+				{ 2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr},
 	};
 
 	// Create Descriptor Set Layout
@@ -1140,7 +1140,7 @@ void Graphics::createaDepthResources()
 	// Create Depth buffer image view
 	depthImageView = createImageView(device, depthImage, depthFormat, VK_IMAGE_ASPECT_DEPTH_BIT);
 
-	transitionImageLayout(device, commandPool, graphicsQueue, depthImage, depthFormat, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
+	transitionImageLayout(device, commandPool, graphicsQueue, depthImage, depthFormat, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, 1);
 }
 
 void Graphics::createUniformBuffers()
@@ -1269,7 +1269,7 @@ void Graphics::createDescriptorSets()
 		bufferInfo.range = sizeof(UniformBufferObject);
 
 		// List of descriptor set writes
-		std::array<VkWriteDescriptorSet, 2> descriptorWrites{};
+		std::array<VkWriteDescriptorSet, 3> descriptorWrites{};
 		descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 		descriptorWrites[0].dstSet = descriptorSets[i];
 		descriptorWrites[0].dstBinding = 0;
@@ -1292,6 +1292,19 @@ void Graphics::createDescriptorSets()
 		descriptorWrites[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 		descriptorWrites[1].descriptorCount = 1;
 		descriptorWrites[1].pImageInfo = &imageInfo;
+
+		VkDescriptorImageInfo skyImageInfo = {};
+		skyImageInfo.sampler = skybox.sampler;
+		skyImageInfo.imageView = skybox.view;
+		skyImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+
+		descriptorWrites[2].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+		descriptorWrites[2].dstSet = descriptorSets[i];
+		descriptorWrites[2].dstBinding = 2;
+		descriptorWrites[2].dstArrayElement = 0;
+		descriptorWrites[2].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+		descriptorWrites[2].descriptorCount = 1;
+		descriptorWrites[2].pImageInfo = &skyImageInfo;
 
 		// Update the descriptor sets with new buffer / binding info
 		vkUpdateDescriptorSets(device, static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);

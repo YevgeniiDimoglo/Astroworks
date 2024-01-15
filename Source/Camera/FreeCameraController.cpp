@@ -11,29 +11,6 @@ void FreeCameraController::SyncCameraToController(Camera* camera)
 	focus = camera->getFocus();
 	up = camera->getUp();
 	right = camera->getRight();
-
-	glm::vec3 vector = focus - eye;
-	distance = glm::length(vector);
-
-	glm::vec3 front = camera->getFront();
-	angleX = ::asinf(-front.y);
-
-	if (up.y < 0)
-	{
-		if (front.y > 0)
-		{
-			angleX = -glm::pi<float>() - angleX;
-		}
-		else
-		{
-			angleX = glm::pi<float>() - angleX;
-		}
-		angleY = ::atan2f(front.x, front.z);
-	}
-	else
-	{
-		angleY = ::atan2f(-front.x, -front.z);
-	}
 }
 
 void FreeCameraController::SyncControllerToCamera(Camera* camera)

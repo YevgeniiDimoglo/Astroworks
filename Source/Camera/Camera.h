@@ -13,8 +13,8 @@ public:
 	void setPerspectiveFov(float fovY, float widht, float height, float nearZ, float farZ);
 
 	void setAspect(float width, float height) { this->aspect = width / height; }
-
 	void setFront(glm::vec3 front) { this->front = front; }
+	void setPosition(glm::vec3 position) { this->eye = position; }
 
 	glm::mat4x4 getView() const { return view; }
 	glm::mat4x4 getViewMatrix()

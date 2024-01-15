@@ -809,14 +809,14 @@ GLTFStaticModel::Image GLTFStaticModel::createTextureFromBuffer(void* buffer, Vk
 	// Copy data to image
 	// Transition image to be DST for copy operation
 	transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue,
-		texImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+		texImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1);
 
 	// Copy image data
-	copyBufferToImage(newLogicalDevice, transferCommandPool, transferQueue, imageStagingBuffer, texImage, texWidth, texHeight);
+	copyBufferToImage(newLogicalDevice, transferCommandPool, transferQueue, imageStagingBuffer, texImage, texWidth, texHeight, 1);
 
 	// Transition image to be shader readable for shader usage
 	transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue,
-		texImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+		texImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, 1);
 
 	// Add texture data to vector for reference
 	image.image = texImage;
