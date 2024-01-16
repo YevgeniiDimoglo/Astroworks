@@ -158,6 +158,11 @@ void ActorManager::deserializeActor()
 		{
 			actor->setShaderType(ShaderType::OITColorAccum);
 		}
+
+		if (actor->getTypeName() == "Skybox")
+		{
+			actor->setShaderType(ShaderType::Skybox);
+		}
 	}
 }
 

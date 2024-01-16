@@ -70,6 +70,7 @@ enum class Pipelines
 	DemoOITColorAccum,
 	DemoOITColorReveal,
 	DemoOITResult,
+	Skybox,
 
 	EnumCount
 };
@@ -87,6 +88,7 @@ enum class ShaderType
 	OITColorAccum,
 	OITColorReveal,
 	OITResult,
+	Skybox,
 	EnumCount
 };
 

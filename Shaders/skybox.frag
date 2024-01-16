@@ -1,6 +1,6 @@
 #version 450
 
-layout(binding = 1) uniform samplerCube cubemapSampler;
+layout(binding = 2) uniform samplerCube cubemapSampler;
 
 layout(location = 0) in vec3 inTexCoord;
 

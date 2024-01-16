@@ -133,6 +133,7 @@ void Graphics::initVulkan()
 	createDescriptorPool();
 	LOG("DescriptoPools created successfully\n");
 	// Create descriptors
+	////
 	skybox.CreateCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/kloppenheim_02_puresky_4k.hdr");
 	createDescriptorSets();
 	LOG("DescriptorSets created successfully\n");
@@ -273,6 +274,10 @@ void Graphics::cleanup()
 	UI::Instance().cleanup(device);
 
 	{
+		vkDestroyImageView(device, skybox.view, nullptr);
+		vkDestroyImage(device, skybox.image, nullptr);
+		vkFreeMemory(device, skybox.deviceMemory, nullptr);
+
 		vkDestroyImageView(device, FinalTexture.offscreenColorAttachment.view, nullptr);
 		vkDestroyImage(device, FinalTexture.offscreenColorAttachment.image, nullptr);
 		vkFreeMemory(device, FinalTexture.offscreenColorAttachment.mem, nullptr);
@@ -329,6 +334,7 @@ void Graphics::cleanup()
 			vkDestroySampler(device, it.sampler, nullptr);
 		}
 
+		vkDestroySampler(device, skybox.sampler, nullptr);
 		vkDestroySampler(device, offscreen.sampler, nullptr);
 		vkDestroySampler(device, Luminance.sampler, nullptr);
 		vkDestroySampler(device, Blur.sampler, nullptr);
@@ -857,6 +863,12 @@ void Graphics::createGraphicsPipelines()
 
 			cullingFlag = VK_CULL_MODE_NONE;
 			break;
+		case Pipelines::Skybox:
+			vertShaderCode = readFile("./Shaders/skyboxVS.spv");
+			fragShaderCode = readFile("./Shaders/skyboxPS.spv");
+
+			cullingFlag = VK_CULL_MODE_NONE;
+			break;
 		case Pipelines::EnumCount:
 			break;
 		default:
@@ -1016,6 +1028,21 @@ void Graphics::createGraphicsPipelines()
 		{
 			// Pipeline layout
 			std::array<VkDescriptorSetLayout, 3> descriptorSetLayouts = { descriptorSetLayout, samplerSetLayout, OITDescriptorSetLayout };
+
+			pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+			pipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(descriptorSetLayouts.size());
+			pipelineLayoutInfo.pSetLayouts = descriptorSetLayouts.data();
+
+			pipelineLayoutInfo.pushConstantRangeCount = 1;
+			pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
+
+			// Create a pipeline layout
+			VK_CHECK(vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayouts[static_cast<int>(pipelineName)]));
+		}
+		else if (pipelineName == Pipelines::Skybox)
+		{
+			// Pipeline layout
+			std::array<VkDescriptorSetLayout, 2> descriptorSetLayouts = { descriptorSetLayout, samplerSetLayout };
 
 			pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 			pipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(descriptorSetLayouts.size());
@@ -1759,6 +1786,16 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	{
 		wireframe = !wireframe;
 	}
+
+	// -- Model Pipeline: Phong Shader
+	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::Skybox)]);
+
+	// Bind camera descriptor
+	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::Skybox)],
+		0, 1, &descriptorSets[currentFrame], 0, nullptr);
+
+	// -- Model Pipeline: Shadow Shader
+	ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::Skybox)], static_cast<int>(ShaderType::Skybox));
 
 	//Model rendering
 	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)],
