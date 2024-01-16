@@ -39,7 +39,7 @@ Framework::Framework()
 		1000.0f);
 
 	camera->setAspect(thisApp->getExtent().width, thisApp->getExtent().height);
-	camera->setPosition({ 0.0f, 5.0f, 15.0f });
+	camera->setPosition({ 0.0f, 0.0f, 0.0f });
 
 	freeCameraController = new FreeCameraController();
 	lockCameraController = new LockCameraController();
@@ -77,6 +77,7 @@ void Framework::update(HighResolutionTimer timer, float elapsedTime)
 		{
 			freeCameraController->Update(thisApp->getWindow(), elapsedTime);
 			freeCameraController->SyncControllerToCamera(camera);
+			freeCameraController->SetCameraEnabled(false);
 		}
 		else
 		{
@@ -86,19 +87,6 @@ void Framework::update(HighResolutionTimer timer, float elapsedTime)
 	}
 
 	thisApp->update(timer, elapsedTime, camera);
-
-	if (glfwGetKey(thisApp->getWindow(), GLFW_KEY_F1) == GLFW_PRESS)
-	{
-		UI::Instance().changeOverlay(std::make_unique<OverlayGame>());
-		ActorManager::Instance().switchLevel("Level");
-	}
-
-	if (glfwGetKey(thisApp->getWindow(), GLFW_KEY_F2) == GLFW_PRESS)
-	{
-		ActorManager::Instance().switchLevel("Demo");
-		UI::Instance().changeOverlay(std::make_unique<OverlayEffectDemo>());
-		glfwSetInputMode(thisApp->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-	}
 
 	if (glfwGetKey(thisApp->getWindow(), GLFW_KEY_F11) == GLFW_PRESS)
 	{

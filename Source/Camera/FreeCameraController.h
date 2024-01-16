@@ -12,6 +12,9 @@ public:
 
 	void Update(GLFWwindow* window, float deltaTime);
 
+	bool GetCameraEnabled() const { return cameraEnable; }
+	void SetCameraEnabled(bool isCameraEnable) { this->cameraEnable = isCameraEnable; }
+
 private:
 	glm::vec3 eye;
 	glm::vec3 focus;

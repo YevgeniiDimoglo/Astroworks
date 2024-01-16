@@ -5,7 +5,7 @@
 
 void OverlayEffectDemo::initialize(GLFWwindow* window)
 {
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 	// Background images
 	std::shared_ptr<Widget> minimapArea = std::make_shared<Image>("window_transparent");
