@@ -15,6 +15,8 @@ layout(set = 0, binding = 0) uniform UBOScene
 layout(push_constant) uniform PushModel{
       mat4 model;
       vec4 baseColor;
+      vec4 timer;
+	vec4 additionalValues;
 } pushModel;
 
 layout(location = 0) in vec3 inPos;
@@ -28,6 +30,6 @@ void main()
 {
       outTexCoord = inPos;
 	outTexCoord.xy *= -1.0;
-	mat4 viewMat = mat4(mat3(pushModel.model));
+	mat4 viewMat = mat4(mat3(uboScene.model));
 	gl_Position = uboScene.projection * viewMat * vec4(inPos.xyz, 1.0);
 }

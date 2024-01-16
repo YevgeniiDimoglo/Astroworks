@@ -2,8 +2,8 @@
 name = "Skybox"
 position = [0.0,0.0,0.0]
 rotation = [-0.0,0.0,1.0,-0.0]
-euler = [0.0,-90.0,0.0]
-scale = [30.0,30.0,30.0]
+euler = [0.0,0.0,0.0]
+scale = [100.0,100.0,100.0]
 path = "./Data/Primitives/Cube.glb"
 type = "Terrian"
 typeName = "Skybox"

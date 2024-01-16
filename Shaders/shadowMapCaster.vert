@@ -16,7 +16,8 @@ layout(push_constant) uniform PushModel{
       mat4 model;
       vec4 baseColor;
       vec4 timer;
-} primitive;
+	  vec4 additionalValues;
+} pushModel;
 
 layout(location = 0) in vec3 inPos;
 layout(location = 1) in vec3 inNormal;
@@ -32,6 +33,6 @@ out gl_PerVertex
 
 void main() 
 {
-    worldPos = (primitive.model * vec4(inPos,1.0)).xyz;
-    gl_Position =  uboScene.lightMVP * primitive.model * vec4(inPos, 1.0);
+    worldPos = (pushModel.model * vec4(inPos,1.0)).xyz;
+    gl_Position =  uboScene.lightMVP * pushModel.model * vec4(inPos, 1.0);
 }

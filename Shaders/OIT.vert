@@ -16,7 +16,8 @@ layout(push_constant) uniform PushModel{
       mat4 model;
       vec4 baseColor;
       vec4 timer;
-} primitive;
+	  vec4 additionalValues;
+} pushModel;
 
 layout(location = 0) in vec3 inPos;
 layout(location = 1) in vec3 inNormal;
@@ -45,18 +46,18 @@ const mat4 biasMat = mat4(
 void main() 
 {
     outNormal = inNormal;
-    outBaseColor = primitive.baseColor;
+    outBaseColor = pushModel.baseColor;
     outUV = inUV;
     outTangent = inTangent;
-    gl_Position = uboScene.projection * uboScene.view * primitive.model * vec4(inPos, 1.0);
+    gl_Position = uboScene.projection * uboScene.view * pushModel.model * vec4(inPos, 1.0);
     
-    vec4 vertPos4 = primitive.model * vec4(inPos, 1.0);
+    vec4 vertPos4 = pushModel.model * vec4(inPos, 1.0);
     outVertPos = vertPos4.xyz / vertPos4.w;
     outLightDirection = vec3(uboScene.lightDirection);
     outLightColor = uboScene.lightColor;
     outFragPosLightSpace = biasMat * uboScene.lightMVP * vec4(outVertPos, 1.0);
 
-    outNormal = mat3(primitive.model) * inNormal;
+    outNormal = mat3(pushModel.model) * inNormal;
 
     outCameraPos = uboScene.viewPos;
     projectionMatrix = uboScene.projection;

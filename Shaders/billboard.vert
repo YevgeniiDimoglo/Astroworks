@@ -15,6 +15,7 @@ layout(push_constant) uniform PushModel{
       mat4 model;
       vec4 baseColor;
       vec4 timer;
+	  vec4 additionalValues;
 } pushModel;
 
 layout(location = 0) in vec3 inPosition;

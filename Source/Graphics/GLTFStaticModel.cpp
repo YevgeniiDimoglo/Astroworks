@@ -455,6 +455,14 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	VkDescriptorImageInfo emissiveInfo = emissive->descriptor;
 	VkDescriptorImageInfo additionalInfo = additional->descriptor;
 
+	material.baseColorTexture = color;
+	material.normalTexture = normal;
+	material.metallicRoughnessTexture = metallic;
+	material.metallicRoughnessTexture = roughness;
+	material.ambientOcclusionTexture = AO;
+	material.emissiveTexture = emissive;
+	material.additionalTexture = additional;
+
 	std::vector<VkDescriptorImageInfo> imageDescriptors = {
 		colorInfo,
 		normalInfo,

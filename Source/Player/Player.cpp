@@ -10,7 +10,7 @@
 
 GLTFStaticModel::Material Player::currentMaterial;
 GLTFStaticModel::Image Player::currentTexture;
-glm::vec2 BloomValues = { 0.5f, 2.0f };
+glm::vec2 BloomValues = { 0.8f, 1.0f };
 glm::vec4 Player::currentColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 std::vector<int> Player::textureIndex(4, 0);
 
