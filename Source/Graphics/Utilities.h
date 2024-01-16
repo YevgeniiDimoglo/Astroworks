@@ -89,6 +89,7 @@ enum class ShaderType
 	OITColorReveal,
 	OITResult,
 	Skybox,
+
 	EnumCount
 };
 

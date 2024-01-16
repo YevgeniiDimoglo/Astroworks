@@ -26,9 +26,8 @@ layout(location = 0) out vec3 outTexCoord;
 
 void main()
 {
-   gl_Position = (
-         uboScene.projection * uboScene.view * pushModel.model * vec4(inPos, 1.0)
-   ).xyww;
-
-   outTexCoord = inPos;
+      outTexCoord = inPos;
+	outTexCoord.xy *= -1.0;
+	mat4 viewMat = mat4(mat3(pushModel.model));
+	gl_Position = uboScene.projection * viewMat * vec4(inPos.xyz, 1.0);
 }
