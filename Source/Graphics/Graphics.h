@@ -59,6 +59,8 @@ private:
 
 	void initVulkan();
 
+	void InitResources();
+
 	void drawFrame(HighResolutionTimer timer, float elapsedTime);
 
 	void cleanup();

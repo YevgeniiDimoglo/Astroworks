@@ -71,6 +71,11 @@ public:
 		return shaderSubType;
 	}
 
+	void setTransparent(const bool isTransparent) { this->transparent = isTransparent; }
+	const bool getTransparent() const {
+		return transparent;
+	}
+
 	void setTimer(const glm::vec4& timer) { this->timer = timer; }
 	const glm::vec3& getTimer() const {
 		return timer;
@@ -137,6 +142,7 @@ private:
 
 	ShaderType shaderType;
 	ShaderType shaderSubType;
+	bool transparent = false;
 };
 
 class ActorManager
@@ -175,7 +181,8 @@ public:
 	void updateMaterials();
 	void updateMaterials(std::string actorName);
 
-	void render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, int pipelineNumber, bool special = false);
+	void renderSolid(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, int pipelineNumber);
+	void renderTransparent(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, int pipelineNumber);
 
 	void cleanup(VkDevice newLogicalDevice);
 

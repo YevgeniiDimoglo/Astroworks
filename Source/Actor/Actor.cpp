@@ -270,13 +270,37 @@ void ActorManager::updateTransform()
 {
 }
 
-void ActorManager::render(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, int pipelineNumber, bool special)
+void ActorManager::renderSolid(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, int pipelineNumber)
 {
 	// TODO: Move updateTransform to update function
 	// Render actor models
 	static int localTimer = 0;
 	for (std::shared_ptr<Actor>& actor : updateActors)
 	{
+		if (actor->getTransparent() == true) continue;
+
+		if (static_cast<int>(actor->getShaderType()) == pipelineNumber)
+		{
+			GLTFStaticModel* model = actor->getModel();
+			if (model != nullptr)
+			{
+				actor->updateTransform();
+
+				model->draw(commandBuffer, pipelineLayout);
+			}
+		}
+	}
+}
+
+void ActorManager::renderTransparent(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, int pipelineNumber)
+{
+	// TODO: Move updateTransform to update function
+	// Render actor models
+	static int localTimer = 0;
+	for (std::shared_ptr<Actor>& actor : updateActors)
+	{
+		if (actor->getTransparent() == false) continue;
+
 		if (static_cast<int>(actor->getShaderType()) == pipelineNumber)
 		{
 			GLTFStaticModel* model = actor->getModel();

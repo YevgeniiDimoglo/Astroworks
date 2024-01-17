@@ -95,6 +95,11 @@ void ResourceManager::loadFiles(std::string filepath)
 
 		auto actors = tbl["ActorsOnScreen"];
 
+		if (actors.as_array() == nullptr)
+		{
+			return;
+		}
+
 		for (size_t i = 0; i < actors.as_array()->size(); i++)
 		{
 			auto position = actors[i]["position"];

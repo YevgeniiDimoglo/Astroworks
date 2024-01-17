@@ -144,7 +144,6 @@ public:
 		GLTFStaticModel::Image* baseColorTexture;
 		GLTFStaticModel::Image* metallicRoughnessTexture;
 		GLTFStaticModel::Image* normalTexture;
-		GLTFStaticModel::Image* occlussionTexture;
 		GLTFStaticModel::Image* emissiveTexture;
 		GLTFStaticModel::Image* ambientOcclusionTexture;
 		GLTFStaticModel::Image* additionalTexture;

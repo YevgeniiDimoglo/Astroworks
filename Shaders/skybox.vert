@@ -30,6 +30,5 @@ void main()
 {
       outTexCoord = inPos;
 	outTexCoord.xy *= -1.0;
-	mat4 viewMat = mat4(mat3(uboScene.model));
-	gl_Position = uboScene.projection * viewMat * vec4(inPos.xyz, 1.0);
+	gl_Position = uboScene.projection * uboScene.view * pushModel.model * vec4(inPos.xyz, 1.0);
 }

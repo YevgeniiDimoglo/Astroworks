@@ -13,14 +13,6 @@ void Graphics::init()
 
 	initVulkan();
 
-	initTextures();
-
-	initModels();
-
-	initSprites();
-
-	initLights();
-
 	LOG("End of initialization\n");
 }
 
@@ -134,7 +126,8 @@ void Graphics::initVulkan()
 	LOG("DescriptoPools created successfully\n");
 	// Create descriptors
 	////
-	skybox.CreateCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/neon_photostudio_4k.hdr");
+	InitResources();
+	LOG("Resources created successfully\n");
 	createDescriptorSets();
 	LOG("DescriptorSets created successfully\n");
 	// Create offscreen buffers
@@ -160,6 +153,19 @@ void Graphics::initVulkan()
 	LOG("SyncronizationObjects created successfully\n");
 }
 
+void Graphics::InitResources()
+{
+	initTextures();
+
+	initModels();
+
+	initSprites();
+
+	initLights();
+
+	skybox.CreateCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/kloppenheim_02_puresky_4k.hdr");
+}
+
 void Graphics::drawFrame(HighResolutionTimer timer, float elapsedTime)
 {
 	// Wait for given fence to signal (open) from last draw before continuing
@@ -172,14 +178,6 @@ void Graphics::drawFrame(HighResolutionTimer timer, float elapsedTime)
 	if (result == VK_ERROR_OUT_OF_DATE_KHR)
 	{
 		recreateSwapChain();
-
-		// TODO: Set perspective after window resize
-
-		//camera.setPerspectiveFov(
-		//	glm::radians(45.f),
-		//	swapChainExtent.width, swapChainExtent.height,
-		//	0.1f,
-		//	1000.0f);
 
 		return;
 	}
@@ -263,6 +261,10 @@ void Graphics::cleanup()
 
 	cleanupSwapChain();
 
+	vkDestroyImageView(device, depthImageView, nullptr);
+	vkDestroyImage(device, depthImage, nullptr);
+	vkFreeMemory(device, depthImageMemory, nullptr);
+
 	for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
 	{
 		vkDestroyBuffer(device, uniformBuffers[i], nullptr);
@@ -273,77 +275,27 @@ void Graphics::cleanup()
 
 	UI::Instance().cleanup(device);
 
+	vkDestroyImageView(device, skybox.view, nullptr);
+	vkDestroyImage(device, skybox.image, nullptr);
+	vkFreeMemory(device, skybox.deviceMemory, nullptr);
+
+	for (auto it : getGlobalVector())
 	{
-		vkDestroyImageView(device, skybox.view, nullptr);
-		vkDestroyImage(device, skybox.image, nullptr);
-		vkFreeMemory(device, skybox.deviceMemory, nullptr);
-
-		vkDestroyImageView(device, FinalTexture.offscreenColorAttachment.view, nullptr);
-		vkDestroyImage(device, FinalTexture.offscreenColorAttachment.image, nullptr);
-		vkFreeMemory(device, FinalTexture.offscreenColorAttachment.mem, nullptr);
-
-		vkDestroyImageView(device, FinalTexture.offscreenDepthAttachment.view, nullptr);
-		vkDestroyImage(device, FinalTexture.offscreenDepthAttachment.image, nullptr);
-		vkFreeMemory(device, FinalTexture.offscreenDepthAttachment.mem, nullptr);
-
-		vkDestroyImageView(device, Luminance.offscreenColorAttachment.view, nullptr);
-		vkDestroyImage(device, Luminance.offscreenColorAttachment.image, nullptr);
-		vkFreeMemory(device, Luminance.offscreenColorAttachment.mem, nullptr);
-
-		vkDestroyImageView(device, Luminance.offscreenDepthAttachment.view, nullptr);
-		vkDestroyImage(device, Luminance.offscreenDepthAttachment.image, nullptr);
-		vkFreeMemory(device, Luminance.offscreenDepthAttachment.mem, nullptr);
-
-		vkDestroyImageView(device, Blur.offscreenColorAttachment.view, nullptr);
-		vkDestroyImage(device, Blur.offscreenColorAttachment.image, nullptr);
-		vkFreeMemory(device, Blur.offscreenColorAttachment.mem, nullptr);
-
-		vkDestroyImageView(device, Blur.offscreenDepthAttachment.view, nullptr);
-		vkDestroyImage(device, Blur.offscreenDepthAttachment.image, nullptr);
-		vkFreeMemory(device, Blur.offscreenDepthAttachment.mem, nullptr);
-
-		vkDestroyImageView(device, OITResult.offscreenColorAttachment.view, nullptr);
-		vkDestroyImage(device, OITResult.offscreenColorAttachment.image, nullptr);
-		vkFreeMemory(device, OITResult.offscreenColorAttachment.mem, nullptr);
-
-		vkDestroyImageView(device, OITResult.offscreenDepthAttachment.view, nullptr);
-		vkDestroyImage(device, OITResult.offscreenDepthAttachment.image, nullptr);
-		vkFreeMemory(device, OITResult.offscreenDepthAttachment.mem, nullptr);
-
-		vkDestroyImageView(device, OITColorReveal.offscreenColorAttachment.view, nullptr);
-		vkDestroyImage(device, OITColorReveal.offscreenColorAttachment.image, nullptr);
-		vkFreeMemory(device, OITColorReveal.offscreenColorAttachment.mem, nullptr);
-
-		vkDestroyImageView(device, OITColorAccum.offscreenColorAttachment.view, nullptr);
-		vkDestroyImage(device, OITColorAccum.offscreenColorAttachment.image, nullptr);
-		vkFreeMemory(device, OITColorAccum.offscreenColorAttachment.mem, nullptr);
-
-		vkDestroyImageView(device, offscreen.offscreenColorAttachment.view, nullptr);
-		vkDestroyImage(device, offscreen.offscreenColorAttachment.image, nullptr);
-		vkFreeMemory(device, offscreen.offscreenColorAttachment.mem, nullptr);
-
-		vkDestroyImageView(device, offscreen.offscreenDepthAttachment.view, nullptr);
-		vkDestroyImage(device, offscreen.offscreenDepthAttachment.image, nullptr);
-		vkFreeMemory(device, offscreen.offscreenDepthAttachment.mem, nullptr);
-
-		for (auto it : getGlobalVector())
-		{
-			vkDestroyImageView(device, it.view, nullptr);
-			vkDestroyImage(device, it.image, nullptr);
-			vkFreeMemory(device, it.deviceMemory, nullptr);
-			vkDestroySampler(device, it.sampler, nullptr);
-		}
-
-		vkDestroySampler(device, skybox.sampler, nullptr);
-		vkDestroySampler(device, offscreen.sampler, nullptr);
-		vkDestroySampler(device, Luminance.sampler, nullptr);
-		vkDestroySampler(device, Blur.sampler, nullptr);
-		vkDestroySampler(device, OITColorAccum.sampler, nullptr);
-		vkDestroySampler(device, OITColorReveal.sampler, nullptr);
-		vkDestroySampler(device, OITResult.sampler, nullptr);
-		vkDestroySampler(device, FinalTexture.sampler, nullptr);
-		vkDestroySampler(device, depthSampler, nullptr);
+		vkDestroyImageView(device, it.view, nullptr);
+		vkDestroyImage(device, it.image, nullptr);
+		vkFreeMemory(device, it.deviceMemory, nullptr);
+		vkDestroySampler(device, it.sampler, nullptr);
 	}
+
+	vkDestroySampler(device, skybox.sampler, nullptr);
+	vkDestroySampler(device, offscreen.sampler, nullptr);
+	vkDestroySampler(device, Luminance.sampler, nullptr);
+	vkDestroySampler(device, Blur.sampler, nullptr);
+	vkDestroySampler(device, OITColorAccum.sampler, nullptr);
+	vkDestroySampler(device, OITColorReveal.sampler, nullptr);
+	vkDestroySampler(device, OITResult.sampler, nullptr);
+	vkDestroySampler(device, FinalTexture.sampler, nullptr);
+	vkDestroySampler(device, depthSampler, nullptr);
 
 	vkDestroyDescriptorPool(device, descriptorPool, nullptr);
 	vkDestroyDescriptorSetLayout(device, descriptorSetLayout, nullptr);
@@ -1394,7 +1346,14 @@ void Graphics::recreateSwapChain()
 
 	createSwapChain();
 	createImageViews();
-	createaDepthResources();
+	//createaDepthResources();
+	prepareOITColorAccum();
+	prepareOITColorReveal();
+	prepareFinalTexture();
+	prepareOITResult();
+	prepareLuminance();
+	prepareBlur();
+	prepareOffscreen();
 }
 
 void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, HighResolutionTimer timer)
@@ -1515,8 +1474,8 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
 		// -- Model Pipeline: Shadow Shader
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], static_cast<int>(ShaderType::Phong));
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], static_cast<int>(ShaderType::PBR));
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], static_cast<int>(ShaderType::Phong));
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], static_cast<int>(ShaderType::PBR));
 	}
 
 	// --
@@ -1591,7 +1550,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
 		// -- Model Pipeline: Shadow Shader
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::OITColorAccum)], 8, true);
+		ActorManager::Instance().renderTransparent(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::OITColorAccum)], static_cast<int>(ShaderType::OITColorAccum));
 	}
 
 	// - End of rendering
@@ -1664,7 +1623,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
 		// -- Model Pipeline: Shadow Shader
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::OITColorReveal)], 8, true);
+		ActorManager::Instance().renderTransparent(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::OITColorReveal)], static_cast<int>(ShaderType::OITColorAccum));
 	}
 
 	// - End of rendering
@@ -1757,7 +1716,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
 	// -- Model Pipeline: Shadow Shader
-	ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::Skybox)], static_cast<int>(ShaderType::Skybox));
+	ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::Skybox)], static_cast<int>(ShaderType::Skybox));
 
 	// - End of rendering
 	vkCmdEndRendering(commandBuffer);
@@ -1870,34 +1829,34 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		// Bind camera descriptor
 
 		// -- Model Pipeline: PBR Shader
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)], static_cast<int>(ShaderType::Phong));
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)], static_cast<int>(ShaderType::Phong));
 
 		//--------------------------
 
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::PBRModelPipeline)]);
 
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::PBRModelPipeline)], static_cast<int>(ShaderType::PBR));
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::PBRModelPipeline)], static_cast<int>(ShaderType::PBR));
 
 		//--------------------------
 
 		// -- Model Pipeline: Flat Shader
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::UnlitPipeline)]);
 
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::UnlitPipeline)], static_cast<int>(ShaderType::Flat), true);
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::UnlitPipeline)], static_cast<int>(ShaderType::Flat));
 
 		//--------------------------
 
 		// -- Model Pipeline: Water Shader
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::WaterPipeline)]);
 
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::WaterPipeline)], static_cast<int>(ShaderType::Water));
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::WaterPipeline)], static_cast<int>(ShaderType::Water));
 
 		//--------------------------
 
 		// -- Model Pipeline: Water Shader
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::FirePipeline)]);
 
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::FirePipeline)], static_cast<int>(ShaderType::Fireball));
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::FirePipeline)], static_cast<int>(ShaderType::Fireball));
 
 		//--------------------------
 	}
@@ -1907,12 +1866,12 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::DebugDrawingPipeline)]);
 
 		// -- Model Pipeline: PBR Shader
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::Phong));
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::PBR));
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::Flat));
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::Water));
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::Fireball));
-		ActorManager::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::Skybox));
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::Phong));
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::PBR));
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::Flat));
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::Water));
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::Fireball));
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::Skybox));
 	}
 
 	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITResult)]);
@@ -1920,9 +1879,6 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	// Bind camera descriptor
 	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::OITResult)],
 		2, 1, &OITResult.descriptorSet, 0, nullptr);
-
-	// -- Model Pipeline: OIT
-	vkCmdDraw(commandBuffer, 3, 1, 0, 0);
 
 	// -- Model Pipeline: OIT
 	vkCmdDraw(commandBuffer, 3, 1, 0, 0);
@@ -3212,10 +3168,59 @@ void Graphics::prepareBlur()
 
 void Graphics::cleanupSwapChain()
 {
-	// Destroy every object related to swapchain
-	vkDestroyImageView(device, depthImageView, nullptr);
-	vkDestroyImage(device, depthImage, nullptr);
-	vkFreeMemory(device, depthImageMemory, nullptr);
+	//vkDestroyImageView(device, depthImageView, nullptr);
+	//vkDestroyImage(device, depthImage, nullptr);
+	//vkFreeMemory(device, depthImageMemory, nullptr);
+
+	{
+		vkDestroyImageView(device, FinalTexture.offscreenColorAttachment.view, nullptr);
+		vkDestroyImage(device, FinalTexture.offscreenColorAttachment.image, nullptr);
+		vkFreeMemory(device, FinalTexture.offscreenColorAttachment.mem, nullptr);
+
+		vkDestroyImageView(device, FinalTexture.offscreenDepthAttachment.view, nullptr);
+		vkDestroyImage(device, FinalTexture.offscreenDepthAttachment.image, nullptr);
+		vkFreeMemory(device, FinalTexture.offscreenDepthAttachment.mem, nullptr);
+
+		vkDestroyImageView(device, Luminance.offscreenColorAttachment.view, nullptr);
+		vkDestroyImage(device, Luminance.offscreenColorAttachment.image, nullptr);
+		vkFreeMemory(device, Luminance.offscreenColorAttachment.mem, nullptr);
+
+		vkDestroyImageView(device, Luminance.offscreenDepthAttachment.view, nullptr);
+		vkDestroyImage(device, Luminance.offscreenDepthAttachment.image, nullptr);
+		vkFreeMemory(device, Luminance.offscreenDepthAttachment.mem, nullptr);
+
+		vkDestroyImageView(device, Blur.offscreenColorAttachment.view, nullptr);
+		vkDestroyImage(device, Blur.offscreenColorAttachment.image, nullptr);
+		vkFreeMemory(device, Blur.offscreenColorAttachment.mem, nullptr);
+
+		vkDestroyImageView(device, Blur.offscreenDepthAttachment.view, nullptr);
+		vkDestroyImage(device, Blur.offscreenDepthAttachment.image, nullptr);
+		vkFreeMemory(device, Blur.offscreenDepthAttachment.mem, nullptr);
+
+		vkDestroyImageView(device, OITResult.offscreenColorAttachment.view, nullptr);
+		vkDestroyImage(device, OITResult.offscreenColorAttachment.image, nullptr);
+		vkFreeMemory(device, OITResult.offscreenColorAttachment.mem, nullptr);
+
+		vkDestroyImageView(device, OITResult.offscreenDepthAttachment.view, nullptr);
+		vkDestroyImage(device, OITResult.offscreenDepthAttachment.image, nullptr);
+		vkFreeMemory(device, OITResult.offscreenDepthAttachment.mem, nullptr);
+
+		vkDestroyImageView(device, OITColorReveal.offscreenColorAttachment.view, nullptr);
+		vkDestroyImage(device, OITColorReveal.offscreenColorAttachment.image, nullptr);
+		vkFreeMemory(device, OITColorReveal.offscreenColorAttachment.mem, nullptr);
+
+		vkDestroyImageView(device, OITColorAccum.offscreenColorAttachment.view, nullptr);
+		vkDestroyImage(device, OITColorAccum.offscreenColorAttachment.image, nullptr);
+		vkFreeMemory(device, OITColorAccum.offscreenColorAttachment.mem, nullptr);
+
+		vkDestroyImageView(device, offscreen.offscreenColorAttachment.view, nullptr);
+		vkDestroyImage(device, offscreen.offscreenColorAttachment.image, nullptr);
+		vkFreeMemory(device, offscreen.offscreenColorAttachment.mem, nullptr);
+
+		vkDestroyImageView(device, offscreen.offscreenDepthAttachment.view, nullptr);
+		vkDestroyImage(device, offscreen.offscreenDepthAttachment.image, nullptr);
+		vkFreeMemory(device, offscreen.offscreenDepthAttachment.mem, nullptr);
+	}
 
 	for (size_t i = 0; i < swapChainImageViews.size(); i++)
 	{
