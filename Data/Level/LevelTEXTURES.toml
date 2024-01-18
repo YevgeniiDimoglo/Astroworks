@@ -1,0 +1,76 @@
+[[ActorsOnScreen]]
+name = "Skybox"
+position = [0.0,0.0,0.0]
+rotation = [-0.0,0.0,1.0,-0.0]
+euler = [-90.0,0.0,0.0]
+scale = [500.0,500.0,500.0]
+path = "./Data/Primitives/Cube.glb"
+type = "Terrian"
+typeName = "Skybox"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Display"
+position = [0.0,0.0,0.0]
+rotation = [-0.0,0.0,1.0,-0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/ToImplementModels/stage_3.glb"
+type = "Terrian"
+typeName = "Basic"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Rec1"
+position = [-100.0,-45.0,-70.0]
+rotation = [-0.0,-0.0,1.0,-0.0]
+euler = [0.0,0.0,0.0]
+scale = [10.0,10.0,10.0]
+path = "./Data/Primitives/Rectangle_26D5A087.glb"
+type = "Terrian"
+typeName = "PBR"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Rec2"
+position = [-90.0,-45.0,-70.0]
+rotation = [-0.0,-0.0,1.0,-0.0]
+euler = [0.0,0.0,0.0]
+scale = [10.0,10.0,10.0]
+path = "./Data/Primitives/Rectangle_78B2A5CA.glb"
+type = "Terrian"
+typeName = "PBR"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Rec3"
+position = [-80.0,-45.0,-70.0]
+rotation = [-0.0,-0.0,1.0,-0.0]
+euler = [0.0,0.0,0.0]
+scale = [10.0,10.0,10.0]
+path = "./Data/Primitives/Rectangle_09547FE1.glb"
+type = "Terrian"
+typeName = "PBR"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Rec4"
+position = [-70.0,-45.0,-70.0]
+rotation = [-0.0,-0.0,1.0,-0.0]
+euler = [0.0,0.0,0.0]
+scale = [10.0,10.0,10.0]
+path = "./Data/Primitives/Rectangle_A6E7C566.glb"
+type = "Terrian"
+typeName = "PBR"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Rec5"
+position = [-60.0,-45.0,-70.0]
+rotation = [-0.0,-0.0,1.0,-0.0]
+euler = [0.0,0.0,0.0]
+scale = [10.0,10.0,10.0]
+path = "./Data/Primitives/Rectangle_D78B098B.glb"
+type = "Terrian"
+typeName = "PBR"
+controller = "None"

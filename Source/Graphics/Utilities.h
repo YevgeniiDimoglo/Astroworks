@@ -43,10 +43,10 @@
 #define DISCRETE
 
 static const int MAX_FRAMES_IN_FLIGHT = 2;
-static const int MAX_OBJECTS = 2048;
+static const int MAX_OBJECTS = 256;
 
-static const uint32_t WIDTH = 1280;
-static const uint32_t HEIGHT = 720;
+static const uint32_t WIDTH = 1920;
+static const uint32_t HEIGHT = 1080;
 
 static const int syncInterval = 0;
 
@@ -104,6 +104,8 @@ enum class TextureType
 	GlobalTexture1,
 	NoiseTexture1,
 	NoiseTexture2,
+	LUT,
+
 	EnumCount
 };
 

@@ -157,6 +157,7 @@ void ActorManager::deserializeActor()
 		if (actor->getTypeName() == "Transparent")
 		{
 			actor->setShaderType(ShaderType::OITColorAccum);
+			actor->setTransparent(true);
 		}
 
 		if (actor->getTypeName() == "Skybox")

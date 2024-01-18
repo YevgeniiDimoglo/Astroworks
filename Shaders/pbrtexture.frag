@@ -24,6 +24,8 @@ layout(location = 6) in vec4 timerConstants;
 
 layout(binding = 1) uniform sampler2D shadowMap;
 layout(binding = 2) uniform samplerCube samplerCubeMap;
+layout(binding = 3) uniform samplerCube samplerCubeMapIrr;
+layout(binding = 4) uniform sampler2D bdrfLUT;
 
 layout(set = 1, binding = 0) uniform sampler2D albedoMap;
 layout(set = 1, binding = 1) uniform sampler2D normalMap;
@@ -66,6 +68,29 @@ struct IBLinfo
    vec3 specularLight;
    vec3 brdf;
 };
+
+vec4 SRGBtoLINEAR(vec4 srgbIn)
+{
+	vec3 linOut = pow(srgbIn.xyz,vec3(2.2));
+
+	return vec4(linOut, srgbIn.a);
+}
+
+vec3 getIBLContribution(PBRInfo pbrInputs, vec3 n, vec3 reflection)
+{
+	vec2 brdfSamplePoint = clamp(vec2(pbrInputs.NdotV, 1.0-pbrInputs.perceptualRoughness), vec2(0.0, 0.0), vec2(1.0, 1.0));
+	vec3 brdf = texture(bdrfLUT, brdfSamplePoint).rgb;
+
+	vec3 cm = vec3(1.0, 1.0, 1.0);
+
+	vec3 diffuseLight = texture(samplerCubeMapIrr, n.xyz * cm).rgb;
+	vec3 specularLight = texture(samplerCubeMap, reflection.xyz * cm).rgb;
+
+	vec3 diffuse = diffuseLight * pbrInputs.diffuseColor;
+	vec3 specular = specularLight * (pbrInputs.specularColor * brdf.x + brdf.y);
+
+	return diffuse + specular;
+}
 
 vec3 diffuseBurley(PBRInfo pbrInputs)
 {
@@ -222,10 +247,13 @@ void main()
 	pbrInputs.specularColor = specularColor;
 	pbrInputs.n = n;
 	pbrInputs.v = v;
+	vec3 reflection = -normalize(reflect(pbrInputs.v, pbrInputs.n));
 
 	vec3 lightDir = uboScene.lightDirection.xyz;
 
-	vec3 color = calculatePBRLightContribution(pbrInputs, normalize(lightDir), uboScene.lightColor.xyz);
+	vec3 color = getIBLContribution(pbrInputs, n, reflection);
+
+	color += calculatePBRLightContribution(pbrInputs, normalize(lightDir), uboScene.lightColor.xyz);
 
     float u_OcclusionStrength = 1.0f;
 	color = color * (texture(aoMap, inUV).r < 0.01 ? u_OcclusionStrength : texture(aoMap, inUV).r );

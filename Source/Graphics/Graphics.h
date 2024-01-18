@@ -182,10 +182,6 @@ private:
 	std::vector<VkSemaphore> renderFinishedSemaphores;
 	std::vector<VkFence> inFlightFences;
 
-	std::vector<VkImage> dummyTextureImages;
-	std::vector<VkDeviceMemory> dummyTextureImagesMemory;
-	std::vector<VkImageView> dummyTextureImageViews;
-
 	std::vector<VkBuffer> uniformBuffers;
 	std::vector<VkDeviceMemory> uniformBuffersMemory;
 	std::vector<void*> uniformBuffersMapped;
@@ -216,6 +212,7 @@ private:
 	Offscreen offscreen;
 
 	CubeMap skybox;
+	CubeMap skyboxIrr;
 
 	VkImage depthImage;
 	VkDeviceMemory depthImageMemory;

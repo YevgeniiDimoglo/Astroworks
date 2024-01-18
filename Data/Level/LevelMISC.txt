@@ -1,0 +1,43 @@
+[[ActorsOnScreen]]
+name = "Skybox"
+position = [0.0,0.0,0.0]
+rotation = [-0.0,0.0,1.0,-0.0]
+euler = [-90.0,0.0,0.0]
+scale = [500.0,500.0,500.0]
+path = "./Data/Primitives/Cube.glb"
+type = "Terrian"
+typeName = "Skybox"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Display"
+position = [0.0,0.0,0.0]
+rotation = [-0.0,0.0,1.0,-0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/ToImplementModels/stage_3.glb"
+type = "Terrian"
+typeName = "Basic"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Lake"
+position = [-230.0,-47.0,-100.0]
+rotation = [-0.0,-0.0,1.0,-0.0]
+euler = [0.0,0.0,0.0]
+scale = [8.0,8.0,8.0]
+path = "./Data/Primitives/Water.glb"
+type = "Terrian"
+typeName = "Water"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Fireball"
+position = [-70.0,-30.0,-350.0]
+rotation = [-0.0,-0.0,1.0,-0.0]
+euler = [90.0,0.0,0.0]
+scale = [5.0,5.0,5.0]
+path = "./Data/Primitives/plane.glb"
+type = "Terrian"
+typeName = "Fireball"
+controller = "None"

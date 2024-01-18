@@ -59,6 +59,8 @@ void Graphics::initTextures()
 
 	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/TextureNoise.png"));
 	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/TextureNoise2.png"));
+
+	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/HDRI/lut_ggx.png"));
 }
 
 void Graphics::initModels()
@@ -163,7 +165,8 @@ void Graphics::InitResources()
 
 	initLights();
 
-	skybox.CreateCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/kloppenheim_02_puresky_4k.hdr");
+	skybox.CreateCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/immenstadter_horn_2k.hdr");
+	skyboxIrr.CreateCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/immenstadter_horn_2k_irradiance.hdr");
 }
 
 void Graphics::drawFrame(HighResolutionTimer timer, float elapsedTime)
@@ -279,6 +282,10 @@ void Graphics::cleanup()
 	vkDestroyImage(device, skybox.image, nullptr);
 	vkFreeMemory(device, skybox.deviceMemory, nullptr);
 
+	vkDestroyImageView(device, skyboxIrr.view, nullptr);
+	vkDestroyImage(device, skyboxIrr.image, nullptr);
+	vkFreeMemory(device, skyboxIrr.deviceMemory, nullptr);
+
 	for (auto it : getGlobalVector())
 	{
 		vkDestroyImageView(device, it.view, nullptr);
@@ -287,6 +294,7 @@ void Graphics::cleanup()
 		vkDestroySampler(device, it.sampler, nullptr);
 	}
 
+	vkDestroySampler(device, skyboxIrr.sampler, nullptr);
 	vkDestroySampler(device, skybox.sampler, nullptr);
 	vkDestroySampler(device, offscreen.sampler, nullptr);
 	vkDestroySampler(device, Luminance.sampler, nullptr);
@@ -553,6 +561,8 @@ void Graphics::createDescriptorSetLayout()
 				{ 0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
 				{ 1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr },
 				{ 2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr},
+				{ 3, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr},
+				{ 4, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr},
 	};
 
 	// Create Descriptor Set Layout
@@ -1148,7 +1158,7 @@ void Graphics::createDescriptorPool()
 {
 	// Create uniform descriptor pool
 	// Type of descriptors and how many Descriptors
-	std::array<VkDescriptorPoolSize, 3> poolSizes{};
+	std::array<VkDescriptorPoolSize, 5> poolSizes{};
 	poolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 	poolSizes[0].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 
@@ -1157,6 +1167,12 @@ void Graphics::createDescriptorPool()
 
 	poolSizes[2].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 	poolSizes[2].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+
+	poolSizes[3].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+	poolSizes[3].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+
+	poolSizes[4].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+	poolSizes[4].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 
 	// Data to create Descriptor pool
 	VkDescriptorPoolCreateInfo poolInfo{};
@@ -1249,7 +1265,7 @@ void Graphics::createDescriptorSets()
 		bufferInfo.range = sizeof(UniformBufferObject);
 
 		// List of descriptor set writes
-		std::array<VkWriteDescriptorSet, 3> descriptorWrites{};
+		std::array<VkWriteDescriptorSet, 5> descriptorWrites{};
 		descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 		descriptorWrites[0].dstSet = descriptorSets[i];
 		descriptorWrites[0].dstBinding = 0;
@@ -1285,6 +1301,32 @@ void Graphics::createDescriptorSets()
 		descriptorWrites[2].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 		descriptorWrites[2].descriptorCount = 1;
 		descriptorWrites[2].pImageInfo = &skyImageInfo;
+
+		VkDescriptorImageInfo skyImageIrrInfo = {};
+		skyImageIrrInfo.sampler = skyboxIrr.sampler;
+		skyImageIrrInfo.imageView = skyboxIrr.view;
+		skyImageIrrInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+
+		descriptorWrites[3].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+		descriptorWrites[3].dstSet = descriptorSets[i];
+		descriptorWrites[3].dstBinding = 3;
+		descriptorWrites[3].dstArrayElement = 0;
+		descriptorWrites[3].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+		descriptorWrites[3].descriptorCount = 1;
+		descriptorWrites[3].pImageInfo = &skyImageIrrInfo;
+
+		VkDescriptorImageInfo skyImageLUT = {};
+		skyImageLUT.sampler = getGlobalVector()[static_cast<int>(TextureType::LUT)].sampler;
+		skyImageLUT.imageView = getGlobalVector()[static_cast<int>(TextureType::LUT)].view;
+		skyImageLUT.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+
+		descriptorWrites[4].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+		descriptorWrites[4].dstSet = descriptorSets[i];
+		descriptorWrites[4].dstBinding = 4;
+		descriptorWrites[4].dstArrayElement = 0;
+		descriptorWrites[4].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+		descriptorWrites[4].descriptorCount = 1;
+		descriptorWrites[4].pImageInfo = &skyImageLUT;
 
 		// Update the descriptor sets with new buffer / binding info
 		vkUpdateDescriptorSets(device, static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
@@ -1346,7 +1388,7 @@ void Graphics::recreateSwapChain()
 
 	createSwapChain();
 	createImageViews();
-	//createaDepthResources();
+	createaDepthResources();
 	prepareOITColorAccum();
 	prepareOITColorReveal();
 	prepareFinalTexture();
@@ -3168,10 +3210,6 @@ void Graphics::prepareBlur()
 
 void Graphics::cleanupSwapChain()
 {
-	//vkDestroyImageView(device, depthImageView, nullptr);
-	//vkDestroyImage(device, depthImage, nullptr);
-	//vkFreeMemory(device, depthImageMemory, nullptr);
-
 	{
 		vkDestroyImageView(device, FinalTexture.offscreenColorAttachment.view, nullptr);
 		vkDestroyImage(device, FinalTexture.offscreenColorAttachment.image, nullptr);

@@ -1,0 +1,43 @@
+[[ActorsOnScreen]]
+name = "Terrain"
+position = [0.0,-150.0,0.0]
+rotation = [-0.0,-0.0,1.0,-0.0]
+euler = [0.0,0.0,0.0]
+scale = [1000.0,1000.0,1000.0]
+path = "./Data/Primitives/NewTerr.glb"
+type = "Terrian"
+typeName = "Basic"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "SkyDome"
+position = [0.0,-200.0,0.0]
+rotation = [-0.0,-0.0,1.0,-0.0]
+euler = [0.0,3.1,0.0]
+scale = [750.0,750.0,750.0]
+path = "./Data/Primitives/NaraSkyDome.glb"
+type = "Terrian"
+typeName = "Simple"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Chara"
+position = [-230.0,-47.0,-100.0]
+rotation = [-0.0,-0.0,1.0,-0.0]
+euler = [0.0,0.0,0.0]
+scale = [50.0,50.0,50.0]
+path = "./Data/Primitives/Chara.glb"
+type = "Terrian"
+typeName = "PBR"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Temple"
+position = [-150.0,-82.8,10.0]
+rotation = [-0.0,-0.0,1.0,-0.0]
+euler = [0.0,90.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/Primitives/Castle.glb"
+type = "Terrian"
+typeName = "PBR"
+controller = "None"
