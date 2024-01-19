@@ -43,7 +43,7 @@
 #define DISCRETE
 
 static const int MAX_FRAMES_IN_FLIGHT = 2;
-static const int MAX_OBJECTS = 256;
+static const int MAX_OBJECTS = 512;
 
 static const uint32_t WIDTH = 1920;
 static const uint32_t HEIGHT = 1080;

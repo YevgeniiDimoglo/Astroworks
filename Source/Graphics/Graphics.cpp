@@ -1760,98 +1760,6 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	// -- Model Pipeline: Shadow Shader
 	ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::Skybox)], static_cast<int>(ShaderType::Skybox));
 
-	// - End of rendering
-	vkCmdEndRendering(commandBuffer);
-
-	// Synchronisation for images
-	const VkImageMemoryBarrier image_memory_barrier_start
-	{
-		.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
-		.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
-		.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
-		.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
-		.image = FinalTexture.offscreenColorAttachment.image,
-		.subresourceRange =
-		{
-			.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
-			.baseMipLevel = 0,
-			.levelCount = 1,
-			.baseArrayLayer = 0,
-			.layerCount = 1,
-		}
-	};
-
-	const VkImageMemoryBarrier image_memory_barrier_depth_start
-	{
-		.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
-		.dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT,
-		.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
-		.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
-		.image = FinalTexture.offscreenDepthAttachment.image,
-		.subresourceRange =
-		{
-			.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT,
-			.baseMipLevel = 0,
-			.levelCount = 1,
-			.baseArrayLayer = 0,
-			.layerCount = 1,
-		}
-	};
-
-	// Pipeline barrier for color
-	vkCmdPipelineBarrier(commandBuffer,
-		VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
-		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
-		0, 0, nullptr, 0, nullptr, 1, &image_memory_barrier_start);
-
-	// Pipeline barrier for depth
-	vkCmdPipelineBarrier(commandBuffer,
-		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
-		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
-		0, 0, nullptr, 0, nullptr, 1, &image_memory_barrier_depth_start);
-
-	//VkRenderingAttachmentInfoKHR colorAttachment{};
-	colorAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
-	colorAttachment.imageView = FinalTexture.offscreenColorAttachment.view;
-	colorAttachment.imageLayout = VK_IMAGE_LAYOUT_ATTACHMENT_OPTIMAL_KHR;
-	colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_LOAD;
-	colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-	colorAttachment.clearValue.color = { 0.0f,0.0f,0.0f,0.0f };
-
-	//VkRenderingAttachmentInfoKHR depthStencilAttachment{};
-	depthStencilAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
-	depthStencilAttachment.imageView = FinalTexture.offscreenDepthAttachment.view;
-	depthStencilAttachment.imageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-	depthStencilAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_LOAD;
-	depthStencilAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-	depthStencilAttachment.clearValue.depthStencil = { 1.0f,  0 };
-
-	//VkRenderingInfoKHR renderingInfo{};
-	renderingInfo.sType = VK_STRUCTURE_TYPE_RENDERING_INFO_KHR;
-	renderingInfo.renderArea = { 0, 0, swapChainExtent.width, swapChainExtent.height };
-	renderingInfo.layerCount = 1;
-	renderingInfo.colorAttachmentCount = 1;
-	renderingInfo.pColorAttachments = &colorAttachment;
-	renderingInfo.pDepthAttachment = &depthStencilAttachment;
-	renderingInfo.pStencilAttachment = nullptr;
-
-	// - Begin rendering
-	vkCmdBeginRendering(commandBuffer, &renderingInfo);
-
-	//VkViewport viewport{};
-	viewport.x = 0.0f;
-	viewport.y = 0.0f;
-	viewport.width = static_cast<float>(swapChainExtent.width);
-	viewport.height = static_cast<float>(swapChainExtent.height);
-	viewport.minDepth = 0.0f;
-	viewport.maxDepth = 1.0f;
-	vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
-
-	//VkRect2D scissor{};
-	scissor.offset = { 0, 0 };
-	scissor.extent = swapChainExtent;
-	vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
-
 	static bool wireframe = false;
 
 	if (glfwGetKey(window, GLFW_KEY_F9) == GLFW_PRESS)
@@ -1916,14 +1824,17 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::Skybox));
 	}
 
-	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITResult)]);
+	if (true)
+	{
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITResult)]);
 
-	// Bind camera descriptor
-	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::OITResult)],
-		2, 1, &OITResult.descriptorSet, 0, nullptr);
+		// Bind camera descriptor
+		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::OITResult)],
+			2, 1, &OITResult.descriptorSet, 0, nullptr);
 
-	// -- Model Pipeline: OIT
-	vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+		// -- Model Pipeline: OIT
+		vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+	}
 
 	// - End of rendering
 	vkCmdEndRendering(commandBuffer);
@@ -1948,34 +1859,11 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		}
 	};
 
-	const VkImageMemoryBarrier Luminance_memory_barrier_depth_start
-	{
-		.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
-		.dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT,
-		.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
-		.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
-		.image = Luminance.offscreenDepthAttachment.image,
-		.subresourceRange =
-		{
-			.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT,
-			.baseMipLevel = 0,
-			.levelCount = 1,
-			.baseArrayLayer = 0,
-			.layerCount = 1,
-		}
-	};
-
 	// Pipeline barrier for color
 	vkCmdPipelineBarrier(commandBuffer,
 		VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
 		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
 		0, 0, nullptr, 0, nullptr, 1, &Luminance_memory_barrier_start);
-
-	// Pipeline barrier for depth
-	vkCmdPipelineBarrier(commandBuffer,
-		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
-		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
-		0, 0, nullptr, 0, nullptr, 1, &Luminance_memory_barrier_depth_start);
 
 	//VkRenderingAttachmentInfoKHR colorAttachment{};
 	colorAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
@@ -1985,21 +1873,13 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
 	colorAttachment.clearValue.color = { 0.0f,0.0f,0.0f,0.0f };
 
-	//VkRenderingAttachmentInfoKHR depthStencilAttachment{};
-	depthStencilAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
-	depthStencilAttachment.imageView = Luminance.offscreenDepthAttachment.view;
-	depthStencilAttachment.imageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-	depthStencilAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-	depthStencilAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-	depthStencilAttachment.clearValue.depthStencil = { 1.0f,  0 };
-
 	//VkRenderingInfoKHR renderingInfo{};
 	renderingInfo.sType = VK_STRUCTURE_TYPE_RENDERING_INFO_KHR;
 	renderingInfo.renderArea = { 0, 0, swapChainExtent.width, swapChainExtent.height };
 	renderingInfo.layerCount = 1;
 	renderingInfo.colorAttachmentCount = 1;
 	renderingInfo.pColorAttachments = &colorAttachment;
-	renderingInfo.pDepthAttachment = &depthStencilAttachment;
+	renderingInfo.pDepthAttachment = nullptr;
 	renderingInfo.pStencilAttachment = nullptr;
 
 	// - Begin rendering
@@ -2049,34 +1929,11 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		}
 	};
 
-	const VkImageMemoryBarrier Blur_memory_barrier_depth_start
-	{
-		.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
-		.dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT,
-		.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
-		.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
-		.image = Blur.offscreenDepthAttachment.image,
-		.subresourceRange =
-		{
-			.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT,
-			.baseMipLevel = 0,
-			.levelCount = 1,
-			.baseArrayLayer = 0,
-			.layerCount = 1,
-		}
-	};
-
 	// Pipeline barrier for color
 	vkCmdPipelineBarrier(commandBuffer,
 		VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
 		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
 		0, 0, nullptr, 0, nullptr, 1, &Blur_memory_barrier_start);
-
-	// Pipeline barrier for depth
-	vkCmdPipelineBarrier(commandBuffer,
-		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
-		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
-		0, 0, nullptr, 0, nullptr, 1, &Blur_memory_barrier_depth_start);
 
 	//VkRenderingAttachmentInfoKHR colorAttachment{};
 	colorAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
@@ -2086,21 +1943,13 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
 	colorAttachment.clearValue.color = { 0.0f,0.0f,0.0f,0.0f };
 
-	//VkRenderingAttachmentInfoKHR depthStencilAttachment{};
-	depthStencilAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
-	depthStencilAttachment.imageView = Blur.offscreenDepthAttachment.view;
-	depthStencilAttachment.imageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-	depthStencilAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-	depthStencilAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-	depthStencilAttachment.clearValue.depthStencil = { 1.0f,  0 };
-
 	//VkRenderingInfoKHR renderingInfo{};
 	renderingInfo.sType = VK_STRUCTURE_TYPE_RENDERING_INFO_KHR;
 	renderingInfo.renderArea = { 0, 0, swapChainExtent.width, swapChainExtent.height };
 	renderingInfo.layerCount = 1;
 	renderingInfo.colorAttachmentCount = 1;
 	renderingInfo.pColorAttachments = &colorAttachment;
-	renderingInfo.pDepthAttachment = &depthStencilAttachment;
+	renderingInfo.pDepthAttachment = nullptr;
 	renderingInfo.pStencilAttachment = nullptr;
 
 	// - Begin rendering
@@ -2151,33 +2000,11 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		}
 	};
 
-	const VkImageMemoryBarrier new_image_memory_barrier_depth_start
-	{
-		.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
-		.dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT,
-		.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
-		.newLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
-		.image = offscreen.offscreenDepthAttachment.image,
-		.subresourceRange =
-		{
-			.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT,
-			.baseMipLevel = 0,
-			.levelCount = 1,
-			.baseArrayLayer = 0,
-			.layerCount = 1,
-		}
-	};
-
 	//// Pipeline barrier for color
 	vkCmdPipelineBarrier(commandBuffer,
 		VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
 		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
 		0, 0, nullptr, 0, nullptr, 1, &new_image_memory_barrier_start);
-
-	vkCmdPipelineBarrier(commandBuffer,
-		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
-		VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
-		0, 0, nullptr, 0, nullptr, 1, &image_memory_barrier_depth_start);
 
 	// New structures are used to define the attachments used in dynamic rendering
 
@@ -3424,7 +3251,7 @@ bool Graphics::isDeviceSuitable(VkPhysicalDevice device)
 #else
 	return (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) && indices.isComplete() && extensionsSupported && swapChainAdequate && deviceFeatures.samplerAnisotropy;
 #endif // DISCRETE
-}
+	}
 
 QueueFamilyIndices Graphics::findQueueFamilies(VkPhysicalDevice device)
 {
@@ -3574,7 +3401,7 @@ VkPresentModeKHR Graphics::chooseSwapPresentMode(const std::vector<VkPresentMode
 		//	VK_PRESENT_MODE_FIFO_KHR = 2,
 		//	VK_PRESENT_MODE_FIFO_RELAXED_KHR = 3,
 
-		if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR)
+		if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR)
 		{
 			return availablePresentMode;
 		}
