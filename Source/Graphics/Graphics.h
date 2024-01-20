@@ -203,13 +203,13 @@ private:
 	VkDescriptorPool postEffectPool;
 	VkDescriptorSetLayout postEffectSetLayout;
 
-	Offscreen FinalTexture;
-	Offscreen Luminance;
-	Offscreen Blur;
-	Offscreen OITColorAccum;
-	Offscreen OITColorReveal;
-	Offscreen OITResult;
-	Offscreen offscreen;
+	Framebuffer FinalTexture;
+	Framebuffer Luminance;
+	Framebuffer Blur;
+	Framebuffer OITColorAccum;
+	Framebuffer OITColorReveal;
+	Framebuffer OITResult;
+	Framebuffer offscreen;
 
 	CubeMap skybox;
 	CubeMap skyboxIrr;

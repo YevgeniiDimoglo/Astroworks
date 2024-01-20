@@ -50,7 +50,7 @@ struct FrameBufferAttachment {
 	VkImageView view;
 };
 
-struct Offscreen
+struct Framebuffer
 {
 	int32_t width, height;
 	FrameBufferAttachment offscreenColorAttachment, offscreenDepthAttachment;

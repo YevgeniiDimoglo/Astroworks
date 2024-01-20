@@ -1757,6 +1757,10 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::Skybox)],
 		0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
+	// Bind camera descriptor
+	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::OITResult)],
+		2, 1, &OITResult.descriptorSet, 0, nullptr);
+
 	// -- Model Pipeline: Shadow Shader
 	ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::Skybox)], static_cast<int>(ShaderType::Skybox));
 
@@ -1766,10 +1770,6 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	{
 		wireframe = !wireframe;
 	}
-
-	//Model rendering
-	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)],
-		0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
 	if (!wireframe)
 	{
@@ -1827,10 +1827,6 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	if (true)
 	{
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITResult)]);
-
-		// Bind camera descriptor
-		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::OITResult)],
-			2, 1, &OITResult.descriptorSet, 0, nullptr);
 
 		// -- Model Pipeline: OIT
 		vkCmdDraw(commandBuffer, 3, 1, 0, 0);
@@ -3251,7 +3247,7 @@ bool Graphics::isDeviceSuitable(VkPhysicalDevice device)
 #else
 	return (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) && indices.isComplete() && extensionsSupported && swapChainAdequate && deviceFeatures.samplerAnisotropy;
 #endif // DISCRETE
-	}
+}
 
 QueueFamilyIndices Graphics::findQueueFamilies(VkPhysicalDevice device)
 {
