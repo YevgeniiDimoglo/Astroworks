@@ -26,7 +26,6 @@ std::shared_ptr<GLTFStaticModel> ResourceManager::LoadModel(VkPhysicalDevice new
 
 void ResourceManager::loadFile(std::string filepath)
 {
-	// Parsing actor values
 	toml::table tbl;
 	try
 	{
@@ -59,6 +58,8 @@ void ResourceManager::loadFile(std::string filepath)
 			actors[i]["path"].value<std::string>().value(),
 			actors[i]["type"].value<std::string>().value(),
 			actors[i]["typeName"].value<std::string>().value(),
+			actors[i]["domain"].value<std::string>().value(),
+			actors[i]["shader"].value<std::string>().value(),
 			actors[i]["controller"].value<std::string>().value()
 		};
 
@@ -117,6 +118,8 @@ void ResourceManager::loadFiles(std::string filepath)
 				actors[i]["path"].value<std::string>().value(),
 				actors[i]["type"].value<std::string>().value(),
 				actors[i]["typeName"].value<std::string>().value(),
+				actors[i]["domain"].value<std::string>().value(),
+				actors[i]["shader"].value<std::string>().value(),
 				actors[i]["controller"].value<std::string>().value()
 			};
 

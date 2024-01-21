@@ -320,7 +320,7 @@ void Graphics::cleanup()
 	vkDestroyDescriptorPool(device, postEffectPool, nullptr);
 	vkDestroyDescriptorSetLayout(device, postEffectSetLayout, nullptr);
 
-	for (Pipelines pipelineName = Pipelines::ModelPipeline;
+	for (Pipelines pipelineName = static_cast<Pipelines>(0);
 		pipelineName != Pipelines::EnumCount;
 		pipelineName = static_cast<Pipelines>(static_cast<int>(pipelineName) + 1))
 	{
@@ -648,7 +648,7 @@ void Graphics::createGraphicsPipelines()
 	graphicsPipelines.resize(static_cast<int>(Pipelines::EnumCount));
 	pipelineLayouts.resize(static_cast<int>(Pipelines::EnumCount));
 
-	for (Pipelines pipelineName = Pipelines::ModelPipeline;
+	for (Pipelines pipelineName = static_cast<Pipelines>(0);
 		pipelineName != Pipelines::EnumCount;
 		pipelineName = static_cast<Pipelines>(static_cast<int>(pipelineName) + 1))
 	{
@@ -683,52 +683,52 @@ void Graphics::createGraphicsPipelines()
 
 		switch (pipelineName)
 		{
-		case Pipelines::ModelPipeline:
-			vertShaderCode = readFile("./Shaders/phongVS.spv");
-			fragShaderCode = readFile("./Shaders/phongPS.spv");
-			break;
-		case Pipelines::PBRModelPipeline:
-			vertShaderCode = readFile("./Shaders/pbrtextureVS.spv");
-			fragShaderCode = readFile("./Shaders/pbrtexturePS.spv");
-			break;
-		case Pipelines::UnlitPipeline:
-			vertShaderCode = readFile("./Shaders/flatVS.spv");
-			fragShaderCode = readFile("./Shaders/flatPS.spv");
-			break;
 		case Pipelines::ShadowMapPipeline:
 			vertShaderCode = readFile("./Shaders/shadowMapCasterVS.spv");
 			fragShaderCode = readFile("./Shaders/shadowMapCasterPS.spv");
 			break;
 		case Pipelines::DebugDrawingPipeline:
+			vertShaderCode = readFile("./Shaders/flatVS.spv");
+			fragShaderCode = readFile("./Shaders/flatPS.spv");
+			polygonMode = VK_POLYGON_MODE_LINE;
+			break;
+		case Pipelines::UnlitPipeline:
+			vertShaderCode = readFile("./Shaders/flatVS.spv");
+			fragShaderCode = readFile("./Shaders/flatPS.spv");
+			break;
+		case Pipelines::PhongPipeline:
 			vertShaderCode = readFile("./Shaders/phongVS.spv");
 			fragShaderCode = readFile("./Shaders/phongPS.spv");
-
-			polygonMode = VK_POLYGON_MODE_LINE;
+			break;
+		case Pipelines::PBRPipeline:
+			vertShaderCode = readFile("./Shaders/PBRVS.spv");
+			fragShaderCode = readFile("./Shaders/PBROnlyPS.spv");
+			break;
+		case Pipelines::PBRIBLPipeline:
+			vertShaderCode = readFile("./Shaders/PBRVS.spv");
+			fragShaderCode = readFile("./Shaders/PBRIBLPS.spv");
 			break;
 		case Pipelines::UIPipeline:
 			vertShaderCode = readFile("./Shaders/spriteVS.spv");
 			fragShaderCode = readFile("./Shaders/spritePS.spv");
 
 			cullingFlag = VK_CULL_MODE_NONE;
-
 			depthTest = VK_FALSE;
 			break;
-		case Pipelines::WaterPipeline:
-			vertShaderCode = readFile("./Shaders/waterVS.spv");
-			fragShaderCode = readFile("./Shaders/waterPS.spv");
+		case Pipelines::OffscreenPipeline:
+			vertShaderCode = readFile("./Shaders/postEffectVS.spv");
+			fragShaderCode = readFile("./Shaders/postEffectPS.spv");
+
+			cullingFlag = VK_CULL_MODE_NONE;
+			colorBlendAttachment.blendEnable = VK_FALSE;
 			break;
-		case Pipelines::FirePipeline:
-			vertShaderCode = readFile("./Shaders/waterVS.spv");
-			fragShaderCode = readFile("./Shaders/fireballPS.spv");
-			break;
-		case Pipelines::OITColorAccum:
+
+		case Pipelines::OITColorAccumPipeline:
 			vertShaderCode = readFile("./Shaders/OITVS.spv");
 			fragShaderCode = readFile("./Shaders/OITColorPS.spv");
 
 			depthWrite = VK_FALSE;
-
 			pipelineColorAttachmentFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
-
 			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
 				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 			colorBlendAttachment.blendEnable = VK_TRUE;
@@ -739,14 +739,12 @@ void Graphics::createGraphicsPipelines()
 			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
 			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
 			break;
-		case Pipelines::OITColorReveal:
+		case Pipelines::OITColorRevealPipeline:
 			vertShaderCode = readFile("./Shaders/OITVS.spv");
 			fragShaderCode = readFile("./Shaders/OITRevealPS.spv");
 
 			depthWrite = VK_FALSE;
-
 			pipelineColorAttachmentFormat = VK_FORMAT_R16_SFLOAT;
-
 			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
 				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 			colorBlendAttachment.blendEnable = VK_TRUE;
@@ -757,40 +755,18 @@ void Graphics::createGraphicsPipelines()
 			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
 			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
 			break;
-		case Pipelines::OITResult:
+		case Pipelines::OITResultPipeline:
 			vertShaderCode = readFile("./Shaders/quadVS.spv");
 			fragShaderCode = readFile("./Shaders/OITResult.spv");
 
 			cullingFlag = VK_CULL_MODE_NONE;
 			break;
-		case Pipelines::Offscreen:
-			vertShaderCode = readFile("./Shaders/postEffectVS.spv");
-			fragShaderCode = readFile("./Shaders/postEffectPS.spv");
-
-			cullingFlag = VK_CULL_MODE_NONE;
-
-			colorBlendAttachment.blendEnable = VK_FALSE;
-			break;
-		case Pipelines::Luminance:
-			vertShaderCode = readFile("./Shaders/LuminanceVS.spv");
-			fragShaderCode = readFile("./Shaders/LuminancePS.spv");
-
-			cullingFlag = VK_CULL_MODE_NONE;
-			break;
-		case Pipelines::Blur:
-			vertShaderCode = readFile("./Shaders/BlurVS.spv");
-			fragShaderCode = readFile("./Shaders/BlurPS.spv");
-
-			cullingFlag = VK_CULL_MODE_NONE;
-			break;
-		case Pipelines::DemoOITColorAccum:
+		case Pipelines::DemoOITColorAccumPipeline:
 			vertShaderCode = readFile("./Shaders/DemoOITVS.spv");
 			fragShaderCode = readFile("./Shaders/DemoOITColorPS.spv");
 
 			depthWrite = VK_FALSE;
-
 			pipelineColorAttachmentFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
-
 			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
 				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 			colorBlendAttachment.blendEnable = VK_TRUE;
@@ -801,14 +777,12 @@ void Graphics::createGraphicsPipelines()
 			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
 			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
 			break;
-		case Pipelines::DemoOITColorReveal:
+		case Pipelines::DemoOITColorRevealPipeline:
 			vertShaderCode = readFile("./Shaders/DemoOITVS.spv");
 			fragShaderCode = readFile("./Shaders/DemoOITRevealPS.spv");
 
 			depthWrite = VK_FALSE;
-
 			pipelineColorAttachmentFormat = VK_FORMAT_R16_SFLOAT;
-
 			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
 				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 			colorBlendAttachment.blendEnable = VK_TRUE;
@@ -819,18 +793,42 @@ void Graphics::createGraphicsPipelines()
 			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
 			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
 			break;
-		case Pipelines::DemoOITResult:
+		case Pipelines::DemoOITResultPipeline:
 			vertShaderCode = readFile("./Shaders/quadVS.spv");
 			fragShaderCode = readFile("./Shaders/DemoOITResult.spv");
 
 			cullingFlag = VK_CULL_MODE_NONE;
 			break;
-		case Pipelines::Skybox:
+		case Pipelines::SkyboxPipeline:
 			vertShaderCode = readFile("./Shaders/skyboxVS.spv");
 			fragShaderCode = readFile("./Shaders/skyboxPS.spv");
 
 			colorBlendAttachment.blendEnable = VK_FALSE;
 			cullingFlag = VK_CULL_MODE_FRONT_BIT;
+			break;
+		case Pipelines::LuminancePipeline:
+			vertShaderCode = readFile("./Shaders/LuminanceVS.spv");
+			fragShaderCode = readFile("./Shaders/LuminancePS.spv");
+
+			cullingFlag = VK_CULL_MODE_NONE;
+			break;
+		case Pipelines::BlurPipeline:
+			vertShaderCode = readFile("./Shaders/BlurVS.spv");
+			fragShaderCode = readFile("./Shaders/BlurPS.spv");
+
+			cullingFlag = VK_CULL_MODE_NONE;
+			break;
+		case Pipelines::WaterPipeline:
+			vertShaderCode = readFile("./Shaders/waterVS.spv");
+			fragShaderCode = readFile("./Shaders/waterPS.spv");
+
+			cullingFlag = VK_CULL_MODE_NONE;
+			break;
+		case Pipelines::FirePipeline:
+			vertShaderCode = readFile("./Shaders/waterVS.spv");
+			fragShaderCode = readFile("./Shaders/fireballPS.spv");
+
+			cullingFlag = VK_CULL_MODE_NONE;
 			break;
 		case Pipelines::EnumCount:
 			break;
@@ -959,7 +957,7 @@ void Graphics::createGraphicsPipelines()
 
 		VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
 
-		if (pipelineName == Pipelines::Offscreen)
+		if (pipelineName == Pipelines::OffscreenPipeline)
 		{
 			std::array<VkDescriptorSetLayout, 1> descriptorSetLayouts = { postEffectSetLayout };
 
@@ -972,7 +970,7 @@ void Graphics::createGraphicsPipelines()
 
 			VK_CHECK(vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayouts[static_cast<int>(pipelineName)]));
 		}
-		else if (pipelineName == Pipelines::Luminance || pipelineName == Pipelines::Blur)
+		else if (pipelineName == Pipelines::LuminancePipeline || pipelineName == Pipelines::BlurPipeline)
 		{
 			// Pipeline layout
 			std::array<VkDescriptorSetLayout, 1> descriptorSetLayouts = { dynamicTextureSamplerSetLayout };
@@ -986,8 +984,8 @@ void Graphics::createGraphicsPipelines()
 
 			VK_CHECK(vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayouts[static_cast<int>(pipelineName)]));
 		}
-		else if (pipelineName == Pipelines::OITResult ||
-			pipelineName == Pipelines::DemoOITResult)
+		else if (pipelineName == Pipelines::OITResultPipeline ||
+			pipelineName == Pipelines::DemoOITResultPipeline)
 		{
 			// Pipeline layout
 			std::array<VkDescriptorSetLayout, 3> descriptorSetLayouts = { descriptorSetLayout, samplerSetLayout, OITDescriptorSetLayout };
@@ -1002,7 +1000,7 @@ void Graphics::createGraphicsPipelines()
 			// Create a pipeline layout
 			VK_CHECK(vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayouts[static_cast<int>(pipelineName)]));
 		}
-		else if (pipelineName == Pipelines::Skybox)
+		else if (pipelineName == Pipelines::SkyboxPipeline)
 		{
 			// Pipeline layout
 			std::array<VkDescriptorSetLayout, 2> descriptorSetLayouts = { descriptorSetLayout, samplerSetLayout };
@@ -1516,8 +1514,10 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
 		// -- Model Pipeline: Shadow Shader
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], static_cast<int>(ShaderType::Flat));
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], static_cast<int>(ShaderType::Phong));
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], static_cast<int>(ShaderType::PBR));
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], static_cast<int>(ShaderType::PBRIBL));
 	}
 
 	// --
@@ -1585,14 +1585,14 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 
 	{
 		// -- Model Pipeline: Phong Shader
-		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITColorAccum)]);
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITColorAccumPipeline)]);
 
 		// Bind camera descriptor
-		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::OITColorAccum)],
+		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::OITColorAccumPipeline)],
 			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
 		// -- Model Pipeline: Shadow Shader
-		ActorManager::Instance().renderTransparent(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::OITColorAccum)], static_cast<int>(ShaderType::OITColorAccum));
+		ActorManager::Instance().renderTransparent(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::OITColorAccumPipeline)], static_cast<int>(ShaderType::OITColorAccum));
 	}
 
 	// - End of rendering
@@ -1658,14 +1658,14 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 
 	{
 		// -- Model Pipeline: Phong Shader
-		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITColorReveal)]);
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITColorRevealPipeline)]);
 
 		// Bind camera descriptor
-		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::OITColorReveal)],
+		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::OITColorRevealPipeline)],
 			0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
 		// -- Model Pipeline: Shadow Shader
-		ActorManager::Instance().renderTransparent(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::OITColorReveal)], static_cast<int>(ShaderType::OITColorAccum));
+		ActorManager::Instance().renderTransparent(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::OITColorRevealPipeline)], static_cast<int>(ShaderType::OITColorAccum));
 	}
 
 	// - End of rendering
@@ -1751,18 +1751,18 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	vkCmdBeginRendering(commandBuffer, &renderingInfo_skybox);
 
 	// -- Model Pipeline: Phong Shader
-	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::Skybox)]);
+	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::SkyboxPipeline)]);
 
 	// Bind camera descriptor
-	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::Skybox)],
+	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::SkyboxPipeline)],
 		0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
 	// Bind camera descriptor
-	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::OITResult)],
+	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::OITResultPipeline)],
 		2, 1, &OITResult.descriptorSet, 0, nullptr);
 
 	// -- Model Pipeline: Shadow Shader
-	ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::Skybox)], static_cast<int>(ShaderType::Skybox));
+	ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::SkyboxPipeline)], static_cast<int>(ShaderType::Skybox));
 
 	static bool wireframe = false;
 
@@ -1773,42 +1773,29 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 
 	if (!wireframe)
 	{
-		// -- Model Pipeline: Phong Shader
-		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::ModelPipeline)]);
-
-		// Bind camera descriptor
-
-		// -- Model Pipeline: PBR Shader
-		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ModelPipeline)], static_cast<int>(ShaderType::Phong));
-
-		//--------------------------
-
-		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::PBRModelPipeline)]);
-
-		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::PBRModelPipeline)], static_cast<int>(ShaderType::PBR));
-
-		//--------------------------
-
 		// -- Model Pipeline: Flat Shader
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::UnlitPipeline)]);
-
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::UnlitPipeline)], static_cast<int>(ShaderType::Flat));
 
-		//--------------------------
+		// -- Model Pipeline: Phong Shader
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::PhongPipeline)]);
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::PhongPipeline)], static_cast<int>(ShaderType::Phong));
+
+		// -- Model Pipeline: PBR Shader
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::PBRPipeline)]);
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::PBRPipeline)], static_cast<int>(ShaderType::PBR));
+
+		// -- Model Pipeline: PBRIBL Shader
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::PBRIBLPipeline)]);
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::PBRIBLPipeline)], static_cast<int>(ShaderType::PBRIBL));
 
 		// -- Model Pipeline: Water Shader
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::WaterPipeline)]);
-
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::WaterPipeline)], static_cast<int>(ShaderType::Water));
-
-		//--------------------------
 
 		// -- Model Pipeline: Water Shader
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::FirePipeline)]);
-
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::FirePipeline)], static_cast<int>(ShaderType::Fireball));
-
-		//--------------------------
 	}
 	else
 	{
@@ -1818,6 +1805,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		// -- Model Pipeline: PBR Shader
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::Phong));
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::PBR));
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::PBRIBL));
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::Flat));
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::Water));
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::Fireball));
@@ -1826,7 +1814,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 
 	if (true)
 	{
-		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITResult)]);
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITResultPipeline)]);
 
 		// -- Model Pipeline: OIT
 		vkCmdDraw(commandBuffer, 3, 1, 0, 0);
@@ -1895,10 +1883,10 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	scissor.extent = swapChainExtent;
 	vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
-	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::Luminance)],
+	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::LuminancePipeline)],
 		0, 1, &Luminance.descriptorSet, 0, nullptr);
 
-	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::Luminance)]);
+	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::LuminancePipeline)]);
 
 	vkCmdDraw(commandBuffer, 3, 1, 0, 0);
 
@@ -1965,10 +1953,10 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	scissor.extent = swapChainExtent;
 	vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
-	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::Blur)],
+	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::BlurPipeline)],
 		0, 1, &Blur.descriptorSet, 0, nullptr);
 
-	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::Blur)]);
+	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::BlurPipeline)]);
 
 	vkCmdDraw(commandBuffer, 3, 1, 0, 0);
 
@@ -2035,14 +2023,14 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
 	// Bind specific pipeline
-	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::Offscreen)]);
+	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OffscreenPipeline)]);
 
 	PushConstants pushConstants;
 	pushConstants.timer.r = timer.TimeStamp();
-	vkCmdPushConstants(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::Offscreen)], VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstants), &pushConstants);
+	vkCmdPushConstants(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::OffscreenPipeline)], VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstants), &pushConstants);
 
 	// Bind camera descriptor
-	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::Offscreen)],
+	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayouts[static_cast<int>(Pipelines::OffscreenPipeline)],
 		0, 1, &offscreen.descriptorSet, 0, nullptr);
 
 	vkCmdDraw(commandBuffer, 3, 1, 0, 0);

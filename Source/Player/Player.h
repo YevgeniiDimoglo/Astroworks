@@ -68,14 +68,6 @@ public:
 	void setUnPause(bool unpause) { isPaused = unpause; }
 	bool getIsPaused() const { return isPaused; }
 
-	static GLTFStaticModel::Material currentMaterial;
-	GLTFStaticModel::Material objectMaterials[4];
-	static std::vector<int> textureIndex;
-	int currentMaterialIndex = -1;
-	int currentTextureIndex = -1;
-	static GLTFStaticModel::Image currentTexture;
-	static glm::vec4 currentColor;
-
 public:
 
 	void input(GLFWwindow* window, Camera* camera);

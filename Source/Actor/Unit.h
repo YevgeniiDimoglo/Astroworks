@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Component.h"
-#include "Movement.h"
+#include "Components/Component.h""
+#include "Components/Movement.h"
 
 // Basic ingame unit component
 

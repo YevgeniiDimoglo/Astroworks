@@ -29,11 +29,14 @@ void main()
     // fragment coordination
     ivec2 coords = ivec2(gl_FragCoord.xy);
 
-    // fragment revealage
-    float revealage = texelFetch(RevelageSampler, coords, 0).r;
+    float revealage = texture(RevelageSampler, coords).r;
+
+    // save the blending and color texture fetch cost if there is not a transparent fragment
+    if (isApproximatelyEqual(revealage, 1.0f))
+        discard;
 
     // fragment color
-    vec4 accumulation = texelFetch(AccumSampler, coords, 0);
+    vec4 accumulation = texture(AccumSampler, coords);
 
     // suppress overflow
     if (isinf(max3(abs(accumulation.rgb))))
@@ -43,6 +46,5 @@ void main()
     vec3 average_color = accumulation.rgb / max(accumulation.a, EPSILON);
 
     // blend pixels
-	outColor = vec4(texture(FinalTextureSampler, inUV).rgb, revealage);
-    outColor += vec4(average_color, 1.0f - revealage);
+    outColor = vec4(average_color, 1.0f - revealage);
 }

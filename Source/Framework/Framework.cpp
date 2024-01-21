@@ -20,7 +20,7 @@ Framework::Framework()
 {
 	thisApp = std::make_unique<Graphics>();
 
-	ActorManager::Instance().setCurrentLevelName("LevelBIG");
+	ActorManager::Instance().setCurrentLevelName("LevelOIT");
 
 	ResourceManager::Instance().loadFiles("./Data/Level/");
 
@@ -66,8 +66,6 @@ void Framework::update(HighResolutionTimer timer, float elapsedTime)
 	Enemy::Instance().update();
 
 	ActorManager::Instance().update(elapsedTime);
-
-	ActorManager::Instance().updateMaterials(Player::Instance().getSeceltedActorByName());
 
 	UI::Instance().update(timer, elapsedTime, thisApp->getWindow());
 

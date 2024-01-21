@@ -9,8 +9,6 @@
 #include "../Actor//Marine.h"
 #include "../Actor/Tank.h"
 
-#include "../Actor/Movement.h"
-
 void Building::start()
 {
 	GLTFStaticModel* model = getActor()->getModel();
@@ -119,7 +117,7 @@ void Building::TransitionConstructionState()
 {
 	state = State::Construction;
 
-	getActor()->setShaderType(ShaderType::PhongDissolve);
+	//getActor()->setShaderType(ShaderType::PhongDissolve);
 }
 
 void Building::UpdateConstructionState(float elapsedTime)

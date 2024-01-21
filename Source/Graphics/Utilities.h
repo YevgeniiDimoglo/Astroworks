@@ -35,8 +35,8 @@
 #include "../Misc/HighResolutionTimer.h"
 #include "../Misc/Math.h";
 
+//TODO: Remove from utilites
 #include "../Graphics/Texture.h"
-
 #include "../Camera/Camera.h"
 #include "../Graphics/Light.h"
 
@@ -52,43 +52,55 @@ static const int syncInterval = 0;
 
 enum class Pipelines
 {
-	ModelPipeline,
-	PBRModelPipeline,
-	UnlitPipeline,
 	ShadowMapPipeline,
-	//DissolvePipeline,
+
 	DebugDrawingPipeline,
+
+	UnlitPipeline,
+	PhongPipeline,
+	PBRPipeline,
+	PBRIBLPipeline,
+
 	UIPipeline,
+
+	OffscreenPipeline,
+
+	OITColorAccumPipeline,
+	OITColorRevealPipeline,
+	OITResultPipeline,
+	DemoOITColorAccumPipeline,
+	DemoOITColorRevealPipeline,
+	DemoOITResultPipeline,
+
+	SkyboxPipeline,
+
+	LuminancePipeline,
+	BlurPipeline,
+
 	WaterPipeline,
 	FirePipeline,
-	OITColorAccum,
-	OITColorReveal,
-	OITResult,
-	Offscreen,
-	Luminance,
-	Blur,
-	DemoOITColorAccum,
-	DemoOITColorReveal,
-	DemoOITResult,
-	Skybox,
 
 	EnumCount
 };
 
 enum class ShaderType
 {
+	Unlit,
+	Flat,
 	Phong,
 	PBR,
-	PhongDissolve,
-	PhongTransparency,
-	Flat,
-	Sprite,
-	Water,
-	Fireball,
+	PBRIBL,
+
 	OITColorAccum,
 	OITColorReveal,
 	OITResult,
+
 	Skybox,
+
+	Sprite,
+
+	Water,
+	Fireball,
 
 	EnumCount
 };
@@ -101,10 +113,12 @@ enum class TextureType
 	Roughness,
 	AmbientOcclussion,
 	Emissive,
+
+	LUT,
+
 	GlobalTexture1,
 	NoiseTexture1,
 	NoiseTexture2,
-	LUT,
 
 	EnumCount
 };
@@ -148,7 +162,69 @@ struct ActorOnScreen
 	std::string type;
 	std::string typeName;
 
+	std::string domain;
+	std::string shader;
+
 	std::string controller;
+};
+
+enum class CursorMode
+{
+	Normal = 0,
+	Hidden = 1,
+	Locked = 2
+};
+
+enum class KeyState
+{
+	None = -1,
+	Pressed,
+	Held,
+	Released
+};
+
+enum class MouseButton
+{
+	Left = 0,
+	Right = 1,
+	Middle = 2
+};
+
+enum class KeyCode
+{
+	Escape = 0,
+	Enter = 1,
+	Space = 2,
+	Tab = 3,
+	Backspace = 4,
+	Left = 5,
+	Right = 6,
+	Up = 7,
+	Down = 8,
+	LeftShift = 9,
+	D0 = 10,
+	D1 = 11,
+	D2 = 12,
+	D3 = 13,
+	D4 = 14,
+	D5 = 15,
+	D6 = 16,
+	D7 = 17,
+	D8 = 18,
+	D9 = 19,
+	LeftAlt = 20,
+	F1 = 21,
+	F2 = 22,
+	F3 = 23,
+	F4 = 24,
+	F5 = 25,
+	F6 = 26,
+	F7 = 27,
+	F8 = 28,
+	F9 = 29,
+	F10 = 30,
+	F11 = 31,
+	F12 = 32,
 };
 
 class IObserver {

@@ -3,14 +3,12 @@
 #include "../Player/Player.h"
 
 #include "Actor.h"
-
-#include "Unit.h"
-#include "Worker.h"
-#include "Alien.h"
+#include "ActorTypes.h"
 
 #include "Building.h"
 
-#include "Movement.h"
+#include "Components/Transform.h"
+#include "Components/Movement.h"
 
 void Actor::start()
 {
@@ -103,7 +101,11 @@ void ActorManager::deserializeActor()
 		actor->setScale(it.scale);
 		actor->setType(it.type);
 		actor->setTypeName(it.typeName);
+		actor->setDomain(it.domain);
+		actor->setShader(it.shader);
 		actor->setControllerName(it.controller);
+
+		actor->addComponent<Transform>();
 
 		if (it.type == "Unit")
 		{
@@ -127,42 +129,52 @@ void ActorManager::deserializeActor()
 			actor->getComponent<Building>()->setCurrentBuildingTime(1000.f);
 		}
 
-		actor->setShaderType(ShaderType::Phong);
-
 		if (actor->getControllerName() == "Player")
 		{
 			Player::Instance().emplaceActor(actor);
 		}
 
-		if (actor->getTypeName() == "Simple")
 		{
-			actor->setShaderType(ShaderType::Flat);
-		}
+			if (actor->getShader() == "Flat")
+			{
+				actor->setShaderType(ShaderType::Flat);
+			}
 
-		if (actor->getTypeName() == "PBR")
-		{
-			actor->setShaderType(ShaderType::PBR);
-		}
+			if (actor->getShader() == "Phong")
+			{
+				actor->setShaderType(ShaderType::Phong);
+			}
 
-		if (actor->getTypeName() == "Water")
-		{
-			actor->setShaderType(ShaderType::Water);
-		}
+			if (actor->getShader() == "PBR")
+			{
+				actor->setShaderType(ShaderType::PBR);
+			}
 
-		if (actor->getTypeName() == "Fireball")
-		{
-			actor->setShaderType(ShaderType::Fireball);
-		}
+			if (actor->getShader() == "PBRIBL")
+			{
+				actor->setShaderType(ShaderType::PBRIBL);
+			}
 
-		if (actor->getTypeName() == "Transparent")
-		{
-			actor->setShaderType(ShaderType::OITColorAccum);
-			actor->setTransparent(true);
-		}
+			if (actor->getShader() == "Water")
+			{
+				actor->setShaderType(ShaderType::Water);
+			}
 
-		if (actor->getTypeName() == "Skybox")
-		{
-			actor->setShaderType(ShaderType::Skybox);
+			if (actor->getShader() == "Fireball")
+			{
+				actor->setShaderType(ShaderType::Fireball);
+			}
+
+			if (actor->getShader() == "Transparent")
+			{
+				actor->setShaderType(ShaderType::OITColorAccum);
+				actor->setTransparent(true);
+			}
+
+			if (actor->getShader() == "Skybox")
+			{
+				actor->setShaderType(ShaderType::Skybox);
+			}
 		}
 	}
 }
@@ -240,31 +252,6 @@ void ActorManager::switchLevel(std::string newLevelName)
 	updateActors.clear();
 
 	deserializeActor();
-}
-
-void ActorManager::updateMaterials()
-{
-	for (std::shared_ptr<Actor>& actor : updateActors)
-	{
-		if (Player::currentMaterial.index != -1)
-		{
-			actor->updateMaterials(Player::currentMaterial);
-		}
-	}
-}
-
-void ActorManager::updateMaterials(std::string actorName)
-{
-	for (std::shared_ptr<Actor>& actor : updateActors)
-	{
-		if (actor->getName() == actorName)
-		{
-			if (Player::currentMaterial.index != -1)
-			{
-				actor->updateMaterials(Player::currentMaterial);
-			}
-		}
-	}
 }
 
 void ActorManager::updateTransform()

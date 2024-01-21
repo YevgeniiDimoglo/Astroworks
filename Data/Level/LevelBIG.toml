@@ -7,6 +7,8 @@ scale = [1000.0,1000.0,1000.0]
 path = "./Data/Primitives/NewTerr.glb"
 type = "Terrian"
 typeName = "Basic"
+domain = "Surface"
+shader = "PBR"
 controller = "None"
 
 [[ActorsOnScreen]]
@@ -18,6 +20,8 @@ scale = [750.0,750.0,750.0]
 path = "./Data/Primitives/NaraSkyDome.glb"
 type = "Terrian"
 typeName = "Simple"
+domain = "Surface"
+shader = "Unlit"
 controller = "None"
 
 [[ActorsOnScreen]]
@@ -29,6 +33,8 @@ scale = [50.0,50.0,50.0]
 path = "./Data/Primitives/Chara.glb"
 type = "Terrian"
 typeName = "PBR"
+domain = "Surface"
+shader = "PBRIBL"
 controller = "None"
 
 [[ActorsOnScreen]]
@@ -40,4 +46,6 @@ scale = [1.0,1.0,1.0]
 path = "./Data/Primitives/Castle.glb"
 type = "Terrian"
 typeName = "PBR"
+domain = "Surface"
+shader = "PBRIBL"
 controller = "None"

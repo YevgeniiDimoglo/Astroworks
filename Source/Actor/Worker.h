@@ -2,8 +2,6 @@
 
 #include "Unit.h"
 
-#include "Movement.h"
-
 // Worker type of Unit
 
 class Worker : public Unit

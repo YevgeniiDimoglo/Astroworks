@@ -2,7 +2,7 @@
 
 // Moving component
 
-#include "../Graphics/Utilities.h"
+#include "../../Graphics/Utilities.h"
 #include "Component.h"
 
 class Movement : public Component

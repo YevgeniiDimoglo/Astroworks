@@ -5,8 +5,6 @@
 
 #include "UIUtilities.h"
 
-#include "../Misc/HighResolutionTimer.h"
-
 class UI : public IObserver
 {
 private:

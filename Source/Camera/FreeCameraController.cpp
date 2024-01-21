@@ -1,5 +1,6 @@
 #include "FreeCameraController.h"
-#include "../Graphics/Graphics.h"
+
+#include "../Input/Input.h"
 
 #define CAMERA_SPEED 10.0f;
 
@@ -22,31 +23,30 @@ void FreeCameraController::SyncControllerToCamera(Camera* camera)
 
 void FreeCameraController::Update(GLFWwindow* window, float deltaTime)
 {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	if (Input::IsKeyDown(window, KeyCode::Escape))
 	{
 		cameraEnable = !cameraEnable;
 
 		if (cameraEnable)
 		{
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+			Input::SetCursorMode(window, CursorMode::Hidden);
 		}
 		else
 		{
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			Input::SetCursorMode(window, CursorMode::Normal);
 		}
 	}
 
 	if (cameraEnable)
 	{
-		double xpos, ypos;
-		glfwGetCursorPos(window, &xpos, &ypos);
+		glm::vec2 mousePosition = Input::GetMousePosition(window);
 
 		int width, height;
 		glfwGetWindowSize(window, &width, &height);
 		glfwSetCursorPos(window, width * 0.5, height * 0.5);
 
-		angleX += MOUSESPEED * deltaTime * float(width * 0.5 - xpos);
-		angleY += MOUSESPEED * deltaTime * float(height * 0.5 - ypos - 0.5);
+		angleX += MOUSESPEED * deltaTime * float(width * 0.5 - mousePosition.x);
+		angleY += MOUSESPEED * deltaTime * float(height * 0.5 - mousePosition.y - 0.5);
 
 		if (glm::degrees(angleY) >= 89.5) angleY = glm::radians(89.5);
 		if (glm::degrees(angleY) <= -89.5) angleY = glm::radians(-89.5);

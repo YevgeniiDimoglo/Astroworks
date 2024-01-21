@@ -7,6 +7,8 @@ scale = [1.0,1.0,1.0]
 path = "./Data/Primitives/Demo/test-torus-fancy.glb"
 type = "Terrian"
 typeName = "Transparent"
+domain = "Surface"
+shader = "Transparent"
 controller = "None"
 
 [[ActorsOnScreen]]
@@ -18,6 +20,8 @@ scale = [1.0,1.0,1.0]
 path = "./Data/Primitives/Demo/sphere.glb"
 type = "Terrian"
 typeName = "Transparent"
+domain = "Surface"
+shader = "Transparent"
 controller = "None"
 
 [[ActorsOnScreen]]
@@ -29,6 +33,8 @@ scale = [0.05,0.05,0.05]
 path = "./Data/Primitives/Demo/sphere2.glb"
 type = "Terrian"
 typeName = "Transparent"
+domain = "Surface"
+shader = "Transparent"
 controller = "None"
 
 [[ActorsOnScreen]]
@@ -40,6 +46,8 @@ scale = [1.0,1.0,1.0]
 path = "./Data/Primitives/Demo/Hyper.glb"
 type = "Terrian"
 typeName = "Transparent"
+domain = "Surface"
+shader = "Transparent"
 controller = "None"
 
 [[ActorsOnScreen]]
@@ -51,4 +59,6 @@ scale = [2.0,2.0,2.0]
 path = "./Data/Primitives/Display.glb"
 type = "Terrian"
 typeName = "PBR"
+domain = "Surface"
+shader = "PBR"
 controller = "None"

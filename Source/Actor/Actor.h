@@ -54,6 +54,16 @@ public:
 		return typeName;
 	}
 
+	void setDomain(const std::string domain) { this->domain = domain; }
+	const std::string getDomain() const {
+		return domain;
+	}
+
+	void setShader(const std::string shader) { this->shader = shader; }
+	const std::string getShader() const {
+		return shader;
+	}
+
 	void setControllerName(const std::string controllerName) { this->controller = controllerName; }
 	const std::string getControllerName() const {
 		return controller;
@@ -64,11 +74,6 @@ public:
 	void setShaderType(const ShaderType shaderType) { this->shaderType = shaderType; }
 	const ShaderType getShaderType() const {
 		return shaderType;
-	}
-
-	void setShaderSubType(const ShaderType shaderSubType) { this->shaderSubType = shaderSubType; }
-	const ShaderType getShaderSubType() const {
-		return shaderSubType;
 	}
 
 	void setTransparent(const bool isTransparent) { this->transparent = isTransparent; }
@@ -136,12 +141,15 @@ private:
 	std::string type;
 	std::string typeName;
 
+	std::string domain;
+	std::string shader;
+
 	std::string controller;
 
 	std::vector<std::shared_ptr<Component>> components;
 
 	ShaderType shaderType;
-	ShaderType shaderSubType;
+
 	bool transparent = false;
 };
 
@@ -177,9 +185,6 @@ public:
 	void switchLevel(std::string newLevelName);
 
 	void updateTransform();
-
-	void updateMaterials();
-	void updateMaterials(std::string actorName);
 
 	void renderSolid(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, int pipelineNumber);
 	void renderTransparent(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, int pipelineNumber);
