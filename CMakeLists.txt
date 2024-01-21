@@ -165,6 +165,8 @@ set(___Graphics
     "Source/Graphics/Graphics.h"
     "Source/Graphics/Light.h"
     "Source/Graphics/Macros.h"
+    "Source/Graphics/Bitmap.cpp"
+    "Source/Graphics/Bitmap.h"
     "Source/Graphics/Texture.cpp"
     "Source/Graphics/Texture.h"
     "Source/Graphics/Utilities.h"
@@ -362,10 +364,3 @@ if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
         "${CMAKE_CURRENT_SOURCE_DIR}/./External/glfw-3.3.8.bin.WIN64/lib-vc2022"
     )
 endif()
-
-
-################################################################################
-# Addition
-################################################################################
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Shaders/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Shaders/)
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Data/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Data/)
