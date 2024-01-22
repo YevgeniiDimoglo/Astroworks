@@ -32,4 +32,7 @@
 %~dp0glslc.exe %~dp0DemoOITResult.frag -o DemoOITResult.spv
 %~dp0glslc.exe %~dp0skybox.vert -o skyboxVS.spv
 %~dp0glslc.exe %~dp0skybox.frag -o skyboxPS.spv
+%~dp0glslc.exe %~dp0computeParticle.vert -o computeParticleVS.spv
+%~dp0glslc.exe %~dp0computeParticle.frag -o computeParticlePS.spv
+%~dp0glslc.exe %~dp0computeParticle.comp -o computeParticleCS.spv
 pause

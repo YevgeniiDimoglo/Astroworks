@@ -1,21 +1,23 @@
 #pragma once
 
 // All rendering
+#include "Utilities.h"
 
 #include "Texture.h"
 #include "Light.h"
+#include "Particle.h"
 
 #include "../Camera/Camera.h"
 
 // - Vulkan structs
 struct QueueFamilyIndices
 {
-	std::optional<uint32_t> graphicsFamily;
+	std::optional<uint32_t> graphicsAndComputeFamily;
 	std::optional<uint32_t> presentFamily;
 
 	bool isComplete()
 	{
-		return graphicsFamily.has_value();
+		return graphicsAndComputeFamily.has_value();
 	}
 };
 
@@ -77,14 +79,19 @@ private:
 	void createSwapChain();
 	void createImageViews();
 	void createDescriptorSetLayout();
+	void createComputeDescriptorSetLayout();
 	void createGraphicsPipelines();
+	void createComputePipeline();
 	VkShaderModule createShaderModule(const std::vector<char>& code);
 	void createCommandPool();
 	void createaDepthResources();
+	void createShaderStorageBuffers();
 	void createUniformBuffers();
 	void createDescriptorPool();
+	void createComputeDescriptorSets();
 	void createDescriptorSets();
 	void createCommandBuffers();
+	void createComputeCommandBuffers();
 	void createSyncObjects();
 
 	void recreateSwapChain();
@@ -92,6 +99,7 @@ private:
 	// -- Record & Update Functions
 
 	void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, HighResolutionTimer timer);
+	void recordComputeCommandBuffer(VkCommandBuffer computeCommandBuffer, HighResolutionTimer timer);
 	void updateUniformBuffer(HighResolutionTimer timer, float elapsedTime, uint32_t currentImage, Camera* camera);
 
 	// -- Prepare Functions
@@ -163,8 +171,10 @@ private:
 	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 	VkSurfaceKHR surface;
 	VkDevice device;
+
 	VkQueue graphicsQueue;
 	VkQueue presentQueue;
+	VkQueue computeQueue;
 
 	VkSwapchainKHR swapChain;
 	std::vector<VkImage> swapChainImages;
@@ -177,16 +187,25 @@ private:
 	VkRenderPass renderPass = VK_NULL_HANDLE;
 	std::vector<VkPipeline> graphicsPipelines;
 
+	VkPipelineLayout computePipelineLayout;
+	VkPipeline computePipeline;
+
 	VkCommandPool commandPool;
 	std::vector<VkCommandBuffer> commandBuffers;
+	std::vector<VkCommandBuffer> computeCommandBuffers;
 
 	std::vector<VkSemaphore> imageAvailableSemaphores;
 	std::vector<VkSemaphore> renderFinishedSemaphores;
+	std::vector<VkSemaphore> computeFinishedSemaphores;
 	std::vector<VkFence> inFlightFences;
+	std::vector<VkFence> computeInFlightFences;
 
 	std::vector<VkBuffer> uniformBuffers;
 	std::vector<VkDeviceMemory> uniformBuffersMemory;
 	std::vector<void*> uniformBuffersMapped;
+
+	std::vector<VkBuffer> shaderStorageBuffers;
+	std::vector<VkDeviceMemory> shaderStorageBuffersMemory;
 
 	VkDescriptorPool descriptorPool;
 	VkDescriptorSetLayout descriptorSetLayout;
@@ -204,6 +223,10 @@ private:
 
 	VkDescriptorPool postEffectPool;
 	VkDescriptorSetLayout postEffectSetLayout;
+
+	VkDescriptorPool computeDescriptorPool;
+	VkDescriptorSetLayout computeDescriptorSetLayout;
+	std::vector<VkDescriptorSet> computeDescriptorSets;
 
 	Framebuffer FinalTexture;
 	Framebuffer Luminance;
