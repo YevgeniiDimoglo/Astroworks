@@ -113,7 +113,7 @@ void Graphics::initVulkan()
 	LOG("DescriptorLayouts created successfully\n");
 	// Create compute input layout
 	createComputeDescriptorSetLayout();
-	LOG("DescriptorLayouts created successfully\n");
+	LOG("Compute DescriptorLayouts created successfully\n");
 	// Create pipelines for different rendering
 	createGraphicsPipelines();
 	LOG("GraphicsPipelines created successfully\n");
@@ -186,30 +186,28 @@ void Graphics::InitResources()
 
 void Graphics::drawFrame(HighResolutionTimer timer, float elapsedTime)
 {
-	////// Compute
-	//vkWaitForFences(device, 1, &computeInFlightFences[currentFrame], VK_TRUE, UINT64_MAX);
+	//// Compute
+	vkWaitForFences(device, 1, &computeInFlightFences[currentFrame], VK_TRUE, UINT64_MAX);
 
-	//vkResetFences(device, 1, &computeInFlightFences[currentFrame]);
+	vkResetFences(device, 1, &computeInFlightFences[currentFrame]);
 
-	//vkResetCommandBuffer(computeCommandBuffers[currentFrame], 0);
-	//recordComputeCommandBuffer(computeCommandBuffers[currentFrame], timer);
+	vkResetCommandBuffer(computeCommandBuffers[currentFrame], 0);
+	recordComputeCommandBuffer(computeCommandBuffers[currentFrame], timer);
 
-	//VkPipelineStageFlags waitStageMask = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+	VkPipelineStageFlags waitStageMask = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
 
-	//VkSubmitInfo computeSubmintInfo{};
-	//computeSubmintInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+	VkSubmitInfo computeSubmintInfo{};
+	computeSubmintInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 
-	//computeSubmintInfo.commandBufferCount = 1;
-	//computeSubmintInfo.pCommandBuffers = &computeCommandBuffers[currentFrame];
-	//computeSubmintInfo.waitSemaphoreCount = 1;
-	//computeSubmintInfo.pWaitSemaphores = &renderFinishedSemaphores[currentFrame];
-	//computeSubmintInfo.pWaitDstStageMask = &waitStageMask;
-	//computeSubmintInfo.signalSemaphoreCount = 1;
-	//computeSubmintInfo.pSignalSemaphores = &computeFinishedSemaphores[currentFrame];
+	computeSubmintInfo.commandBufferCount = 1;
+	computeSubmintInfo.pCommandBuffers = &computeCommandBuffers[currentFrame];
+	computeSubmintInfo.pWaitDstStageMask = &waitStageMask;
+	computeSubmintInfo.signalSemaphoreCount = 1;
+	computeSubmintInfo.pSignalSemaphores = &computeFinishedSemaphores[currentFrame];
 
-	//if (vkQueueSubmit(computeQueue, 1, &computeSubmintInfo, computeInFlightFences[currentFrame]) != VK_SUCCESS) {
-	//	throw std::runtime_error("failed to submit compute command buffer!");
-	//};
+	if (vkQueueSubmit(computeQueue, 1, &computeSubmintInfo, computeInFlightFences[currentFrame]) != VK_SUCCESS) {
+		throw std::runtime_error("failed to submit compute command buffer!");
+	};
 
 	//// Graphics
 	// Wait for given fence to signal (open) from last draw before continuing
@@ -238,32 +236,18 @@ void Graphics::drawFrame(HighResolutionTimer timer, float elapsedTime)
 	recordCommandBuffer(commandBuffers[currentFrame], imageIndex, timer);
 
 	// Submit command buffer to queue for exec, making sure it waits for one image to be signalled as available before drawing and signals when it has finished rendering
-	//VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_VERTEX_INPUT_BIT, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
-	//VkSemaphore waitSemaphores[] = { computeFinishedSemaphores[currentFrame], imageAvailableSemaphores[currentFrame] };
-	//VkSemaphore signalSemaphores[] = { renderFinishedSemaphores[currentFrame] };
-
-	//VkSubmitInfo submitInfo{};
-	//submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-
-	//submitInfo.waitSemaphoreCount = 2;
-	//submitInfo.pWaitSemaphores = waitSemaphores;
-	//submitInfo.pWaitDstStageMask = waitStages;
-	//submitInfo.commandBufferCount = 1;
-	//submitInfo.pCommandBuffers = &commandBuffers[currentFrame];
-	//submitInfo.signalSemaphoreCount = 1;
-	//submitInfo.pSignalSemaphores = signalSemaphores;
+	VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_VERTEX_INPUT_BIT, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+	VkSemaphore waitSemaphores[] = { computeFinishedSemaphores[currentFrame], imageAvailableSemaphores[currentFrame] };
+	VkSemaphore signalSemaphores[] = { renderFinishedSemaphores[currentFrame] };
 
 	VkSubmitInfo submitInfo{};
 	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 
-	VkSemaphore waitSemaphores[] = { imageAvailableSemaphores[currentFrame] };
-	VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
-	submitInfo.waitSemaphoreCount = 1;
+	submitInfo.waitSemaphoreCount = 2;
 	submitInfo.pWaitSemaphores = waitSemaphores;
 	submitInfo.pWaitDstStageMask = waitStages;
 	submitInfo.commandBufferCount = 1;
 	submitInfo.pCommandBuffers = &commandBuffers[currentFrame];
-	VkSemaphore signalSemaphores[] = { renderFinishedSemaphores[currentFrame] };
 	submitInfo.signalSemaphoreCount = 1;
 	submitInfo.pSignalSemaphores = signalSemaphores;
 
@@ -327,6 +311,12 @@ void Graphics::cleanup()
 		vkFreeMemory(device, uniformBuffersMemory[i], nullptr);
 	}
 
+	for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+	{
+		vkDestroyBuffer(device, shaderStorageBuffers[i], nullptr);
+		vkFreeMemory(device, shaderStorageBuffersMemory[i], nullptr);
+	}
+
 	ActorManager::Instance().cleanup(device);
 
 	UI::Instance().cleanup(device);
@@ -373,6 +363,9 @@ void Graphics::cleanup()
 	vkDestroyDescriptorPool(device, postEffectPool, nullptr);
 	vkDestroyDescriptorSetLayout(device, postEffectSetLayout, nullptr);
 
+	vkDestroyDescriptorPool(device, computeDescriptorPool, nullptr);
+	vkDestroyDescriptorSetLayout(device, computeDescriptorSetLayout, nullptr);
+
 	for (Pipelines pipelineName = static_cast<Pipelines>(0);
 		pipelineName != Pipelines::EnumCount;
 		pipelineName = static_cast<Pipelines>(static_cast<int>(pipelineName) + 1))
@@ -381,6 +374,10 @@ void Graphics::cleanup()
 		vkDestroyPipelineLayout(device, pipelineLayouts[static_cast<int>(pipelineName)], nullptr);
 	}
 
+	vkDestroyPipeline(device, computePipeline, nullptr);
+	vkDestroyPipelineLayout(device, computePipelineLayout, nullptr);
+
+	vkFreeCommandBuffers(device, commandPool, 1, computeCommandBuffers.data());
 	vkFreeCommandBuffers(device, commandPool, 1, commandBuffers.data());
 
 	vkDestroyCommandPool(device, commandPool, nullptr);
@@ -388,10 +385,11 @@ void Graphics::cleanup()
 	for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
 	{
 		vkDestroySemaphore(device, imageAvailableSemaphores[i], nullptr);
-
 		vkDestroySemaphore(device, renderFinishedSemaphores[i], nullptr);
+		vkDestroySemaphore(device, computeFinishedSemaphores[i], nullptr);
 
 		vkDestroyFence(device, inFlightFences[i], nullptr);
+		vkDestroyFence(device, computeInFlightFences[i], nullptr);
 	}
 
 	vkDestroyDevice(device, nullptr);
@@ -2091,27 +2089,27 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		vkCmdDraw(commandBuffer, 3, 1, 0, 0);
 	}
 
-	//{
-	//	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::ComputeParticlePipeline)]);
+	{
+		//vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::ComputeParticlePipeline)]);
 
-	//	VkViewport viewport{};
-	//	viewport.x = 0.0f;
-	//	viewport.y = 0.0f;
-	//	viewport.width = (float)swapChainExtent.width;
-	//	viewport.height = (float)swapChainExtent.height;
-	//	viewport.minDepth = 0.0f;
-	//	viewport.maxDepth = 1.0f;
-	//	vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
+		VkViewport viewport{};
+		viewport.x = 0.0f;
+		viewport.y = 0.0f;
+		viewport.width = (float)swapChainExtent.width;
+		viewport.height = (float)swapChainExtent.height;
+		viewport.minDepth = 0.0f;
+		viewport.maxDepth = 1.0f;
+		vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
 
-	//	VkRect2D scissor{};
-	//	scissor.offset = { 0, 0 };
-	//	scissor.extent = swapChainExtent;
-	//	vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
+		VkRect2D scissor{};
+		scissor.offset = { 0, 0 };
+		scissor.extent = swapChainExtent;
+		vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
-	//	VkDeviceSize offsets[] = { 0 };
-	//	vkCmdBindVertexBuffers(commandBuffer, 0, 1, &shaderStorageBuffers[currentFrame], offsets);
-	//	//vkCmdDraw(commandBuffer, PARTICLE_COUNT, 1, 0, 0);
-	//}
+		VkDeviceSize offsets[] = { 0 };
+		//vkCmdBindVertexBuffers(commandBuffer, 0, 1, &shaderStorageBuffers[currentFrame], offsets);
+		//vkCmdDraw(commandBuffer, PARTICLE_COUNT, 1, 0, 0);
+	}
 
 	// - End of rendering
 	vkCmdEndRendering(commandBuffer);
@@ -3527,7 +3525,7 @@ bool Graphics::isDeviceSuitable(VkPhysicalDevice device)
 			<< "Device Type : " << deviceProperties.deviceType << '\n'
 			<< "Driver Version : " << deviceProperties.driverVersion << '\n'
 			<< "Max PushConstantSize : " << deviceProperties.limits.maxPushConstantsSize << '\n';
-}
+	}
 
 	bool extensionsSupported = checkDeviceExtensionsSupport(device);
 
@@ -3543,7 +3541,7 @@ bool Graphics::isDeviceSuitable(VkPhysicalDevice device)
 #else
 	return (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) && indices.isComplete() && extensionsSupported && swapChainAdequate && deviceFeatures.samplerAnisotropy;
 #endif // DISCRETE
-	}
+}
 
 QueueFamilyIndices Graphics::findQueueFamilies(VkPhysicalDevice device)
 {
