@@ -2,6 +2,8 @@
 
 #include "../Graphics/Utilities.h"
 
+#include "Camera.h"
+
 // FPV camera
 
 class FreeCameraController

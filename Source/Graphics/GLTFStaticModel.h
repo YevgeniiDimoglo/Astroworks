@@ -7,7 +7,8 @@
 #define TINYGLTF_NO_STB_IMAGE_WRITE
 #include <tiny_gltf.h>
 
-class Camera;
+#include "../Camera/Camera.h"
+#include "Texture.h"
 
 class GLTFStaticModel
 {

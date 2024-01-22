@@ -48,19 +48,19 @@ void Graphics::initTextures()
 {
 	LOG("Initialization of Textures\n");
 
-	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/Dummy.png"));
-	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyNormal.png"));
-	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyMetalness.png"));
-	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyRoughness.png"));
-	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyAO.png"));
-	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyEmissive.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/Dummy.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyNormal.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyMetalness.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyRoughness.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyAO.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyEmissive.png"));
 
-	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/Fire_alpha.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/Fire_alpha.png"));
 
-	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/TextureNoise.png"));
-	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/TextureNoise2.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/TextureNoise.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/TextureNoise2.png"));
 
-	getGlobalVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/HDRI/lut_ggx.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/HDRI/lut_ggx.png"));
 }
 
 void Graphics::initModels()
@@ -278,15 +278,15 @@ void Graphics::cleanup()
 
 	UI::Instance().cleanup(device);
 
-	vkDestroyImageView(device, skybox.view, nullptr);
-	vkDestroyImage(device, skybox.image, nullptr);
-	vkFreeMemory(device, skybox.deviceMemory, nullptr);
+	vkDestroyImageView(device, skybox.cubeMap.view, nullptr);
+	vkDestroyImage(device, skybox.cubeMap.image, nullptr);
+	vkFreeMemory(device, skybox.cubeMap.deviceMemory, nullptr);
 
-	vkDestroyImageView(device, skyboxIrr.view, nullptr);
-	vkDestroyImage(device, skyboxIrr.image, nullptr);
-	vkFreeMemory(device, skyboxIrr.deviceMemory, nullptr);
+	vkDestroyImageView(device, skyboxIrr.cubeMap.view, nullptr);
+	vkDestroyImage(device, skyboxIrr.cubeMap.image, nullptr);
+	vkFreeMemory(device, skyboxIrr.cubeMap.deviceMemory, nullptr);
 
-	for (auto it : getGlobalVector())
+	for (auto it : getTexturesVector())
 	{
 		vkDestroyImageView(device, it.view, nullptr);
 		vkDestroyImage(device, it.image, nullptr);
@@ -294,8 +294,8 @@ void Graphics::cleanup()
 		vkDestroySampler(device, it.sampler, nullptr);
 	}
 
-	vkDestroySampler(device, skyboxIrr.sampler, nullptr);
-	vkDestroySampler(device, skybox.sampler, nullptr);
+	vkDestroySampler(device, skyboxIrr.cubeMap.sampler, nullptr);
+	vkDestroySampler(device, skybox.cubeMap.sampler, nullptr);
 	vkDestroySampler(device, offscreen.sampler, nullptr);
 	vkDestroySampler(device, Luminance.sampler, nullptr);
 	vkDestroySampler(device, Blur.sampler, nullptr);
@@ -1288,8 +1288,8 @@ void Graphics::createDescriptorSets()
 		descriptorWrites[1].pImageInfo = &imageInfo;
 
 		VkDescriptorImageInfo skyImageInfo = {};
-		skyImageInfo.sampler = skybox.sampler;
-		skyImageInfo.imageView = skybox.view;
+		skyImageInfo.sampler = skybox.cubeMap.sampler;
+		skyImageInfo.imageView = skybox.cubeMap.view;
 		skyImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
 		descriptorWrites[2].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -1301,8 +1301,8 @@ void Graphics::createDescriptorSets()
 		descriptorWrites[2].pImageInfo = &skyImageInfo;
 
 		VkDescriptorImageInfo skyImageIrrInfo = {};
-		skyImageIrrInfo.sampler = skyboxIrr.sampler;
-		skyImageIrrInfo.imageView = skyboxIrr.view;
+		skyImageIrrInfo.sampler = skyboxIrr.cubeMap.sampler;
+		skyImageIrrInfo.imageView = skyboxIrr.cubeMap.view;
 		skyImageIrrInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
 		descriptorWrites[3].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -1314,8 +1314,8 @@ void Graphics::createDescriptorSets()
 		descriptorWrites[3].pImageInfo = &skyImageIrrInfo;
 
 		VkDescriptorImageInfo skyImageLUT = {};
-		skyImageLUT.sampler = getGlobalVector()[static_cast<int>(TextureType::LUT)].sampler;
-		skyImageLUT.imageView = getGlobalVector()[static_cast<int>(TextureType::LUT)].view;
+		skyImageLUT.sampler = getTexturesVector()[static_cast<int>(TextureType::LUT)].sampler;
+		skyImageLUT.imageView = getTexturesVector()[static_cast<int>(TextureType::LUT)].view;
 		skyImageLUT.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
 		descriptorWrites[4].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;

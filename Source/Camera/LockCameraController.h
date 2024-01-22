@@ -2,6 +2,8 @@
 
 #include "../Graphics/Utilities.h"
 
+#include "Camera.h"
+
 // TPV camera
 
 class LockCameraController

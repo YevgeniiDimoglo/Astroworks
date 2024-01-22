@@ -77,9 +77,9 @@ void CubeMap::CreateCubeMap(VkPhysicalDevice newPhysicalDevice, VkDevice newLogi
 	allocInfo.allocationSize = memRequirements.size;
 	allocInfo.memoryTypeIndex = findMemoryType(newPhysicalDevice, memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
-	VK_CHECK(vkAllocateMemory(newLogicalDevice, &allocInfo, nullptr, &deviceMemory));
+	VK_CHECK(vkAllocateMemory(newLogicalDevice, &allocInfo, nullptr, &cubeMap.deviceMemory));
 
-	vkBindImageMemory(newLogicalDevice, image, deviceMemory, 0);
+	vkBindImageMemory(newLogicalDevice, image, cubeMap.deviceMemory, 0);
 
 	transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue, image, VK_FORMAT_R32G32B32A32_SFLOAT, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 6);
 	copyBufferToImage(newLogicalDevice, transferCommandPool, transferQueue, imageStagingBuffer, image, static_cast<uint32_t>(cubemap.w_), static_cast<uint32_t>(cubemap.h_), 6);
@@ -88,8 +88,7 @@ void CubeMap::CreateCubeMap(VkPhysicalDevice newPhysicalDevice, VkDevice newLogi
 	vkDestroyBuffer(newLogicalDevice, imageStagingBuffer, nullptr);
 	vkFreeMemory(newLogicalDevice, imageStagingBufferMemory, nullptr);
 
-	this->image = image;
-	this->deviceMemory = deviceMemory;
+	cubeMap.image = image;
 
 	VkSamplerCreateInfo samplerInfo{};
 	samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
@@ -115,7 +114,7 @@ void CubeMap::CreateCubeMap(VkPhysicalDevice newPhysicalDevice, VkDevice newLogi
 	VkSampler imageSampler;
 	VK_CHECK(vkCreateSampler(newLogicalDevice, &samplerInfo, nullptr, &imageSampler));
 
-	this->sampler = imageSampler;
+	cubeMap.sampler = imageSampler;
 
 	VkImageViewCreateInfo viewInfo{};
 	viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
@@ -131,7 +130,7 @@ void CubeMap::CreateCubeMap(VkPhysicalDevice newPhysicalDevice, VkDevice newLogi
 	VkImageView imageView;
 	VK_CHECK(vkCreateImageView(newLogicalDevice, &viewInfo, nullptr, &imageView));
 
-	this->view = imageView;
+	cubeMap.view = imageView;
 }
 
 glm::vec3 CubeMap::FaceCoordsToXYZ(int i, int j, int faceID, int faceSize)

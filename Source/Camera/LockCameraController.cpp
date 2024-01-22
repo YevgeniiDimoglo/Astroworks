@@ -1,6 +1,4 @@
 #include "LockCameraController.h"
-#include "../Actor/Actor.h"
-#include "../Actor/Worker.h"
 
 static const float CAMERAMOVEMENTSPEED = 2.f;
 static const int WINDOWSCROLLBORDER = 25;

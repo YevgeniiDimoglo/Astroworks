@@ -1,15 +1,13 @@
 #pragma once
 
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW\glfw3.h>
-
 #include <stb_image.h>
 #include <stdexcept>
 #include <vector>
 #include <algorithm>
 
+#include "Utilities.h"
+
 #include "../Graphics/Bitmap.h"
-#include "../Graphics/Macros.h"
 #include "../Misc/Math.h"
 
 class CubeMap
@@ -22,41 +20,7 @@ public:
 	Bitmap ConvertEquirectangularMapToVerticalCross(const Bitmap& bp);
 	Bitmap ConvertVerticalCrossToCubeMapFaces(const Bitmap& bp);
 
-	VkImage					image;
-	VkImageLayout			imageLayout;
-	VkDeviceMemory			deviceMemory;
-	VkImageView				view;
-	uint32_t				width, height;
-	VkDescriptorImageInfo	descriptor;
-	VkSampler				sampler;
-	VkDescriptorSet			descriptorSet;
-};
-
-struct ImageBuffer
-{
-	VkImage					image;
-	VkImageLayout			imageLayout;
-	VkDeviceMemory			deviceMemory;
-	VkImageView				view;
-	uint32_t				width, height;
-	VkDescriptorImageInfo	descriptor;
-	VkSampler				sampler;
-	VkDescriptorSet			descriptorSet;
-};
-
-struct FrameBufferAttachment {
-	VkImage image;
-	VkDeviceMemory mem;
-	VkImageView view;
-};
-
-struct Framebuffer
-{
-	int32_t width, height;
-	FrameBufferAttachment offscreenColorAttachment, offscreenDepthAttachment;
-	VkSampler sampler;
-	VkDescriptorImageInfo descriptor;
-	VkDescriptorSet			descriptorSet;
+	ImageBuffer cubeMap;
 };
 
 static bool hasStencilComponent(VkFormat format)

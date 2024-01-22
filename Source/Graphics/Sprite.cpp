@@ -1,7 +1,5 @@
 #include "Sprite.h"
 
-#include "../Graphics/Macros.h"
-
 Sprite::Sprite(std::string filePath)
 {
 	std::size_t found = filePath.find_last_of("/\\");

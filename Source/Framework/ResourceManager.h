@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Graphics/Utilities.h"
+
 #include "../Graphics/GLTFStaticModel.h"
 #include "../Graphics/Sprite.h"
 

@@ -2,8 +2,10 @@
 
 // All rendering
 
-#include "Utilities.h"
-#include "Macros.h"
+#include "Texture.h"
+#include "Light.h"
+
+#include "../Camera/Camera.h"
 
 // - Vulkan structs
 struct QueueFamilyIndices

@@ -2,6 +2,8 @@
 
 #include "Utilities.h"
 
+#include "Texture.h"
+
 class Sprite
 {
 public:

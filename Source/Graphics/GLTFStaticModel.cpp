@@ -1,9 +1,6 @@
 #include "GLTFStaticModel.h"
 
-#include "../Camera/Camera.h"
-#include "../Graphics/Macros.h"
-
-std::vector<ImageBuffer>& getGlobalVector()
+std::vector<ImageBuffer>& getTexturesVector()
 {
 	static std::vector<ImageBuffer> dynamicTextures;
 	return dynamicTextures;
@@ -338,14 +335,14 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	if (color == nullptr)
 	{
 		GLTFStaticModel::Image dummyColor = {
-		getGlobalVector()[static_cast<int>(TextureType::Albedo)].image,
-			getGlobalVector()[static_cast<int>(TextureType::Albedo)].imageLayout,
-			getGlobalVector()[static_cast<int>(TextureType::Albedo)].deviceMemory,
-			getGlobalVector()[static_cast<int>(TextureType::Albedo)].view,
-			getGlobalVector()[static_cast<int>(TextureType::Albedo)].width, getGlobalVector()[static_cast<int>(TextureType::Albedo)].height,
-			getGlobalVector()[static_cast<int>(TextureType::Albedo)].descriptor,
-			getGlobalVector()[static_cast<int>(TextureType::Albedo)].sampler,
-			getGlobalVector()[static_cast<int>(TextureType::Albedo)].descriptorSet,
+		getTexturesVector()[static_cast<int>(TextureType::Albedo)].image,
+			getTexturesVector()[static_cast<int>(TextureType::Albedo)].imageLayout,
+			getTexturesVector()[static_cast<int>(TextureType::Albedo)].deviceMemory,
+			getTexturesVector()[static_cast<int>(TextureType::Albedo)].view,
+			getTexturesVector()[static_cast<int>(TextureType::Albedo)].width, getTexturesVector()[static_cast<int>(TextureType::Albedo)].height,
+			getTexturesVector()[static_cast<int>(TextureType::Albedo)].descriptor,
+			getTexturesVector()[static_cast<int>(TextureType::Albedo)].sampler,
+			getTexturesVector()[static_cast<int>(TextureType::Albedo)].descriptorSet,
 		};
 
 		color = &dummyColor;
@@ -354,14 +351,14 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	if (normal == nullptr)
 	{
 		GLTFStaticModel::Image dummyNormal = {
-		getGlobalVector()[static_cast<int>(TextureType::Normal)].image,
-			getGlobalVector()[static_cast<int>(TextureType::Normal)].imageLayout,
-			getGlobalVector()[static_cast<int>(TextureType::Normal)].deviceMemory,
-			getGlobalVector()[static_cast<int>(TextureType::Normal)].view,
-			getGlobalVector()[static_cast<int>(TextureType::Normal)].width, getGlobalVector()[static_cast<int>(TextureType::Normal)].height,
-			getGlobalVector()[static_cast<int>(TextureType::Normal)].descriptor,
-			getGlobalVector()[static_cast<int>(TextureType::Normal)].sampler,
-			getGlobalVector()[static_cast<int>(TextureType::Normal)].descriptorSet,
+		getTexturesVector()[static_cast<int>(TextureType::Normal)].image,
+			getTexturesVector()[static_cast<int>(TextureType::Normal)].imageLayout,
+			getTexturesVector()[static_cast<int>(TextureType::Normal)].deviceMemory,
+			getTexturesVector()[static_cast<int>(TextureType::Normal)].view,
+			getTexturesVector()[static_cast<int>(TextureType::Normal)].width, getTexturesVector()[static_cast<int>(TextureType::Normal)].height,
+			getTexturesVector()[static_cast<int>(TextureType::Normal)].descriptor,
+			getTexturesVector()[static_cast<int>(TextureType::Normal)].sampler,
+			getTexturesVector()[static_cast<int>(TextureType::Normal)].descriptorSet,
 		};
 
 		normal = &dummyNormal;
@@ -370,14 +367,14 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	if (metallic == nullptr)
 	{
 		GLTFStaticModel::Image dummyMetallic = {
-		getGlobalVector()[static_cast<int>(TextureType::Metalness)].image,
-			getGlobalVector()[static_cast<int>(TextureType::Metalness)].imageLayout,
-			getGlobalVector()[static_cast<int>(TextureType::Metalness)].deviceMemory,
-			getGlobalVector()[static_cast<int>(TextureType::Metalness)].view,
-			getGlobalVector()[static_cast<int>(TextureType::Metalness)].width, getGlobalVector()[static_cast<int>(TextureType::Metalness)].height,
-			getGlobalVector()[static_cast<int>(TextureType::Metalness)].descriptor,
-			getGlobalVector()[static_cast<int>(TextureType::Metalness)].sampler,
-			getGlobalVector()[static_cast<int>(TextureType::Metalness)].descriptorSet,
+		getTexturesVector()[static_cast<int>(TextureType::Metalness)].image,
+			getTexturesVector()[static_cast<int>(TextureType::Metalness)].imageLayout,
+			getTexturesVector()[static_cast<int>(TextureType::Metalness)].deviceMemory,
+			getTexturesVector()[static_cast<int>(TextureType::Metalness)].view,
+			getTexturesVector()[static_cast<int>(TextureType::Metalness)].width, getTexturesVector()[static_cast<int>(TextureType::Metalness)].height,
+			getTexturesVector()[static_cast<int>(TextureType::Metalness)].descriptor,
+			getTexturesVector()[static_cast<int>(TextureType::Metalness)].sampler,
+			getTexturesVector()[static_cast<int>(TextureType::Metalness)].descriptorSet,
 		};
 
 		metallic = &dummyMetallic;
@@ -386,14 +383,14 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	if (roughness == nullptr)
 	{
 		GLTFStaticModel::Image dummyRoughness = {
-		getGlobalVector()[static_cast<int>(TextureType::Roughness)].image,
-			getGlobalVector()[static_cast<int>(TextureType::Roughness)].imageLayout,
-			getGlobalVector()[static_cast<int>(TextureType::Roughness)].deviceMemory,
-			getGlobalVector()[static_cast<int>(TextureType::Roughness)].view,
-			getGlobalVector()[static_cast<int>(TextureType::Roughness)].width, getGlobalVector()[static_cast<int>(TextureType::Roughness)].height,
-			getGlobalVector()[static_cast<int>(TextureType::Roughness)].descriptor,
-			getGlobalVector()[static_cast<int>(TextureType::Roughness)].sampler,
-			getGlobalVector()[static_cast<int>(TextureType::Roughness)].descriptorSet,
+		getTexturesVector()[static_cast<int>(TextureType::Roughness)].image,
+			getTexturesVector()[static_cast<int>(TextureType::Roughness)].imageLayout,
+			getTexturesVector()[static_cast<int>(TextureType::Roughness)].deviceMemory,
+			getTexturesVector()[static_cast<int>(TextureType::Roughness)].view,
+			getTexturesVector()[static_cast<int>(TextureType::Roughness)].width, getTexturesVector()[static_cast<int>(TextureType::Roughness)].height,
+			getTexturesVector()[static_cast<int>(TextureType::Roughness)].descriptor,
+			getTexturesVector()[static_cast<int>(TextureType::Roughness)].sampler,
+			getTexturesVector()[static_cast<int>(TextureType::Roughness)].descriptorSet,
 		};
 
 		roughness = &dummyRoughness;
@@ -402,14 +399,14 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	if (AO == nullptr)
 	{
 		GLTFStaticModel::Image dummyAO = {
-		getGlobalVector()[static_cast<int>(TextureType::AmbientOcclussion)].image,
-			getGlobalVector()[static_cast<int>(TextureType::AmbientOcclussion)].imageLayout,
-			getGlobalVector()[static_cast<int>(TextureType::AmbientOcclussion)].deviceMemory,
-			getGlobalVector()[static_cast<int>(TextureType::AmbientOcclussion)].view,
-			getGlobalVector()[static_cast<int>(TextureType::AmbientOcclussion)].width, getGlobalVector()[static_cast<int>(TextureType::AmbientOcclussion)].height,
-			getGlobalVector()[static_cast<int>(TextureType::AmbientOcclussion)].descriptor,
-			getGlobalVector()[static_cast<int>(TextureType::AmbientOcclussion)].sampler,
-			getGlobalVector()[static_cast<int>(TextureType::AmbientOcclussion)].descriptorSet,
+		getTexturesVector()[static_cast<int>(TextureType::AmbientOcclussion)].image,
+			getTexturesVector()[static_cast<int>(TextureType::AmbientOcclussion)].imageLayout,
+			getTexturesVector()[static_cast<int>(TextureType::AmbientOcclussion)].deviceMemory,
+			getTexturesVector()[static_cast<int>(TextureType::AmbientOcclussion)].view,
+			getTexturesVector()[static_cast<int>(TextureType::AmbientOcclussion)].width, getTexturesVector()[static_cast<int>(TextureType::AmbientOcclussion)].height,
+			getTexturesVector()[static_cast<int>(TextureType::AmbientOcclussion)].descriptor,
+			getTexturesVector()[static_cast<int>(TextureType::AmbientOcclussion)].sampler,
+			getTexturesVector()[static_cast<int>(TextureType::AmbientOcclussion)].descriptorSet,
 		};
 
 		AO = &dummyAO;
@@ -418,14 +415,14 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	if (emissive == nullptr)
 	{
 		GLTFStaticModel::Image dummyEmissive = {
-		getGlobalVector()[static_cast<int>(TextureType::Emissive)].image,
-			getGlobalVector()[static_cast<int>(TextureType::Emissive)].imageLayout,
-			getGlobalVector()[static_cast<int>(TextureType::Emissive)].deviceMemory,
-			getGlobalVector()[static_cast<int>(TextureType::Emissive)].view,
-			getGlobalVector()[static_cast<int>(TextureType::Emissive)].width, getGlobalVector()[static_cast<int>(TextureType::Emissive)].height,
-			getGlobalVector()[static_cast<int>(TextureType::Emissive)].descriptor,
-			getGlobalVector()[static_cast<int>(TextureType::Emissive)].sampler,
-			getGlobalVector()[static_cast<int>(TextureType::Emissive)].descriptorSet,
+		getTexturesVector()[static_cast<int>(TextureType::Emissive)].image,
+			getTexturesVector()[static_cast<int>(TextureType::Emissive)].imageLayout,
+			getTexturesVector()[static_cast<int>(TextureType::Emissive)].deviceMemory,
+			getTexturesVector()[static_cast<int>(TextureType::Emissive)].view,
+			getTexturesVector()[static_cast<int>(TextureType::Emissive)].width, getTexturesVector()[static_cast<int>(TextureType::Emissive)].height,
+			getTexturesVector()[static_cast<int>(TextureType::Emissive)].descriptor,
+			getTexturesVector()[static_cast<int>(TextureType::Emissive)].sampler,
+			getTexturesVector()[static_cast<int>(TextureType::Emissive)].descriptorSet,
 		};
 
 		emissive = &dummyEmissive;
@@ -434,14 +431,14 @@ void GLTFStaticModel::updateDescriptors(GLTFStaticModel::Material& material)
 	if (additional == nullptr)
 	{
 		GLTFStaticModel::Image dummyAdditional = {
-		getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].image,
-			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].imageLayout,
-			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].deviceMemory,
-			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].view,
-			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].width, getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].height,
-			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].descriptor,
-			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].sampler,
-			getGlobalVector()[static_cast<int>(TextureType::GlobalTexture1)].descriptorSet,
+		getTexturesVector()[static_cast<int>(TextureType::GlobalTexture1)].image,
+			getTexturesVector()[static_cast<int>(TextureType::GlobalTexture1)].imageLayout,
+			getTexturesVector()[static_cast<int>(TextureType::GlobalTexture1)].deviceMemory,
+			getTexturesVector()[static_cast<int>(TextureType::GlobalTexture1)].view,
+			getTexturesVector()[static_cast<int>(TextureType::GlobalTexture1)].width, getTexturesVector()[static_cast<int>(TextureType::GlobalTexture1)].height,
+			getTexturesVector()[static_cast<int>(TextureType::GlobalTexture1)].descriptor,
+			getTexturesVector()[static_cast<int>(TextureType::GlobalTexture1)].sampler,
+			getTexturesVector()[static_cast<int>(TextureType::GlobalTexture1)].descriptorSet,
 		};
 
 		additional = &dummyAdditional;

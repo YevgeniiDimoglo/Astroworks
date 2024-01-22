@@ -35,10 +35,7 @@
 #include "../Misc/HighResolutionTimer.h"
 #include "../Misc/Math.h";
 
-//TODO: Remove from utilites
-#include "../Graphics/Texture.h"
-#include "../Camera/Camera.h"
-#include "../Graphics/Light.h"
+#include "Macros.h"
 
 #define DISCRETE
 
@@ -123,9 +120,34 @@ enum class TextureType
 	EnumCount
 };
 
-extern Camera* playerCamera;
+struct ImageBuffer
+{
+	VkImage					image;
+	VkImageLayout			imageLayout;
+	VkDeviceMemory			deviceMemory;
+	VkImageView				view;
+	uint32_t				width, height;
+	VkDescriptorImageInfo	descriptor;
+	VkSampler				sampler;
+	VkDescriptorSet			descriptorSet;
+};
 
-extern std::vector<ImageBuffer>& getGlobalVector();
+struct FrameBufferAttachment {
+	VkImage image;
+	VkDeviceMemory mem;
+	VkImageView view;
+};
+
+struct Framebuffer
+{
+	int32_t width, height;
+	FrameBufferAttachment offscreenColorAttachment, offscreenDepthAttachment;
+	VkSampler sampler;
+	VkDescriptorImageInfo descriptor;
+	VkDescriptorSet			descriptorSet;
+};
+
+extern std::vector<ImageBuffer>& getTexturesVector();
 extern glm::vec2 BloomValues;
 
 struct PushConstants {
