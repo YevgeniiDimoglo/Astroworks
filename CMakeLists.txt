@@ -4,6 +4,8 @@ set(CMAKE_SYSTEM_VERSION 10.0.22621.0 CACHE STRING "" FORCE)
 
 project(Astroworks CXX)
 
+set (CMAKE_CXX_STANDARD 20)
+
 ################################################################################
 # Set target arch type if empty. Visual studio solution generator provides it.
 ################################################################################
@@ -122,7 +124,6 @@ set(ALL_FILES
     ${no_group_source_files}
 )
 
-add_custom_target(${PROJECT_NAME} SOURCES ${ALL_FILES})
 
 
 
@@ -404,10 +405,6 @@ endif()
 ################################################################################
 # Dependencies
 ################################################################################
-# Link with other targets.
-target_link_libraries(${PROJECT_NAME} PRIVATE
-    ZERO_CHECK
-)
 
 set(ADDITIONAL_LIBRARY_DEPENDENCIES
     "vulkan-1;"
@@ -461,6 +458,4 @@ source_group("CMake Rules" FILES ${CMake_Rules})
 set(ALL_FILES
     ${CMake_Rules}
 )
-
-add_custom_target(${PROJECT_NAME} SOURCES ${ALL_FILES})
 
