@@ -20,7 +20,7 @@ Framework::Framework()
 {
 	thisApp = std::make_unique<Graphics>();
 
-	ActorManager::Instance().setCurrentLevelName("LevelOIT");
+	ActorManager::Instance().setCurrentLevelName("Level");
 
 	ResourceManager::Instance().loadFiles("./Data/Level/");
 

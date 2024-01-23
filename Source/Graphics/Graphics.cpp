@@ -963,12 +963,6 @@ void Graphics::createGraphicsPipelines()
 		auto bindingDescription = GLTFStaticModel::Vertex::getBindingDescription();
 		auto attributeDescriptions = GLTFStaticModel::Vertex::getAttributeDescriptions();
 
-		if (pipelineName == Pipelines::ComputeParticlePipeline)
-		{
-			bindingDescription = Particle::Vertex::getBindingDescription();
-			attributeDescriptions = Particle::Vertex::getAttributeDescriptions();
-		}
-
 		vertexInputInfo.vertexBindingDescriptionCount = 1;
 		vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
 		vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
@@ -1075,7 +1069,8 @@ void Graphics::createGraphicsPipelines()
 
 			VK_CHECK(vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayouts[static_cast<int>(pipelineName)]));
 		}
-		else if (pipelineName == Pipelines::LuminancePipeline || pipelineName == Pipelines::BlurPipeline)
+		else if (pipelineName == Pipelines::LuminancePipeline ||
+			pipelineName == Pipelines::BlurPipeline)
 		{
 			// Pipeline layout
 			std::array<VkDescriptorSetLayout, 1> descriptorSetLayouts = { dynamicTextureSamplerSetLayout };
@@ -1116,6 +1111,39 @@ void Graphics::createGraphicsPipelines()
 
 			pipelineLayoutInfo.pushConstantRangeCount = 1;
 			pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
+
+			// Create a pipeline layout
+			VK_CHECK(vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayouts[static_cast<int>(pipelineName)]));
+		}
+		else if (pipelineName == Pipelines::ComputeParticlePipeline)
+		{
+			VkVertexInputBindingDescription particleBindingDescription{};
+			particleBindingDescription.binding = 0;
+			particleBindingDescription.stride = 32;
+			particleBindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+
+			std::array<VkVertexInputAttributeDescription, 2> particleAttributeDescriptions{};
+			particleAttributeDescriptions[0].binding = 0;
+			particleAttributeDescriptions[0].location = 0;
+			particleAttributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT;
+			particleAttributeDescriptions[0].offset = 0;
+
+			particleAttributeDescriptions[1].binding = 0;
+			particleAttributeDescriptions[1].location = 1;
+			particleAttributeDescriptions[1].format = VK_FORMAT_R32G32B32A32_SFLOAT;
+			particleAttributeDescriptions[1].offset = 8;
+
+			vertexInputInfo.vertexBindingDescriptionCount = 1;
+			vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(particleAttributeDescriptions.size());
+			vertexInputInfo.pVertexBindingDescriptions = &particleBindingDescription;
+			vertexInputInfo.pVertexAttributeDescriptions = particleAttributeDescriptions.data();
+
+			// Pipeline layout
+			std::array<VkDescriptorSetLayout, 1> descriptorSetLayouts = { computeDescriptorSetLayout };
+
+			pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+			pipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(descriptorSetLayouts.size());
+			pipelineLayoutInfo.pSetLayouts = descriptorSetLayouts.data();
 
 			// Create a pipeline layout
 			VK_CHECK(vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayouts[static_cast<int>(pipelineName)]));
@@ -2090,7 +2118,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	}
 
 	{
-		//vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::ComputeParticlePipeline)]);
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::ComputeParticlePipeline)]);
 
 		VkViewport viewport{};
 		viewport.x = 0.0f;
@@ -2107,8 +2135,8 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
 		VkDeviceSize offsets[] = { 0 };
-		//vkCmdBindVertexBuffers(commandBuffer, 0, 1, &shaderStorageBuffers[currentFrame], offsets);
-		//vkCmdDraw(commandBuffer, PARTICLE_COUNT, 1, 0, 0);
+		vkCmdBindVertexBuffers(commandBuffer, 0, 1, &shaderStorageBuffers[currentFrame], offsets);
+		vkCmdDraw(commandBuffer, PARTICLE_COUNT, 1, 0, 0);
 	}
 
 	// - End of rendering

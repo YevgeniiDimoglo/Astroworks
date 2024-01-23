@@ -6,7 +6,7 @@
 
 #include "../UI/UI.h"
 
-glm::vec2 BloomValues = { 0.8f, 1.0f };
+glm::vec2 BloomValues = { 1.0f, 0.0f };
 
 std::string Player::getSelectedActor(GLFWwindow* window, Camera* camera)
 {
