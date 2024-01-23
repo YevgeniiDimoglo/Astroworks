@@ -55,12 +55,12 @@ void Graphics::initTextures()
 	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyAO.png"));
 	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyEmissive.png"));
 
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/HDRI/lut_ggx.png"));
+
 	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/Fire_alpha.png"));
 
 	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/TextureNoise.png"));
 	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/TextureNoise2.png"));
-
-	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/HDRI/lut_ggx.png"));
 
 	skybox.CreateCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/puresky.hdr");
 	skyboxIrr.CreateCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/pureskyirr2.hdr");
