@@ -61,6 +61,9 @@ void Graphics::initTextures()
 	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/TextureNoise2.png"));
 
 	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/HDRI/lut_ggx.png"));
+
+	skybox.CreateCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/puresky.hdr");
+	skyboxIrr.CreateCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/pureskyirr2.hdr");
 }
 
 void Graphics::initModels()
@@ -179,9 +182,6 @@ void Graphics::InitResources()
 	initSprites();
 
 	initLights();
-
-	skybox.CreateCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/immenstadter_horn_2k.hdr");
-	skyboxIrr.CreateCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/immenstadter_horn_2k_irradiance.hdr");
 }
 
 void Graphics::drawFrame(HighResolutionTimer timer, float elapsedTime)
@@ -2109,34 +2109,12 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::Skybox));
 	}
 
-	if (true)
+	if (isTransparentRender)
 	{
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITResultPipeline)]);
 
 		// -- Model Pipeline: OIT
 		vkCmdDraw(commandBuffer, 3, 1, 0, 0);
-	}
-
-	{
-		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::ComputeParticlePipeline)]);
-
-		VkViewport viewport{};
-		viewport.x = 0.0f;
-		viewport.y = 0.0f;
-		viewport.width = (float)swapChainExtent.width;
-		viewport.height = (float)swapChainExtent.height;
-		viewport.minDepth = 0.0f;
-		viewport.maxDepth = 1.0f;
-		vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
-
-		VkRect2D scissor{};
-		scissor.offset = { 0, 0 };
-		scissor.extent = swapChainExtent;
-		vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
-
-		VkDeviceSize offsets[] = { 0 };
-		vkCmdBindVertexBuffers(commandBuffer, 0, 1, &shaderStorageBuffers[currentFrame], offsets);
-		vkCmdDraw(commandBuffer, PARTICLE_COUNT, 1, 0, 0);
 	}
 
 	// - End of rendering
@@ -2355,6 +2333,28 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	vkCmdDraw(commandBuffer, 3, 1, 0, 0);
 
 	// --
+	if (isParticleRender)
+	{
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::ComputeParticlePipeline)]);
+
+		VkViewport viewport{};
+		viewport.x = 0.0f;
+		viewport.y = 0.0f;
+		viewport.width = (float)swapChainExtent.width;
+		viewport.height = (float)swapChainExtent.height;
+		viewport.minDepth = 0.0f;
+		viewport.maxDepth = 1.0f;
+		vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
+
+		VkRect2D scissor{};
+		scissor.offset = { 0, 0 };
+		scissor.extent = swapChainExtent;
+		vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
+
+		VkDeviceSize offsets[] = { 0 };
+		vkCmdBindVertexBuffers(commandBuffer, 0, 1, &shaderStorageBuffers[currentFrame], offsets);
+		vkCmdDraw(commandBuffer, PARTICLE_COUNT, 1, 0, 0);
+	}
 
 	// -- UI Pipeline
 

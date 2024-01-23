@@ -249,4 +249,6 @@ private:
 
 	uint32_t currentFrame = 0;
 	bool framebufferResized = false;
+	bool isTransparentRender = false;
+	bool isParticleRender = false;
 };

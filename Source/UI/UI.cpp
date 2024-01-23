@@ -3,14 +3,51 @@
 #include "OverlayTitle.h"
 #include "OverlayGame.h"
 #include "OverlayComplete.h"
+#include "OverlayScene.h"
 
+#include "../Actor/Actor.h"
 #include "../Player/Player.h"
 
 void UI::notify(std::string widgetName, int widgetAction)
 {
 	if (widgetName == "start" && widgetAction == 0)
 	{
-		UI::Instance().changeOverlay(std::make_unique<OverlayGame>());
+		UI::Instance().changeOverlay(std::make_unique<OverlayScene>());
+	}
+
+	if (widgetName == "1d")
+	{
+		ActorManager::Instance().switchLevel("Level");
+	}
+
+	if (widgetName == "2d")
+	{
+		ActorManager::Instance().switchLevel("LevelPBR");
+	}
+
+	if (widgetName == "3d")
+	{
+		ActorManager::Instance().switchLevel("LevelOIT");
+	}
+
+	if (widgetName == "4d")
+	{
+		ActorManager::Instance().switchLevel("LevelTEXTURES");
+	}
+
+	if (widgetName == "5d")
+	{
+		ActorManager::Instance().switchLevel("LevelMISC");
+	}
+
+	if (widgetName == "6d")
+	{
+		ActorManager::Instance().switchLevel("LevelBIG");
+	}
+
+	if (widgetName == "7d")
+	{
+		ActorManager::Instance().switchLevel("LevelEFFECT");
 	}
 }
 
@@ -50,11 +87,6 @@ void UI::update(HighResolutionTimer timer, float elapsedTime, GLFWwindow* window
 	if (currentOverlay != nullptr)
 	{
 		currentOverlay->update(elapsedTime, window);
-	}
-
-	if (Player::Instance().getInGameTimer().TimeStamp() >= 10 * 60)
-	{
-		//UI::Instance().changeOverlay(std::make_unique<OverlayComplete>());
 	}
 }
 

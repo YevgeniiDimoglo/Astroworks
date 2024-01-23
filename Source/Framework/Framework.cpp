@@ -11,6 +11,7 @@
 
 #include "../Player/Player.h"
 #include "../Player/Enemy.h"
+#include "../Input/Input.h"
 
 #include "../Camera/Camera.h"
 #include "../Camera/FreeCameraController.h"
