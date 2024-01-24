@@ -63,6 +63,7 @@ enum class Pipelines
 	UIPipeline,
 
 	OffscreenPipeline,
+	OffscreenPipeline2,
 
 	OITColorAccumPipeline,
 	OITColorRevealPipeline,
