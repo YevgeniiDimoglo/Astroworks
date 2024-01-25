@@ -2448,26 +2448,7 @@ void Graphics::updateUniformBuffer(HighResolutionTimer timer, float elapsedTime,
 	ubo.lightDirection = { static_cast<DirectionalLight*>(sceneLights[0].get())->GetDirection(), 1.0f };
 	ubo.lightColor = static_cast<DirectionalLight*>(sceneLights[0].get())->GetColor();
 
-	float g_LightAngle = 120.0f;
-	float g_LightNear = 1.0f;
-	float g_LightFar = 1000.0f;
-
-	float g_LightDist = 500.0f;
-	float g_LightXAngle = -0.5f;
-	float g_LightYAngle = 0.55f;
-
-	//const glm::mat4 rotY = glm::rotate(glm::mat4(1.f), g_LightYAngle, glm::vec3(0, 1, 0));
-	//const glm::mat4 rotX = glm::rotate(rotY, g_LightXAngle, glm::vec3(1, 0, 0));
-	//const glm::vec4 lightPos = rotX * glm::vec4(0, 0, g_LightDist, 1.0f);
-
-	glm::mat4 lightProj = glm::perspective(glm::radians(g_LightAngle), 1.0f, g_LightNear, g_LightFar);
-	//const glm::mat4 lightView = glm::lookAt(glm::vec3(lightPos), glm::vec3(0), glm::vec3(0, 1, 0));
-
-	//ubo.lightMVP = lightView;
-
-	glm::mat4 depthViewMatrix = glm::lookAt(glm::vec3(5.f, 30.f, 10.f) + (glm::vec3(0.5f, 1.f, 0.f) * 20.f / 2.f), glm::vec3(0), glm::vec3(0, 1, 0));
-
-	ubo.lightMVP = lightProj * depthViewMatrix * ubo.model;
+	ubo.lightMVP = static_cast<DirectionalLight*>(sceneLights[0].get())->GetLightProjection() * static_cast<DirectionalLight*>(sceneLights[0].get())->GetLightView() * ubo.model;
 
 	// Camera Info
 	ubo.cameraPosition = glm::vec4(camera->getEye().x, camera->getEye().y, camera->getEye().z, 1.f);

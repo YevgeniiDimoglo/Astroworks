@@ -66,11 +66,29 @@ public:
 		direction = { xDir, yDir, zDir };
 	};
 
+	glm::vec4 GetLightPosition() {
+		const glm::mat4 rotY = glm::rotate(glm::mat4(1.f), g_LightYAngle, glm::vec3(0, 1, 0));
+		const glm::mat4 rotX = glm::rotate(rotY, g_LightXAngle, glm::vec3(1, 0, 0));
+		glm::vec4 lightPos = rotX * glm::vec4(0, 0, g_LightDist, 1.0f);
+		return lightPos;
+	}
+
+	glm::mat4  GetLightProjection() { return  glm::perspective(glm::radians(g_LightAngle), 1.0f, g_LightNear, g_LightFar); }
+	glm::mat4  GetLightView() { return  glm::lookAt(glm::vec3(GetLightPosition().x, GetLightPosition().y, GetLightPosition().z), glm::vec3(0), glm::vec3(0, 1, 0)); }
+
 	glm::vec3 GetDirection() { return direction; }
 	void SetDirection(glm::vec3 direction) { this->direction = direction; }
 
 private:
 	glm::vec3 direction;
+
+	float g_LightAngle = 120.0f;
+	float g_LightNear = 1.0f;
+	float g_LightFar = 1000.0f;
+
+	float g_LightDist = 10.0f;
+	float g_LightXAngle = -0.5f;
+	float g_LightYAngle = 0.55f;
 };
 
 class PointLight : public Light
