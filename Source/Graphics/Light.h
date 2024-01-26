@@ -8,16 +8,6 @@ enum class LightType
 	Area,
 };
 
-class Test
-{
-public:
-	Test();
-	virtual ~Test() = default;
-
-private:
-	int member;
-};
-
 class Light
 {
 public:
@@ -55,7 +45,7 @@ public:
 
 	void InitLight(float red, float green, float blue,
 		float aIntensity, float dIntensity,
-		float xDir, float yDir, float zDir)
+		float FOV, float distance, float angleX, float angleY)
 	{
 		color.r = red;
 		color.b = blue;
@@ -63,32 +53,40 @@ public:
 		ambientIntensity = aIntensity;
 		diffuseIntensity = dIntensity;
 
-		direction = { xDir, yDir, zDir };
+		lightAngle = FOV;
+
+		const glm::mat4 rotY = glm::rotate(glm::mat4(1.f), lightYAngle, glm::vec3(0, 1, 0));
+		const glm::mat4 rotX = glm::rotate(rotY, lightXAngle, glm::vec3(1, 0, 0));
+
+		lightPosition = glm::vec3(rotX * glm::vec4(0, 0, lightDist, 1.0f));
+
+		lightProjection = glm::perspective(glm::radians(lightAngle), 1.0f, lightNear, lightFar);
+
+		lightView = glm::lookAt(glm::vec3(GetLightPosition().x, GetLightPosition().y, GetLightPosition().z), glm::vec3(0), glm::vec3(0, 1, 0));
+
+		direction = -glm::normalize(glm::vec3(lightView[2]));
 	};
 
-	glm::vec4 GetLightPosition() {
-		const glm::mat4 rotY = glm::rotate(glm::mat4(1.f), g_LightYAngle, glm::vec3(0, 1, 0));
-		const glm::mat4 rotX = glm::rotate(rotY, g_LightXAngle, glm::vec3(1, 0, 0));
-		glm::vec4 lightPos = rotX * glm::vec4(0, 0, g_LightDist, 1.0f);
-		return lightPos;
-	}
-
-	glm::mat4  GetLightProjection() { return  glm::perspective(glm::radians(g_LightAngle), 1.0f, g_LightNear, g_LightFar); }
-	glm::mat4  GetLightView() { return  glm::lookAt(glm::vec3(GetLightPosition().x, GetLightPosition().y, GetLightPosition().z), glm::vec3(0), glm::vec3(0, 1, 0)); }
-
+	glm::vec3 GetLightPosition() { return lightPosition; }
+	glm::mat4 GetLightProjection() { return lightProjection; }
+	glm::mat4 GetLightView() { return lightView; }
 	glm::vec3 GetDirection() { return direction; }
-	void SetDirection(glm::vec3 direction) { this->direction = direction; }
 
 private:
 	glm::vec3 direction;
 
-	float g_LightAngle = 120.0f;
-	float g_LightNear = 1.0f;
-	float g_LightFar = 1000.0f;
+	float lightAngle = 120.0f;
+	float lightNear = 1.0f;
+	float lightFar = 1000.0f;
 
-	float g_LightDist = 10.0f;
-	float g_LightXAngle = -0.5f;
-	float g_LightYAngle = 0.55f;
+	float lightDist = 10.0f;
+	float lightXAngle = 0.0f;
+	float lightYAngle = 0.5f;
+
+	glm::vec3 lightPosition = glm::vec3(0);
+
+	glm::mat4 lightProjection = glm::mat4(1);
+	glm::mat4 lightView = glm::mat4(1);
 };
 
 class PointLight : public Light
