@@ -89,7 +89,7 @@ void Graphics::initLights()
 	std::unique_ptr<Light> sun = std::make_unique<DirectionalLight>();
 	static_cast<DirectionalLight*>(sun.get())->InitLight(1.0f, 1.0f, 1.0f,
 		1.0f, 1.0f,
-		170.0f, 15.0f, -0.5f, 0.0f);
+		120.0f, 55.0f, 0.0f, 0.5f);
 	sceneLights.push_back(std::move(sun));
 }
 
@@ -2449,7 +2449,6 @@ void Graphics::updateUniformBuffer(HighResolutionTimer timer, float elapsedTime,
 	ubo.lightColor = static_cast<DirectionalLight*>(sceneLights[0].get())->GetColor();
 	ubo.lightDirection = { static_cast<DirectionalLight*>(sceneLights[0].get())->GetDirection(), 1.0f };
 	ubo.lightMVP = static_cast<DirectionalLight*>(sceneLights[0].get())->GetLightProjection() * static_cast<DirectionalLight*>(sceneLights[0].get())->GetLightView() * ubo.model;
-
 	// Camera Info
 	ubo.cameraPosition = glm::vec4(camera->getEye().x, camera->getEye().y, camera->getEye().z, 1.f);
 
