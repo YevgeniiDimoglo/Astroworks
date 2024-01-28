@@ -857,6 +857,16 @@ void Graphics::createGraphicsPipelines()
 		case Pipelines::OITResultPipeline:
 			vertShaderCode = readFile("./Shaders/quadVS.spv");
 			fragShaderCode = readFile("./Shaders/OITResult.spv");
+			pipelineColorAttachmentFormat = VK_FORMAT_B8G8R8A8_UNORM;
+			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
+				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+			colorBlendAttachment.blendEnable = VK_TRUE;
+			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
 
 			cullingFlag = VK_CULL_MODE_NONE;
 			break;

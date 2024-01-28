@@ -40,7 +40,7 @@ Framework::Framework()
 		1000.0f);
 
 	camera->setAspect(thisApp->getExtent().width, thisApp->getExtent().height);
-	camera->setPosition({ 0.0f, 10.0f, 25.0f });
+	camera->setPosition({ 10.0f, 9.0f, 18.0f });
 
 	freeCameraController = new FreeCameraController();
 	lockCameraController = new LockCameraController();

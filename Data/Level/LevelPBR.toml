@@ -25,8 +25,8 @@ shader = "Water"
 controller = "None"
 
 [[ActorsOnScreen]]
-name = "Helmet"
-position = [5.0,8.0,5.0]
+name = "Helmet1"
+position = [14.0,8.0,5.0]
 rotation = [-0.0,0.0,1.0,-0.0]
 euler = [0.0,0.0,0.0]
 scale = [3.0,3.0,3.0]
@@ -38,8 +38,8 @@ shader = "PBRIBL"
 controller = "None"
 
 [[ActorsOnScreen]]
-name = "Helmet"
-position = [-5.0,8.0,5.0]
+name = "Helmet2"
+position = [4.0,8.0,5.0]
 rotation = [-0.0,0.0,1.0,-0.0]
 euler = [0.0,0.0,0.0]
 scale = [3.0,3.0,3.0]

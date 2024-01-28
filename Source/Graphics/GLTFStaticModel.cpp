@@ -499,34 +499,30 @@ void GLTFStaticModel::drawNode(VkCommandBuffer commandBuffer, VkPipelineLayout p
 		while (currentParent)
 		{
 			nodeMatrix = currentParent->matrix * nodeMatrix;
-			//tempSphere.position = currentParent->matrix * glm::vec4(tempSphere.position, 1.0f);
+			tempSphere.position = currentParent->matrix * glm::vec4(tempSphere.position, 1.0f);
 			currentParent = currentParent->parent;
 		}
 
 		tempSphere.radius = node->boundingSphere.radius;
 
-		//if (sphereInFrustum(tempSphere, *playerCamera))
-		if (true)
+		for (GLTFStaticModel::Primitive& primitive : node->mesh.primitives)
 		{
-			for (GLTFStaticModel::Primitive& primitive : node->mesh.primitives)
+			PushConstants pushConstants;
+			pushConstants.baseColor = materials[primitive.materialIndex].baseColorFactor * this->baseColor;
+			pushConstants.model = sceneValues * nodeMatrix;
+			pushConstants.timer = timer;
+			pushConstants.additionalValues.x = materials[primitive.materialIndex].UVShift.x;
+			pushConstants.additionalValues.y = materials[primitive.materialIndex].UVShift.y;
+			pushConstants.additionalValues.z = BloomValues.x;
+			pushConstants.additionalValues.w = BloomValues.y;
+
+			vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstants), &pushConstants);
+
+			if (primitive.indexCount > 0)
 			{
-				PushConstants pushConstants;
-				pushConstants.baseColor = materials[primitive.materialIndex].baseColorFactor * this->baseColor;
-				pushConstants.model = sceneValues * nodeMatrix;
-				pushConstants.timer = timer;
-				pushConstants.additionalValues.x = materials[primitive.materialIndex].UVShift.x;
-				pushConstants.additionalValues.y = materials[primitive.materialIndex].UVShift.y;
-				pushConstants.additionalValues.z = BloomValues.x;
-				pushConstants.additionalValues.w = BloomValues.y;
-
-				vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstants), &pushConstants);
-
-				if (primitive.indexCount > 0)
-				{
-					GLTFStaticModel::Material& material = materials[primitive.materialIndex];
-					vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &material.descriptorSet, 0, nullptr);
-					vkCmdDrawIndexed(commandBuffer, primitive.indexCount, 1, primitive.firstIndex, 0, 0);
-				}
+				GLTFStaticModel::Material& material = materials[primitive.materialIndex];
+				vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &material.descriptorSet, 0, nullptr);
+				vkCmdDrawIndexed(commandBuffer, primitive.indexCount, 1, primitive.firstIndex, 0, 0);
 			}
 		}
 	}

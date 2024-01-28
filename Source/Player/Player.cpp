@@ -6,7 +6,7 @@
 
 #include "../UI/UI.h"
 
-glm::vec2 BloomValues = { 1.0f, 0.0f };
+glm::vec2 BloomValues = { 0.78f, 1.5f };
 
 std::string Player::getSelectedActor(GLFWwindow* window, Camera* camera)
 {
@@ -181,6 +181,18 @@ void Player::update()
 	inGameTimer.Tick();
 
 	std::vector<std::shared_ptr<Actor>> actors = ActorManager::Instance().getUpdateActors();
+
+	for (auto it : actors)
+	{
+		if (it.get()->getName() == "Helmet1")
+		{
+			it.get()->setEuler(glm::vec3(0.0f, 0.1f * inGameTimer.TimeStamp(), 0.0f));
+		}
+		if (it.get()->getName() == "Helmet2")
+		{
+			it.get()->setEuler(glm::vec3(0.0f, -0.1f * inGameTimer.TimeStamp(), 0.0f));
+		}
+	}
 }
 
 int Player::calculateScore()

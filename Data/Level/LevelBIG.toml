@@ -8,7 +8,7 @@ path = "./Data/Primitives/NewTerr.glb"
 type = "Terrian"
 typeName = "Basic"
 domain = "Surface"
-shader = "PBR"
+shader = "Phong"
 controller = "None"
 
 [[ActorsOnScreen]]
@@ -21,12 +21,12 @@ path = "./Data/Primitives/NaraSkyDome.glb"
 type = "Terrian"
 typeName = "Simple"
 domain = "Surface"
-shader = "Unlit"
+shader = "Flat"
 controller = "None"
 
 [[ActorsOnScreen]]
 name = "Chara"
-position = [-230.0,-47.0,-100.0]
+position = [0.0,10.0,-30.0]
 rotation = [-0.0,-0.0,1.0,-0.0]
 euler = [0.0,0.0,0.0]
 scale = [50.0,50.0,50.0]
@@ -39,11 +39,11 @@ controller = "None"
 
 [[ActorsOnScreen]]
 name = "Temple"
-position = [-150.0,-82.8,10.0]
+position = [-30.0,-27.0,-80.0]
 rotation = [-0.0,-0.0,1.0,-0.0]
-euler = [0.0,90.0,0.0]
+euler = [0.0,0.0,0.0]
 scale = [1.0,1.0,1.0]
-path = "./Data/Primitives/Castle.glb"
+path = "./Data/Primitives/Temple.glb"
 type = "Terrian"
 typeName = "PBR"
 domain = "Surface"

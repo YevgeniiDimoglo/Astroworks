@@ -14,6 +14,9 @@ layout(location = 8) in vec4 inCameraPos;
 layout(location = 9) in vec4 timerConstants;
 
 layout(binding = 1) uniform sampler2D shadowMap;
+layout(binding = 2) uniform samplerCube samplerCubeMap;
+layout(binding = 3) uniform samplerCube samplerCubeMapIrr;
+layout(binding = 4) uniform sampler2D bdrfLUT;
 
 layout(set = 1, binding = 0) uniform sampler2D albedoMap;
 layout(set = 1, binding = 1) uniform sampler2D normalMap;
@@ -112,16 +115,18 @@ void main() {
     vec3 directionalDiffuse = CalcHalfLambert(normal, L, vec3(lightColor), kd);
     vec3 specular = CalcPhongSpecular(normal, L, vec3(lightColor), E, shineness, ks.rgb);
 
-    vec3 shadow = CalcShadowColor();
+    vec3 reflectDir = reflect(normalize(vertPos), N);
 
-    directionalDiffuse *= shadow;
-    specular *= shadow;
+    vec3 reflectionColor = texture(samplerCubeMap, reflectDir).xyz;
 
-    vec3 color = (ambient + directionalDiffuse + specular ) * diffuseColor.rgb; 
+    vec3 color = (ambient + directionalDiffuse + reflectionColor + specular ) * diffuseColor.rgb; 
 
-    float weight =
-    max(min(1.0, max(max(color.r, color.g), color.b) * diffuseColor.a), diffuseColor.a) *
-    clamp(0.03 / (1e-5 + pow(gl_FragCoord.z / 200, 4.0)), 1e-2, 3e3);
+    const float distWeight = clamp(0.03 / (1e-5 + pow(gl_FragCoord.z / 200, 4.0)), 1e-2, 3e3);
+
+    float alphaWeight = min(1.0, max(max(color.r, color.g), max(color.b, diffuseColor.a)) * 40.0 + 0.01);
+    alphaWeight *= alphaWeight;
+
+    const float weight = alphaWeight * distWeight;
 
     vec4 accum = vec4(color.rgb * diffuseColor.a, diffuseColor.a) * weight;
 

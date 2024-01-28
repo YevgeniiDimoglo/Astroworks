@@ -1,105 +1,105 @@
 #include "Bitmap.h"
 
-Bitmap::Bitmap(int w, int h, int comp, eBitmapFormat fmt)
-	: w_(w),
-	h_(h),
-	comp_(comp),
-	fmt_(fmt),
-	data_(w* h* comp* getBytesPerComponent(fmt))
+Bitmap::Bitmap(int w, int h, int comp, BitmapFormat fmt)
+	: w(w),
+	h(h),
+	comp(comp),
+	fmt(fmt),
+	data(w* h* comp* GetBytesPerComponent(fmt))
 {
-	initGetSetFuncs();
+	InitGetSetFuncs();
 }
 
-Bitmap::Bitmap(int w, int h, int d, int comp, eBitmapFormat fmt)
-	: w_(w),
-	h_(h),
-	d_(d),
-	comp_(comp),
-	fmt_(fmt),
-	data_(w* h* d* comp* getBytesPerComponent(fmt))
+Bitmap::Bitmap(int w, int h, int d, int comp, BitmapFormat fmt)
+	: w(w),
+	h(h),
+	d(d),
+	comp(comp),
+	fmt(fmt),
+	data(w* h* d* comp* GetBytesPerComponent(fmt))
 {
-	initGetSetFuncs();
+	InitGetSetFuncs();
 }
 
-Bitmap::Bitmap(int w, int h, int comp, eBitmapFormat fmt, const void* ptr)
-	: w_(w),
-	h_(h),
-	comp_(comp),
-	fmt_(fmt),
-	data_(w* h* comp* getBytesPerComponent(fmt))
+Bitmap::Bitmap(int w, int h, int comp, BitmapFormat fmt, const void* ptr)
+	: w(w),
+	h(h),
+	comp(comp),
+	fmt(fmt),
+	data(w* h* comp* GetBytesPerComponent(fmt))
 {
-	initGetSetFuncs();
-	memcpy(data_.data(), ptr, data_.size());
+	InitGetSetFuncs();
+	memcpy(data.data(), ptr, data.size());
 }
 
-int Bitmap::getBytesPerComponent(eBitmapFormat fmt)
+int Bitmap::GetBytesPerComponent(BitmapFormat fmt)
 {
-	if (fmt == eBitmapFormat_UnsignedByte) return 1;
-	if (fmt == eBitmapFormat_Float) return 4;
+	if (fmt == BitmapFormat::BitmapFormatUnsignedByte) return 1;
+	if (fmt == BitmapFormat::BitmapFormatFloat) return 4;
 	return 0;
 }
 
-void Bitmap::setPixel(int x, int y, const glm::vec4& c)
+void Bitmap::SetPixel(int x, int y, const glm::vec4& c)
 {
-	(*this.*setPixelFunc)(x, y, c);
+	(*this.*SetPixelFunc)(x, y, c);
 }
 
-glm::vec4 Bitmap::getPixel(int x, int y) const
+glm::vec4 Bitmap::GetPixel(int x, int y) const
 {
-	return ((*this.*getPixelFunc)(x, y));
+	return ((*this.*GetPixelFunc)(x, y));
 }
 
-void Bitmap::initGetSetFuncs()
+void Bitmap::InitGetSetFuncs()
 {
-	switch (fmt_)
+	switch (fmt)
 	{
-	case eBitmapFormat_UnsignedByte:
-		setPixelFunc = &Bitmap::setPixelUnsignedByte;
-		getPixelFunc = &Bitmap::getPixelUnsignedByte;
+	case BitmapFormat::BitmapFormatUnsignedByte:
+		SetPixelFunc = &Bitmap::SetPixelUnsignedByte;
+		GetPixelFunc = &Bitmap::GetPixelUnsignedByte;
 		break;
-	case eBitmapFormat_Float:
-		setPixelFunc = &Bitmap::setPixelFloat;
-		getPixelFunc = &Bitmap::getPixelFloat;
+	case BitmapFormat::BitmapFormatFloat:
+		SetPixelFunc = &Bitmap::SetPixelFloat;
+		GetPixelFunc = &Bitmap::GetPixelFloat;
 		break;
 	}
 }
 
-void Bitmap::setPixelFloat(int x, int y, const glm::vec4& c)
+void Bitmap::SetPixelFloat(int x, int y, const glm::vec4& c)
 {
-	const int ofs = comp_ * (y * w_ + x);
-	float* data = reinterpret_cast<float*>(data_.data());
-	if (comp_ > 0) data[ofs + 0] = c.x;
-	if (comp_ > 1) data[ofs + 1] = c.y;
-	if (comp_ > 2) data[ofs + 2] = c.z;
-	if (comp_ > 3) data[ofs + 3] = c.w;
+	const int ofs = comp * (y * w + x);
+	float* fdata = reinterpret_cast<float*>(data.data());
+	if (comp > 0) fdata[ofs + 0] = c.x;
+	if (comp > 1) fdata[ofs + 1] = c.y;
+	if (comp > 2) fdata[ofs + 2] = c.z;
+	if (comp > 3) fdata[ofs + 3] = c.w;
 }
 
-glm::vec4 Bitmap::getPixelFloat(int x, int y) const
+glm::vec4 Bitmap::GetPixelFloat(int x, int y) const
 {
-	const int ofs = comp_ * (y * w_ + x);
-	const float* data = reinterpret_cast<const float*>(data_.data());
+	const int ofs = comp * (y * w + x);
+	const float* fdata = reinterpret_cast<const float*>(data.data());
 	return glm::vec4(
-		comp_ > 0 ? data[ofs + 0] : 0.0f,
-		comp_ > 1 ? data[ofs + 1] : 0.0f,
-		comp_ > 2 ? data[ofs + 2] : 0.0f,
-		comp_ > 3 ? data[ofs + 3] : 0.0f);
+		comp > 0 ? fdata[ofs + 0] : 0.0f,
+		comp > 1 ? fdata[ofs + 1] : 0.0f,
+		comp > 2 ? fdata[ofs + 2] : 0.0f,
+		comp > 3 ? fdata[ofs + 3] : 0.0f);
 }
 
-void Bitmap::setPixelUnsignedByte(int x, int y, const glm::vec4& c)
+void Bitmap::SetPixelUnsignedByte(int x, int y, const glm::vec4& c)
 {
-	const int ofs = comp_ * (y * w_ + x);
-	if (comp_ > 0) data_[ofs + 0] = uint8_t(c.x * 255.0f);
-	if (comp_ > 1) data_[ofs + 1] = uint8_t(c.y * 255.0f);
-	if (comp_ > 2) data_[ofs + 2] = uint8_t(c.z * 255.0f);
-	if (comp_ > 3) data_[ofs + 3] = uint8_t(c.w * 255.0f);
+	const int ofs = comp * (y * w + x);
+	if (comp > 0) data[ofs + 0] = uint8_t(c.x * 255.0f);
+	if (comp > 1) data[ofs + 1] = uint8_t(c.y * 255.0f);
+	if (comp > 2) data[ofs + 2] = uint8_t(c.z * 255.0f);
+	if (comp > 3) data[ofs + 3] = uint8_t(c.w * 255.0f);
 }
 
-glm::vec4 Bitmap::getPixelUnsignedByte(int x, int y) const
+glm::vec4 Bitmap::GetPixelUnsignedByte(int x, int y) const
 {
-	const int ofs = comp_ * (y * w_ + x);
+	const int ofs = comp * (y * w + x);
 	return glm::vec4(
-		comp_ > 0 ? float(data_[ofs + 0]) / 255.0f : 0.0f,
-		comp_ > 1 ? float(data_[ofs + 1]) / 255.0f : 0.0f,
-		comp_ > 2 ? float(data_[ofs + 2]) / 255.0f : 0.0f,
-		comp_ > 3 ? float(data_[ofs + 3]) / 255.0f : 0.0f);
+		comp > 0 ? float(data[ofs + 0]) / 255.0f : 0.0f,
+		comp > 1 ? float(data[ofs + 1]) / 255.0f : 0.0f,
+		comp > 2 ? float(data[ofs + 2]) / 255.0f : 0.0f,
+		comp > 3 ? float(data[ofs + 3]) / 255.0f : 0.0f);
 }

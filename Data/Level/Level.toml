@@ -36,3 +36,42 @@ typeName = "PBR"
 domain = "Surface"
 shader = "PBRIBL"
 controller = "None"
+
+[[ActorsOnScreen]]
+name = "Table"
+position = [7.0,5.3,9.0]
+rotation = [-0.0,0.0,1.0,-0.0]
+euler = [0.0,0.0,0.0]
+scale = [1.0,1.0,1.0]
+path = "./Data/ToImplementModels/round_glass_table.glb"
+type = "Terrian"
+typeName = "PBR"
+domain = "Surface"
+shader = "PBRIBL"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Bottle"
+position = [7.0,6.7,9.0]
+rotation = [-0.0,0.0,1.0,-0.0]
+euler = [0.0,0.0,0.0]
+scale = [0.03,0.03,0.03]
+path = "./Data/ToImplementModels/glass_carafe_flagon_with_cork.glb"
+type = "Terrian"
+typeName = "PBR"
+domain = "Surface"
+shader = "Transparent"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Water"
+position = [0.0,0.0,0.0]
+rotation = [-0.0,0.0,1.0,-0.0]
+euler = [0.0,0.0,0.0]
+scale = [15.0,15.0,15.0]
+path = "./Data/Primitives/Water.glb"
+type = "Terrian"
+typeName = "Basic"
+domain = "Surface"
+shader = "Water"
+controller = "None"

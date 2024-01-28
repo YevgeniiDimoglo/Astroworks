@@ -113,7 +113,7 @@ void main()
 
     vec3 reflectionColor = texture(samplerCubeMap, reflectDir).xyz;
 
-    vec3 lighting = (directionalDiffuse + reflectionColor) * diffuseColor.rgb; 
+    vec3 lighting = (ambient + directionalDiffuse + reflectionColor + specular) * diffuseColor.rgb; 
 
     outColor = vec4(shadowFactor(inFragPosLightSpace) * lighting, diffuseColor.a);
 }

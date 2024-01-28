@@ -26,18 +26,18 @@ void CubeMap::CreateCubeMap(VkPhysicalDevice newPhysicalDevice, VkDevice newLogi
 
 	stbi_image_free((void*)tempimage);
 
-	Bitmap in(width, height, 4, eBitmapFormat_Float, image32.data());
+	Bitmap in(width, height, 4, BitmapFormat::BitmapFormatFloat, image32.data());
 	Bitmap out = ConvertEquirectangularMapToVerticalCross(in);
 
 	Bitmap cubemap = ConvertVerticalCrossToCubeMapFaces(out);
 
-	uint8_t* data = cubemap.data_.data();
+	uint8_t* data = cubemap.data.data();
 
 	uint32_t cubeimageSize = (
-		cubemap.w_ *
-		cubemap.h_ *
+		cubemap.w *
+		cubemap.h *
 		4 *
-		Bitmap::getBytesPerComponent(cubemap.fmt_) *
+		Bitmap::GetBytesPerComponent(cubemap.fmt) *
 		6
 		);
 
@@ -53,8 +53,8 @@ void CubeMap::CreateCubeMap(VkPhysicalDevice newPhysicalDevice, VkDevice newLogi
 	VkImageCreateInfo imageInfo{};
 	imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
 	imageInfo.imageType = VK_IMAGE_TYPE_2D;
-	imageInfo.extent.width = cubemap.w_;
-	imageInfo.extent.height = cubemap.h_;
+	imageInfo.extent.width = cubemap.w;
+	imageInfo.extent.height = cubemap.h;
 	imageInfo.extent.depth = 1;
 	imageInfo.mipLevels = 1;
 	imageInfo.arrayLayers = 6;
@@ -82,7 +82,7 @@ void CubeMap::CreateCubeMap(VkPhysicalDevice newPhysicalDevice, VkDevice newLogi
 	vkBindImageMemory(newLogicalDevice, image, cubeMap.deviceMemory, 0);
 
 	transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue, image, VK_FORMAT_R32G32B32A32_SFLOAT, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 6);
-	copyBufferToImage(newLogicalDevice, transferCommandPool, transferQueue, imageStagingBuffer, image, static_cast<uint32_t>(cubemap.w_), static_cast<uint32_t>(cubemap.h_), 6);
+	copyBufferToImage(newLogicalDevice, transferCommandPool, transferQueue, imageStagingBuffer, image, static_cast<uint32_t>(cubemap.w), static_cast<uint32_t>(cubemap.h), 6);
 	transitionImageLayout(newLogicalDevice, transferCommandPool, transferQueue, image, VK_FORMAT_R32G32B32A32_SFLOAT, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, 6);
 
 	vkDestroyBuffer(newLogicalDevice, imageStagingBuffer, nullptr);
@@ -150,29 +150,17 @@ glm::vec3 CubeMap::FaceCoordsToXYZ(int i, int j, int faceID, int faceSize)
 
 Bitmap CubeMap::ConvertVerticalCrossToCubeMapFaces(const Bitmap& bp)
 {
-	const int faceWidth = bp.w_ / 3;
-	const int faceHeight = bp.h_ / 4;
+	const int faceWidth = bp.w / 3;
+	const int faceHeight = bp.h / 4;
 
-	Bitmap cubemap(faceWidth, faceHeight, 6, bp.comp_, bp.fmt_);
-	cubemap.type_ = eBitmapType_Cube;
+	Bitmap cubemap(faceWidth, faceHeight, 6, bp.comp, bp.fmt);
+	cubemap.type = BitmapType::BitmapTypeCube;
 
-	const uint8_t* src = bp.data_.data();
-	uint8_t* dst = cubemap.data_.data();
-
-	/*
-			------
-			| +Y |
-	 ----------------
-	 | -X | -Z | +X |
-	 ----------------
-			| -Y |
-			------
-			| +Z |
-			------
-	*/
+	const uint8_t* src = bp.data.data();
+	uint8_t* dst = cubemap.data.data();
 
 	const int pixelSize = (
-		cubemap.comp_ * Bitmap::getBytesPerComponent(cubemap.fmt_)
+		cubemap.comp * Bitmap::GetBytesPerComponent(cubemap.fmt)
 		);
 
 	for (int face = 0; face != 6; ++face)
@@ -213,7 +201,7 @@ Bitmap CubeMap::ConvertVerticalCrossToCubeMapFaces(const Bitmap& bp)
 					// POSITIVE_Z
 				case 4:
 					x = 2 * faceWidth - (i + 1);
-					y = bp.h_ - (j + 1);
+					y = bp.h - (j + 1);
 					break;
 
 					// NEGATIVE_Z
@@ -223,7 +211,7 @@ Bitmap CubeMap::ConvertVerticalCrossToCubeMapFaces(const Bitmap& bp)
 					break;
 				}
 
-				memcpy(dst, src + (y * bp.w_ + x) * pixelSize, pixelSize);
+				memcpy(dst, src + (y * bp.w + x) * pixelSize, pixelSize);
 
 				dst += pixelSize;
 			}
@@ -235,12 +223,12 @@ Bitmap CubeMap::ConvertVerticalCrossToCubeMapFaces(const Bitmap& bp)
 
 Bitmap CubeMap::ConvertEquirectangularMapToVerticalCross(const Bitmap& bp)
 {
-	const int faceSize = bp.w_ / 4;
+	const int faceSize = bp.w / 4;
 
 	const int w = faceSize * 3;
 	const int h = faceSize * 4;
 
-	Bitmap result(w, h, bp.comp_, bp.fmt_);
+	Bitmap result(w, h, bp.comp, bp.fmt);
 
 	const glm::ivec2 kFaceOffsets[] =
 	{
@@ -252,8 +240,8 @@ Bitmap CubeMap::ConvertEquirectangularMapToVerticalCross(const Bitmap& bp)
 		glm::ivec2(faceSize, faceSize * 2)
 	};
 
-	const int clampW = bp.w_ - 1;
-	const int clampH = bp.h_ - 1;
+	const int clampW = bp.w - 1;
+	const int clampH = bp.h - 1;
 
 	for (int face = 0; face != 6; face++)
 	{
@@ -265,7 +253,7 @@ Bitmap CubeMap::ConvertEquirectangularMapToVerticalCross(const Bitmap& bp)
 				const float R = std::hypot(P.x, P.y);
 				const float theta = std::atan2(P.y, P.x);
 				const float phi = std::atan2(P.z, R);
-				//	float point source coordinates
+
 				const float Uf = float(
 					2.0f *
 					faceSize *
@@ -276,27 +264,27 @@ Bitmap CubeMap::ConvertEquirectangularMapToVerticalCross(const Bitmap& bp)
 					faceSize *
 					(MATH_PI / 2.0f - phi) / MATH_PI
 					);
-				// 4-samples for bilinear interpolation
+
 				const int U1 = std::clamp(int(std::floor(Uf)), 0, clampW);
 				const int V1 = std::clamp(int(std::floor(Vf)), 0, clampH);
 				const int U2 = std::clamp(U1 + 1, 0, clampW);
 				const int V2 = std::clamp(V1 + 1, 0, clampH);
-				// fractional part
+
 				const float s = Uf - U1;
 				const float t = Vf - V1;
-				// fetch 4-samples
-				const glm::vec4 A = bp.getPixel(U1, V1);
-				const glm::vec4 B = bp.getPixel(U2, V1);
-				const glm::vec4 C = bp.getPixel(U1, V2);
-				const glm::vec4 D = bp.getPixel(U2, V2);
-				// bilinear interpolation
+
+				const glm::vec4 A = bp.GetPixel(U1, V1);
+				const glm::vec4 B = bp.GetPixel(U2, V1);
+				const glm::vec4 C = bp.GetPixel(U1, V2);
+				const glm::vec4 D = bp.GetPixel(U2, V2);
+
 				const glm::vec4 color = (
 					A * (1 - s) * (1 - t) +
 					B * (s) * (1 - t) +
 					C * (1 - s) * t +
 					D * (s) * (t)
 					);
-				result.setPixel(
+				result.SetPixel(
 					i + kFaceOffsets[face].x, j + kFaceOffsets[face].y, color
 				);
 			}

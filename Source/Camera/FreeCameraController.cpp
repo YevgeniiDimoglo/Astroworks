@@ -96,5 +96,7 @@ void FreeCameraController::Update(GLFWwindow* window, float deltaTime)
 
 		this->right = right;
 		this->up = up;
+
+		//cameraEnable = false;
 	}
 }

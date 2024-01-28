@@ -47,7 +47,7 @@ void UI::notify(std::string widgetName, int widgetAction)
 
 	if (widgetName == "7d")
 	{
-		ActorManager::Instance().switchLevel("LevelEFFECT");
+		ActorManager::Instance().switchLevel("LevelSKYBOX");
 	}
 }
 
