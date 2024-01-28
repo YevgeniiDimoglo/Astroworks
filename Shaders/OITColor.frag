@@ -44,32 +44,46 @@ vec3 CalcPhongSpecular(vec3 normal, vec3 lightVector, vec3 lightColor, vec3 eyeV
     return lightColor * d * ks;
 }
 
-float PCF(int kernelSize, vec2 shadowCoord, float depth)
+float calculateShadow(vec4 shadowCoords, vec2 off)
 {
-	float size = 1.0 / float( textureSize(shadowMap, 0 ).x );
-	float shadow = 0.0;
-	int range = kernelSize / 2;
-	for ( int v=-range; v<=range; v++ ) for ( int u=-range; u<=range; u++ )
-		shadow += (depth >= texture( shadowMap, shadowCoord + size * vec2(u, v) ).r) ? 1.0 : 0.0;
-	return shadow / (kernelSize * kernelSize);
+    return texture(shadowMap, shadowCoords.xy + off).r;  
 }
 
-float shadowFactor(vec4 shadowCoord)
+vec3 filterPCF(vec4 shadowCoords)
 {
-	vec4 shadowCoords4 = shadowCoord / shadowCoord.w;
+   vec2 texelSize = textureSize(shadowMap, 0);
+   float scale = 1.5;
+   float dx = scale * 1.0 / float(texelSize.x);
+   float dy = scale * 1.0 / float(texelSize.y);
 
-	if (shadowCoords4.z > -1.0 && shadowCoords4.z < 1.0)
-	{
-		float depthBias = -0.0055;
-		float shadowSample = PCF( 13, shadowCoords4.xy, shadowCoords4.z + depthBias );
-		return mix(1.0, 0.3, shadowSample);
-	}
+   float shadow = 0.0;
+   int count = 0;
+   int range = 10;
 
-	return 1.0; 
+   for (int x = -range; x <= range; x++)
+   {
+      for (int y = -range; y <= range; y++)
+      {
+         shadow += calculateShadow(
+               shadowCoords,
+               vec2(dx * x, dy * y)
+         );
+         count++;
+      }
+   }
+
+   return mix(vec3(0.2, 0.2, 0.2), vec3(1.f), count / (range * range));
 }
 
-void main() 
+vec3 CalcShadowColor()
 {
+    float depth = texture(shadowMap, inFragPosLightSpace.xy).r;
+
+	return mix(vec3(0.2, 0.2, 0.2), vec3(1.f), step(inFragPosLightSpace.z - depth, 0.01));
+}
+
+void main() {
+
     vec4 diffuseColor = texture(albedoMap, inUV) * baseColor;
     
     vec3 N = normalize(inNormal);
@@ -98,18 +112,18 @@ void main()
     vec3 directionalDiffuse = CalcHalfLambert(normal, L, vec3(lightColor), kd);
     vec3 specular = CalcPhongSpecular(normal, L, vec3(lightColor), E, shineness, ks.rgb);
 
-    vec3 lighting = (ambient + directionalDiffuse + specular ) * diffuseColor.rgb; 
+    vec3 shadow = CalcShadowColor();
 
-    outColor = vec4(lighting, diffuseColor.a);
+    directionalDiffuse *= shadow;
+    specular *= shadow;
 
-    //const float distWeight = clamp(0.03 / (1e-5 + pow(gl_FragCoord.z / 200, 4.0)), 1e-2, 3e3);
+    vec3 color = (ambient + directionalDiffuse + specular ) * diffuseColor.rgb; 
 
-  	//float alphaWeight = min(1.0, max(max(color.r, color.g), max(color.b, albedoColor.a)) * 40.0 + 0.01);
-  	//alphaWeight *= alphaWeight;
+    float weight =
+    max(min(1.0, max(max(color.r, color.g), color.b) * diffuseColor.a), diffuseColor.a) *
+    clamp(0.03 / (1e-5 + pow(gl_FragCoord.z / 200, 4.0)), 1e-2, 3e3);
 
-  	//const float weight = alphaWeight * distWeight;
+    vec4 accum = vec4(color.rgb * diffuseColor.a, diffuseColor.a) * weight;
 
-    //vec4 accum = vec4(outColor.rgb * albedoColor.a, albedoColor.a) * weight;
-    
-    //outColor = accum;
+    outColor = accum;
 }

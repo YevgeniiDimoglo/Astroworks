@@ -827,12 +827,14 @@ void Graphics::createGraphicsPipelines()
 			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
 				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 			colorBlendAttachment.blendEnable = VK_TRUE;
-			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR;
+			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE;
 			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
 			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+
+			cullingFlag = VK_CULL_MODE_NONE;
 			break;
 		case Pipelines::OITColorRevealPipeline:
 			vertShaderCode = readFile("./Shaders/OITVS.spv");
@@ -843,26 +845,18 @@ void Graphics::createGraphicsPipelines()
 			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
 				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 			colorBlendAttachment.blendEnable = VK_TRUE;
-			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE;
-			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE;
-			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
-			break;
-		case Pipelines::OITResultPipeline:
-			vertShaderCode = readFile("./Shaders/quadVS.spv");
-			fragShaderCode = readFile("./Shaders/OITResult.spv");
-			depthWrite = VK_FALSE;
-
-			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
-				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
 			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR;
 			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
 			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
 			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
 			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+
+			cullingFlag = VK_CULL_MODE_NONE;
+			break;
+		case Pipelines::OITResultPipeline:
+			vertShaderCode = readFile("./Shaders/quadVS.spv");
+			fragShaderCode = readFile("./Shaders/OITResult.spv");
 
 			cullingFlag = VK_CULL_MODE_NONE;
 			break;
@@ -875,11 +869,11 @@ void Graphics::createGraphicsPipelines()
 			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
 				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 			colorBlendAttachment.blendEnable = VK_TRUE;
-			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE;
-			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR;
 			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
 			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
 			break;
 		case Pipelines::DemoOITColorRevealPipeline:
