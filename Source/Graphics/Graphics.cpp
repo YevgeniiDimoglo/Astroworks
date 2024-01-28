@@ -89,7 +89,8 @@ void Graphics::initLights()
 	std::unique_ptr<Light> sun = std::make_unique<DirectionalLight>();
 	static_cast<DirectionalLight*>(sun.get())->InitLight(1.0f, 1.0f, 1.0f,
 		1.0f, 1.0f,
-		120.0f, 55.0f, 0.0f, 0.5f);
+		10.0f, 15.0f, 12.0f,
+		120.0f, 100.0f, -0.5f, 0.5f);
 	sceneLights.push_back(std::move(sun));
 }
 
@@ -826,11 +827,11 @@ void Graphics::createGraphicsPipelines()
 			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
 				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 			colorBlendAttachment.blendEnable = VK_TRUE;
-			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE;
-			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR;
 			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
 			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
 			break;
 		case Pipelines::OITColorRevealPipeline:
@@ -842,16 +843,26 @@ void Graphics::createGraphicsPipelines()
 			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
 				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 			colorBlendAttachment.blendEnable = VK_TRUE;
+			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+			break;
+		case Pipelines::OITResultPipeline:
+			vertShaderCode = readFile("./Shaders/quadVS.spv");
+			fragShaderCode = readFile("./Shaders/OITResult.spv");
+			depthWrite = VK_FALSE;
+
+			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
+				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
 			colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR;
 			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
 			colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
 			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
 			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
-			break;
-		case Pipelines::OITResultPipeline:
-			vertShaderCode = readFile("./Shaders/quadVS.spv");
-			fragShaderCode = readFile("./Shaders/OITResult.spv");
 
 			cullingFlag = VK_CULL_MODE_NONE;
 			break;
@@ -1833,6 +1844,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], static_cast<int>(ShaderType::Phong));
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], static_cast<int>(ShaderType::PBR));
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], static_cast<int>(ShaderType::PBRIBL));
+		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], static_cast<int>(ShaderType::Water));
 	}
 
 	// --
@@ -2127,7 +2139,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::DebugDrawingPipeline)], static_cast<int>(ShaderType::Skybox));
 	}
 
-	if (isTransparentRender)
+	if (true)
 	{
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::OITResultPipeline)]);
 

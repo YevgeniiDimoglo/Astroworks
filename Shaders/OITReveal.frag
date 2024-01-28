@@ -208,55 +208,6 @@ float shadowFactor(vec4 shadowCoord)
 void main() 
 {
 	vec4 albedoColor = texture(albedoMap, inUV) * inBaseColor;
-
-	vec4 metallicRoughness = texture(roughnessMap, inUV);
-
-    vec3 N = normalize(inNormal);
-	vec3 normalSample = texture(normalMap, inUV).xyz;
-    vec3 v = normalize(uboScene.viewPos.xyz - inVertPos);
-	vec3 n = perturbNormal(N, v, normalSample, inUV);
-
-    PBRInfo pbrInputs;
-
-    pbrInputs.NdotV = clamp(abs(dot(n, v)), 0.001, 1.0);
-
-	float perceptualRoughness = metallicRoughness.g * 1.0f;
-    const float c_MinRoughness = 0.04;
-	perceptualRoughness = clamp(perceptualRoughness, c_MinRoughness, 1.0);
-    pbrInputs.perceptualRoughness = perceptualRoughness;
-
-    float metallic = metallicRoughness.b * 1.0f;
-    metallic = clamp(metallic, 0.0, 1.0);
-
-    vec4 baseColor = albedoColor;
-	vec3 f0 = vec3(0.04);
-	vec3 diffuseColor = baseColor.rgb * (vec3(1.0) - f0);
-	diffuseColor *= 1.0 - metallic;
-	vec3 specularColor = mix(f0, baseColor.rgb, metallic);
-
-    float reflectance = max(max(specularColor.r, specularColor.g), specularColor.b);
-    float reflectance90 = clamp(reflectance * 25.0, 0.0, 1.0);
-
-	pbrInputs.reflectance0 = specularColor.rgb;
-	pbrInputs.reflectance90 = vec3(1.0, 1.0, 1.0) * reflectance90;
-
-    float alphaRoughness = perceptualRoughness * perceptualRoughness;
-	pbrInputs.alphaRoughness = alphaRoughness;
-
-	pbrInputs.diffuseColor = diffuseColor;
-	pbrInputs.specularColor = specularColor;
-	pbrInputs.n = n;
-	pbrInputs.v = v;
-	vec3 reflection = -normalize(reflect(pbrInputs.v, pbrInputs.n));
-
-	vec3 lightDir = uboScene.lightDirection.xyz;
-
-	vec3 color = calculatePBRLightContribution(pbrInputs, normalize(lightDir), uboScene.lightColor.xyz);
-
-    float u_OcclusionStrength = 1.0f;
-	color = color * (texture(aoMap, inUV).r < 0.01 ? u_OcclusionStrength : texture(aoMap, inUV).r );
-
-    color = pow(texture(emissiveMap, inUV).rgb + color, vec3(1.0/2.2));
-
+	
     outColor = vec4(albedoColor.a, 0.f, 0.f, 0.f);
 }

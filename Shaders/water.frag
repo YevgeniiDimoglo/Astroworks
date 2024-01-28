@@ -14,6 +14,9 @@ layout(location = 8) in vec4 inCameraPos;
 layout(location = 9) in vec4 timerConstants;
 
 layout(binding = 1) uniform sampler2D shadowMap;
+layout(binding = 2) uniform samplerCube samplerCubeMap;
+layout(binding = 3) uniform samplerCube samplerCubeMapIrr;
+layout(binding = 4) uniform sampler2D bdrfLUT;
 
 layout(set = 1, binding = 0) uniform sampler2D albedoMap;
 layout(set = 1, binding = 1) uniform sampler2D normalMap;
@@ -23,6 +26,11 @@ layout(set = 1, binding = 4) uniform sampler2D aoMap;
 layout(set = 1, binding = 5) uniform sampler2D emissiveMap;
 
 layout(location = 0) out vec4 outColor;
+
+#define PI 3.1415926535
+
+#define ShadowBias 0.001
+#define ShadowColor vec3(0.2, 0.2, 0.2)
 
 vec3 CalcHalfLambert(vec3 normal, vec3 lightVector, vec3 lightColor, vec3 kd)
 {
@@ -44,22 +52,34 @@ vec3 CalcPhongSpecular(vec3 normal, vec3 lightVector, vec3 lightColor, vec3 eyeV
     return lightColor * d * ks;
 }
 
-float ShadowCalculation(vec4 fragPosLightSpace)
+float PCF(int kernelSize, vec2 shadowCoord, float depth)
 {
-    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
-    projCoords = projCoords * 0.5 + 0.5;
-    float closestDepth = texture(shadowMap, projCoords.xy).r; 
-    float currentDepth = projCoords.z;
-    float bias = 0.0005;
-    float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;  
+	float size = 1.0 / float( textureSize(shadowMap, 0 ).x );
+	float shadow = 0.0;
+	int range = kernelSize / 2;
+	for ( int v=-range; v<=range; v++ ) for ( int u=-range; u<=range; u++ )
+		shadow += (depth >= texture( shadowMap, shadowCoord + size * vec2(u, v) ).r) ? 1.0 : 0.0;
+	return shadow / (kernelSize * kernelSize);
+}
 
-    return shadow;
-}  
+float shadowFactor(vec4 shadowCoord)
+{
+	vec4 shadowCoords4 = shadowCoord / shadowCoord.w;
+
+	if (shadowCoords4.z > -1.0 && shadowCoords4.z < 1.0)
+	{
+		float depthBias = -0.0055;
+		float shadowSample = PCF( 13, shadowCoords4.xy, shadowCoords4.z + depthBias );
+		return mix(1.0, 0.3, shadowSample);
+	}
+
+	return 1.0; 
+}
 
 void main() 
 {
-    vec2 texcoord1 = vec2(inUV.x + timerConstants.g * 0.1, inUV.y + timerConstants.g * 0.3);
-    vec2 texcoord2 = vec2(inUV.x + timerConstants.g * 0.4, inUV.y + timerConstants.g * 0.2);
+    vec2 texcoord1 = vec2(inUV.x + timerConstants.g * 0.001, inUV.y + timerConstants.g * 0.003);
+    vec2 texcoord2 = vec2(inUV.x + timerConstants.g * 0.004, inUV.y + timerConstants.g * 0.002);
     
     vec4 diffuseColor;
     {
@@ -85,12 +105,15 @@ void main()
     vec3 ks = {1, 1, 1};
     float shineness = 128;
 
-    vec3 ambient = diffuseColor.rgb * 0.2f;
+    vec3 ambient = diffuseColor.rgb * 0.1f;
     vec3 directionalDiffuse = CalcHalfLambert(N, L, vec3(lightColor), kd);
     vec3 specular = CalcPhongSpecular(N, L, vec3(lightColor), E, shineness, ks.rgb);
-    float shadow = ShadowCalculation(inFragPosLightSpace);  
 
-    vec3 lighting = (ambient + (1.0 - shadow * 0.1) * (directionalDiffuse + specular)) * diffuseColor.rgb; 
+    vec3 reflectDir = reflect(normalize(vertPos), N);
 
-    outColor = vec4(lighting, 1.0f);
+    vec3 reflectionColor = texture(samplerCubeMap, reflectDir).xyz;
+
+    vec3 lighting = (directionalDiffuse + reflectionColor) * diffuseColor.rgb; 
+
+    outColor = vec4(shadowFactor(inFragPosLightSpace) * lighting, diffuseColor.a);
 }

@@ -12,14 +12,27 @@ shader = "Skybox"
 controller = "None"
 
 [[ActorsOnScreen]]
-name = "Helmet"
-position = [5.0,8.0,5.0]
+name = "Stage"
+position = [0.0,0.0,0.0]
 rotation = [-0.0,0.0,1.0,-0.0]
 euler = [0.0,0.0,0.0]
-scale = [3.0,3.0,3.0]
-path = "./Data/ToImplementModels/beach.glb"
+scale = [1.0,1.0,1.0]
+path = "./Data/ToImplementModels/chromaticity_pavilion.glb"
 type = "Terrian"
 typeName = "PBR"
 domain = "Surface"
-shader = "PBR"
+shader = "PBRIBL"
+controller = "None"
+
+[[ActorsOnScreen]]
+name = "Chara"
+position = [10.5,6.0,9.0]
+rotation = [-0.0,0.0,1.0,-0.0]
+euler = [0.0,0.0,0.0]
+scale = [10.0,10.0,10.0]
+path = "./Data/Primitives/Chara.glb"
+type = "Terrian"
+typeName = "PBR"
+domain = "Surface"
+shader = "PBRIBL"
 controller = "None"

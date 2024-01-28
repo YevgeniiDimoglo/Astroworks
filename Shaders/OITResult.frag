@@ -42,9 +42,6 @@ void main()
     if (isinf(max3(abs(accumulation.rgb))))
         accumulation.rgb = vec3(accumulation.a);
 
-    // prevent floating point precision bug
-    vec3 average_color = accumulation.rgb / max(accumulation.a, EPSILON);
-
     // blend pixels
-    outColor = vec4(average_color, 1.0f - revealage);
+    outColor = vec4(accumulation.rgb / max(accumulation.a, 1e-5), revealage);
 }

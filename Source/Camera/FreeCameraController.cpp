@@ -69,13 +69,13 @@ void FreeCameraController::Update(GLFWwindow* window, float deltaTime)
 		{
 			glm::vec3 forwardCamera = front;
 			glm::normalize(forwardCamera);
-			eye += forwardCamera * 0.05f * CAMERA_SPEED;
+			eye += forwardCamera * deltaTime * CAMERA_SPEED;
 		}
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		{
 			glm::vec3 forwardCamera = front;
 			glm::normalize(forwardCamera);
-			eye -= forwardCamera * 0.05f * CAMERA_SPEED;
+			eye -= forwardCamera * deltaTime * CAMERA_SPEED;
 		}
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		{
@@ -83,7 +83,7 @@ void FreeCameraController::Update(GLFWwindow* window, float deltaTime)
 			glm::normalize(forwardCamera);
 			glm::vec3 leftCamera = glm::cross(up, forwardCamera);
 			glm::normalize(leftCamera);
-			eye += leftCamera * 0.05f * CAMERA_SPEED;
+			eye += leftCamera * deltaTime * CAMERA_SPEED;
 		}
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		{
@@ -91,7 +91,7 @@ void FreeCameraController::Update(GLFWwindow* window, float deltaTime)
 			glm::normalize(forwardCamera);
 			glm::vec3 rightCamera = glm::cross(forwardCamera, up);
 			glm::normalize(rightCamera);
-			eye += rightCamera * 0.05f * CAMERA_SPEED;
+			eye += rightCamera * deltaTime * CAMERA_SPEED;
 		}
 
 		this->right = right;
