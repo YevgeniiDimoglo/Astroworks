@@ -1159,12 +1159,12 @@ void Graphics::createGraphicsPipelines()
 			particleAttributeDescriptions[0].binding = 0;
 			particleAttributeDescriptions[0].location = 0;
 			particleAttributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT;
-			particleAttributeDescriptions[0].offset = 0;
+			particleAttributeDescriptions[0].offset = offsetof(Particle::Vertex, Particle::Vertex::pos);
 
 			particleAttributeDescriptions[1].binding = 0;
 			particleAttributeDescriptions[1].location = 1;
 			particleAttributeDescriptions[1].format = VK_FORMAT_R32G32B32A32_SFLOAT;
-			particleAttributeDescriptions[1].offset = 8;
+			particleAttributeDescriptions[1].offset = offsetof(Particle::Vertex, Particle::Vertex::color);
 
 			vertexInputInfo.vertexBindingDescriptionCount = 1;
 			vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(particleAttributeDescriptions.size());
@@ -1329,19 +1329,20 @@ void Graphics::createaDepthResources()
 void Graphics::createShaderStorageBuffers()
 {
 	std::srand(static_cast<unsigned>(std::time(0)));
-	float rndDist = static_cast<float>(std::rand()) / RAND_MAX;
 
 	// Initial particle positions on a circle
 	std::vector<Particle> particles(PARTICLE_COUNT);
 	for (auto& particle : particles) {
 		float rndDist = static_cast<float>(std::rand()) / RAND_MAX;
+		float rndDist2 = static_cast<float>(std::rand()) / RAND_MAX;
+		float rndDist3 = static_cast<float>(std::rand()) / RAND_MAX;
 		float r = 0.25f * sqrt(rndDist);
 		float theta = rndDist * 2.0f * 3.14159265358979323846f;
 		float x = r * cos(theta) * HEIGHT / WIDTH;
 		float y = r * sin(theta);
 		particle.SetPosition(glm::vec2(x, y));
 		particle.SetVelocity(glm::normalize(glm::vec2(x, y)) * 0.00025f);
-		particle.SetColor(glm::vec4(rndDist, rndDist, rndDist, 1.0f));
+		particle.SetColor(glm::vec4(rndDist, rndDist2, rndDist3, 1.0f));
 	}
 
 	VkDeviceSize bufferSize = sizeof(Particle) * PARTICLE_COUNT;
@@ -1849,6 +1850,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], static_cast<int>(ShaderType::PBR));
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], static_cast<int>(ShaderType::PBRIBL));
 		ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], static_cast<int>(ShaderType::Water));
+		ActorManager::Instance().renderTransparent(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::ShadowMapPipeline)], static_cast<int>(ShaderType::OITColorAccum));
 	}
 
 	// --

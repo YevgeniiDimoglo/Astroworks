@@ -34,8 +34,9 @@ void main()
 
     Particle particleIn = particlesIn[index];
 
-    particlesOut[index].position = particleIn.position + particleIn.velocity.xy * uboScene.timerConstants.r;
+    particlesOut[index].position = particleIn.position + particleIn.velocity.xy * uboScene.timerConstants.g;
     particlesOut[index].velocity = particleIn.velocity;
+    particlesOut[index].color = particleIn.color;
 
     if ((particlesOut[index].position.x <= -1.0) || (particlesOut[index].position.x >= 1.0)) {
         particlesOut[index].velocity.x = -particlesOut[index].velocity.x;

@@ -91,8 +91,5 @@ void main()
 
   tempFragColor += texture(bloomTexture, inUV + shakexy) * vec4(1.0f, 1.0f, 1.f, 1.0f);
 
-  float gamma = 1.0;
-  tempFragColor.rgb = pow(tempFragColor.rgb, vec3(1.0/gamma));
-
   outFragColor = tempFragColor.rgba;
 }

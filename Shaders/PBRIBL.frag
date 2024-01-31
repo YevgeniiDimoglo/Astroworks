@@ -39,7 +39,7 @@ layout(location = 0) out vec4 outColor;
 #define PI 3.1415926535
 
 #define ShadowBias 0.001
-#define ShadowColor vec3(0.2, 0.2, 0.2)
+#define ShadowColor vec3(0.8, 0.8, 0.8)
 
 const float Dielectric = 0.04f;
 const float adjustMetalness = 0.0f;
@@ -73,7 +73,26 @@ vec4 SRGBtoLINEAR(vec4 srgbIn)
 {
 	vec3 linOut = pow(srgbIn.xyz,vec3(2.2));
 
-	return vec4(linOut, srgbIn.a);
+	return vec4(linOut, srgbIn.w);
+}
+
+vec3 Uncharted2Tonemap(vec3 color)
+{
+	float A = 0.15;
+	float B = 0.50;
+	float C = 0.10;
+	float D = 0.20;
+	float E = 0.02;
+	float F = 0.30;
+	float W = 11.2;
+	return ((color*(A*color+C*B)+D*E)/(color*(A*color+B)+D*F))-E/F;
+}
+
+vec4 tonemap(vec4 color)
+{
+	vec3 outcol = Uncharted2Tonemap(color.rgb * 1.0);
+	outcol = outcol * (1.0f / Uncharted2Tonemap(vec3(11.2f)));	
+	return vec4(pow(outcol, vec3(1.0f / 2.2)), color.a);
 }
 
 vec3 getIBLContribution(PBRInfo pbrInputs, vec3 n, vec3 reflection)
@@ -83,8 +102,8 @@ vec3 getIBLContribution(PBRInfo pbrInputs, vec3 n, vec3 reflection)
 
 	vec3 cm = vec3(1.0, 1.0, 1.0);
 
-	vec3 diffuseLight = texture(samplerCubeMapIrr, n.xyz * cm).rgb;
-	vec3 specularLight = texture(samplerCubeMap, reflection.xyz * cm).rgb;
+	vec3 diffuseLight = SRGBtoLINEAR(tonemap(texture(samplerCubeMapIrr, n.xyz * cm))).rgb;
+	vec3 specularLight = SRGBtoLINEAR(tonemap(texture(samplerCubeMap, reflection.xyz * cm))).rgb;
 
 	vec3 diffuse = diffuseLight * pbrInputs.diffuseColor;
 	vec3 specular = specularLight * (pbrInputs.specularColor * brdf.x + brdf.y);
@@ -199,7 +218,7 @@ float shadowFactor(vec4 shadowCoord)
 	{
 		float depthBias = -0.0055;
 		float shadowSample = PCF( 13, shadowCoords4.xy, shadowCoords4.z + depthBias );
-		return mix(1.0, 0.3, shadowSample);
+		return mix(1.0, 0.6, shadowSample);
 	}
 
 	return 1.0; 
@@ -207,7 +226,7 @@ float shadowFactor(vec4 shadowCoord)
 
 void main() 
 {
-	vec4 albedoColor = texture(albedoMap, inUV) * inBaseColor;
+	vec4 albedoColor = SRGBtoLINEAR(texture(albedoMap, inUV)) * inBaseColor;
 
 	vec4 metallicRoughness = texture(roughnessMap, inUV);
 
@@ -258,7 +277,7 @@ void main()
     float u_OcclusionStrength = 1.0f;
 	color = color * (texture(aoMap, inUV).r < 0.01 ? u_OcclusionStrength : texture(aoMap, inUV).r );
 
-    color = pow(texture(emissiveMap, inUV).rgb + color, vec3(1.0/2.2));
+    color = pow(SRGBtoLINEAR(texture(emissiveMap, inUV)).rgb + color, vec3(1.0/2.2));
 
 	outColor = vec4(shadowFactor(inFragPosLightSpace) * color, albedoColor.a);
 }
