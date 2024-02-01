@@ -1158,7 +1158,7 @@ void Graphics::createGraphicsPipelines()
 			std::array<VkVertexInputAttributeDescription, 2> particleAttributeDescriptions{};
 			particleAttributeDescriptions[0].binding = 0;
 			particleAttributeDescriptions[0].location = 0;
-			particleAttributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT;
+			particleAttributeDescriptions[0].format = VK_FORMAT_R32G32B32_SFLOAT;
 			particleAttributeDescriptions[0].offset = offsetof(Particle::Vertex, Particle::Vertex::pos);
 
 			particleAttributeDescriptions[1].binding = 0;
@@ -1340,7 +1340,7 @@ void Graphics::createShaderStorageBuffers()
 		float theta = rndDist * 2.0f * 3.14159265358979323846f;
 		float x = r * cos(theta) * HEIGHT / WIDTH;
 		float y = r * sin(theta);
-		particle.SetPosition(glm::vec2(x, y));
+		particle.SetPosition(glm::vec3(x, y, 0.5f));
 		particle.SetVelocity(glm::normalize(glm::vec2(x, y)) * 0.00025f);
 		particle.SetColor(glm::vec4(rndDist, rndDist2, rndDist3, 1.0f));
 	}
@@ -2153,6 +2153,15 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		vkCmdDraw(commandBuffer, 3, 1, 0, 0);
 	}
 
+	if (isParticleRender)
+	{
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::ComputeParticlePipeline)]);
+
+		VkDeviceSize offsets[] = { 0 };
+		vkCmdBindVertexBuffers(commandBuffer, 0, 1, &shaderStorageBuffers[currentFrame], offsets);
+		vkCmdDraw(commandBuffer, PARTICLE_COUNT, 1, 0, 0);
+	}
+
 	// - End of rendering
 	vkCmdEndRendering(commandBuffer);
 
@@ -2367,30 +2376,6 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		0, 1, &offscreen.descriptorSet, 0, nullptr);
 
 	vkCmdDraw(commandBuffer, 3, 1, 0, 0);
-
-	// --
-	if (isParticleRender)
-	{
-		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::ComputeParticlePipeline)]);
-
-		VkViewport viewport{};
-		viewport.x = 0.0f;
-		viewport.y = 0.0f;
-		viewport.width = (float)swapChainExtent.width;
-		viewport.height = (float)swapChainExtent.height;
-		viewport.minDepth = 0.0f;
-		viewport.maxDepth = 1.0f;
-		vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
-
-		VkRect2D scissor{};
-		scissor.offset = { 0, 0 };
-		scissor.extent = swapChainExtent;
-		vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
-
-		VkDeviceSize offsets[] = { 0 };
-		vkCmdBindVertexBuffers(commandBuffer, 0, 1, &shaderStorageBuffers[currentFrame], offsets);
-		vkCmdDraw(commandBuffer, PARTICLE_COUNT, 1, 0, 0);
-	}
 
 	// -- UI Pipeline
 

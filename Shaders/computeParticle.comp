@@ -1,7 +1,7 @@
 #version 450
 
 struct Particle {
-	vec2 position;
+	vec3 position;
 	vec2 velocity;
     vec4 color;
 };
@@ -34,7 +34,7 @@ void main()
 
     Particle particleIn = particlesIn[index];
 
-    particlesOut[index].position = particleIn.position + particleIn.velocity.xy * uboScene.timerConstants.g;
+    particlesOut[index].position = particleIn.position + vec3(particleIn.velocity.xy * uboScene.timerConstants.g, 0.0f);
     particlesOut[index].velocity = particleIn.velocity;
     particlesOut[index].color = particleIn.color;
 
