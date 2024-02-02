@@ -855,7 +855,7 @@ void Graphics::createGraphicsPipelines()
 			cullingFlag = VK_CULL_MODE_NONE;
 			break;
 		case Pipelines::OITResultPipeline:
-			vertShaderCode = readFile("./Shaders/quadVS.spv");
+			vertShaderCode = readFile("./Shaders/quad2VS.spv");
 			fragShaderCode = readFile("./Shaders/OITResult.spv");
 			pipelineColorAttachmentFormat = VK_FORMAT_B8G8R8A8_UNORM;
 			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
@@ -903,7 +903,7 @@ void Graphics::createGraphicsPipelines()
 			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
 			break;
 		case Pipelines::DemoOITResultPipeline:
-			vertShaderCode = readFile("./Shaders/quadVS.spv");
+			vertShaderCode = readFile("./Shaders/quad2VS.spv");
 			fragShaderCode = readFile("./Shaders/DemoOITResult.spv");
 
 			cullingFlag = VK_CULL_MODE_NONE;
@@ -1089,7 +1089,8 @@ void Graphics::createGraphicsPipelines()
 
 		VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
 
-		if (pipelineName == Pipelines::OffscreenPipeline)
+		if (pipelineName == Pipelines::OffscreenPipeline ||
+			pipelineName == Pipelines::OffscreenPipeline2)
 		{
 			std::array<VkDescriptorSetLayout, 1> descriptorSetLayouts = { postEffectSetLayout };
 
@@ -1340,7 +1341,7 @@ void Graphics::createShaderStorageBuffers()
 		float theta = rndDist * 2.0f * 3.14159265358979323846f;
 		float x = r * cos(theta) * HEIGHT / WIDTH;
 		float y = r * sin(theta);
-		particle.SetPosition(glm::vec3(x, y, 0.5f));
+		particle.SetPositionXY(glm::vec2(x, y));
 		particle.SetVelocity(glm::normalize(glm::vec2(x, y)) * 0.00025f);
 		particle.SetColor(glm::vec4(rndDist, rndDist2, rndDist3, 1.0f));
 	}
@@ -2153,7 +2154,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		vkCmdDraw(commandBuffer, 3, 1, 0, 0);
 	}
 
-	if (isParticleRender)
+	if (true)
 	{
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::ComputeParticlePipeline)]);
 

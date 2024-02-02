@@ -11,9 +11,7 @@ layout(location = 6) in vec4 baseColor;
 layout(location = 7) in vec4 inFragPosLightSpace;
 
 layout(location = 8) in vec4 inCameraPos;
-layout(location = 9) in vec4 inTimerConstants;
-
-layout(location = 10) in mat4 projectionMatrix;
+layout(location = 9) in vec4 timerConstants;
 
 layout(binding = 1) uniform sampler2D shadowMap;
 

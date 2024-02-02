@@ -4,7 +4,6 @@ layout (set = 2, binding = 0) uniform sampler2D AccumSampler;
 layout (set = 2, binding = 1) uniform sampler2D ColorSampler;
 
 layout (location = 0) in vec2 inUV;
-layout (location = 1) in vec4 timer;
 
 layout (location = 0) out vec4 outColor;
 

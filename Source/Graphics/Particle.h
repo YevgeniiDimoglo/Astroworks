@@ -7,7 +7,7 @@ public:
 
 	struct Vertex
 	{
-		glm::vec3 pos;
+		glm::vec2 pos;
 		glm::vec2 velocity;
 		glm::vec4 color;
 
@@ -26,7 +26,7 @@ public:
 			std::array<VkVertexInputAttributeDescription, 2> attributeDescriptions{};
 			attributeDescriptions[0].binding = 0;
 			attributeDescriptions[0].location = 0;
-			attributeDescriptions[0].format = VK_FORMAT_R32G32B32_SFLOAT;
+			attributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT;
 			attributeDescriptions[0].offset = offsetof(Vertex, pos);
 
 			attributeDescriptions[1].binding = 0;
@@ -42,11 +42,11 @@ public:
 		}
 	};
 
-	glm::vec3 GetPosition() const { return position; }
+	glm::vec2 GetPosition() const { return position; }
 	float GetPositionX() const { return position.x; }
 	float GetPositionY() const { return position.y; }
-	float GetPositionZ() const { return position.z; }
 	void SetPosition(glm::vec3 position) { this->position = position; }
+	void SetPositionXY(glm::vec2 position) { this->position = position; }
 
 	glm::vec2 GetVelocity() const { return velocity; }
 	void SetVelocity(glm::vec2 velocity) { this->velocity = velocity; }
@@ -59,7 +59,7 @@ public:
 	void SetColor(glm::vec4 color) { this->color = color; }
 
 private:
-	glm::vec3 position;
+	glm::vec2 position;
 	glm::vec2 velocity;
 	glm::vec4 color;
 };

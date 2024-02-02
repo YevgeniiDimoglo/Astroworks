@@ -35,7 +35,7 @@ layout(location = 6) out vec4 outBaseColor;
 layout(location = 7) out vec4 outFragPosLightSpace;
 
 layout(location = 8) out vec4 outCameraPos;
-layout(location = 9) out mat4 projectionMatrix;
+layout(location = 9) out vec4 outTimerConstants;
 
 const mat4 biasMat = mat4( 
 	0.5, 0.0, 0.0, 0.0,
@@ -60,5 +60,5 @@ void main()
     outNormal = mat3(pushModel.model) * inNormal;
 
     outCameraPos = uboScene.viewPos;
-    projectionMatrix = uboScene.projection;
+    outTimerConstants = uboScene.timerConstants;
 }
