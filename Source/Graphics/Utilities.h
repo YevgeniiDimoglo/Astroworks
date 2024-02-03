@@ -38,6 +38,7 @@
 #include "Macros.h"
 
 #define DISCRETE
+#define RAYTRACE
 
 static const int MAX_FRAMES_IN_FLIGHT = 2;
 static const int MAX_OBJECTS = 512;
@@ -254,6 +255,22 @@ enum class KeyCode
 	F12 = 32,
 };
 
+// Holds data for a ray tracing scratch buffer that is used as a temporary storage
+struct RayTracingScratchBuffer
+{
+	uint64_t deviceAddress = 0;
+	VkBuffer handle = VK_NULL_HANDLE;
+	VkDeviceMemory memory = VK_NULL_HANDLE;
+};
+
+// Ray tracing acceleration structure
+struct AccelerationStructure {
+	VkAccelerationStructureKHR handle;
+	uint64_t deviceAddress = 0;
+	VkDeviceMemory memory;
+	VkBuffer buffer;
+};
+
 class IObserver {
 public:
 	virtual ~IObserver() {};
@@ -276,7 +293,21 @@ static const std::vector<const char*> deviceExtensions = {
 		VK_KHR_MAINTENANCE2_EXTENSION_NAME,
 		VK_KHR_MULTIVIEW_EXTENSION_NAME,
 		VK_KHR_CREATE_RENDERPASS_2_EXTENSION_NAME,
-		VK_KHR_DEPTH_STENCIL_RESOLVE_EXTENSION_NAME
+		VK_KHR_DEPTH_STENCIL_RESOLVE_EXTENSION_NAME,
+
+#ifdef RAYTRACE
+
+		VK_KHR_ACCELERATION_STRUCTURE_EXTENSION_NAME,
+		VK_KHR_RAY_TRACING_PIPELINE_EXTENSION_NAME,
+
+		VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME,
+		VK_KHR_DEFERRED_HOST_OPERATIONS_EXTENSION_NAME,
+		VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME,
+
+		VK_KHR_SPIRV_1_4_EXTENSION_NAME,
+
+		VK_KHR_SHADER_FLOAT_CONTROLS_EXTENSION_NAME,
+#endif
 };
 
 static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(

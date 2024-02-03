@@ -78,10 +78,14 @@ private:
 	void createLogicalDevice();
 	void createSwapChain();
 	void createImageViews();
+	void createBottomLevelAccelerationStructure();
+	void createTopLevelAccelerationStructure();
 	void createDescriptorSetLayout();
 	void createComputeDescriptorSetLayout();
+	void createRayTracingDescriptorSetLayout();
 	void createGraphicsPipelines();
 	void createComputePipeline();
+	void createRayTracingPipeline();
 	VkShaderModule createShaderModule(const std::vector<char>& code);
 	void createCommandPool();
 	void createaDepthResources();
@@ -190,6 +194,13 @@ private:
 	VkPipelineLayout computePipelineLayout;
 	VkPipeline computePipeline;
 
+	VkPipelineLayout rayTracingPipelineLayout;
+	VkPipeline rayTracingPipeline;
+
+	VkDescriptorPool rayTracingDescriptorPool;
+	VkDescriptorSetLayout rayTracingDescriptorSetLayout;
+	std::vector<VkDescriptorSet> rayTracingDescriptorSets;
+
 	VkCommandPool commandPool;
 	std::vector<VkCommandBuffer> commandBuffers;
 	std::vector<VkCommandBuffer> computeCommandBuffers;
@@ -251,4 +262,30 @@ private:
 	bool framebufferResized = false;
 	bool isTransparentRender = false;
 	bool isParticleRender = false;
+
+	// RayTrace members
+	PFN_vkGetBufferDeviceAddressKHR vkGetBufferDeviceAddressKHR;
+	PFN_vkCreateAccelerationStructureKHR vkCreateAccelerationStructureKHR;
+	PFN_vkDestroyAccelerationStructureKHR vkDestroyAccelerationStructureKHR;
+	PFN_vkGetAccelerationStructureBuildSizesKHR vkGetAccelerationStructureBuildSizesKHR;
+	PFN_vkGetAccelerationStructureDeviceAddressKHR vkGetAccelerationStructureDeviceAddressKHR;
+	PFN_vkCmdBuildAccelerationStructuresKHR vkCmdBuildAccelerationStructuresKHR;
+	PFN_vkBuildAccelerationStructuresKHR vkBuildAccelerationStructuresKHR;
+	PFN_vkCmdTraceRaysKHR vkCmdTraceRaysKHR;
+	PFN_vkGetRayTracingShaderGroupHandlesKHR vkGetRayTracingShaderGroupHandlesKHR;
+	PFN_vkCreateRayTracingPipelinesKHR vkCreateRayTracingPipelinesKHR;
+
+	VkPhysicalDeviceRayTracingPipelinePropertiesKHR  rayTracingPipelineProperties{};
+	VkPhysicalDeviceAccelerationStructureFeaturesKHR accelerationStructureFeatures{};
+
+	VkPhysicalDeviceBufferDeviceAddressFeatures enabledBufferDeviceAddresFeatures{};
+	VkPhysicalDeviceRayTracingPipelineFeaturesKHR enabledRayTracingPipelineFeatures{};
+	VkPhysicalDeviceAccelerationStructureFeaturesKHR enabledAccelerationStructureFeatures{};
+
+	AccelerationStructure bottomLevelAS{};
+	AccelerationStructure topLevelAS{};
+
+	std::vector<VkRayTracingShaderGroupCreateInfoKHR> shaderGroups{};
+
+	uint32_t indexCount;
 };

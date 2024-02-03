@@ -37,4 +37,7 @@
 %~dp0glslc.exe %~dp0computeParticle.vert -o computeParticleVS.spv
 %~dp0glslc.exe %~dp0computeParticle.frag -o computeParticlePS.spv
 %~dp0glslc.exe %~dp0computeParticle.comp -o computeParticleCS.spv
+%~dp0glslc.exe %~dp0miss.rmiss --target-env=vulkan1.3 -o  miss.rmiss.spv
+%~dp0glslc.exe %~dp0raygen.rgen  --target-env=vulkan1.3 -o raygen.rgen.spv
+%~dp0glslc.exe %~dp0closesthit.rchit --target-env=vulkan1.3 -o closesthit.rchit.spv
 pause
