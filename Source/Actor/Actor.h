@@ -191,6 +191,8 @@ public:
 
 	void cleanup(VkDevice newLogicalDevice);
 
+	bool isParticleRender = false;
+
 private:
 
 	std::string currentLevelName = "TEMP";

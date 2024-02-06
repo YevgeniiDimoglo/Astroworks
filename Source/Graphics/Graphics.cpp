@@ -1340,10 +1340,10 @@ void Graphics::createShaderStorageBuffers()
 		float r = 0.25f * sqrt(rndDist);
 		float theta = rndDist * 2.0f * 3.14159265358979323846f;
 		float x = r * cos(theta) * HEIGHT / WIDTH;
-		float y = r * sin(theta);
+		float y = r * sin(theta) * HEIGHT / WIDTH;
 		particle.SetPositionXY(glm::vec2(x, y));
 		particle.SetVelocity(glm::normalize(glm::vec2(x, y)) * 0.00025f);
-		particle.SetColor(glm::vec4(rndDist, rndDist2, rndDist3, 1.0f));
+		particle.SetColor(glm::vec4(rndDist + 0.5f, rndDist + 0.5f, rndDist + 0.5f, 1.0f));
 	}
 
 	VkDeviceSize bufferSize = sizeof(Particle) * PARTICLE_COUNT;
@@ -2154,7 +2154,7 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 		vkCmdDraw(commandBuffer, 3, 1, 0, 0);
 	}
 
-	if (true)
+	if (ActorManager::Instance().isParticleRender)
 	{
 		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::ComputeParticlePipeline)]);
 

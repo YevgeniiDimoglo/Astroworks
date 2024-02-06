@@ -18,36 +18,43 @@ void UI::notify(std::string widgetName, int widgetAction)
 	if (widgetName == "1d")
 	{
 		ActorManager::Instance().switchLevel("Level");
+		ActorManager::Instance().isParticleRender = false;
 	}
 
 	if (widgetName == "2d")
 	{
 		ActorManager::Instance().switchLevel("LevelPBR");
+		ActorManager::Instance().isParticleRender = false;
 	}
 
 	if (widgetName == "3d")
 	{
 		ActorManager::Instance().switchLevel("LevelOIT");
+		ActorManager::Instance().isParticleRender = false;
 	}
 
 	if (widgetName == "4d")
 	{
 		ActorManager::Instance().switchLevel("LevelTEXTURES");
+		ActorManager::Instance().isParticleRender = false;
 	}
 
 	if (widgetName == "5d")
 	{
 		ActorManager::Instance().switchLevel("LevelMISC");
+		ActorManager::Instance().isParticleRender = false;
 	}
 
 	if (widgetName == "6d")
 	{
 		ActorManager::Instance().switchLevel("LevelBIG");
+		ActorManager::Instance().isParticleRender = false;
 	}
 
 	if (widgetName == "7d")
 	{
 		ActorManager::Instance().switchLevel("LevelSKYBOX");
+		ActorManager::Instance().isParticleRender = true;
 	}
 }
 
