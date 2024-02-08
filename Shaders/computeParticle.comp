@@ -28,19 +28,20 @@ layout(std140, binding = 2) buffer ParticleSSBOOut {
 
 layout (local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
 
+const float scale = 1.0f;
+
 void main() 
 {
     uint index = gl_GlobalInvocationID.x;  
 
     Particle particleIn = particlesIn[index];
 
-    particlesOut[index].position = particleIn.position + particleIn.velocity.xy * uboScene.timerConstants.g;
+    vec3 pos = vec3(particleIn.position, 0.5f);
 
-    if ((particlesOut[index].position.x <= -1.0) || (particlesOut[index].position.x >= 1.0)) {
-        particlesOut[index].velocity.x = -particlesOut[index].velocity.x;
-    }
-    if ((particlesOut[index].position.y <= -1.0) || (particlesOut[index].position.y >= 1.0)) {
-        particlesOut[index].velocity.y = -particlesOut[index].velocity.y;
-    }
+    pos.x += cos((uboScene.timerConstants.g + pos.z) * 0.25 * particleIn.velocity.y) * scale;
+    pos.y = mod(pos.y - uboScene.timerConstants.g * particleIn.velocity.x, 1080.0);
+    pos.z += sin((uboScene.timerConstants.g + pos.x) * 0.25 * particleIn.velocity.y) * scale;
+
+    particlesOut[index].position = pos.xy;
 
 }
