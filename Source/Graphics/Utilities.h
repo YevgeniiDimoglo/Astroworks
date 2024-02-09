@@ -49,6 +49,8 @@ static const uint32_t HEIGHT = 1080;
 
 static const int syncInterval = 0;
 
+static std::filesystem::path pathToProgram;
+
 enum class Pipelines
 {
 	ShadowMapPipeline,

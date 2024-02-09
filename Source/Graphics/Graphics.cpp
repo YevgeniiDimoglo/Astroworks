@@ -9,6 +9,8 @@ void Graphics::init()
 {
 	LOG("Start of initializaion\n");
 
+	pathToProgram = std::filesystem::current_path();
+
 	initWindow();
 
 	initVulkan();
@@ -52,22 +54,22 @@ void Graphics::initTextures()
 {
 	LOG("Initialization of Textures\n");
 
-	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/Dummy.png"));
-	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyNormal.png"));
-	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyMetalness.png"));
-	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyRoughness.png"));
-	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyAO.png"));
-	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/DummyEmissive.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, pathToProgram.generic_string() + "/Data/Textures/Dummy.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, pathToProgram.generic_string() + "/Data/Textures/DummyNormal.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, pathToProgram.generic_string() + "/Data/Textures/DummyMetalness.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, pathToProgram.generic_string() + "/Data/Textures/DummyRoughness.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, pathToProgram.generic_string() + "/Data/Textures/DummyAO.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, pathToProgram.generic_string() + "/Data/Textures/DummyEmissive.png"));
 
-	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/HDRI/lut_ggx.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, pathToProgram.generic_string() + "/Data/HDRI/lut_ggx.png"));
 
-	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/Fire_alpha.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, pathToProgram.generic_string() + "/Data/Textures/Fire_alpha.png"));
 
-	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/TextureNoise.png"));
-	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, "./Data/Textures/TextureNoise2.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, pathToProgram.generic_string() + "/Data/Textures/TextureNoise.png"));
+	getTexturesVector().push_back(createTexture(physicalDevice, device, commandPool, graphicsQueue, dynamicTextureSamplerDescriptorPool, dynamicTextureSamplerSetLayout, pathToProgram.generic_string() + "/Data/Textures/TextureNoise2.png"));
 
-	skybox.CreateCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/puresky.hdr");
-	skyboxIrr.CreateCubeMap(physicalDevice, device, commandPool, graphicsQueue, "./Data/HDRI/pureskyirr2.hdr");
+	skybox.CreateCubeMap(physicalDevice, device, commandPool, graphicsQueue, pathToProgram.generic_string() + "/Data/HDRI/puresky.hdr");
+	skyboxIrr.CreateCubeMap(physicalDevice, device, commandPool, graphicsQueue, pathToProgram.generic_string() + "/Data/HDRI/pureskyirr2.hdr");
 }
 
 void Graphics::initModels()
@@ -772,55 +774,55 @@ void Graphics::createGraphicsPipelines()
 		switch (pipelineName)
 		{
 		case Pipelines::ShadowMapPipeline:
-			vertShaderCode = readFile("./Shaders/shadowMapCasterVS.spv");
-			fragShaderCode = readFile("./Shaders/shadowMapCasterPS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/shadowMapCasterVS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/shadowMapCasterPS.spv");
 			break;
 		case Pipelines::DebugDrawingPipeline:
-			vertShaderCode = readFile("./Shaders/flatVS.spv");
-			fragShaderCode = readFile("./Shaders/flatPS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/flatVS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/flatPS.spv");
 			polygonMode = VK_POLYGON_MODE_LINE;
 			break;
 		case Pipelines::UnlitPipeline:
-			vertShaderCode = readFile("./Shaders/flatVS.spv");
-			fragShaderCode = readFile("./Shaders/flatPS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/flatVS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/flatPS.spv");
 			break;
 		case Pipelines::PhongPipeline:
-			vertShaderCode = readFile("./Shaders/phongVS.spv");
-			fragShaderCode = readFile("./Shaders/phongPS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/phongVS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/phongPS.spv");
 			break;
 		case Pipelines::PBRPipeline:
-			vertShaderCode = readFile("./Shaders/PBRVS.spv");
-			fragShaderCode = readFile("./Shaders/PBROnlyPS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/PBRVS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/PBROnlyPS.spv");
 			break;
 		case Pipelines::PBRIBLPipeline:
-			vertShaderCode = readFile("./Shaders/PBRVS.spv");
-			fragShaderCode = readFile("./Shaders/PBRIBLPS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/PBRVS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/PBRIBLPS.spv");
 			break;
 		case Pipelines::UIPipeline:
-			vertShaderCode = readFile("./Shaders/spriteVS.spv");
-			fragShaderCode = readFile("./Shaders/spritePS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/spriteVS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/spritePS.spv");
 
 			cullingFlag = VK_CULL_MODE_NONE;
 			depthTest = VK_FALSE;
 			break;
 		case Pipelines::OffscreenPipeline:
-			vertShaderCode = readFile("./Shaders/postEffectVS.spv");
-			fragShaderCode = readFile("./Shaders/postEffectPS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/postEffectVS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/postEffectPS.spv");
 
 			cullingFlag = VK_CULL_MODE_NONE;
 			colorBlendAttachment.blendEnable = VK_FALSE;
 			break;
 		case Pipelines::OffscreenPipeline2:
-			vertShaderCode = readFile("./Shaders/quad2VS.spv");
-			fragShaderCode = readFile("./Shaders/quad2PS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/quad2VS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/quad2PS.spv");
 
 			cullingFlag = VK_CULL_MODE_NONE;
 			colorBlendAttachment.blendEnable = VK_FALSE;
 			break;
 
 		case Pipelines::OITColorAccumPipeline:
-			vertShaderCode = readFile("./Shaders/OITVS.spv");
-			fragShaderCode = readFile("./Shaders/OITColorPS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/OITVS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/OITColorPS.spv");
 
 			depthWrite = VK_FALSE;
 			pipelineColorAttachmentFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
@@ -837,8 +839,8 @@ void Graphics::createGraphicsPipelines()
 			cullingFlag = VK_CULL_MODE_NONE;
 			break;
 		case Pipelines::OITColorRevealPipeline:
-			vertShaderCode = readFile("./Shaders/OITVS.spv");
-			fragShaderCode = readFile("./Shaders/OITRevealPS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/OITVS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/OITRevealPS.spv");
 
 			depthWrite = VK_FALSE;
 			pipelineColorAttachmentFormat = VK_FORMAT_R16_SFLOAT;
@@ -855,8 +857,8 @@ void Graphics::createGraphicsPipelines()
 			cullingFlag = VK_CULL_MODE_NONE;
 			break;
 		case Pipelines::OITResultPipeline:
-			vertShaderCode = readFile("./Shaders/quad2VS.spv");
-			fragShaderCode = readFile("./Shaders/OITResult.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/quad2VS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/OITResult.spv");
 			pipelineColorAttachmentFormat = VK_FORMAT_B8G8R8A8_UNORM;
 			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
 				VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
@@ -871,8 +873,8 @@ void Graphics::createGraphicsPipelines()
 			cullingFlag = VK_CULL_MODE_NONE;
 			break;
 		case Pipelines::DemoOITColorAccumPipeline:
-			vertShaderCode = readFile("./Shaders/DemoOITVS.spv");
-			fragShaderCode = readFile("./Shaders/DemoOITColorPS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/DemoOITVS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/DemoOITColorPS.spv");
 
 			depthWrite = VK_FALSE;
 			pipelineColorAttachmentFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
@@ -887,8 +889,8 @@ void Graphics::createGraphicsPipelines()
 			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
 			break;
 		case Pipelines::DemoOITColorRevealPipeline:
-			vertShaderCode = readFile("./Shaders/DemoOITVS.spv");
-			fragShaderCode = readFile("./Shaders/DemoOITRevealPS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/DemoOITVS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/DemoOITRevealPS.spv");
 
 			depthWrite = VK_FALSE;
 			pipelineColorAttachmentFormat = VK_FORMAT_R16_SFLOAT;
@@ -903,45 +905,45 @@ void Graphics::createGraphicsPipelines()
 			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
 			break;
 		case Pipelines::DemoOITResultPipeline:
-			vertShaderCode = readFile("./Shaders/quad2VS.spv");
-			fragShaderCode = readFile("./Shaders/DemoOITResult.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/quad2VS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/DemoOITResult.spv");
 
 			cullingFlag = VK_CULL_MODE_NONE;
 			break;
 		case Pipelines::SkyboxPipeline:
-			vertShaderCode = readFile("./Shaders/skyboxVS.spv");
-			fragShaderCode = readFile("./Shaders/skyboxPS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/skyboxVS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/skyboxPS.spv");
 
 			colorBlendAttachment.blendEnable = VK_FALSE;
 			cullingFlag = VK_CULL_MODE_FRONT_BIT;
 			break;
 		case Pipelines::LuminancePipeline:
-			vertShaderCode = readFile("./Shaders/LuminanceVS.spv");
-			fragShaderCode = readFile("./Shaders/LuminancePS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/LuminanceVS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/LuminancePS.spv");
 
 			cullingFlag = VK_CULL_MODE_NONE;
 			break;
 		case Pipelines::BlurPipeline:
-			vertShaderCode = readFile("./Shaders/BlurVS.spv");
-			fragShaderCode = readFile("./Shaders/BlurPS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/BlurVS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/BlurPS.spv");
 
 			cullingFlag = VK_CULL_MODE_NONE;
 			break;
 		case Pipelines::WaterPipeline:
-			vertShaderCode = readFile("./Shaders/waterVS.spv");
-			fragShaderCode = readFile("./Shaders/waterPS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/waterVS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/waterPS.spv");
 
 			cullingFlag = VK_CULL_MODE_NONE;
 			break;
 		case Pipelines::FirePipeline:
-			vertShaderCode = readFile("./Shaders/waterVS.spv");
-			fragShaderCode = readFile("./Shaders/fireballPS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/waterVS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/fireballPS.spv");
 
 			cullingFlag = VK_CULL_MODE_NONE;
 			break;
 		case Pipelines::ComputeParticlePipeline:
-			vertShaderCode = readFile("./Shaders/computeParticleVS.spv");
-			fragShaderCode = readFile("./Shaders/computeParticlePS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/computeParticleVS.spv");
+			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/computeParticlePS.spv");
 
 			colorBlendAttachment.blendEnable = VK_TRUE;
 			colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
