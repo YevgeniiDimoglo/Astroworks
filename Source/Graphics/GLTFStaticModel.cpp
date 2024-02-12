@@ -8,6 +8,8 @@ std::vector<ImageBuffer>& getTexturesVector()
 
 GLTFStaticModel::GLTFStaticModel(std::string filePath)
 {
+	pathToProgram = std::filesystem::current_path().generic_string();
+
 	std::size_t found = filePath.find_last_of("/\\");
 	std::string filePathTemp = filePath.substr(0, found);
 	std::string fileNameType = filePath.substr(found + 1);
@@ -16,7 +18,7 @@ GLTFStaticModel::GLTFStaticModel(std::string filePath)
 	std::string fileName = fileNameType.substr(0, found);
 	std::string fileType = fileNameType.substr(found + 1);
 
-	this->filePath = filePath;
+	this->filePath = pathToProgram.generic_string() + filePath;
 	this->fileName = fileName;
 	this->fileType = fileType;
 }
