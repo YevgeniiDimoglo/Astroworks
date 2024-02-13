@@ -857,7 +857,7 @@ void Graphics::createGraphicsPipelines()
 			cullingFlag = VK_CULL_MODE_NONE;
 			break;
 		case Pipelines::OITResultPipeline:
-			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/quad2VS.spv");
+			vertShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/quadVS.spv");
 			fragShaderCode = readFile(pathToProgram.generic_string() + "/Shaders/OITResult.spv");
 			pipelineColorAttachmentFormat = VK_FORMAT_B8G8R8A8_UNORM;
 			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |

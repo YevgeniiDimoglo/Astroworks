@@ -8,6 +8,11 @@ layout (location = 1) in vec4 timer;
 
 layout (location = 0) out vec4 outFragColor;
 
+const float brightness = 0.2f;
+const float contrast = 0.0f;
+const float hue = 0.0f;
+const float saturation = 0.1f;
+
 float random (in vec2 st)
 {
     return fract(sin(dot(st.xy, vec2(12.9898,78.233)))* 43758.5453123);
@@ -79,6 +84,39 @@ vec2 Shake(float maxshake, float mag)
     return vec2(val1*shakescale,val2*shakescale);
 }
 
+
+vec3 brightness_contrast(vec3 fragment_color, float brightness, float contrast)
+{
+	fragment_color += brightness;
+	if (contrast > 0.0)
+	{
+		fragment_color = (fragment_color - 0.5) / (1.0 - contrast) + 0.5;
+	}
+	else if (contrast < 0.0)
+	{
+		fragment_color = (fragment_color - 0.5) * (1.0 + contrast) + 0.5;
+	}
+	return fragment_color;
+}
+
+vec3 hue_saturation(vec3 fragment_color, float hue, float saturation)
+{
+	float angle = hue * 3.14159265;
+	float s = sin(angle), c = cos(angle);
+	vec3 weights = (vec3(2.0 * c, -sqrt(3.0) * s - c, sqrt(3.0) * s - c) + 1.0) / 3.0;
+	fragment_color = vec3(dot(fragment_color, weights.xyz), dot(fragment_color, weights.zxy), dot(fragment_color, weights.yzx));
+	float average = (fragment_color.r + fragment_color.g + fragment_color.b) / 3.0;
+	if (saturation > 0.0)
+	{
+		fragment_color += (average - fragment_color) * (1.0 - 1.0 / (1.001 - saturation));
+	}
+	else
+	{
+		fragment_color += (average - fragment_color) * (-saturation);
+	}
+	return fragment_color;
+}
+
 void main() 
 {
 
@@ -90,6 +128,9 @@ void main()
   vec4 tempFragColor = texture(samplerColor, inUV + shakexy) * vec4(1.0f, 1.0f, 1.f, 1.0f);
 
   tempFragColor += texture(bloomTexture, inUV + shakexy) * vec4(1.0f, 1.0f, 1.f, 1.0f);
+
+  tempFragColor.rgb = hue_saturation(tempFragColor.rgb, hue, saturation);
+  tempFragColor.rgb = brightness_contrast(tempFragColor.rgb, brightness, contrast);
 
   outFragColor = tempFragColor.rgba;
 }
