@@ -38,10 +38,11 @@ void main()
 
     vec3 pos = vec3(particleIn.position, 0.5f);
 
-    pos.x += cos((uboScene.timerConstants.g + pos.z) * 0.25 * particleIn.velocity.y) * scale;
+    //pos.x += cos((uboScene.timerConstants.g + 0.5f) * 0.25 * particleIn.velocity.y) * scale;
     pos.y = mod(pos.y - uboScene.timerConstants.g * particleIn.velocity.x, 1080.0);
-    pos.z += sin((uboScene.timerConstants.g + pos.x) * 0.25 * particleIn.velocity.y) * scale;
-
-    particlesOut[index].position = pos.xy;
+    
+    particlesOut[index].position = particleIn.position + particleIn.velocity.xy * uboScene.timerConstants.g;
+    
+    //pos.z += sin((uboScene.timerConstants.g + pos.x) * 0.25 * particleIn.velocity.y) * scale;
 
 }

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../Graphics/Utilities.h"
-
 #include "UIUtilities.h"
 
 class OverlayTitle : public Overlay
