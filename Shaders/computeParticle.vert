@@ -10,7 +10,7 @@ const float scale = 1.0f;
 
 void main() {
 
-    gl_PointSize = size * ( scale / length( inPosition.xy ) );
+    gl_PointSize = size;
     gl_Position = vec4(inPosition.xy, 0.0, 1.0);
     fragColor = inColor.rgb;
 }
