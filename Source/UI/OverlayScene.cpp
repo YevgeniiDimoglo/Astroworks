@@ -97,19 +97,19 @@ void OverlayScene::initialize(GLFWwindow* window)
 		"knob",
 	};
 
-	std::shared_ptr<Widget> sliderXChannel = std::make_shared<Slider>(sliderButtonNames, "sliderXChannel", -10.f, 10.0f, 0.0f);
+	std::shared_ptr<Widget> sliderXChannel = std::make_shared<Slider>(sliderButtonNames, "sliderXChannel", -30.f, 30.0f, 0.0f);
 	sliderXChannel->setImageValues(-0.75f, -0.4f, 0.f, 0.2f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	sliderXChannel->registerObserver(&UI::Instance());
 	sliderXChannel->registerObserver(&Player::Instance());
 	frontWidgets["sliderXChannel"] = sliderXChannel;
 
-	std::shared_ptr<Widget> sliderYChannel = std::make_shared<Slider>(sliderButtonNames, "sliderYChannel", -10.f, 10.0f, 0.0f);
+	std::shared_ptr<Widget> sliderYChannel = std::make_shared<Slider>(sliderButtonNames, "sliderYChannel", -30.f, 30.0f, 0.0f);
 	sliderYChannel->setImageValues(-0.75f, -0.2f, 0.f, 0.2f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	sliderYChannel->registerObserver(&UI::Instance());
 	sliderYChannel->registerObserver(&Player::Instance());
 	frontWidgets["sliderYChannel"] = sliderYChannel;
 
-	std::shared_ptr<Widget> sliderZChannel = std::make_shared<Slider>(sliderButtonNames, "sliderZChannel", -10.f, 10.0f, 0.0f);
+	std::shared_ptr<Widget> sliderZChannel = std::make_shared<Slider>(sliderButtonNames, "sliderZChannel", -30.f, 30.0f, 0.0f);
 	sliderZChannel->setImageValues(-0.75f, 0.0f, 0.f, 0.2f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	sliderZChannel->registerObserver(&UI::Instance());
 	sliderZChannel->registerObserver(&Player::Instance());

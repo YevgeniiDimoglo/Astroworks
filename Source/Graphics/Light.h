@@ -72,6 +72,35 @@ public:
 		direction = -glm::normalize(glm::vec3(lightView[2]));
 	};
 
+	void UpdateLight(float red, float green, float blue,
+		float aIntensity, float dIntensity,
+		float xPos, float yPos, float zPos,
+		float FOV, float distance, float angleX, float angleY)
+	{
+		color.r = red;
+		color.b = blue;
+		color.g = green;
+		ambientIntensity = aIntensity;
+		diffuseIntensity = dIntensity;
+
+		lightDist = distance;
+		lightAngle = FOV;
+		lightXAngle = angleX;
+		lightYAngle = angleY;
+
+		const glm::mat4 rotY = glm::rotate(glm::mat4(1.f), lightYAngle, glm::vec3(0, 1, 0));
+		const glm::mat4 rotX = glm::rotate(rotY, lightXAngle, glm::vec3(1, 0, 0));
+
+		//lightPosition = glm::vec3(rotX * glm::vec4(0, 0, lightDist, 1.0f));
+		lightPosition = glm::vec3(xPos, yPos, zPos);
+
+		lightProjection = glm::perspective(glm::radians(lightAngle), 1.0f, lightNear, lightFar);
+
+		lightView = glm::lookAt(glm::vec3(lightPosition.x, lightPosition.y, lightPosition.z), glm::vec3(0), glm::vec3(0, 1, 0));
+
+		direction = -glm::normalize(glm::vec3(lightView[2]));
+	};
+
 	glm::vec3 GetLightPosition() { return lightPosition; }
 	glm::mat4 GetLightProjection() { return lightProjection; }
 	glm::mat4 GetLightView() { return lightView; }

@@ -300,6 +300,11 @@ void Graphics::update(HighResolutionTimer timer, float elapsedTime, Camera* came
 
 	playerCamera = camera;
 
+	static_cast<DirectionalLight*>(sceneLights[0].get())->UpdateLight(1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f,
+		DirectionalLightPosition.x, DirectionalLightPosition.y, DirectionalLightPosition.z,
+		120.0f, 100.0f, -0.5f, 0.5f);
+
 	// Update camera values in shader
 	updateUniformBuffer(timer, elapsedTime, currentFrame, camera);
 }

@@ -156,6 +156,7 @@ struct Framebuffer
 
 extern std::vector<ImageBuffer>& getTexturesVector();
 extern glm::vec2 BloomValues;
+extern glm::vec3 DirectionalLightPosition;
 
 struct PushConstants {
 	glm::mat4 model;

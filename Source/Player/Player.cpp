@@ -7,6 +7,7 @@
 #include "../UI/UI.h"
 
 glm::vec2 BloomValues = { 0.78f, 1.5f };
+glm::vec3 DirectionalLightPosition = { 10.0f, 15.0f, 12.0f };
 
 std::string Player::getSelectedActor(GLFWwindow* window, Camera* camera)
 {
@@ -151,6 +152,21 @@ void Player::notify(std::string widgetName, int widgetAction)
 	if (widgetName == "exit" && widgetAction == 0)
 	{
 		closeApp = true;
+	}
+
+	if (widgetName == "sliderXChannel" && widgetAction == 0)
+	{
+		DirectionalLightPosition.x = static_cast<Slider*>(widgets["sliderXChannel"].get())->GetCurrentValue();
+	}
+
+	if (widgetName == "sliderYChannel" && widgetAction == 0)
+	{
+		DirectionalLightPosition.y = static_cast<Slider*>(widgets["sliderYChannel"].get())->GetCurrentValue();
+	}
+
+	if (widgetName == "sliderZChannel" && widgetAction == 0)
+	{
+		DirectionalLightPosition.z = static_cast<Slider*>(widgets["sliderZChannel"].get())->GetCurrentValue();
 	}
 }
 

@@ -24,6 +24,8 @@ public:
 
 	void update(float elapsedTime, GLFWwindow* window) override;
 
+	float GetCurrentValue() { return currentValue; }
+
 private:
 
 	float minValue;
