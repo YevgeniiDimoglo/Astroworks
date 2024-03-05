@@ -9,9 +9,9 @@ void OverlayScene::initialize(GLFWwindow* window)
 	//minimapArea->setImageValues(-0.55f, 0.8f, 0.f, 0.45f, 0.1f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	//backWidgets["minimapArea"] = minimapArea;
 
-	//std::shared_ptr<Widget> inGameTimer = std::make_shared<Timer>("inGameTimer");
-	//inGameTimer->setImageValues(-0.28f, 0.81f, 0.f, 0.08f, 0.08f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
-	//frontWidgets["inGameTimer"] = inGameTimer;
+	std::shared_ptr<Widget> inGameTimer = std::make_shared<Timer>("inGameTimer");
+	inGameTimer->setImageValues(0.78f, 0.81f, 0.f, 0.08f, 0.08f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	frontWidgets["inGameTimer"] = inGameTimer;
 
 	std::vector<std::string> LevelScene = {
 	"1d",
@@ -97,20 +97,32 @@ void OverlayScene::initialize(GLFWwindow* window)
 		"knob",
 	};
 
+	std::shared_ptr<Widget> sliderXBloom = std::make_shared<Slider>(sliderButtonNames, "sliderXBloom", 0.f, 1.0f, 0.0f);
+	sliderXBloom->setImageValues(-0.75f, 0.4f, 0.f, 0.2f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	sliderXBloom->registerObserver(&UI::Instance());
+	sliderXBloom->registerObserver(&Player::Instance());
+	frontWidgets["sliderXBloom"] = sliderXBloom;
+
+	std::shared_ptr<Widget> sliderYBloom = std::make_shared<Slider>(sliderButtonNames, "sliderYBloom", 0.f, 5.0f, 0.0f);
+	sliderYBloom->setImageValues(-0.75f, 0.5f, 0.f, 0.2f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	sliderYBloom->registerObserver(&UI::Instance());
+	sliderYBloom->registerObserver(&Player::Instance());
+	frontWidgets["sliderYBloom"] = sliderYBloom;
+
 	std::shared_ptr<Widget> sliderXChannel = std::make_shared<Slider>(sliderButtonNames, "sliderXChannel", -30.f, 30.0f, 0.0f);
-	sliderXChannel->setImageValues(-0.75f, -0.4f, 0.f, 0.2f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	sliderXChannel->setImageValues(-0.75f, 0.7f, 0.f, 0.2f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	sliderXChannel->registerObserver(&UI::Instance());
 	sliderXChannel->registerObserver(&Player::Instance());
 	frontWidgets["sliderXChannel"] = sliderXChannel;
 
 	std::shared_ptr<Widget> sliderYChannel = std::make_shared<Slider>(sliderButtonNames, "sliderYChannel", -30.f, 30.0f, 0.0f);
-	sliderYChannel->setImageValues(-0.75f, -0.2f, 0.f, 0.2f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	sliderYChannel->setImageValues(-0.75f, 0.8f, 0.f, 0.2f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	sliderYChannel->registerObserver(&UI::Instance());
 	sliderYChannel->registerObserver(&Player::Instance());
 	frontWidgets["sliderYChannel"] = sliderYChannel;
 
 	std::shared_ptr<Widget> sliderZChannel = std::make_shared<Slider>(sliderButtonNames, "sliderZChannel", -30.f, 30.0f, 0.0f);
-	sliderZChannel->setImageValues(-0.75f, 0.0f, 0.f, 0.2f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
+	sliderZChannel->setImageValues(-0.75f, 0.9f, 0.f, 0.2f, 0.05f, glm::radians(0.f), 1.f, 1.f, 1.f, 1.f);
 	sliderZChannel->registerObserver(&UI::Instance());
 	sliderZChannel->registerObserver(&Player::Instance());
 	frontWidgets["sliderZChannel"] = sliderZChannel;
@@ -129,6 +141,11 @@ void OverlayScene::update(float elapsedTime, GLFWwindow* window)
 
 	for (auto it : frontWidgets)
 	{
+		if (it.first == "Timer")
+		{
+			it.second->updateValues(elapsedTime, 0);
+		}
+
 		it.second->update(elapsedTime, window);
 	}
 }

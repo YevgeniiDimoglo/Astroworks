@@ -154,19 +154,29 @@ void Player::notify(std::string widgetName, int widgetAction)
 		closeApp = true;
 	}
 
+	if (widgetName == "sliderXBloom" && widgetAction == 0)
+	{
+		static_cast<Slider*>(widgets["sliderXBloom"].get())->changeValue(BloomValues.x);
+	}
+
+	if (widgetName == "sliderYBloom" && widgetAction == 0)
+	{
+		static_cast<Slider*>(widgets["sliderYBloom"].get())->changeValue(BloomValues.y);
+	}
+
 	if (widgetName == "sliderXChannel" && widgetAction == 0)
 	{
-		DirectionalLightPosition.x = static_cast<Slider*>(widgets["sliderXChannel"].get())->GetCurrentValue();
+		static_cast<Slider*>(widgets["sliderXChannel"].get())->changeValue(DirectionalLightPosition.x);
 	}
 
 	if (widgetName == "sliderYChannel" && widgetAction == 0)
 	{
-		DirectionalLightPosition.y = static_cast<Slider*>(widgets["sliderYChannel"].get())->GetCurrentValue();
+		static_cast<Slider*>(widgets["sliderYChannel"].get())->changeValue(DirectionalLightPosition.y);
 	}
 
 	if (widgetName == "sliderZChannel" && widgetAction == 0)
 	{
-		DirectionalLightPosition.z = static_cast<Slider*>(widgets["sliderZChannel"].get())->GetCurrentValue();
+		static_cast<Slider*>(widgets["sliderZChannel"].get())->changeValue(DirectionalLightPosition.z);
 	}
 }
 
