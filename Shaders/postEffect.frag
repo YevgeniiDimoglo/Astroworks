@@ -8,10 +8,10 @@ layout (location = 1) in vec4 timer;
 
 layout (location = 0) out vec4 outFragColor;
 
-const float brightness = 0.2f;
+const float brightness = 0.1f;
 const float contrast = 0.0f;
 const float hue = 0.0f;
-const float saturation = 0.1f;
+const float saturation = 0.3f;
 
 float random (in vec2 st)
 {

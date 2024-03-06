@@ -36,15 +36,16 @@ void main()
 
     Particle particleIn = particlesIn[index];
 
-    particlesOut[index].position = particleIn.position + particleIn.velocity.xy * uboScene.timerConstants.g * 0.005f;
     particleIn.velocity.y = clamp(particleIn.velocity.y, 0, 1);
+    //particleIn.velocity.x = cos(uboScene.timerConstants.g * 0.005f) + particleIn.velocity.x;
+    particlesOut[index].position = particleIn.position + particleIn.velocity.xy * uboScene.timerConstants.g * 0.1f;
     particlesOut[index].velocity = particleIn.velocity;
 
     if ((particlesOut[index].position.x <= -1.0) || (particlesOut[index].position.x >= 1.0)) {
         particlesOut[index].velocity.x = -particlesOut[index].velocity.x;
     }
 
-     if (particlesOut[index].position.y <= -1.0) {
-        particlesOut[index].position.y = 1.0f;
+     if (particlesOut[index].position.y >= 1.0) {
+        particlesOut[index].position.y = -1.0f;
     }
 }

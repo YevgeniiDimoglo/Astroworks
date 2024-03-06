@@ -5,7 +5,7 @@ layout(location = 1) in vec4 inColor;
 
 layout(location = 0) out vec3 fragColor;
 
-const float size = 10.0f;
+const float size = 5.0f;
 const float scale = 1.0f;
 
 void main() {
