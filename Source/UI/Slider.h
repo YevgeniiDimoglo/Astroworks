@@ -10,7 +10,7 @@ class Slider : public Widget
 {
 public:
 	Slider() {}
-	Slider(std::vector<std::string> controlNames, std::string widgetName, float minValue, float maxValue, float defaultValue = 0);
+	Slider(std::vector<std::string> controlNames, std::string widgetName, float minValue, float maxValue, float defaultValue);
 
 	void setImageValues(float positionX, float positionY, float positionZ, float width, float height, float angle, float r, float g, float b, float a) override;
 
@@ -23,8 +23,6 @@ public:
 	void draw(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout) override;
 
 	void update(float elapsedTime, GLFWwindow* window) override;
-
-	float GetCurrentValue() { return currentValue; }
 
 private:
 

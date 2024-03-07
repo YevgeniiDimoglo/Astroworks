@@ -19,9 +19,11 @@
 
 Framework::Framework()
 {
+	std::srand(std::time(0));
+
 	thisApp = std::make_unique<Graphics>();
 
-	ActorManager::Instance().setCurrentLevelName("Level");
+	ActorManager::Instance().setCurrentLevelName("LevelDEFAULT");
 
 	ResourceManager::Instance().loadFiles("./Data/Level/");
 

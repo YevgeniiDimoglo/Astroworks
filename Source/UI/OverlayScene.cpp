@@ -141,11 +141,6 @@ void OverlayScene::update(float elapsedTime, GLFWwindow* window)
 
 	for (auto it : frontWidgets)
 	{
-		if (it.first == "Timer")
-		{
-			it.second->updateValues(elapsedTime, 0);
-		}
-
 		it.second->update(elapsedTime, window);
 	}
 }

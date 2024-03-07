@@ -1336,21 +1336,20 @@ void Graphics::createaDepthResources()
 
 void Graphics::createShaderStorageBuffers()
 {
-	std::srand(static_cast<unsigned>(std::time(0)));
-
 	// Initial particle positions on a circle
 	std::vector<Particle> particles(PARTICLE_COUNT);
-	for (auto& particle : particles) {
+	for (auto& particle : particles)
+	{
 		float rndDist = static_cast<float>(std::rand()) / RAND_MAX;
 		float rndDist2 = static_cast<float>(std::rand()) / RAND_MAX;
 		float rndDist3 = static_cast<float>(std::rand()) / RAND_MAX;
-		float r = 0.25f * sqrt(rndDist);
-		float theta = rndDist * 2.0f * 3.14159265358979323846f;
-		float x = r * cos(theta) * HEIGHT / WIDTH;
-		float y = r * sin(theta) * HEIGHT / WIDTH;
+		float r = sqrt(rndDist);
+		float t = sqrt(rndDist2);
+		float x = r * HEIGHT / WIDTH;
+		float y = t * HEIGHT / WIDTH;
 		particle.SetPositionXY(glm::vec2(x, y));
-		particle.SetVelocity(glm::normalize(glm::vec2(x, y)) * 0.00025f);
-		particle.SetColor(glm::vec4(rndDist + 0.5f, rndDist + 0.5f, rndDist + 0.5f, 1.0f));
+		particle.SetVelocity(glm::vec2(x * rndDist3, y * rndDist3) * 0.00025f);
+		particle.SetColor(glm::vec4(rndDist3 + 0.5f, rndDist3 + 0.5f, rndDist3 + 0.5f, 1.0f));
 	}
 
 	VkDeviceSize bufferSize = sizeof(Particle) * PARTICLE_COUNT;
