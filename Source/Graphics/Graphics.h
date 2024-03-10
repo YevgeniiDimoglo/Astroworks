@@ -51,6 +51,8 @@ public:
 
 private:
 	// - Main functions
+	// -- Init functions
+
 	void initWindow();
 
 	void initTextures();
@@ -65,8 +67,10 @@ private:
 
 	void InitResources();
 
+	// -- Draw functions
 	void drawFrame(HighResolutionTimer timer, float elapsedTime);
 
+	// -- Cleanup functions
 	void cleanup();
 
 private:
@@ -156,78 +160,96 @@ private:
 		const VkAllocationCallbacks* pAllocator);
 
 private:
-	// - GLFW members
+	// - GLFW variables
 	GLFWwindow* window;
 
-	// - Vulkan members
+	// - Vulkan variables
 	VkInstance instance;
 
+	// - Debug varuables
 	VkDebugUtilsMessengerEXT debugMessenger;
 	VkPhysicalDeviceProperties deviceProperties;
 	VkPhysicalDeviceFeatures deviceFeatures;
 
-	VkSampleCountFlagBits msaaSamples = VK_SAMPLE_COUNT_1_BIT;
-
+	// - Device varialbes
 	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 	VkSurfaceKHR surface;
 	VkDevice device;
 
+	// - Queue variables
 	VkQueue graphicsQueue;
 	VkQueue presentQueue;
 	VkQueue computeQueue;
 
+	// - Swapchain variables
 	VkSwapchainKHR swapChain;
 	std::vector<VkImage> swapChainImages;
 	std::vector<VkImageView> swapChainImageViews;
 	VkFormat swapChainImageFormat;
 	VkExtent2D swapChainExtent;
 
+	// - Pipeline variables
+	// -- Graphics pipeline variables
 	std::vector<VkPipelineLayout> pipelineLayouts;
 	VkPhysicalDeviceDynamicRenderingFeaturesKHR dynamicRenderingFeaturesKHR{};
 	VkRenderPass renderPass = VK_NULL_HANDLE;
 	std::vector<VkPipeline> graphicsPipelines;
 
+	// -- Computer pipeline variables
 	VkPipelineLayout computePipelineLayout;
 	VkPipeline computePipeline;
 
+	// - Command variables
 	VkCommandPool commandPool;
 	std::vector<VkCommandBuffer> commandBuffers;
 	std::vector<VkCommandBuffer> computeCommandBuffers;
 
+	// - Syncronization variables
 	std::vector<VkSemaphore> imageAvailableSemaphores;
 	std::vector<VkSemaphore> renderFinishedSemaphores;
 	std::vector<VkSemaphore> computeFinishedSemaphores;
 	std::vector<VkFence> inFlightFences;
 	std::vector<VkFence> computeInFlightFences;
 
+	// - Buffer variables
+	// -- Uniform buffer variables
 	std::vector<VkBuffer> uniformBuffers;
 	std::vector<VkDeviceMemory> uniformBuffersMemory;
 	std::vector<void*> uniformBuffersMapped;
 
+	// -- Computer buffer variables
 	std::vector<VkBuffer> shaderStorageBuffers;
 	std::vector<VkDeviceMemory> shaderStorageBuffersMemory;
 
+	// - Descroptor variables
+	// - Uniform descriptor variables
 	VkDescriptorPool descriptorPool;
 	VkDescriptorSetLayout descriptorSetLayout;
 	std::vector<VkDescriptorSet> descriptorSets;
 
+	// - Texture descriptor variables
 	VkDescriptorPool samplerDescriptorPool;
 	VkDescriptorSetLayout samplerSetLayout;
 
+	// - Default descriptor variables
 	VkDescriptorPool dynamicTextureSamplerDescriptorPool;
 	VkDescriptorSetLayout dynamicTextureSamplerSetLayout;
 
+	// - Transparency descriptor variables
 	VkDescriptorPool OITDescriptorPool;
 	VkDescriptorSetLayout OITDescriptorSetLayout;
 	VkDescriptorSet OITDescriptor;
 
+	// - Postprocess descriptor varialbes
 	VkDescriptorPool postEffectPool;
 	VkDescriptorSetLayout postEffectSetLayout;
 
+	// - Computer descriptor variables
 	VkDescriptorPool computeDescriptorPool;
 	VkDescriptorSetLayout computeDescriptorSetLayout;
 	std::vector<VkDescriptorSet> computeDescriptorSets;
 
+	// - Custom framebuffers
 	Framebuffer FinalTexture;
 	Framebuffer Luminance;
 	Framebuffer Blur;
@@ -236,17 +258,21 @@ private:
 	Framebuffer OITResult;
 	Framebuffer offscreen;
 
+	// - Cubemap variables
 	CubeMap skybox;
 	CubeMap skyboxIrr;
 
+	// - Depth variables
 	VkImage depthImage;
 	VkDeviceMemory depthImageMemory;
 	VkImageView depthImageView;
 	VkFormat depthFormat;
 	VkSampler depthSampler;
 
+	// - Scene lights
 	std::vector<std::unique_ptr<Light>> sceneLights;
 
+	// - Logic variables
 	uint32_t currentFrame = 0;
 	bool framebufferResized = false;
 	bool isTransparentRender = false;

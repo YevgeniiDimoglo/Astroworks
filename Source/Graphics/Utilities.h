@@ -51,6 +51,8 @@ static const int syncInterval = 0;
 
 static std::filesystem::path pathToProgram;
 
+VkSampleCountFlagBits msaaSamples = VK_SAMPLE_COUNT_1_BIT;
+
 enum class Pipelines
 {
 	ShadowMapPipeline,

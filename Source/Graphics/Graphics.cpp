@@ -1343,12 +1343,10 @@ void Graphics::createShaderStorageBuffers()
 		float rndDist = static_cast<float>(std::rand()) / RAND_MAX;
 		float rndDist2 = static_cast<float>(std::rand()) / RAND_MAX;
 		float rndDist3 = static_cast<float>(std::rand()) / RAND_MAX;
-		float r = sqrt(rndDist);
-		float t = sqrt(rndDist2);
-		float x = r * HEIGHT / WIDTH;
-		float y = t * HEIGHT / WIDTH;
+		float x = (rndDist - 0.5) * HEIGHT / WIDTH;
+		float y = -1;
 		particle.SetPositionXY(glm::vec2(x, y));
-		particle.SetVelocity(glm::vec2(x * rndDist3, y * rndDist3) * 0.00025f);
+		particle.SetVelocity(glm::vec2(x * (rndDist3 - rndDist2), y * (rndDist3 - rndDist)) * 0.00025f);
 		particle.SetColor(glm::vec4(rndDist3 + 0.5f, rndDist3 + 0.5f, rndDist3 + 0.5f, 1.0f));
 	}
 
