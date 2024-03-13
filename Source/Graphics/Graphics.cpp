@@ -2102,13 +2102,6 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 	// -- Model Pipeline: Shadow Shader
 	ActorManager::Instance().renderSolid(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::SkyboxPipeline)], static_cast<int>(ShaderType::Skybox));
 
-	static bool wireframe = false;
-
-	if (glfwGetKey(window, GLFW_KEY_F9) == GLFW_PRESS)
-	{
-		wireframe = !wireframe;
-	}
-
 	if (!wireframe)
 	{
 		// -- Model Pipeline: Flat Shader
@@ -2382,12 +2375,13 @@ void Graphics::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t image
 
 	vkCmdDraw(commandBuffer, 3, 1, 0, 0);
 
-	// -- UI Pipeline
-
-	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::UIPipeline)]);
-
-	// UI rendering
-	UI::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::UIPipeline)]);
+	if (drawUI)
+	{
+		// -- UI Pipeline
+		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipelines[static_cast<int>(Pipelines::UIPipeline)]);
+		// UI rendering
+		UI::Instance().render(commandBuffer, pipelineLayouts[static_cast<int>(Pipelines::UIPipeline)]);
+	}
 
 	// --
 

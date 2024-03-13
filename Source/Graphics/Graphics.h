@@ -49,6 +49,9 @@ public:
 	GLFWwindow* getWindow() const { return window; }
 	VkExtent2D getExtent() const { return swapChainExtent; }
 
+	bool drawUI = true;
+	bool wireframe = false;
+
 private:
 	// - Main functions
 	// -- Init functions

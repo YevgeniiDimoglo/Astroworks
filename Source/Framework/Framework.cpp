@@ -86,6 +86,16 @@ void Framework::update(HighResolutionTimer timer, float elapsedTime)
 		}
 	}
 
+	if (glfwGetKey(thisApp->getWindow(), GLFW_KEY_F9) == GLFW_PRESS)
+	{
+		thisApp->wireframe = !thisApp->wireframe;
+	}
+
+	if (glfwGetKey(thisApp->getWindow(), GLFW_KEY_F10) == GLFW_PRESS)
+	{
+		thisApp->drawUI = !thisApp->drawUI;
+	}
+
 	thisApp->update(timer, elapsedTime, camera);
 }
 
