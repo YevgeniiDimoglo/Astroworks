@@ -136,8 +136,16 @@ void Graphics::initVulkan()
 	createComputePipeline();
 	LOG("ComputePipelines created successfully\n");
 	// Create compute pipelines
+#ifdef RAYTRACE
+	// Create Raytracing pipeline
 	createRayTracingPipeline();
 	LOG("Ray Tracing created successfully\n");
+	// Create Acceleration Structures
+	createBottomLevelAccelerationStructure();
+	LOG("BLAS created successfully\n");
+	createTopLevelAccelerationStructure();
+	LOG("TLAS created successfully\n");
+#endif
 	// Create pools for commands
 	createCommandPool();
 	LOG("CommandPool created successfully\n");
@@ -1548,50 +1556,50 @@ void Graphics::createUniformBuffers()
 
 void Graphics::createBottomLevelAccelerationStructure()
 {
-	//// Setup vertices for a single triangle
-	//struct Vertex {
-	//	float pos[3];
-	//};
-	//std::vector<Vertex> vertices = {
-	//	{ {  1.0f,  1.0f, 0.0f } },
-	//	{ { -1.0f,  1.0f, 0.0f } },
-	//	{ {  0.0f, -1.0f, 0.0f } }
-	//};
+	// Setup vertices for a single triangle
+	struct Vertex {
+		float pos[3];
+	};
+	std::vector<Vertex> vertices = {
+		{ {  1.0f,  1.0f, 0.0f } },
+		{ { -1.0f,  1.0f, 0.0f } },
+		{ {  0.0f, -1.0f, 0.0f } }
+	};
 
-	//// Setup indices
-	//std::vector<uint32_t> indices = { 0, 1, 2 };
-	//indexCount = static_cast<uint32_t>(indices.size());
+	// Setup indices
+	std::vector<uint32_t> indices = { 0, 1, 2 };
+	indexCount = static_cast<uint32_t>(indices.size());
 
-	//// Setup identity transform matrix
-	//VkTransformMatrixKHR transformMatrix = {
-	//	1.0f, 0.0f, 0.0f, 0.0f,
-	//	0.0f, 1.0f, 0.0f, 0.0f,
-	//	0.0f, 0.0f, 1.0f, 0.0f
-	//};
+	// Setup identity transform matrix
+	VkTransformMatrixKHR transformMatrix = {
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f
+	};
 
 	//// Create buffers
 	//// For the sake of simplicity we won't stage the vertex data to the GPU memory
 	//// Vertex buffer
-	//VK_CHECK_RESULT(vulkanDevice->createBuffer(
+	//createBuffer(physicalDevice, device,
 	//	VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT | VK_BUFFER_USAGE_ACCELERATION_STRUCTURE_BUILD_INPUT_READ_ONLY_BIT_KHR,
 	//	VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 	//	&vertexBuffer,
 	//	vertices.size() * sizeof(Vertex),
-	//	vertices.data()));
+	//	vertices.data());
 	//// Index buffer
-	//VK_CHECK_RESULT(vulkanDevice->createBuffer(
+	//createBuffer(
 	//	VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT | VK_BUFFER_USAGE_ACCELERATION_STRUCTURE_BUILD_INPUT_READ_ONLY_BIT_KHR,
 	//	VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 	//	&indexBuffer,
 	//	indices.size() * sizeof(uint32_t),
-	//	indices.data()));
+	//	indices.data());
 	//// Transform buffer
-	//VK_CHECK_RESULT(vulkanDevice->createBuffer(
+	//createBuffer(
 	//	VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT | VK_BUFFER_USAGE_ACCELERATION_STRUCTURE_BUILD_INPUT_READ_ONLY_BIT_KHR,
 	//	VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 	//	&transformBuffer,
 	//	sizeof(VkTransformMatrixKHR),
-	//	&transformMatrix));
+	//	&transformMatrix);
 
 	//VkDeviceOrHostAddressConstKHR vertexBufferDeviceAddress{};
 	//VkDeviceOrHostAddressConstKHR indexBufferDeviceAddress{};
@@ -1666,13 +1674,13 @@ void Graphics::createBottomLevelAccelerationStructure()
 
 	//// Build the acceleration structure on the device via a one-time command buffer submission
 	//// Some implementations may support acceleration structure building on the host (VkPhysicalDeviceAccelerationStructureFeaturesKHR->accelerationStructureHostCommands), but we prefer device builds
-	//VkCommandBuffer commandBuffer = vulkanDevice->createCommandBuffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, true);
+	//VkCommandBuffer commandBuffer = createCommandBuffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, true);
 	//vkCmdBuildAccelerationStructuresKHR(
 	//	commandBuffer,
 	//	1,
 	//	&accelerationBuildGeometryInfo,
 	//	accelerationBuildStructureRangeInfos.data());
-	//vulkanDevice->flushCommandBuffer(commandBuffer, queue);
+	//flushCommandBuffer(commandBuffer, queue);
 
 	//VkAccelerationStructureDeviceAddressInfoKHR accelerationDeviceAddressInfo{};
 	//accelerationDeviceAddressInfo.sType = VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_DEVICE_ADDRESS_INFO_KHR;
@@ -1684,18 +1692,18 @@ void Graphics::createBottomLevelAccelerationStructure()
 
 void Graphics::createTopLevelAccelerationStructure()
 {
-	//VkTransformMatrixKHR transformMatrix = {
-	//		1.0f, 0.0f, 0.0f, 0.0f,
-	//		0.0f, 1.0f, 0.0f, 0.0f,
-	//		0.0f, 0.0f, 1.0f, 0.0f };
+	VkTransformMatrixKHR transformMatrix = {
+			1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f };
 
-	//VkAccelerationStructureInstanceKHR instance{};
-	//instance.transform = transformMatrix;
-	//instance.instanceCustomIndex = 0;
-	//instance.mask = 0xFF;
-	//instance.instanceShaderBindingTableRecordOffset = 0;
-	//instance.flags = VK_GEOMETRY_INSTANCE_TRIANGLE_FACING_CULL_DISABLE_BIT_KHR;
-	//instance.accelerationStructureReference = bottomLevelAS.deviceAddress;
+	VkAccelerationStructureInstanceKHR instance{};
+	instance.transform = transformMatrix;
+	instance.instanceCustomIndex = 0;
+	instance.mask = 0xFF;
+	instance.instanceShaderBindingTableRecordOffset = 0;
+	instance.flags = VK_GEOMETRY_INSTANCE_TRIANGLE_FACING_CULL_DISABLE_BIT_KHR;
+	instance.accelerationStructureReference = bottomLevelAS.deviceAddress;
 
 	//// Buffer for instance data
 	//vks::Buffer instancesBuffer;
