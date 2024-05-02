@@ -37,7 +37,7 @@
 
 #include "Macros.h"
 
-#define DISCRETE
+//#define DISCRETE
 #define RAYTRACE
 
 static const int MAX_FRAMES_IN_FLIGHT = 2;
