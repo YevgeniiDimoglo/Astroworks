@@ -275,6 +275,8 @@ set(___UI__Virtual_Elements
     "Source/UI/Counter.h"
     "Source/UI/RadioButton.cpp"
     "Source/UI/RadioButton.h"
+    "Source/UI/Slider.cpp"
+    "Source/UI/Slider.h"
     "Source/UI/Image.cpp"
     "Source/UI/Image.h"
     "Source/UI/Timer.cpp"
